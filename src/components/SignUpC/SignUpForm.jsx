@@ -40,81 +40,101 @@ const SignUpForm = () => {
         console.log("isLoggedIn:", isLoggedIn);
       }
     } catch (error) {
-      console.log("Error Message", error);
-      setMessage(error.response.data.message);
+      console.log("Error completo:", error);
+      if (
+        error.response &&
+        error.response.data &&
+        error.response.data.message
+      ) {
+        setMessage(error.response.data.message);
+      } else {
+        setMessage("Ocurrió un error inesperado.");
+      }
+
+      let timerId = setTimeout(() => {
+        setMessage(null);
+      }, 2000);
     }
   };
 
   return (
     <>
-      <form onSubmit={handleSignUpSubmit}>
-        <input
-          type="text"
-          placeholder="Name"
-          onChange={handleInputChange(setName)}
-          value={name}
-          className="signup-name"
-          autoComplete="given-name"
-        />
+      <form onSubmit={handleSignUpSubmit} className="signup-form-container">
+        <div className="signup-form">
+          <input
+            type="text"
+            placeholder="Name"
+            onChange={handleInputChange(setName)}
+            value={name}
+            className="signup-name"
+            autoComplete="given-name"
+          />
 
-        <input
-          type="text"
-          placeholder="Last Name"
-          onChange={handleInputChange(setLastName)}
-          value={lastName}
-          className="signup-lastname"
-          autoComplete="family-name"
-        />
+          <input
+            type="text"
+            placeholder="Last Name"
+            onChange={handleInputChange(setLastName)}
+            value={lastName}
+            className="signup-lastname"
+            autoComplete="family-name"
+          />
 
-        <input
-          type="email"
-          placeholder="e-mail"
-          onChange={handleInputChange(setEmail)}
-          value={email}
-          className="signup-email"
-          autoComplete="email"
-        />
+          <input
+            type="email"
+            placeholder="e-mail"
+            onChange={handleInputChange(setEmail)}
+            value={email}
+            className="signup-email"
+            autoComplete="email"
+          />
 
-        <input
-          type="telephone"
-          placeholder="Phone Number"
-          onChange={handleInputChange(setTelephone)}
-          value={telephone}
-          className="signup-telephone"
-          autoComplete="telephone"
-        />
+          <input
+            type="telephone"
+            placeholder="Phone Number"
+            onChange={handleInputChange(setTelephone)}
+            value={telephone}
+            className="signup-telephone"
+            autoComplete="telephone"
+          />
 
-        <input
-          type="password"
-          placeholder="Password"
-          onChange={handleInputChange(setPassword)}
-          value={password}
-          className="signup-password"
-          autoComplete="off"
-        />
+          <input
+            type="password"
+            placeholder="Password"
+            onChange={handleInputChange(setPassword)}
+            value={password}
+            className="signup-password"
+            autoComplete="off"
+          />
 
-        <input
-          type="text"
-          placeholder="Address"
-          onChange={handleInputChange(setAddress)}
-          value={address}
-          className="signup-address"
-          autoComplete="address"
-        />
+          <input
+            type="text"
+            placeholder="Address"
+            onChange={handleInputChange(setAddress)}
+            value={address}
+            className="signup-address"
+            autoComplete="address"
+          />
 
-        <input
-          type="text"
-          placeholder="nationalId"
-          onChange={handleInputChange(setNationalId)}
-          value={nationalId}
-          className="signup-nationalId"
-          autoComplete="id"
-        />
+          <input
+            type="text"
+            placeholder="nationalId"
+            onChange={handleInputChange(setNationalId)}
+            value={nationalId}
+            className="signup-nationalId"
+            autoComplete="id"
+          />
 
-        <button type="submit" className="signup-btn">
-          Create Account
-        </button>
+          <button type="submit" className="signup-btn">
+            Create Account
+          </button>
+        </div>
       </form>
+
+      <div className="icons-tabs-container">
+        <div className="icon-minimize"></div>
+        <div className="icon-maximize"></div>
+        <div className="icon-close"></div>
+      </div>
 
       {message && <h1>{message}</h1>}
     </>

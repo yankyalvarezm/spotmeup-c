@@ -18,7 +18,7 @@ export const authenticateUser = () => {
         return { user: response.data.user, isLoggedIn: true, isLoading: false };
       })
       .catch((error) => {
-        console.log("Line 22 - Error:", error);
+        console.log("Line 21 - Error:", error);
         return { user: null, isLoggedIn: false, isLoading: false };
       });
   } else {
@@ -51,13 +51,13 @@ export const signup = async (
     console.log("Line 50 - Created User:", response);
     if (response.data.success) {
       storeToken(response.data.authToken);
-      setUser(response.data.user)
+      setUser(response.data.user);
       console.log("Line 72 - setUser:", response.data.user);
     }
     return response.data;
   } catch (error) {
     console.log("Line 56 - Error:", error);
-    // throw new Error(error.response.data.msg);
+    throw error;
   }
 };
 
@@ -65,10 +65,7 @@ export const login = async (email, password, setUser) => {
   const requestBody = { email, password };
 
   try {
-    const response = await axios.post(
-      `${API_URL}/auth/login`,
-      requestBody
-    );
+    const response = await axios.post(`${API_URL}/auth/login`, requestBody);
 
     if (response.data.success) {
       storeToken(response.data.authToken);
@@ -79,6 +76,6 @@ export const login = async (email, password, setUser) => {
     return response.data;
   } catch (error) {
     console.log("Line 83 - Error:", error);
-    // throw new Error(error.response.data);
+    throw error;
   }
 };

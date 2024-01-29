@@ -136,7 +136,6 @@ button:hover {
 
 .login-form-smaller-container > input {
   margin-bottom: 0.5rem;
-
 }
 
 .login-text {
@@ -173,8 +172,16 @@ button:hover {
     }  
 }
 
-
 /* Sign Up Form */
+
+.signup-page {
+  background-color: var(--yellow);
+  height: 100vh;
+  display: flex;
+  flex-direction: column-reverse;
+  justify-content: center;
+  align-items: center;
+}
 
 .signup-prompt > a {
   color: var(--white);
@@ -183,6 +190,86 @@ button:hover {
 }
 
 .signup-prompt > a:hover {
-  /* text-decoration-color: var(--black); */
   color: var(--yellow);
+}
+
+.signup-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.7rem;
+}
+
+.signup-form-container {
+  /* width: fit-content; */
+  background-color: var(--white);
+  margin: 0 auto;
+  padding: 4rem;
+  border: 2px solid var(--black);
+  position: relative;
+  box-shadow: 6px 6px 0px var(--black);
+  padding-top: 15px;
+}
+
+.icons-tabs-container {
+    border: 2px solid var(--black);
+    height: 41px;
+    width: 332px;
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+    background-color: var(--white);
+    border-bottom: none;
+    box-shadow: 6px 6px 0px var(--black);
+}
+
+.signup-btn {
+  background-color: var(--yellow);
+}
+
+.signup-btn:hover {
+  color: white;
+}
+
+.icon-minimize {
+  background-image: url(/minimize-button.png);
+  height: 18px;
+  width: 18px;
+  background-repeat: no-repeat;
+  background-size: 100%;
+  margin-left: 1rem;
+  cursor: pointer;
+}
+
+.icon-minimize:hover {
+  height: 25px;
+  border-bottom: 3px solid white;
+}
+
+.icon-maximize {
+  background-image: url(/maximize-button.png);
+  height: 18px;
+  width: 18px;
+  background-repeat: no-repeat;
+  background-size: 100%;
+  cursor: pointer;
+}
+
+.icon-maximize:hover {
+  height: 25px;
+  border-bottom: 3px solid white;
+}
+
+.icon-close {
+  background-image: url(/close-button.png);
+  height: 18px;
+  width: 18px;
+  background-repeat: no-repeat;
+  background-size: 100%;
+  cursor: pointer;
+}
+
+.icon-close:hover {
+  height: 25px;
+  border-bottom: 3px solid white;
 }
