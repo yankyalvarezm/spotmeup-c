@@ -54,9 +54,11 @@ export const signup = async (
       setUser(response.data.user);
       console.log("Line 72 - setUser:", response.data.user);
     }
-    return response.data;
+
+    console.log('Line 58 - response.data:', response.data)
+    return response;
   } catch (error) {
-    console.log("Line 56 - Error:", error);
+    console.log("Line 61 - Error:", error);
     throw error;
   }
 };

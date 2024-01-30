@@ -7,8 +7,6 @@ const LogIn = () => {
     <div className='login-mobilv'>
         <SpotMeUpText />
         <LogInForm />
-
-
     </div>
   )
 }

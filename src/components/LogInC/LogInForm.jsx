@@ -9,6 +9,7 @@ const LogInForm = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const { setUser, setIsLoggedIn, isLoggedIn } = useContext(AuthContext);
+  const [message, setMessage] = useState(null);
   const navigate = useNavigate();
 
   const handleLogInSubmit = async (e) => {
@@ -24,6 +25,14 @@ const LogInForm = () => {
       }
     } catch (error) {
       console.log("Unable to login:", error);
+
+      if (error.response.data.message) {
+        setMessage(error.response.data.message);
+      }
+
+      setTimeout(() => {
+        setMessage(null);
+      }, 3000);
     }
   };
 
@@ -51,7 +60,11 @@ const LogInForm = () => {
           Enter
         </button>
 
-        <p className="signup-prompt">Dont have an account? <Link to="/signup">Sign Up</Link></p>
+        <p className="signup-prompt">
+          Dont have an account? <Link to="/signup">Sign Up</Link>
+        </p>
+
+        {message && <p className="login-errormsg">{message}</p>}
 
         <div className="spotMeUpIcon"></div>
 

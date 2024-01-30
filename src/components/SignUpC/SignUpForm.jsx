@@ -2,7 +2,7 @@ import React from "react";
 import { handleInputChange } from "../../services/tools.service";
 import { signup } from "../../services/auth.service";
 import { useState, useContext, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { AuthContext } from "../../context/auth.context";
 
 const SignUpForm = () => {
@@ -14,7 +14,7 @@ const SignUpForm = () => {
   const [nationalId, setNationalId] = useState("");
   const [password, setPassword] = useState("");
   const [message, setMessage] = useState("");
-  const { setIsloggedIn, isLoggedIn, setUser } = useContext(AuthContext);
+  const { setIsLoggedIn, isLoggedIn, setUser } = useContext(AuthContext);
   const navigate = useNavigate();
 
   const handleSignUpSubmit = async (e) => {
@@ -35,7 +35,7 @@ const SignUpForm = () => {
       console.log("response:", response);
 
       if (response.data.success) {
-        setIsloggedIn(true);
+        setIsLoggedIn(true);
         navigate("/");
         console.log("isLoggedIn:", isLoggedIn);
       }
@@ -68,6 +68,7 @@ const SignUpForm = () => {
             value={name}
             className="signup-name"
             autoComplete="given-name"
+            required
           />
 
           <input
@@ -77,6 +78,7 @@ const SignUpForm = () => {
             value={lastName}
             className="signup-lastname"
             autoComplete="family-name"
+            required
           />
 
           <input
@@ -86,16 +88,17 @@ const SignUpForm = () => {
             value={email}
             className="signup-email"
             autoComplete="email"
+            required
           />
 
-          <input
+          {/* <input
             type="telephone"
             placeholder="Phone Number"
             onChange={handleInputChange(setTelephone)}
             value={telephone}
             className="signup-telephone"
             autoComplete="telephone"
-          />
+          /> */}
 
           <input
             type="password"
@@ -104,29 +107,41 @@ const SignUpForm = () => {
             value={password}
             className="signup-password"
             autoComplete="off"
+            required
           />
 
-          <input
+          {/* <input
             type="text"
             placeholder="Address"
             onChange={handleInputChange(setAddress)}
             value={address}
             className="signup-address"
             autoComplete="address"
-          />
+          /> */}
 
-          <input
+          {/* <input
             type="text"
             placeholder="nationalId"
             onChange={handleInputChange(setNationalId)}
             value={nationalId}
             className="signup-nationalId"
             autoComplete="id"
-          />
+          /> */}
+
+          <p className="signup-prompt-haveAccount">
+            Already have an account? <Link to="/login">Log In</Link>
+          </p>
 
           <button type="submit" className="signup-btn">
             Create Account
           </button>
+
+          <p className="signup-prompt-createaccount">OR SIGN UP WITH:</p>
+          <div className="socialmedia-icons">
+            <div className="icon-google"></div>
+            <div className="icon-facebook"></div>
+            <div className="icon-apple"></div>
+          </div>
         </div>
       </form>
 
