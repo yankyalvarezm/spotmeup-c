@@ -142,6 +142,11 @@ button:hover {
   font-size: 30px;
 }
 
+.topzindex {
+  position: relative;
+  z-index: 1;
+}
+
 /* Login Form */
 
 .login-form-container {
@@ -174,6 +179,7 @@ button:hover {
   text-shadow: 1px 1px 0px var(--black);
   font-size: 20px;
 }
+
 
 .bubble-light {
     position: absolute;
@@ -244,6 +250,7 @@ button:hover {
   box-shadow: 6px 6px 0px var(--black);
   padding-top: 15px;
   padding-bottom: 20px;
+  margin-bottom: 2rem;
 }
 
 .icons-tabs-container {
@@ -374,6 +381,14 @@ button:hover {
   font-size: 10px;
 }
 
+@media (max-width: 760px) {
+  .signup-page {
+    /* flex-direction: column; */
+  }
+}
+
+
+
 /* Home Page */
 
 .homepage-container {
@@ -431,7 +446,7 @@ button:hover {
   align-items: center;
   background-color: var(--yellow);
   border-bottom: none;
-  box-shadow: 6px 6px 0px var(--black);
+  box-shadow: 8px 6px 0px var(--black);
 }
 
 .photoslider-body {
@@ -442,4 +457,188 @@ button:hover {
   display: flex;
   justify-content: center;
   align-items: center;
+  border: 2px solid var(--black);
+  cursor: pointer;
 }
+
+.about-photoslider {
+  position: relative;
+}
+
+      /* VIDEO - About Page */
+   .videoabout-container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    margin-top: 2rem;
+    width: 100%;
+    height: 100%;
+  }
+  
+  .icons-tabs-container-videoabout {
+    border: 2px solid var(--black);
+    height: 41px;
+    width: 60%;
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+    background-color: var(--yellow);
+    border-bottom: none;
+    box-shadow: 8px 6px 0px var(--black);
+    margin-right: 0.5rem;
+  }
+  
+  .videoabout-body {
+    width: 60%; 
+    height: 400px;
+    background-color: var(--white);
+    box-shadow: 8px 6px 0px var(--black);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 2px solid var(--black);
+    margin-right: 0.5rem;
+    cursor: pointer;
+  }
+
+  .about-video {
+    position: absolute;
+    top: 70%;
+    left: -1%;
+    width: 100%;
+  }
+
+      /* INFO - About Page */
+
+      .about-info {
+        position: absolute;
+        top: 86%;
+        left: 61.6%;
+        width: 60%;
+        z-index: 2;
+      }
+
+    /* Google Map - About Page */
+
+    .googlemap-container {
+      height: 250px;
+      width: 310px;
+      box-shadow: 6px 6px 0px var(--black);
+      border: 1px solid var(--black);
+      border-bottom: none;
+    }
+
+    .gm-style .gm-style-cc {
+      display: none;
+  }
+
+  /* Contact Us - About Page */
+
+  .about-contactus-container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+  }
+
+  .about-contactus {
+    position: absolute;
+    top: 324px;
+    left: 5%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    pointer-events: none;
+  }
+
+  .designed-test {
+    text-align: center;
+    -webkit-text-stroke: 0.1px #231F20;
+    text-shadow: 2px 1px 0px var(--black);
+    font-size: 25px;
+    z-index: 2;
+    /* position: absolute;
+    top: 350px;
+    left: 21%;
+    transform: translate(-50%, -50%); */
+    position: absolute;
+    top: 2%;
+    left: 22%;
+  }
+
+  .contact-container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    margin-top: 2rem;
+    width: 100%;
+    height: 100%;
+  }
+
+  .icons-tabs-container-contactform {
+    border: 1px solid var(--black);
+    height: 41px;
+    width: 99.4%;
+    /* gap: 1rem; */
+    align-items: center;
+    background-color: var(--white);
+    border-bottom: none;
+    box-shadow: 6px 6px 0px var(--black);
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  .contactform-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+  }
+
+  .contactform-body {
+    width: 99.4%; 
+    height: 100%;
+    background-color: var(--white);
+    box-shadow: 6px 6px 0px var(--black);
+    border: 1px solid var(--black);
+    padding: 1rem 0rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 10rem;
+  }
+
+  .contactform-body > * {
+    margin-bottom: 1rem;
+  }
+
+  .contactform-body > button {
+    pointer-events: all;
+  }
+
+  .contactform-icon-left {
+    display: flex;
+    gap: 1rem;
+  }
+
+  .contactus-text {
+    color: var(--black);
+    margin-right: 1rem;
+  }
+
+  .contactform-input {
+    border-radius: 3px;
+    width: 80%;
+    pointer-events: all;
+  }
+
+  .contactform-textarea {
+    width: 85%;
+    height: 80px;
+    border: 2px solid var(--black);
+    outline: none;
+  }
+
+  .contactform-icon-left > div {
+    pointer-events: all;
+  }

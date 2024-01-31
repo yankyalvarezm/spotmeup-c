@@ -20,8 +20,8 @@ const LogInForm = () => {
 
       if (response.success) {
         setIsLoggedIn(true);
-        navigate("/");
         console.log("setIsLoggedIn:", isLoggedIn);
+        navigate("/");
       }
     } catch (error) {
       console.log("Unable to login:", error);
