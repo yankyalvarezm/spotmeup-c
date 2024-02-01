@@ -1,40 +1,38 @@
-import React, { useEffect, useRef } from "react";
+import React, { useContext, useEffect, useRef } from "react";
+import { GoogleMapsContext } from "../../context/GoogleMapsContext";
 
 const GooglePlaces = () => {
+  const { isApiLoaded } = useContext(GoogleMapsContext);
   const autocompleteInputRef = useRef(null);
 
   useEffect(() => {
-    
-    window.initAutocomplete = () => {
-      new google.maps.places.Autocomplete(autocompleteInputRef.current, {
-        types: ["address"],
-        componentRestrictions: { country: ["US"] },
-        fields: ["place_id", "geometry", "name"],
+    if (isApiLoaded && window.google && window.google.maps) {
+      const autocomplete = new google.maps.places.Autocomplete(
+        autocompleteInputRef.current,
+        {
+          componentRestrictions: { country: ["DO"] },
+          fields: ["place_id", "geometry", "name", "formatted_address"],
+        }
+      );
+
+      autocomplete.addListener("place_changed", () => {
+        const place = autocomplete.getPlace();
+        console.log("Selected place:", place);
+        
       });
-    };
-
-    const script = document.createElement("script");
-    script.async = true;
-    script.defer = true;
-    script.src = `https://maps.googleapis.com/maps/api/js?key=${
-      import.meta.env.VITE_GOOGLE_PLACES_API
-    }&libraries=places&callback=initAutocomplete`;
-    document.head.appendChild(script);
-
-    return () => {
-      window.initAutocomplete = undefined;
-      document.head.removeChild(script);
-    };
-  }, []);
+    }
+  }, [isApiLoaded]); 
 
   return (
     <div>
-      <input
-        ref={autocompleteInputRef}
-        placeholder="address"
-        type="text"
-        className="contactform-input"
-      />
+      {isApiLoaded && (
+        <input
+          ref={autocompleteInputRef}
+          placeholder="Enter address"
+          type="text"
+          className="contactform-input"
+        />
+      )}
     </div>
   );
 };

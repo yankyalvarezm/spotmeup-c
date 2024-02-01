@@ -13,7 +13,10 @@ const Home = () => {
         {" "}
         <Link to="/about">About Page</Link>{" "}
       </h1>{" "}
-      /<h1 className="pages-test"> Edit Profile</h1>
+      /<h1 className="pages-test"> 
+      <Link to="/profile">Profile</Link>{" "}
+      
+      </h1>
       <SpotMeUpIcon />
     </div>
   );
