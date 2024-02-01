@@ -651,6 +651,54 @@ button:hover {
     pointer-events: all;
   }
 
+  @media (max-width: 750px) {
+      #videoabout-container {
+        align-items: center;
+      }
+
+      #icons-tabs-container-videoabout {
+        margin-right: 0rem;
+        width: 90%;
+      }
+
+      #videoabout-body {
+        margin-right: 0rem;
+        width: 90%;
+        margin-bottom: 2rem;
+      }
+
+      #about-video {
+        position: relative;
+      }
+
+      #about-info {
+        position: unset;
+        width: 100%;
+        margin-left: 1rem;
+      }
+
+      #about-contactus {
+        position: unset;
+        align-items: center;  
+      }
+
+      #contactform-body {
+        width: 90%;
+      }
+
+      #icons-tabs-container-contactform {
+        width: 90%;
+      }
+
+      #myMap {
+        width: 90%;
+      }
+
+      #designed-test {
+        left: 27%;
+      }
+  }
+
   /* My Profile */
 
   .profile-container {

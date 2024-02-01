@@ -4,7 +4,7 @@ import GooglePlaces from "./GooglePlaces";
 const ContactForm = () => {
   return (
     <div className="contactform-container">
-      <div className="icons-tabs-container-contactform ">
+      <div className="icons-tabs-container-contactform " id="icons-tabs-container-contactform">
         <div className="contactform-icon-left">
           <div className="icon-minimize"></div>
           <div className="icon-maximize"></div>
@@ -14,7 +14,7 @@ const ContactForm = () => {
         <h1 className="contactus-text">Contact Us</h1>
       </div>
 
-      <div className="contactform-body">
+      <div className="contactform-body" id="contactform-body">
         <input
           type="text"
           placeholder="Full Name"
@@ -29,7 +29,7 @@ const ContactForm = () => {
           autoComplete="email"
         />
 
-        <GooglePlaces />
+        {/* <GooglePlaces /> */}
 
         <textarea
           type="textarea"

@@ -31,7 +31,7 @@ const GoogleMap = () => {
     <div
       className="googlemap-container"
       id="myMap"
-      style={{ height: "300px", width: "300px" }}
+      // style={{ height: "300px", width: "300px" }}
     ></div>
   );
 };

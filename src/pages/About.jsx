@@ -30,7 +30,7 @@ const About = () => {
           onClick={() => handleMoveToFront("PhotoSlider")}
         />
 
-        <div className="about-video">
+        <div className="about-video" id="about-video">
           <VideoAbout
             active={moveToFront === "VideoAbout"}
             onClick={() => handleMoveToFront("VideoAbout")}
@@ -38,13 +38,13 @@ const About = () => {
         </div>
       </div>
 
-      <div className="about-info">
+      <div className="about-info" id="about-info">
         <Info />
       </div>
 
       <div className="about-contactus-container">
-        <div className="about-contactus">
-        <h1 className="designed-test">HEADQUARTERS</h1>
+        <div className="about-contactus" id="about-contactus">
+        <h1 className="designed-test" id="designed-test">HEADQUARTERS</h1>
           <GoogleMap />
           <ContactForm />
         </div>
