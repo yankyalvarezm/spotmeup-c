@@ -11,14 +11,13 @@ const GooglePlaces = () => {
         autocompleteInputRef.current,
         {
           componentRestrictions: { country: ["DO"] },
-          fields: ["place_id", "geometry", "name", "formatted_address"],
+          fields: ["place_id", "geometry", "name", "formatted_address", "address_component"],
         }
       );
 
       autocomplete.addListener("place_changed", () => {
         const place = autocomplete.getPlace();
         console.log("Selected place:", place);
-        
       });
     }
   }, [isApiLoaded]); 

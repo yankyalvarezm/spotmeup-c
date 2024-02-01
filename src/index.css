@@ -843,7 +843,7 @@ button:hover {
 
   .profileform-body {
     width: 90%; 
-    height: 400px;
+    height: 435px;
     background-color: var(--white);
     box-shadow: 8px 6px 0px var(--black);
     display: flex;
@@ -874,4 +874,23 @@ button:hover {
   .profileTabicon > * {
     margin-right: 4rem;
     margin-top: 2rem;
+  }
+
+  .editprofile-submit {
+    margin: 1rem 0rem;
+    background-color: var(--yellow);
+  }
+
+  .editprofile-submit:hover {
+    color: black;
+  }
+
+  .profile-invalid-prompt {
+    margin-bottom: 1rem;
+    color: var(--red);
+  }
+
+  .profile-valid-prompt {
+    margin-bottom: 1rem;
+    color: var(--green);
   }

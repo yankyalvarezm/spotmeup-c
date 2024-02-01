@@ -11,7 +11,7 @@ const SignUpForm = () => {
   const [email, setEmail] = useState("");
   const [telephone, setTelephone] = useState("");
   const [address, setAddress] = useState("");
-  const [nationalId, setNationalId] = useState("");
+  const [nationalID, setNationalID] = useState("");
   const [password, setPassword] = useState("");
   const [message, setMessage] = useState("");
   const { setIsLoggedIn, isLoggedIn, setUser } = useContext(AuthContext);
@@ -28,7 +28,7 @@ const SignUpForm = () => {
         password,
         telephone,
         address,
-        nationalId,
+        nationalID,
         setUser
       );
 
@@ -121,10 +121,10 @@ const SignUpForm = () => {
 
           {/* <input
             type="text"
-            placeholder="nationalId"
-            onChange={handleInputChange(setNationalId)}
-            value={nationalId}
-            className="signup-nationalId"
+            placeholder="nationalID"
+            onChange={handleInputChange(setNationalID)}
+            value={nationalID}
+            className="signup-nationalID"
             autoComplete="id"
           /> */}
 
