@@ -1,4 +1,5 @@
 import React from "react";
+import SpotMeUpIcon from "../ToolsC/SpotMeUpIcon";
 
 const ProfileForm = () => {
   return (
@@ -40,6 +41,10 @@ const ProfileForm = () => {
           <label hmtlFor="nationalId">nationalId</label>
           <input type="text" name="nationalId" />
         </div>
+
+      </div>
+      <div className="spotmeupicon-profile-form" id="spotmeupicon-profile-form">
+        <SpotMeUpIcon />
       </div>
     </div>
   );

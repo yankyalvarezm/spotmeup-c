@@ -708,12 +708,12 @@ button:hover {
     }
 
     #profileTabicon {
-      left: 37%;
-      top: -10%;
+      /* left: 37%;
+      top: 65%; */
     }
 
     #myprofiletab-container {
-      margin-top: 18%;
+      /* margin-top: 18%; */
     }
 
     #profileform-body {
@@ -722,11 +722,18 @@ button:hover {
 
   }
 
+  @media (min-width: 750px) {
+         .spotmeupicon-profile-form {
+          display: none;
+         }
+  }
+
   .myprofiletab-container {
     display: flex;
     flex-direction: column;
     align-items: center;
   }
+
 
   .myprofiletab-container-image {
     display: flex;

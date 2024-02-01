@@ -6,12 +6,10 @@ import SpotMeUpIcon from "../components/ToolsC/SpotMeUpIcon";
 
 const Profile = () => {
   useEffect(() => {
-
     document.body.style.backgroundColor = "#E1DDD4";
 
-    
     return () => {
-      document.body.style.backgroundColor = "#3B7032"; 
+      document.body.style.backgroundColor = "#3B7032";
     };
   }, []);
 
