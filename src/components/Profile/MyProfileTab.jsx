@@ -2,7 +2,7 @@ import React from "react";
 
 const MyProfileTab = () => {
   return (
-    <div className="myprofiletab-container">
+    <div className="myprofiletab-container" id="myprofiletab-container">
       <div className="profile-title-text" id="profile-title-text">
         <h1>My</h1>
         <h1>Profile</h1>

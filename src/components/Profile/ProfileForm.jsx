@@ -8,7 +8,7 @@ const ProfileForm = () => {
         <div className="icon-maximize"></div>
         <div className="icon-close"></div>
       </div>
-      <div className="profileform-body">
+      <div className="profileform-body" id="profileform-body">
         <div className="input-label-profile">
           <label hmtlFor="email">E-mail</label>
           <input type="text" name="email" />
