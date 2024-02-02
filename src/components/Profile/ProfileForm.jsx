@@ -1,17 +1,47 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState, useContext, useEffect, useRef } from "react";
 import { useAsyncError, useNavigate } from "react-router-dom";
 import SpotMeUpIcon from "../ToolsC/SpotMeUpIcon";
 import { editUser } from "../../services/user.service";
 import { AuthContext } from "../../context/auth.context";
+import { GoogleMapsContext } from "../../context/GoogleMapsContext";
 
 const ProfileForm = () => {
   const { user, setUser } = useContext(AuthContext);
+  const { isApiLoaded } = useContext(GoogleMapsContext);
   const [successMessage, setSuccessMessage] = useState(null);
   const [notSuccessMessage, setNotSuccessMessage] = useState(null);
-  const navigate = useNavigate()
+  const navigate = useNavigate();
+  const autocompleteInputRef = useRef(null);
 
+  useEffect(() => {
+    console.log("API Loaded:", isApiLoaded);
+    if (isApiLoaded && autocompleteInputRef.current) {
+      const autocomplete = new window.google.maps.places.Autocomplete(
+        autocompleteInputRef.current,
+        {
+          componentRestrictions: { country: ["DO"] },
+          fields: [
+            "place_id",
+            "geometry",
+            "name",
+            "formatted_address",
+            "address_components",
+          ],
+        }
+      );
 
-  console.log("User:", user);
+      autocomplete.addListener("place_changed", () => {
+        const place = autocomplete.getPlace();
+        console.log("formatted address:", place);
+        if (place.formatted_address) {
+          setFormState((prevState) => ({
+            ...prevState,
+            address: place.name,
+          }));
+        }
+      });
+    }
+  }, [isApiLoaded]);
 
   const [formState, setFormState] = useState({
     name: user?.name || "",
@@ -66,7 +96,7 @@ const ProfileForm = () => {
 
       setTimeout(() => {
         setSuccessMessage(null);
-        navigate("/")
+        navigate("/");
       }, 3000);
     } catch (error) {
       console.error("Line 26 - Error:", error);
@@ -164,12 +194,16 @@ const ProfileForm = () => {
 
         <div className="input-label-profile">
           <label htmlFor="address">Address</label>
-          <input
-            type="text"
-            name="address"
-            onChange={handleChange}
-            value={formState.address}
-          />
+
+          {isApiLoaded && (
+            <input
+              ref={autocompleteInputRef}
+              type="text"
+              name="address"
+              onChange={handleChange}
+              value={formState.address}
+            />
+          )}
         </div>
 
         <div className="input-label-profile">

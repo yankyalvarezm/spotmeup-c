@@ -2,8 +2,8 @@ import React, { useContext, useEffect, useRef } from "react";
 import { GoogleMapsContext } from "../../context/GoogleMapsContext";
 
 const GooglePlaces = () => {
-  const { isApiLoaded } = useContext(GoogleMapsContext);
-  const autocompleteInputRef = useRef(null);
+  const { isApiLoaded, autocompleteInputRef } = useContext(GoogleMapsContext);
+  // const autocompleteInputRef = useRef(null);
 
   useEffect(() => {
     if (isApiLoaded && window.google && window.google.maps) {

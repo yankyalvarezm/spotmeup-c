@@ -1,37 +1,47 @@
 // GoogleMapsContext.js
 import React, { createContext, useState, useEffect } from "react";
 
-export const GoogleMapsContext = createContext(null);
+export const GoogleMapsContext = createContext();
 
 export const GoogleMapsProvider = ({ children }) => {
   const [isApiLoaded, setIsApiLoaded] = useState(false);
+  const [selectedAddress, setSelectedAddress] = useState("");
 
   useEffect(() => {
-    if (window.google) {
-      setIsApiLoaded(true);
-      return;
-    }
-
-    const script = document.createElement("script");
-    script.src = `https://maps.googleapis.com/maps/api/js?key=${
-      import.meta.env.VITE_GOOGLE_MAPS_API
-    }&loading=async&libraries=places`;
-    // script.async = true;
-    document.head.appendChild(script);
-    script.onload = () => {
-      setIsApiLoaded(true);
-    };
-
-    return () => {
+    const loadGoogleMapsScript = () => {
       if (window.google) {
-        delete window.google;
+        setIsApiLoaded(true);
+        return;
       }
-      document.head.removeChild(script);
+
+      const script = document.createElement("script");
+      script.src = `https://maps.googleapis.com/maps/api/js?key=${import.meta.env.VITE_GOOGLE_MAPS_API}&libraries=places`;
+      document.head.appendChild(script);
+      script.onload = () => {
+        setIsApiLoaded(true);
+      };
     };
+
+    loadGoogleMapsScript();
+    
   }, []);
 
+  const initializeAutocomplete = (inputRef) => {
+    if (!isApiLoaded || !window.google) return;
+
+    const autocomplete = new window.google.maps.places.Autocomplete(inputRef, {
+      componentRestrictions: { country: ["DO"] },
+      fields: ["place_id", "geometry", "name", "formatted_address", "address_component"],
+    });
+
+    autocomplete.addListener("place_changed", () => {
+      const place = autocomplete.getPlace();
+      setSelectedAddress(place.formatted_address || "");
+    });
+  };
+
   return (
-    <GoogleMapsContext.Provider value={{ isApiLoaded }}>
+    <GoogleMapsContext.Provider value={{ isApiLoaded, selectedAddress, initializeAutocomplete }}>
       {children}
     </GoogleMapsContext.Provider>
   );
