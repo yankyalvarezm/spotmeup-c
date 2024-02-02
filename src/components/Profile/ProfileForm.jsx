@@ -1,4 +1,5 @@
 import React, { useState, useContext, useEffect } from "react";
+import { useAsyncError, useNavigate } from "react-router-dom";
 import SpotMeUpIcon from "../ToolsC/SpotMeUpIcon";
 import { editUser } from "../../services/user.service";
 import { AuthContext } from "../../context/auth.context";
@@ -7,6 +8,8 @@ const ProfileForm = () => {
   const { user, setUser } = useContext(AuthContext);
   const [successMessage, setSuccessMessage] = useState(null);
   const [notSuccessMessage, setNotSuccessMessage] = useState(null);
+  const navigate = useNavigate()
+
 
   console.log("User:", user);
 
@@ -63,6 +66,7 @@ const ProfileForm = () => {
 
       setTimeout(() => {
         setSuccessMessage(null);
+        navigate("/")
       }, 3000);
     } catch (error) {
       console.error("Line 26 - Error:", error);
