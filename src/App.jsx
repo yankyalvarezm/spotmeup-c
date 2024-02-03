@@ -5,6 +5,7 @@ import LogIn from "./pages/LogIn";
 import Home from "./pages/Home";
 import About from "./pages/About";
 import Profile from "./pages/Profile";
+import MyEvents from "./pages/MyEvents";
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
       <Route path="/" element={<Home />}/>
       <Route path="/about" element={<About />}/>
       <Route path="/profile" element={<Profile />}/>
+      <Route path="/myevents" element={<MyEvents />}/>
     </Routes>
   )
 }

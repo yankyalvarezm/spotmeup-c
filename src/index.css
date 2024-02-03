@@ -945,10 +945,6 @@ button:hover {
 
   @keyframes moveup {
 
-    /* 0% {
-      transform: translateY(-10px);
-    } */
-
     0% {
       transform: translateY(-10px);
     }
@@ -956,6 +952,14 @@ button:hover {
     100% {
       transform: translateY(0px);
     }
+
+    /* 0% {
+      transform: rotate(-5deg);
+    }
+
+    100% {
+      transform: rotate(-10deg);
+    } */
   }
 
   .nav-img-container {
@@ -977,4 +981,70 @@ button:hover {
     display: flex;
     align-items: center;
     gap: 1rem;
+  }
+
+  /* My Events */
+
+  .sub-navbar-container {
+    display: flex;
+    justify-content: space-around;
+    padding: 1rem;
+    border-radius: 10px;
+    margin-top: 1rem;
+    height: 100%;
+    width: 90%;
+    background-color: var(--black);
+  }
+
+  .myevents-container {
+    display: grid;
+    grid-template-columns: 2fr 4fr;
+  }
+
+  .sub-navbar-container > a {
+    text-decoration: none;
+    color: var(--white);
+    font-family: var(--primary--font);
+  }
+
+  .sub-navbar-container > a:hover {
+    /* text-shadow: 1px 1px 0px var(--yellow); */
+    border-bottom: 2px solid var(--yellow);
+    padding-bottom: 0.2rem;
+  }
+
+  .myevents-navbar {
+    display: flex;
+    justify-content: center;
+  }
+
+  .myeventstab-container {
+    background-color: var(--white);
+  }
+
+  .search-add-venues {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-left: 1rem;
+    margin-right: 1rem;
+    margin-top: 1rem;
+    gap: 1rem;
+  }
+
+  .search-venues {
+    width: 70%;
+  }
+
+  .addnewvenue-myevents {
+    white-space: nowrap;
+  }
+
+  .option-selected {
+    border-bottom: 2px solid var(--yellow);
+    transition: 1s ease-in-out;
+  }
+
+  .or {
+    color: var(--black);
   }
