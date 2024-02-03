@@ -403,6 +403,7 @@ button:hover {
   display: flex;
   align-items: center;
   gap: 1rem;
+  background-color: black;
 }
 
 .pages-test {
@@ -893,4 +894,87 @@ button:hover {
   .profile-valid-prompt {
     margin-bottom: 1rem;
     color: var(--green);
+  }
+
+  /* Navbar */
+
+  .navbar-container {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    justify-content: space-between;
+    background-color: var(--black);
+    padding: 2rem;
+    
+
+  }
+
+  .navlink {
+    text-decoration: none;
+    font-family: var(--primary--font);
+    color: white;
+    font-size: 20px;
+    text-shadow: 1px 1px 0px black;
+  }
+
+  .navlink:hover {
+    text-shadow: 1px 2px 0px var(--yellow);
+  }
+
+  .navbar-subcontainer {
+    display: flex;
+    flex-direction: column;
+    /* margin-left: 2rem; */
+    /* margin-top: 2rem; */
+    gap: 3rem;
+  }
+
+  .nav-spotmeupicon {
+    /* margin-left: 2rem; */
+    margin-bottom: 4rem;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .nav-user-img {
+    background-image: url(/profile-picture.png);
+    height: 50px;
+    width: 50px;
+    background-size: 100%;
+  }
+
+  @keyframes moveup {
+
+    /* 0% {
+      transform: translateY(-10px);
+    } */
+
+    0% {
+      transform: translateY(-10px);
+    }
+
+    100% {
+      transform: translateY(0px);
+    }
+  }
+
+  .nav-img-container {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding-bottom: 1rem;
+    border-bottom: 4px solid var(--green);
+  }
+
+  .nav-img-container:hover {
+   
+    animation: moveup 0.4s ease-in-out;
+    animation-fill-mode: forwards;
+  }
+
+  .navlink-signup {
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
   }
