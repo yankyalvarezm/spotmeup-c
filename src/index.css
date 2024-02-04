@@ -1048,3 +1048,115 @@ button:hover {
   .or {
     color: var(--black);
   }
+
+  /* Venues */ 
+
+  .venueform-label-input {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+  
+  }
+
+  .venueform-label-input > label {
+    margin-bottom: 0.5rem;
+    margin-top: 0.5rem;
+  }
+
+  .venueform-label-input > label {
+    font-family: var(--primary--font);
+  }
+
+  .venueform-goback {
+    margin: 1rem 0rem;
+    text-align: right;
+    margin-right: 1rem;
+  }
+
+  .venueform-goback > button {
+    width: 30%;
+  }
+
+  .venueform-container {
+    width: 95%;
+    margin: 0 auto;
+  }
+
+  .venueform-spacefortwo {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+  }
+
+
+  .venueform-label-input-special {
+    font-family: var(--primary--font);
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    gap: 0.5rem;
+  }
+
+  .venueform-spacefortwo-special-container {
+    display: flex;
+    width: 100%;
+    gap: 1rem;
+  }
+
+  .venueform-spacefortwo-special {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    width: 90%;
+  }
+
+  .venueform-spacefortwo-special > div > input{
+    width: 90%;
+  }
+
+  .venueform-spacefortwo-special > div > label{
+    margin-top: 0.5rem;
+  }
+
+  .venueform-label-input, .venueform-spacefortwo-special {
+    flex: 1; 
+  }
+
+  .width-100 {
+    width: 100%;
+  }
+
+  .notsucces-messsage {
+    color: var(--red);
+    text-align: center;
+  }
+
+  .success-message {
+    color: var(--green);
+    text-align: center;
+  }
+
+  .display-venues-container {
+    margin-top: 4rem;
+    display: flex;
+    gap: 1rem;
+    width: 100%;
+  }
+
+  .carousel {
+    
+  }
+
+  .venue-field {
+    color: var(--black);
+  }
+
+  .venue-fields-container {
+    border: 1px solid var(--black);
+    padding: 1rem;
+  }
+
+  .carousel-test {
+    color: black;
+    font-size: 30px;
+  }

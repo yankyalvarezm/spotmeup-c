@@ -37,3 +37,4 @@ export const editUser = async (
     throw error;
   }
 };
+

@@ -1,11 +1,14 @@
-import React from 'react'
+import React, { useContext } from "react";
+import { MyEventsContext } from "../../context/MyEvents.context";
 
 const AddNewVenue = () => {
-  return (
-    <div className='addnewvenue-myevents'>
-        <button>Add New Venue</button>
-    </div>
-  )
-}
+  const { displayVenuesForm } = useContext(MyEventsContext);
 
-export default AddNewVenue
+  return (
+    <div className="addnewvenue-myevents">
+      <button onClick={displayVenuesForm}>Add New Venue</button>
+    </div>
+  );
+};
+
+export default AddNewVenue;

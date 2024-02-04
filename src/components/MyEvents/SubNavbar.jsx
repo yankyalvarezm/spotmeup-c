@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import { Link } from "react-router-dom";
-import { MyEventsContext } from "../../context/myEvents.context";
+import { MyEventsContext } from "../../context/MyEvents.context";
 
 const SubNavbar = () => {
   const { displayEvents, displayVenues, showVenues, showEvents } =
@@ -11,13 +11,13 @@ const SubNavbar = () => {
       <div className="sub-navbar-container">
         <Link
           onClick={displayEvents}
-          className={showEvents && "option-selected"}
+          className={showEvents ? "option-selected" : ""}
         >
           Events
         </Link>
         <Link
           onClick={displayVenues}
-          className={showVenues && "option-selected"}
+          className={showVenues ? "option-selected" : ""}
         >
           Venues
         </Link>
