@@ -22,10 +22,14 @@ const MyEvents = () => {
       <div className="myeventstab-container">
         <SubNavbar />
         {showVenues && !showVenuesForm && (
-          <div className="search-add-venues">
-            <SearchVenues />
-            <h1 className="or">or</h1>
-            <AddNewVenue />
+          <div>
+            <div className="search-add-venues">
+              <SearchVenues />
+              <h1 className="or">or</h1>
+              <AddNewVenue />
+            </div>
+
+            <DisplayVenues />
           </div>
         )}
         {showVenuesForm && !showEvents && <BackVenueSearch />}
@@ -38,8 +42,6 @@ const MyEvents = () => {
             <AddNewEvent />
           </div>
         )}
-
-        {!showVenues && !showVenuesForm && <DisplayVenues />}
       </div>
     </div>
   );

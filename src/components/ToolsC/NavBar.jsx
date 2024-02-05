@@ -10,7 +10,7 @@ const NavBar = () => {
     <nav className="navbar-container">
       <div className="navbar-subcontainer">
         <div className="nav-img-container">
-          <Link to={isLoggedIn ? "/" : "signup"} className="navlink-signup">
+          <Link to={isLoggedIn ? "/" : "/signup"} className="navlink-signup">
             <div className="nav-user-img"></div>
             <h1 className="login-signup-navtext">
               {isLoggedIn ? "Log Out" : "Log In or Sign Up"}
