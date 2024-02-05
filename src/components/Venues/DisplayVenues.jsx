@@ -52,7 +52,7 @@ const DisplayVenues = () => {
         ))}
       </Carousel>
 
-      {/* <h1 className="carousel-title">Clasicos</h1>
+      <h1 className="carousel-title">Clasicos</h1>
       <Carousel responsive={responsive} infinite={false}>
         {venues.map((venue, index) => (
           <div key={index} className="venue-fields-container">
@@ -61,9 +61,9 @@ const DisplayVenues = () => {
             <h1 className="venue-field">{venue.maxCapacity}</h1>
           </div>
         ))}
-      </Carousel> */}
+      </Carousel>
 
-      {/* <h1 className="carousel-title">Los que no fallan</h1>
+      <h1 className="carousel-title">Los que no fallan</h1>
       <Carousel responsive={responsive} infinite={false}>
         {venues.map((venue, index) => (
           <div key={index} className="venue-fields-container">
@@ -72,7 +72,7 @@ const DisplayVenues = () => {
             <h1 className="venue-field">{venue.maxCapacity}</h1>
           </div>
         ))}
-      </Carousel> */}
+      </Carousel>
 
     </div>
   );
