@@ -984,7 +984,7 @@ button:hover {
     border-radius: 10px;
     margin-top: 1rem;
     height: 100%;
-    width: 94%;
+    width: 100%;
     background-color: var(--black);
   }
 
@@ -1014,7 +1014,6 @@ button:hover {
 
   .myeventstab-container {
     background-color: var(--white);
-    /* width: 100%; */
     overflow-x: auto;
   }
 
@@ -1133,6 +1132,7 @@ button:hover {
 
   .display-venues-container {
    margin-top: 2rem;
+   display: relative;
    /* width: 100%; */
   }
 
@@ -1142,6 +1142,7 @@ button:hover {
 
   .react-multi-carousel-track {
     margin-left: 1rem;
+    margin-right: 1rem;
   }
 
 .carousel-title {
@@ -1149,6 +1150,65 @@ button:hover {
   color: var(--black);
   font-size: 20px;
   margin-bottom: 1rem;
+  border-bottom: 3px solid var(--black);
+  padding-bottom: 0.8rem;
+  width: 97%;
+}
+
+.carousel-recently-added {
+  & .react-multiple-carousel__arrow--right {
+    margin-bottom: 2.9rem;
+    position: absolute;
+    right: -1%;
+    border-radius: 0%;
+    height: 91.5%;
+    box-shadow: none;
+    width: 5%;
+  }
+}
+
+.carousel-recently-added {
+  & .react-multiple-carousel__arrow--left {
+    margin-bottom: 2.9rem;
+    position: absolute;
+    left: -1%;
+    border-radius: 0%;
+    height: 91.5%;
+    box-shadow: none;
+  }
+}
+
+.carousel-package {
+  & .react-multiple-carousel__arrow--left {
+    margin-bottom: 2.9rem;
+    position: absolute;
+    left: -1%;
+    border-radius: 0%;
+    height: 91.5%;
+    box-shadow: none;
+  }
+}
+
+.carousel-package {
+  & .react-multiple-carousel__arrow--right {
+    margin-bottom: 2.9rem;
+    position: absolute;
+    right: -1%;
+    border-radius: 0%;
+    height: 91.5%;
+    box-shadow: none;
+    width: 5%;
+  }
+}
+
+.carousel-recently-added:hover .react-multi-carousel-dot-list > li > button {
+  opacity: 1;
+}
+
+.react-multi-carousel-dot-list > li > button{
+  opacity: 0;
+  border: 0px solid black;
+  transition: opacity 0.3s ease-in-out;
 }
 
 .react-multiple-carousel__arrow--right {
@@ -1159,11 +1219,11 @@ button:hover {
   display: none;
 }
 
-.carousel-package {
-  
+.carousel-recently-added:hover .react-multiple-carousel__arrow--right {
+  display: block;
 }
 
-.carousel-package:hover .react-multiple-carousel__arrow--right {
+.carousel-recently-added:hover .react-multiple-carousel__arrow--left {
   display: block;
   box-shadow: none;
 }
@@ -1173,12 +1233,184 @@ button:hover {
   box-shadow: none;
 }
 
+.carousel-package:hover .react-multiple-carousel__arrow--right {
+  display: block;
+  box-shadow: none;
+}
 
+
+.lastly-added {
+  border-bottom: 8px solid var(--yellow);
+ }
+
+.venue-fields-container {
+  margin-bottom: 2rem;
+  position: relative;
+  /* cursor: pointer; */
+}
+
+.venue-name {
+  color: var(--yellow);
+  font-size: 25px;
+  padding: 1rem;
+  z-index: 2;
+  text-align: center;
+}
+
+.venue-city {
+  color: white;
+  z-index: 2;
+}
+
+#venue-img-first {
+  width: 98%;
+  height: 350px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  cursor: pointer;
+}
+
+#venue-img-first::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background-color: rgba(0, 0, 0, 0.3);
+  z-index: 1;
+}
 
 .venue-img {
   background-image: url(/venue-sample.jpg);
-  width: 200px;
-  height: 100px;
+  width: 97%;
+  height: 150px;
   background-repeat: no-repeat;
-  background-size: 100%;
+  background-size: cover;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+}
+
+#venue-img::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background-color: rgba(0, 0, 0, 0.3);
+  z-index: 1;
+}
+
+.venue-img > h1  {
+  text-align: center;
+}
+
+.venue-detail {
+  margin-bottom: 1rem;
+  box-shadow: none;
+  width: 100%;
+}
+
+.venue-detail-container {
+  background-color: var(--green);
+  box-shadow: none;
+}
+
+.icon-close-detail {
+  margin-left: 1rem;
+}
+
+.venue-details-body {
+  box-shadow: none;
+  background-color: var(--black);
+  align-items: center;
+  height: 100%;
+  /* width: 100%; */
+}
+
+.venue-detail-body-container {
+  display: flex;
+  width: 95%;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.venue-detail-img {
+  background-image: url(/venue-sample.jpg);
+  width: 200px;
+  height: 150px;
+  background-repeat: no-repeat;
+  background-size: cover;
+  display: flex;
+  position: relative;
+  z-index: 9999;
+}
+.goto-profile {
+  text-align: left;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  margin-right: auto;
+  margin-left: 0.8rem;
+  border-bottom: 3px solid var(--green);
+  padding-bottom: 0.5rem;
+}
+
+.layout-venue-title {
+  border-bottom: 3px solid var(--green);
+  white-space: nowrap;
+  width: 90%;
+  margin-bottom: 0.5rem;
+  margin-top: 0.5rem;
+  padding-bottom: 0.5rem;
+}
+
+.venue-details-layout {
+  display: flex;
+  gap: 0.5rem;
+  height: 30%;
+  text-align: center;
+}
+
+.venue-detail-city {
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.venue-detail-name {
+  color: var(--green);
+  font-size: 20px;
+}
+
+.venue-detail-layout {
+  border: 1px solid var(--green);
+  background-color: var(--green);
+}
+
+.venue-details-description {
+  margin-bottom: 1rem;
+  margin-left: 0.8rem;
+}
+
+.found-venue {
+  position: relative;
+  z-index: 99;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.hovered-venue {
+  border: 1px solid transparent;
+  width: 97%;
+  height: 350px;
+}
+
+.custom-carousel-item {
+  width: 100% !important;
+  transition: width 0.5s ease-in-out;
 }

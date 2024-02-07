@@ -15,7 +15,7 @@ export const GoogleMapsProvider = ({ children }) => {
       }
 
       const script = document.createElement("script");
-      script.src = `https://maps.googleapis.com/maps/api/js?key=${import.meta.env.VITE_GOOGLE_MAPS_API}&libraries=places`;
+      script.src = `https://maps.googleapis.com/maps/api/js?key=${import.meta.env.VITE_GOOGLE_MAPS_API}&libraries=places&loading=async`;
       document.head.appendChild(script);
       script.onload = () => {
         setIsApiLoaded(true);
