@@ -6,6 +6,7 @@ import Home from "./pages/Home";
 import About from "./pages/About";
 import Profile from "./pages/Profile";
 import MyEvents from "./pages/MyEvents";
+import AdminVenueDetail from "./pages/AdminVenueDetail";
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
       <Route path="/about" element={<About />}/>
       <Route path="/profile" element={<Profile />}/>
       <Route path="/myevents" element={<MyEvents />}/>
+      <Route path="/admin/venuedetails/:venueIdParam" element={<AdminVenueDetail />}/>
     </Routes>
   )
 }

@@ -22,3 +22,42 @@ export const getAllVenues = async () => {
     throw error;
   }
 };
+
+export const editVenue = async (venueId, venueEditedValues) => {
+  console.log("venueId", venueId);
+
+  try {
+    const response = await axios.put(
+      `${API_URL}/venue/${venueId}/edit`,
+      venueEditedValues
+    );
+    console.log("response.data", response.data);
+    return response.data;
+  } catch (error) {
+    console.log("Line 32 - Error:", error);
+    throw error;
+  }
+};
+
+export const getOneVenue = async (venueId) => {
+  try {
+    const response = await axios.get(`${API_URL}/venue/${venueId}/find`);
+    console.log("venueId", response.data._id);
+
+    return response.data;
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+};
+
+export const deleteOneVenue = async (venueId) => {
+  try {
+    const response = await axios.delete(`${API_URL}/venue/${venueId}/delete`);
+    console.log("response:", response.data);
+    return response.data;
+  } catch (error) {
+    console.log("error", error);
+    throw error;
+  }
+};

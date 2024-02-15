@@ -1,12 +1,15 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { getAllVenues } from "../../services/venue.service";
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
 import VenueDetail from "./VenueDetail";
+import { VenuesContext } from "../../context/venues.context";
 
 const DisplayVenues = () => {
   const [venues, setVenues] = useState([]);
   const [hoveredVenueId, setHoverVenueId] = useState(null);
+  const { venueDetail, setVenueDetail, venueId, setVenueId } =
+    useContext(VenuesContext);
 
   const responsive = {
     superLargeDesktop: {
@@ -53,13 +56,21 @@ const DisplayVenues = () => {
   };
 
   const popUp = (venueId) => {
-    setHoverVenueId(venueId);
-    console.log("mouse in");
+    setTimeout(() => {
+      setHoverVenueId(venueId);
+    }, 500);
+
   };
+  console.log("mouse in");
+  console.log("Venue:", venueDetail);
 
   const popDown = () => {
-    // setHoverVenueId(null);
+    setTimeout(() => {
+      setHoverVenueId(null);
+    }, 500);
+
     console.log("mouse out");
+    console.log("Venue:", venueDetail);
   };
 
   useEffect(() => {
@@ -67,7 +78,7 @@ const DisplayVenues = () => {
       try {
         const response = await getAllVenues();
         setVenues(response.venues);
-        console.log("response", response);
+        // console.log("response", response);
       } catch (error) {
         console.log("Line 10 - Error:", error);
       }
@@ -84,8 +95,8 @@ const DisplayVenues = () => {
         className="carousel-recently-added carousel-class2"
         showDots={true}
         containerClass="custom-carousel-container container"
-        // itemClass={hoveredVenueId && "custom-carousel-item"}
         partialVisible={true}
+        itemClass={!hoveredVenueId ? "" : "item-selected"}
       >
         {[...venues]
           .reverse()
@@ -94,15 +105,27 @@ const DisplayVenues = () => {
             <div key={index} className={`venue-fields-container `}>
               <div
                 className={`${
-                  hoveredVenueId === venue._id ? "hovered-venue" : "venue-img"
+                  hoveredVenueId === venue._id
+                    ? "hovered-venue transition-base"
+                    : "venue-img venue-img-hov transition-base"
                 } ${index === 0 ? "lastly-added" : ""}`}
                 id={`${hoveredVenueId === venue._id ? "" : "venue-img-first"}`}
-                onMouseEnter={() => popUp(venue._id)}
-                onMouseLeave={popDown}
-                
+                onMouseEnter={() => {
+                  popUp(venue._id);
+                  setTimeout(() => {
+                    // setVenueDetail(venue);
+                    setVenueId(venue._id);
+                  }, 500);
+                }}
+                onMouseLeave={() => {
+                  popDown();
+                  setTimeout(() => {
+                    // setVenueDetail(null);
+                  }, 500);
+                }}
               >
                 {hoveredVenueId === venue._id ? (
-                  <div className="venue-component-container">
+                  <div className="venue-component-container transition-base">
                     <VenueDetail />
                   </div>
                 ) : (
@@ -124,6 +147,8 @@ const DisplayVenues = () => {
         infinite={false}
         className="carousel-package"
         partialVisible={true}
+
+        // focusOnSelect
       >
         {venues.map((venue, index) => (
           <div key={index} className="venue-fields-container">
