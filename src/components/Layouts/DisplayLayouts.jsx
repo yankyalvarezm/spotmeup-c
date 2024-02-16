@@ -1,7 +1,10 @@
 import React, { useContext, useEffect, useState } from "react";
 import { LayoutContext } from "../../context/layout.context";
 import EditModal from "../EditModal";
-import { deleteLayout, findAllLayoutsInVenue } from "../../services/layout.service";
+import {
+  deleteLayout,
+  findAllLayoutsInVenue,
+} from "../../services/layout.service";
 import { useParams, Link } from "react-router-dom";
 import LayoutForm from "./LayoutForm";
 import LayoutFormEdit from "./LayoutFormEdit";
@@ -20,9 +23,10 @@ const DisplayLayouts = () => {
     layoutEdited,
     setLayoutEdited,
     layoutDeleted,
-    setLayoutDeleted
+    setLayoutDeleted,
   } = useContext(LayoutContext);
   const [layouts, setLayouts] = useState(null);
+  const [confirmDelete, setConfirmDelete] = useState(null);
   const params = useParams();
 
   useEffect(() => {
@@ -60,16 +64,20 @@ const DisplayLayouts = () => {
   };
 
   const handleDelete = async (venueId, layoutId) => {
+
     try {
       const response = await deleteLayout(venueId, layoutId);
-      console.log("Deleted Layout",response);
+      console.log("Deleted Layout", response);
+      setLayoutId(layoutId)
       setLayoutDeleted(true);
+      setConfirmDelete(false);
     } catch (error) {
-      console.error("Error:", error)
+      console.error("Error:", error);
     }
   };
 
   console.log("layoutDetails:", layoutDetails);
+  console.log('layou',layoutId)
 
   return (
     <>
@@ -109,8 +117,29 @@ const DisplayLayouts = () => {
                         onClick={() => handleLayoutClick(layout._id)}
                       ></Link>
                     </div>
-
-                    <button onClick={()=>handleDelete(params.venueIdParam, layout._id)}>Delete</button>
+                    {confirmDelete === layout._id ? (
+                      <div className="layout-delete-prompt">
+                        <button
+                          onClick={() =>
+                            {
+                              handleDelete(params.venueIdParam, layout._id)
+                            }
+                          }
+                        >
+                          Yes
+                        </button>
+                        <button onClick={() => setConfirmDelete(null)}>
+                          No
+                        </button>
+                      </div>
+                    ) : (
+                      <button onClick={() => {
+                        setConfirmDelete(layout._id)
+                        // setLayoutId(layout._id)
+                      }}>
+                        Delete
+                      </button>
+                    )}
                   </div>
                 )}
               </div>

@@ -1779,3 +1779,13 @@ button:hover {
   align-items: center;
   gap: 1rem;
 }
+
+.layout-delete-prompt {
+  display: flex;
+  gap: 1rem;
+  width: 100%;
+}
+
+.layout-delete-prompt > button{
+  width: 10%;
+}
