@@ -49,3 +49,14 @@ export const getOneLayout = async (layoutId) => {
     throw error;
   }
 };
+
+export const deleteLayout = async (venueId,layoutId) => {
+  try {
+    const response = await axios.delete(`${API_URL}/layout/${venueId}/${layoutId}/delete`);
+    console.log('response', response.data);
+    return response.data;
+  } catch (error) {
+    console.log('error:', error);
+    throw error;
+  }
+};

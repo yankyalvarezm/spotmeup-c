@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import { LayoutContext } from "../../context/layout.context";
 import EditModal from "../EditModal";
-import { findAllLayoutsInVenue } from "../../services/layout.service";
+import { deleteLayout, findAllLayoutsInVenue } from "../../services/layout.service";
 import { useParams, Link } from "react-router-dom";
 import LayoutForm from "./LayoutForm";
 import LayoutFormEdit from "./LayoutFormEdit";
@@ -19,6 +19,8 @@ const DisplayLayouts = () => {
     layoutDetails,
     layoutEdited,
     setLayoutEdited,
+    layoutDeleted,
+    setLayoutDeleted
   } = useContext(LayoutContext);
   const [layouts, setLayouts] = useState(null);
   const params = useParams();
@@ -36,13 +38,17 @@ const DisplayLayouts = () => {
         if (layoutEdited) {
           setLayoutEdited(null);
         }
+
+        if (layoutDeleted) {
+          setLayoutDeleted(null);
+        }
       } catch (error) {
         console.log("error:", error);
       }
     };
 
     fetchLayouts();
-  }, [layoutAdded, layoutEdited]);
+  }, [layoutAdded, layoutEdited, layoutDeleted]);
 
   const isEvenNumber = (num) => {
     return num % 2 === 0;
@@ -51,6 +57,16 @@ const DisplayLayouts = () => {
   const handleLayoutClick = (layoutId) => {
     console.log("layoutId", layoutId);
     setLayoutId(layoutId);
+  };
+
+  const handleDelete = async (venueId, layoutId) => {
+    try {
+      const response = await deleteLayout(venueId, layoutId);
+      console.log("Deleted Layout",response);
+      setLayoutDeleted(true);
+    } catch (error) {
+      console.error("Error:", error)
+    }
   };
 
   console.log("layoutDetails:", layoutDetails);
@@ -94,7 +110,7 @@ const DisplayLayouts = () => {
                       ></Link>
                     </div>
 
-                    <button>Delete</button>
+                    <button onClick={()=>handleDelete(params.venueIdParam, layout._id)}>Delete</button>
                   </div>
                 )}
               </div>
