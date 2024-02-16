@@ -11,6 +11,7 @@ function LayoutProvider({ children }) {
   const [layoutDetails, setLayoutDetails] = useState(null);
   const [showEditInput, setShowEditInput] = useState(false);
   const [layoutEdited, setLayoutEdited] = useState(null);
+  const [layoutDeleted, setLayoutDeleted] = useState(null);
 
   const toggleEditingModal = () => {
     setShowEditingModal((prev) => !prev);
@@ -31,7 +32,7 @@ function LayoutProvider({ children }) {
         setLayoutDetails(response.layout);
         console.log("Line 24 - Response:", response);
       } catch (error) {
-        console.log("error");
+        console.log("error:", error);
       }
     };
     if (layoutId) {
@@ -56,6 +57,8 @@ function LayoutProvider({ children }) {
         setLayoutDetails,
         layoutEdited,
         setLayoutEdited,
+        layoutDeleted,
+        setLayoutDeleted
       }}
     >
       {children}
