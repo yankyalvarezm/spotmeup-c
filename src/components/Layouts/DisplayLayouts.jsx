@@ -5,9 +5,10 @@ import {
   deleteLayout,
   findAllLayoutsInVenue,
 } from "../../services/layout.service";
-import { useParams, Link } from "react-router-dom";
+import { useParams, Link, useNavigate } from "react-router-dom";
 import LayoutForm from "./LayoutForm";
 import LayoutFormEdit from "./LayoutFormEdit";
+// import { VenuesContext } from "../../context/venues.context";
 
 const DisplayLayouts = () => {
   const {
@@ -28,6 +29,7 @@ const DisplayLayouts = () => {
   const [layouts, setLayouts] = useState(null);
   const [confirmDelete, setConfirmDelete] = useState(null);
   const params = useParams();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchLayouts = async () => {
@@ -64,11 +66,10 @@ const DisplayLayouts = () => {
   };
 
   const handleDelete = async (venueId, layoutId) => {
-
     try {
       const response = await deleteLayout(venueId, layoutId);
       console.log("Deleted Layout", response);
-      setLayoutId(layoutId)
+      setLayoutId(layoutId);
       setLayoutDeleted(true);
       setConfirmDelete(false);
     } catch (error) {
@@ -76,8 +77,12 @@ const DisplayLayouts = () => {
     }
   };
 
+  const goToDesignPage = (layoutId) => {
+    navigate(`/admin/designpage/${layoutId}`);
+  };
+
   console.log("layoutDetails:", layoutDetails);
-  console.log('layou',layoutId)
+  console.log("layou", layoutId);
 
   return (
     <>
@@ -120,11 +125,10 @@ const DisplayLayouts = () => {
                     {confirmDelete === layout._id ? (
                       <div className="layout-delete-prompt">
                         <button
-                          onClick={() =>
-                            {
-                              handleDelete(params.venueIdParam, layout._id)
-                            }
-                          }
+                          onClick={() => {
+                            handleDelete(params.venueIdParam, layout._id);
+                          }}
+                          id="layout-delete-btn-prompt"
                         >
                           Yes
                         </button>
@@ -133,12 +137,23 @@ const DisplayLayouts = () => {
                         </button>
                       </div>
                     ) : (
-                      <button onClick={() => {
-                        setConfirmDelete(layout._id)
-                        // setLayoutId(layout._id)
-                      }}>
-                        Delete
-                      </button>
+                      <div className="layout-delete-page">
+                        <button
+                          id="layout-design-prompt"
+                          onClick={() => {
+                            goToDesignPage(layout._id);
+                          }}
+                        >
+                          Design
+                        </button>
+                        <button
+                          onClick={() => {
+                            setConfirmDelete(layout._id);
+                          }}
+                        >
+                          Delete
+                        </button>
+                      </div>
                     )}
                   </div>
                 )}

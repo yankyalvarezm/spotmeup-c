@@ -12,6 +12,7 @@ function LayoutProvider({ children }) {
   const [showEditInput, setShowEditInput] = useState(false);
   const [layoutEdited, setLayoutEdited] = useState(null);
   const [layoutDeleted, setLayoutDeleted] = useState(null);
+  // const [layoutBody, setLayoutBody] = useState(null);
 
   const toggleEditingModal = () => {
     setShowEditingModal((prev) => !prev);
@@ -58,7 +59,9 @@ function LayoutProvider({ children }) {
         layoutEdited,
         setLayoutEdited,
         layoutDeleted,
-        setLayoutDeleted
+        setLayoutDeleted,
+        // layoutBody,
+        // setLayoutBody,
       }}
     >
       {children}

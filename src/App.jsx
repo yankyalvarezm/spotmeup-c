@@ -7,6 +7,7 @@ import About from "./pages/About";
 import Profile from "./pages/Profile";
 import MyEvents from "./pages/MyEvents";
 import AdminVenueDetail from "./pages/AdminVenueDetail";
+import DesignPage from "./pages/DesignPage";
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
       <Route path="/profile" element={<Profile />}/>
       <Route path="/myevents" element={<MyEvents />}/>
       <Route path="/admin/venuedetails/:venueIdParam" element={<AdminVenueDetail />}/>
+      <Route path="/admin/designpage/:layoutIdParam" element={<DesignPage />}/>
     </Routes>
   )
 }

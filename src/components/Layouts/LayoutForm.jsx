@@ -44,8 +44,6 @@ const LayoutForm = () => {
     }
   };
 
-//   console.log("Line 22 - Params", params);
-
   return (
     <form className="layout-form-container">
       <input type="text" name="name" value={name} onChange={handleNameChange} />
