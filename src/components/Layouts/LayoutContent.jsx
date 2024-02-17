@@ -3,20 +3,21 @@ import { LayoutContext } from "../../context/layout.context";
 import styled from "styled-components";
 
 const StyledDiv = styled.div`
-  width: ${(props) => props.layoutDetails?.width}px;
-  maxwidth: ${(props) => props.layoutDetails?.maxWidth}px;
-  height: ${(props) => props.layoutDetails?.height}px;
-  maxheight: ${(props) => props.layoutDetails?.maxHeight}px;
-  border: ${(props) => props.layoutDetails?.borderSize}px solid black;
-  borderradius: ${(props) => props.layoutDetails?.borderRadius}%;
+  width: ${(props) => props.layoutBody?.width}px;
+  max-width: ${(props) => props.layoutBody?.maxWidth}px;
+  height: ${(props) => props.layoutBody?.height}px;
+  max-height: ${(props) => props.layoutBody?.maxHeight}px;
+  border: ${(props) => props.layoutBody?.borderSize}px solid #000000;
+  border-radius: ${(props) => props.layoutBody?.borderRadius}%;
+  left: ${(props) => props.layoutBody?.x}%;
+  top: ${(props) => props.layoutBody?.y}%;
 `;
 
-const LayoutContent = ({ children }) => {
-  const { layoutDetails } = useContext(LayoutContext);
 
-  return (
-    <StyledDiv layoutDetails={layoutDetails}> Content {children}</StyledDiv>
-  );
+const LayoutContent = ({ children }) => {
+  const { layoutBody } = useContext(LayoutContext);
+
+  return <StyledDiv layoutBody={layoutBody} id="layout-styled-div"> Content {children}</StyledDiv>;
 };
 
 export default LayoutContent;

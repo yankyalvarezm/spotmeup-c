@@ -149,7 +149,7 @@ const EditModal = () => {
           {/* <div>Layout Content</div> */}
 
           <LayoutContent> 
-            Hello 
+            <h1>hello</h1>
             </LayoutContent>
 
           <LayoutTools/>

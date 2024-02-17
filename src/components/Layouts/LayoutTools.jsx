@@ -2,20 +2,25 @@ import React, { useContext, useState, useEffect } from "react";
 import { LayoutContext } from "../../context/layout.context";
 
 const LayoutTools = () => {
-  const { layoutDetails } = useContext(LayoutContext);
-  
+  const { layoutDetails, layoutBody, setLayoutBody } =
+    useContext(LayoutContext);
+
   console.log("from layout tools:", layoutDetails);
-  const [layoutBody, setLayoutBody] = useState({});
+  // const [layoutBody, setLayoutBody] = useState({});
   console.log("layoutBody:", layoutBody);
-  
-  useEffect(()=>{
+
+  useEffect(() => {
     setLayoutBody({
       width: layoutDetails?.width,
+      maxWidth: layoutDetails?.maxWidth,
       height: layoutDetails?.height,
+      maxHeight: layoutDetails?.maxHeight,
       borderRadius: layoutDetails?.borderRadius,
       borderSize: layoutDetails?.borderSize,
-    })
-  },[layoutDetails])
+      x: layoutDetails?.x,
+      y: layoutDetails?.y,
+    });
+  }, [layoutDetails]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -67,6 +72,29 @@ const LayoutTools = () => {
             type="number"
             name="borderRadius"
             value={layoutBody.borderRadius}
+            onChange={handleChange}
+          />
+        </div>
+      </div>
+
+
+      <div className="layout-tools-content-container">
+        <div className="layout-tools-content">
+          <label htmlFor="x">X</label>
+          <input
+            type="number"
+            name="x"
+            value={layoutBody.x}
+            onChange={handleChange}
+          />
+        </div>
+
+        <div className="layout-tools-content">
+          <label htmlFor="y">Y</label>
+          <input
+            type="number"
+            name="y"
+            value={layoutBody.y}
             onChange={handleChange}
           />
         </div>
