@@ -113,21 +113,34 @@ import { useNavigate, useParams } from "react-router-dom";
 import { LayoutContext } from "../context/layout.context";
 import LayoutContent from "./Layouts/LayoutContent";
 import LayoutTools from "./Layouts/LayoutTools";
+import DisplayShapes from "./Shapes/DisplayShapes";
 
 const EditModal = () => {
   const navigate = useNavigate();
   const param = useParams();
+  const {
+    layoutDetails,
+    setLayoutId,
+    layoutId,
+    toggleLayoutForm,
+    setLayoutDetails,
+    layoutGoBack,
+    setLayoutGoBack,
+  } = useContext(LayoutContext);
+
   const goBack = () => {
     navigate(-1);
+    // setLayoutDetails(null);
+    // setLayoutId(null);
+    // console.log("layout Go Back:", layoutGoBack);
   };
-  const { layoutDetails, setLayoutId, layoutId } = useContext(LayoutContext);
 
-  console.log("Param:", param);
+  // console.log("Param:", param);
 
-  console.log("layoutDetails from DEsing:", layoutDetails);
+  // console.log("layoutDetails from Desing Page:", layoutDetails);
 
   useEffect(() => {
-    if (!layoutId) {
+    if (param.layoutIdParam) {
       setLayoutId(param.layoutIdParam);
     }
   }, [layoutId]);
@@ -146,13 +159,14 @@ const EditModal = () => {
         </div>
 
         <div className="design-main-content">
-          {/* <div>Layout Content</div> */}
+          <LayoutContent>
+            <DisplayShapes />
 
-          <LayoutContent> 
-            <h1>hello</h1>
-            </LayoutContent>
 
-          <LayoutTools/>
+            
+          </LayoutContent>
+
+          <LayoutTools />
         </div>
       </div>
     </div>

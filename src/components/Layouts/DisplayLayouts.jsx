@@ -25,11 +25,19 @@ const DisplayLayouts = () => {
     setLayoutEdited,
     layoutDeleted,
     setLayoutDeleted,
+    layoutGoBack,
+    setLayoutGoBack,
+    setLayoutDetails,
   } = useContext(LayoutContext);
   const [layouts, setLayouts] = useState(null);
   const [confirmDelete, setConfirmDelete] = useState(null);
   const params = useParams();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    setLayoutId(null);
+    setLayoutDetails(null);
+  }, []);
 
   useEffect(() => {
     const fetchLayouts = async () => {
@@ -82,7 +90,7 @@ const DisplayLayouts = () => {
   };
 
   console.log("layoutDetails:", layoutDetails);
-  console.log("layou", layoutId);
+  console.log("layoutId", layoutId);
 
   return (
     <>

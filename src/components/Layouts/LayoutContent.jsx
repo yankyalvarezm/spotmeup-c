@@ -13,11 +13,15 @@ const StyledDiv = styled.div`
   top: ${(props) => props.layoutBody?.y}%;
 `;
 
-
 const LayoutContent = ({ children }) => {
   const { layoutBody } = useContext(LayoutContext);
 
-  return <StyledDiv layoutBody={layoutBody} id="layout-styled-div"> Content {children}</StyledDiv>;
+  return (
+    <StyledDiv layoutBody={layoutBody} id="layout-styled-div">
+      {" "}
+      {children}
+    </StyledDiv>
+  );
 };
 
 export default LayoutContent;

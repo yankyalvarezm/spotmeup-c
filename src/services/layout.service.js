@@ -65,8 +65,11 @@ export const deleteLayout = async (venueId, layoutId) => {
 
 export const editLayout = async (layoutId, body) => {
   try {
-    const response = axios.put(`${API_URL}/layout/${layoutId}/edit`, body);
-    console.log("response", response.data);
+    const response = await axios.put(
+      `${API_URL}/layout/${layoutId}/edit`,
+      body
+    );
+    // console.log("response", response.data);
     return response.data;
   } catch (error) {
     console.log("error:", error);

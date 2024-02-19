@@ -1868,13 +1868,14 @@ button:hover {
   padding: 1rem;
   position: absolute;
   transform: translate(-50%, -50%);
-  top: 9%;
+  top: 11%;
   left: 13%;
 }
 
 .layout-tools-content {
   display: flex;
   flex-direction: column;
+  width: 100%;
 }
 
 
@@ -1903,4 +1904,46 @@ button:hover {
 #layout-styled-div > h1 {
   margin-top: 1rem;
   padding-bottom: 1rem;
+}
+
+.layout-tools-savechanges {
+  width: 97%;
+  margin-top: 1rem;
+}
+
+.layout-tools-title {
+  margin: 0.5rem 0rem;
+  text-align: center;
+  color: var(--red);
+  font-size: 20px;
+}
+
+.layout-tools-Notsuccess {
+  color: var(--red);
+  text-align: center;
+  margin-top: 0.8rem;
+  white-space: nowrap;
+}
+
+.konva-stage {
+  background-color: red;
+}
+
+.layout-tools-success {
+  color: var(--green);
+  text-align: center;
+  margin-top: 0.8rem;
+  white-space: nowrap;
+}
+
+.konva-rect {
+  background-color: var(--black);
+  cursor: pointer;
+}
+
+.konva-group {
+  background-color: var(--green);
+  height: 50px;
+  width: 50px;
+  z-index: 9999;
 }

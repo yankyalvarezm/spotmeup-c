@@ -21,7 +21,7 @@ const LayoutFormEdit = () => {
   };
   const [successMessage, setSuccessMessage] = useState(null);
   const [notSuccessMessage, setNotSuccessMessage] = useState(null);
-
+  
   const handleNameChange = (e) => {
     setName({ name: e.target.value });
     console.log("e.target.value", e.target.value);
