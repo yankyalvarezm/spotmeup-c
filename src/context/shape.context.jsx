@@ -6,6 +6,7 @@ function ShapeProvider({ children }) {
   const [column, setColumn] = useState(3);
   const [circleCount, setCircleCount] = useState(0);
   const [squareCount, setSquareCount] = useState(0);
+  const [showInput, setShowInput] = useState(false);
 
   return (
     <ShapeContext.Provider
@@ -16,6 +17,8 @@ function ShapeProvider({ children }) {
         setCircleCount,
         squareCount,
         setSquareCount,
+        showInput,
+        setShowInput,
       }}
     >
       {children}

@@ -3,24 +3,19 @@ import { ShapeContext } from "../../context/shape.context";
 import Draggable from "react-draggable";
 import CircleShape from "./CircleShape";
 import SquareShape from "./SquareShape";
+import SquareInput from "./SquareInput";
 
 const DisplayShapes = () => {
-  const { circleCount, squareCount } = useContext(ShapeContext);
+  const { circleCount, squareCount, showInput } = useContext(ShapeContext);
 
   return (
     <>
       {Array.from({ length: circleCount }, (_, index) => (
-       
-          <CircleShape>
-           
-          </CircleShape>
-       
+        <CircleShape key={index}></CircleShape>
       ))}
 
       {Array.from({ length: squareCount }, (_, index) => (
-        <SquareShape>
-          
-        </SquareShape>
+        <SquareShape key={index}>{showInput && <SquareInput />}</SquareShape>
       ))}
     </>
   );

@@ -1,6 +1,8 @@
-import React, { Children, useEffect, useRef } from "react";
+import React, { useEffect, useRef, useContext } from "react";
 import Draggable from "react-draggable";
 import styled from "styled-components";
+import { ShapeContext } from "../../context/shape.context";
+import { shapes } from "konva/lib/Shape";
 
 const StyledSquare = styled.div`
   position: absolute;
@@ -17,6 +19,12 @@ const StyledSquare = styled.div`
 
 const SquareShape = ({ children }) => {
   const squareRef = useRef(null);
+  const { showInput, setShowInput } = useContext(ShapeContext);
+
+  const handleShowInput = () => {
+    setShowInput((prev) => !prev);
+    console.log("double click");
+  };
 
   useEffect(() => {
     const resizeObserver = new ResizeObserver((entries) => {
@@ -48,7 +56,7 @@ const SquareShape = ({ children }) => {
 
   return (
     <Draggable bounds="parent" handle=".handle">
-      <StyledSquare ref={squareRef}>
+      <StyledSquare ref={squareRef} onDoubleClick={handleShowInput}>
         <div className="handle" style={handleStyle}>
           {/* <h1>Drag Me</h1> */}
         </div>

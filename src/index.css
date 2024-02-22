@@ -2032,3 +2032,15 @@ button:hover {
   color: black;
   box-shadow: 2px 4px 0px black;
 }
+
+.square-name-input {
+  position: absolute;
+  top: 34%;
+  left: 3%;
+  width: 85%;
+  background-color: black;
+  border: 1px solid white;
+  caret-color: white;
+  color: white;
+  
+}
