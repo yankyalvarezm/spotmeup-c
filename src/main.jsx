@@ -8,6 +8,7 @@ import { GoogleMapsProvider } from "./context/GoogleMapsContext.jsx";
 import { MyEventsProvider } from "./context/MyEvents.context.jsx";
 import { VenuesProvider } from "./context/venues.context.jsx";
 import { LayoutProvider } from "./context/layout.context.jsx";
+import { ShapeProvider } from "./context/shape.context.jsx";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
@@ -17,7 +18,9 @@ ReactDOM.createRoot(document.getElementById("root")).render(
           <MyEventsProvider>
             <VenuesProvider>
               <LayoutProvider>
-                <App />
+                <ShapeProvider>
+                  <App />
+                </ShapeProvider>
               </LayoutProvider>
             </VenuesProvider>
           </MyEventsProvider>

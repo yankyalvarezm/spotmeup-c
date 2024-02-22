@@ -114,30 +114,16 @@ import { LayoutContext } from "../context/layout.context";
 import LayoutContent from "./Layouts/LayoutContent";
 import LayoutTools from "./Layouts/LayoutTools";
 import DisplayShapes from "./Shapes/DisplayShapes";
+import ShapesTools from "./Shapes/ShapesTools";
 
 const EditModal = () => {
   const navigate = useNavigate();
   const param = useParams();
-  const {
-    layoutDetails,
-    setLayoutId,
-    layoutId,
-    toggleLayoutForm,
-    setLayoutDetails,
-    layoutGoBack,
-    setLayoutGoBack,
-  } = useContext(LayoutContext);
+  const { layoutDetails, setLayoutId, layoutId } = useContext(LayoutContext);
 
   const goBack = () => {
     navigate(-1);
-    // setLayoutDetails(null);
-    // setLayoutId(null);
-    // console.log("layout Go Back:", layoutGoBack);
   };
-
-  // console.log("Param:", param);
-
-  // console.log("layoutDetails from Desing Page:", layoutDetails);
 
   useEffect(() => {
     if (param.layoutIdParam) {
@@ -161,12 +147,10 @@ const EditModal = () => {
         <div className="design-main-content">
           <LayoutContent>
             <DisplayShapes />
-
-
-            
           </LayoutContent>
 
           <LayoutTools />
+          <ShapesTools />
         </div>
       </div>
     </div>

@@ -1,6 +1,7 @@
 import React, { useContext } from "react";
 import { LayoutContext } from "../../context/layout.context";
 import styled from "styled-components";
+import Draggable from "react-draggable";
 
 const StyledDiv = styled.div`
   width: ${(props) => props.layoutBody?.width}px;
@@ -17,10 +18,12 @@ const LayoutContent = ({ children }) => {
   const { layoutBody } = useContext(LayoutContext);
 
   return (
-    <StyledDiv layoutBody={layoutBody} id="layout-styled-div">
-      {" "}
-      {children}
-    </StyledDiv>
+   
+      <StyledDiv layoutBody={layoutBody} id="layout-styled-div">
+        {" "}
+        {children}
+      </StyledDiv>
+
   );
 };
 

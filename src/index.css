@@ -1907,8 +1907,11 @@ button:hover {
 }
 
 .layout-tools-savechanges {
-  width: 97%;
-  margin-top: 1rem;
+  width: 80%;
+    margin-top: 1rem;
+    height: 16%;
+    top: 88%;
+    position: absolute;
 }
 
 .layout-tools-title {
@@ -1946,4 +1949,86 @@ button:hover {
   height: 50px;
   width: 50px;
   z-index: 9999;
+}
+
+.grid-example {
+  text-align: center;
+
+}
+/* Shapes*/
+
+
+.shape-tools-container {
+  display: flex;
+    flex-direction: column;
+    width: 25%;
+    padding: 1rem;
+    position: absolute;
+    transform: translate(-50%, -50%);
+    top: 5.4%;
+    left: 41%;
+}
+
+.shape-tools-title {
+    margin: 0.5rem 0rem;
+    text-align: center;
+    color: var(--red);
+    font-size: 20px;
+}
+
+.shape-content {
+  display: flex;
+  justify-content: space-around;
+  border: 1px solid var(--black);
+  margin-bottom: 1rem;
+}
+
+.shape-content > div {
+  margin-bottom: 1rem;
+  margin-top: 1rem;
+}
+
+.shape-cirlce {
+  width: 25px;
+  height: 25px;
+  background-color: var(--black);
+  border-radius: 50%;
+}
+
+.shape-square {
+  width: 25px;
+  height: 25px;
+  background-color: var(--black);
+}
+
+.shape-cirlce:hover {
+  cursor: pointer;
+  background-color: #433f40;
+}
+
+.shape-square:hover {
+  cursor: pointer;
+  background-color: #433f40;
+}
+
+.showshapes-false {
+  display: flex;
+  flex-direction: column;
+  width: 25%;
+  padding: 1rem;
+  position: absolute;
+  transform: translate(-50%, -50%);
+  top: 9.4%;
+  left: 41%;
+}
+
+.shape-discard {
+  background-color: var(--red);
+  color: white;
+  box-shadow: 2px 4px 0px white;
+}
+
+.shape-discard:hover {
+  color: black;
+  box-shadow: 2px 4px 0px black;
 }
