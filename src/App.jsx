@@ -8,6 +8,7 @@ import Profile from "./pages/Profile";
 import MyEvents from "./pages/MyEvents";
 import AdminVenueDetail from "./pages/AdminVenueDetail";
 import DesignPage from "./pages/DesignPage";
+// import 'bootstrap/dist/css/bootstrap.min.css';
 
 function App() {
   return (

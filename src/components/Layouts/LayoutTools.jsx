@@ -11,10 +11,10 @@ const LayoutTools = () => {
   const [successMessage, setSuccessMessage] = useState(null);
   const [notSuccessMessage, setNotSuccessMessage] = useState(null);
 
-  console.log("from layout tools:", layoutDetails);
-  console.log("layoutBody:", layoutBody);
+  // console.log("from layout tools:", layoutDetails);
+  // console.log("layoutBody:", layoutBody);
 
-  console.log("param", param);
+  // console.log("param", param);
 
   useEffect(() => {
     setLayoutBody({
