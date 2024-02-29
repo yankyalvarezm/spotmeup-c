@@ -12,7 +12,9 @@ const EditModal = () => {
   const { layoutDetails, setLayoutId, layoutId } = useContext(LayoutContext);
 
   const goBack = () => {
+    
     navigate(-1);
+
   };
 
   useEffect(() => {

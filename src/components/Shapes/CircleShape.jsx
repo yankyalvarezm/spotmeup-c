@@ -23,8 +23,14 @@ const CircleShape = ({ children, circle }) => {
     y: 0,
   });
 
-  const { toggleShapeForm, shapeForm, setShapeId, shapeId } =
-    useContext(ShapeContext);
+  const {
+    toggleShapeForm,
+    shapeForm,
+    setShapeId,
+    shapeId,
+    showShapeForm,
+    setShowShapeForm,
+  } = useContext(ShapeContext);
 
   const [hasMoved, setHasMoved] = useState(false);
 
@@ -80,7 +86,7 @@ const CircleShape = ({ children, circle }) => {
       shapeForm.current &&
       !shapeForm.current.contains(e.target)
     ) {
-      toggleShapeForm();
+      setShowShapeForm(false);
       setShapeId(null);
     }
   };
@@ -90,6 +96,11 @@ const CircleShape = ({ children, circle }) => {
 
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
+
+  const handleShowToggleForm = (shapeId) => {
+    setShowShapeForm(true);
+    setShapeId(shapeId);
+  };
 
   return (
     <Draggable
@@ -106,16 +117,11 @@ const CircleShape = ({ children, circle }) => {
     >
       <StyledCircle
         ref={circleRef}
-        //  onClick={toggleShapeForm}
-        onClick={() => setShapeId(circle._id)}
+        onClick={() => handleShowToggleForm(circle._id)}
+        tabIndex={0}
+        onFocus={toggleShapeForm}
       >
-        <div
-          className="handle circle-name"
-          style={handleStyle}
-          tabIndex={0}
-          onFocus={toggleShapeForm}
-          // onBlur={toggleShapeForm}
-        >
+        <div className="handle circle-name" style={handleStyle}>
           {circle.name}
         </div>
         {children}

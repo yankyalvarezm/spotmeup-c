@@ -92,7 +92,8 @@ const ShapesTools = () => {
   };
 
   const handleFormSubmit = (e) => {
-    // e.preventDefault();
+    e.preventDefault();
+    window.location.reload();
   };
 
   return (

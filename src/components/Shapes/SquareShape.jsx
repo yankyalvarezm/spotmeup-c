@@ -24,15 +24,39 @@ const SquareShape = ({ children, square }) => {
   const [newPositionSquare, setNewPositionSquare] = useState({
     x: 0,
     y: 0,
+    width: square.width,
+    height: square.height,
   });
-  const { showInput, setShowInput, toggleShapeForm, shapeForm, setShapeId } =
-    useContext(ShapeContext);
+  const {
+    showInput,
+    setShowInput,
+    toggleShapeForm,
+    shapeForm,
+    setShapeId,
+    showShapeForm,
+    shapeId,
+    setShowShapeForm,
+  } = useContext(ShapeContext);
   const [hasMoved, setHasMoved] = useState(false);
 
   const handleShowInput = () => {
     setShowInput((prev) => !prev);
     console.log("double click");
   };
+
+  function debounce(fn, delay) {
+    let timeoutID = null;
+    return function (...args) {
+      clearTimeout(timeoutID);
+      timeoutID = setTimeout(() => {
+        fn(...args);
+      }, delay);
+    };
+  }
+
+  const updateShape = debounce((shapeId, body) => {
+    editShapes(shapeId, body); // Tu función de actualización aquí
+  }, 250);
 
   useEffect(() => {
     const resizeObserver = new ResizeObserver((entries) => {
@@ -41,6 +65,13 @@ const SquareShape = ({ children, square }) => {
         const { height } = entry.contentRect;
         console.log(`Square Width: ${width}px`);
         console.log(`Square Heigth: ${height}px`);
+        setNewPositionSquare((prev) => ({
+          ...prev,
+          width: width,
+          height: height,
+        }));
+
+        updateShape(square._id, { width, height })
       }
     });
 
@@ -53,7 +84,7 @@ const SquareShape = ({ children, square }) => {
         resizeObserver.unobserve(squareRef.current);
       }
     };
-  }, []);
+  }, [square._id]);
 
   const handleStyle = {
     width: "100%",
@@ -75,22 +106,28 @@ const SquareShape = ({ children, square }) => {
       const response = await editShapes(shapeId, body);
       console.log("Line 58 - Response:", response);
       console.log("Line 59 - Body:", body);
-      setShapeId(shapeId);
     } catch (error) {
       console.log("error", error);
     }
   };
 
-   const handleClickOutside = (e) => {
+  console.log("shapeId", shapeId);
+
+  const handleClickOutside = (e) => {
     if (
       squareRef.current &&
       !squareRef.current.contains(e.target) &&
       shapeForm.current &&
       !shapeForm.current.contains(e.target)
     ) {
-      toggleShapeForm();
+      setShowShapeForm(false);
       setShapeId(null);
     }
+  };
+
+  const handleShowToggleForm = (shapeId) => {
+    setShowShapeForm(true);
+    setShapeId(shapeId);
   };
 
   useEffect(() => {
@@ -104,7 +141,10 @@ const SquareShape = ({ children, square }) => {
       bounds="parent"
       handle=".handle"
       onDrag={(e, ui) => handleDrag(e, ui)}
-      defaultPosition={{ x: square.x, y: square.y }}
+      defaultPosition={{
+        x: square.x,
+        y: square.y,
+      }}
       onStop={() => {
         if (hasMoved) {
           handleEditShape(square._id, newPositionSquare);
@@ -115,8 +155,8 @@ const SquareShape = ({ children, square }) => {
       <StyledSquare
         ref={squareRef}
         onDoubleClick={handleShowInput}
-        onFocus={toggleShapeForm}
         tabIndex={1}
+        onClick={() => handleShowToggleForm(square._id)}
       >
         <div className="handle" style={handleStyle}></div>
 
