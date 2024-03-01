@@ -5,12 +5,11 @@ import React, {
   useState,
   useRef,
 } from "react";
-import { LayoutContext } from "./layout.context";
 import { getAllShapes } from "../services/shape.service";
+
 const ShapeContext = createContext();
 
 function ShapeProvider({ children }) {
-  const { layoutId } = useContext(LayoutContext);
   const [column, setColumn] = useState(3);
   const [circleCount, setCircleCount] = useState(0);
   const [circles, setCircles] = useState([]);
@@ -20,46 +19,35 @@ function ShapeProvider({ children }) {
   const [shapeId, setShapeId] = useState(null);
   const [showShapeForm, setShowShapeForm] = useState(false);
   const [shapeDeleted, setShapeDeleted] = useState(null);
+  const [shapeEdited, setShapeEdited] = useState(false);
+  const [shapeAdded, setShapeAdded] = useState(false);
   const shapeForm = useRef();
 
-  useEffect(() => {
-    const fetchShapes = async (layoutId) => {
-      try {
-        const response = await getAllShapes(layoutId);
-        console.log("Shapes Response: ", response);
-        if (response.success) {
-          const circleFilter = response.shapes.filter(
-            (shape) =>
-              shape.shapeType === "Circle" || shape.shapeType === "circle"
-          );
-          const squareFilter = response.shapes.filter(
-            (shape) =>
-              shape.shapeType === "Square" || shape.shapeType === "square"
-          );
-          setCircles(circleFilter);
-          // setCircleCount(circleFilter.length);
-          setSquares(squareFilter);
-          // setSquareCount(squareFilter.length);
-        }
-      } catch (error) {
-        console.error("error:", error);
+  const fetchShapes = async (layoutId) => {
+    try {
+      const response = await getAllShapes(layoutId);
+
+      console.log("Fetch Shapes", response);
+      if (response.success) {
+        const circleFilter = response.shapes.filter(
+          (shape) =>
+            shape.shapeType === "Circle" || shape.shapeType === "circle"
+        );
+        const squareFilter = response.shapes.filter(
+          (shape) =>
+            shape.shapeType === "Square" || shape.shapeType === "square"
+        );
+        setCircles(circleFilter);
+        setSquares(squareFilter);
       }
-    };
-
-    if (shapeDeleted) {
-      setShapeDeleted(null);
+    } catch (error) {
+      console.error("error:", error);
     }
-
-    fetchShapes(layoutId);
-  }, [layoutId, shapeDeleted]);
+  };
 
   const toggleShapeForm = () => {
     setShowShapeForm((prev) => !prev);
   };
-
-  // console.log("circles", circles.length);
-  // console.log("squares", squares.length);
-  // console.log("layoutId from Shapes:", layoutId);
 
   return (
     <ShapeContext.Provider
@@ -84,6 +72,11 @@ function ShapeProvider({ children }) {
         shapeForm,
         shapeDeleted,
         setShapeDeleted,
+        shapeEdited,
+        setShapeEdited,
+        fetchShapes,
+        shapeAdded,
+        setShapeAdded,
       }}
     >
       {children}

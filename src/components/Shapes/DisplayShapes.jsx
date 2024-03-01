@@ -4,28 +4,55 @@ import Draggable from "react-draggable";
 import CircleShape from "./CircleShape";
 import SquareShape from "./SquareShape";
 import SquareInput from "./SquareInput";
+import { useParams } from "react-router-dom";
+import { getAllShapes } from "../../services/shape.service";
 
 const DisplayShapes = () => {
-  const { showInput, circles, squares, shapeDeleted, setShapeDeleted } =
-    useContext(ShapeContext);
-  useEffect(() => console.log("squares:", squares));
-  useEffect(() => console.log("circles:", circles));
+  const {
+    showInput,
+    circles,
+    squares,
+    shapeDeleted,
+    setShapeDeleted,
+    setShapeEdited,
+    shapeEdited,
+    fetchShapes,
+    shapeAdded,
+    setShapeAdded,
+  } = useContext(ShapeContext);
+
+  const param = useParams();
+
+  // console.log("param:", param);
+
+  useEffect(() => {
+    if (shapeDeleted) {
+      setShapeDeleted(null);
+    }
+
+    if (shapeEdited) {
+      setShapeEdited(false);
+    }
+    if (shapeAdded) {
+      setShapeAdded(false);
+    }
+
+    fetchShapes(param.layoutIdParam);
+  }, [param.layoutIdParam, shapeDeleted, shapeEdited, shapeAdded]);
 
   return (
     <>
-      {circles.map((circle, index) => (
-        <CircleShape circle={circle} key={index}></CircleShape>
-      ))}
+      {circles &&
+        circles.map((circle, index) => (
+          <CircleShape circle={circle} key={circle._id}></CircleShape>
+        ))}
 
-      {squares.map((square, index) => (
-        <SquareShape square={square} key={index}>
-          {showInput && <SquareInput />}
-        </SquareShape>
-      ))}
-
-      {/* {Array.from({ length: squares.length }, (_, index) => (
-        <SquareShape square={square} key={index}>{showInput && <SquareInput />}</SquareShape>
-      ))} */}
+      {squares &&
+        squares.map((square, index) => (
+          <SquareShape square={square} key={square._id}>
+            {showInput && <SquareInput />}
+          </SquareShape>
+        ))}
     </>
   );
 };

@@ -36,6 +36,8 @@ const SquareShape = ({ children, square }) => {
     showShapeForm,
     shapeId,
     setShowShapeForm,
+    setShapeEdited,
+    setSquares
   } = useContext(ShapeContext);
   const [hasMoved, setHasMoved] = useState(false);
 
@@ -55,7 +57,7 @@ const SquareShape = ({ children, square }) => {
   }
 
   const updateShape = debounce((shapeId, body) => {
-    editShapes(shapeId, body); // Tu función de actualización aquí
+    editShapes(shapeId, body);
   }, 250);
 
   useEffect(() => {
@@ -63,15 +65,15 @@ const SquareShape = ({ children, square }) => {
       for (let entry of entries) {
         const { width } = entry.contentRect;
         const { height } = entry.contentRect;
-        console.log(`Square Width: ${width}px`);
-        console.log(`Square Heigth: ${height}px`);
+        // console.log(`Square Width: ${width}px`);
+        // console.log(`Square Heigth: ${height}px`);
         setNewPositionSquare((prev) => ({
           ...prev,
           width: width,
           height: height,
         }));
 
-        updateShape(square._id, { width, height })
+        updateShape(square._id, { width, height });
       }
     });
 
@@ -104,14 +106,25 @@ const SquareShape = ({ children, square }) => {
   const handleEditShape = async (shapeId, body) => {
     try {
       const response = await editShapes(shapeId, body);
-      console.log("Line 58 - Response:", response);
+      console.log("Edited Shape:", response);
       console.log("Line 59 - Body:", body);
+      // setShapeEdited(true);
+      setSquares(prev => {
+        return prev.map(square => {
+          if (square._id === shapeId) {
+        
+            return response.shape;
+          } else {
+            return square;
+          }
+        });
+      });
     } catch (error) {
       console.log("error", error);
     }
   };
 
-  console.log("shapeId", shapeId);
+  // console.log("shapeId", shapeId);
 
   const handleClickOutside = (e) => {
     if (

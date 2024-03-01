@@ -27,9 +27,9 @@ const CircleShape = ({ children, circle }) => {
     toggleShapeForm,
     shapeForm,
     setShapeId,
-    shapeId,
-    showShapeForm,
     setShowShapeForm,
+    setCircles,
+    shapeId
   } = useContext(ShapeContext);
 
   const [hasMoved, setHasMoved] = useState(false);
@@ -65,19 +65,29 @@ const CircleShape = ({ children, circle }) => {
     const newPosition = { x, y };
     setHasMoved(true);
     setNewPositionCircle({ x, y });
-    console.log(newPosition);
+    // console.log(newPosition);
   };
 
   const handleEditShape = async (shapeId, body) => {
     try {
       const response = await editShapes(shapeId, body);
-      console.log("Line 58 - Response:", response);
+      console.log("Edited Shape", response);
       console.log("Line 59 - Body:", body);
+      setCircles((prev) => {
+        return prev.map((circle) => {
+          if (circle._id === shapeId) {
+            return response.shape;
+          } else {
+            return circle;
+          }
+        });
+      });
+      // setShapeEdited(true)
     } catch (error) {
       console.log("error", error);
     }
   };
-  console.log("shapeId", shapeId);
+  // console.log("shapeId", shapeId);
 
   const handleClickOutside = (e) => {
     if (
@@ -88,6 +98,7 @@ const CircleShape = ({ children, circle }) => {
     ) {
       setShowShapeForm(false);
       setShapeId(null);
+      console.log("shapeId:", shapeId);
     }
   };
 
@@ -100,6 +111,7 @@ const CircleShape = ({ children, circle }) => {
   const handleShowToggleForm = (shapeId) => {
     setShowShapeForm(true);
     setShapeId(shapeId);
+    console.log("shapeId:", shapeId);
   };
 
   return (

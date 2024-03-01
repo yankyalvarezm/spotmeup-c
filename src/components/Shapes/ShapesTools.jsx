@@ -19,6 +19,9 @@ const ShapesTools = () => {
     setShapeDeleted,
     setShapeId,
     toggleShapeForm,
+    shapeAdded,
+    setShapeAdded,
+    squares
   } = useContext(ShapeContext);
 
   const param = useParams();
@@ -70,7 +73,12 @@ const ShapesTools = () => {
       const response = await createShape(layoutId, body);
 
       if (response.success) {
-        setSquares((prev) => [...prev, response.shape]);
+        if (squares) {
+          setSquares((prev) => [...prev, response.shape]);
+          setShapeAdded(true);
+        } else {
+          setSquares([response.shape]);
+        }
       }
 
       console.log("Shape Response:", response);
@@ -82,8 +90,13 @@ const ShapesTools = () => {
   const deleteTheShape = async (shapeId) => {
     try {
       const response = await deleteShape(shapeId);
-      console.log("Shape Response:", response);
-      setShapeDeleted(true);
+      console.log("Shape Deleted:", response);
+      setCircles((prev) => {
+        return prev.filter((circle) => circle._id !== shapeId);
+      });
+      setSquares((prev) => {
+        return prev.filter((square) => square._id !== shapeId);
+      });
       setShapeId(null);
       toggleShapeForm();
     } catch (error) {
@@ -93,7 +106,6 @@ const ShapesTools = () => {
 
   const handleFormSubmit = (e) => {
     e.preventDefault();
-    window.location.reload();
   };
 
   return (

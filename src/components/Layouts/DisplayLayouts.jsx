@@ -6,6 +6,7 @@ import {
   findAllLayoutsInVenue,
 } from "../../services/layout.service";
 import { useParams, Link, useNavigate } from "react-router-dom";
+import { ShapeContext } from "../../context/shape.context";
 import LayoutForm from "./LayoutForm";
 import LayoutFormEdit from "./LayoutFormEdit";
 // import { VenuesContext } from "../../context/venues.context";
@@ -29,6 +30,7 @@ const DisplayLayouts = () => {
     setLayoutGoBack,
     setLayoutDetails,
   } = useContext(LayoutContext);
+  const { setCircles, setSquares } = useContext(ShapeContext);
   const [layouts, setLayouts] = useState(null);
   const [confirmDelete, setConfirmDelete] = useState(null);
   const params = useParams();
@@ -37,6 +39,8 @@ const DisplayLayouts = () => {
   useEffect(() => {
     setLayoutId(null);
     setLayoutDetails(null);
+    setCircles(null);
+    setSquares(null);
   }, []);
 
   useEffect(() => {
