@@ -43,12 +43,12 @@ const DisplayShapes = () => {
   return (
     <>
       {circles &&
-        circles.map((circle, index) => (
+        circles.map((circle) => (
           <CircleShape circle={circle} key={circle._id}></CircleShape>
         ))}
 
       {squares &&
-        squares.map((square, index) => (
+        squares.map((square) => (
           <SquareShape square={square} key={square._id}>
             {showInput && <SquareInput />}
           </SquareShape>

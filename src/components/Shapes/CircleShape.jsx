@@ -5,12 +5,12 @@ import { ShapeContext } from "../../context/shape.context";
 import { editShapes } from "../../services/shape.service";
 
 const StyledCircle = styled.div`
-  width: ${({ width }) => (width ? width : "100")}px;
-  height: ${({ height }) => (height ? height : "100")}px;
-  border-radius: ${({ borderRadius }) => (borderRadius ? borderRadius : "50")}%;
-  background-color: ${({ backgroundColor }) =>
-    backgroundColor ? backgroundColor : "#000"};
-  border: ${({ borderSize }) => (borderSize ? borderSize : 3)}px solid black;
+  width: ${(prop) => prop.circle?.width}px;
+  height: ${(prop) => prop.circle?.height}px;
+  border-radius: ${(prop) => prop.circle?.borderRadius  || 50}%;
+  background-color: ${(prop) =>
+    prop.circle?.backgroundColor};
+  border: ${(prop) => prop.circle?.borderSize}px solid black;
   resize: both;
   overflow: hidden;
   position: absolute;
@@ -34,11 +34,39 @@ const CircleShape = ({ children, circle }) => {
 
   const [hasMoved, setHasMoved] = useState(false);
 
+
+  function debounce(fn, delay) {
+    let timeoutID = null;
+    return function (...args) {
+      clearTimeout(timeoutID);
+      timeoutID = setTimeout(() => {
+        fn(...args);
+      }, delay);
+    };
+  }
+
+  const updateShape = debounce((shapeId, body) => {
+    editShapes(shapeId, body);
+    console.log("debounce working");
+  }, 250);
+
   useEffect(() => {
     const resizeObserver = new ResizeObserver((entries) => {
       for (let entry of entries) {
         const { width, height } = entry.contentRect;
-        // console.log(`Circle Width: ${width}px, Circle Height: ${height}px`);
+
+        if (width || height) {
+          updateShape(circle._id, { width, height });
+        }
+
+        setCircles((prevSquares) => {
+          return prevSquares.map((cr) => {
+            if (cr._id === circle._id) {
+              return { ...cr, width, height };
+            }
+            return cr; 
+          });
+        });
       }
     });
 
@@ -62,10 +90,8 @@ const CircleShape = ({ children, circle }) => {
 
   const handleDrag = (e, ui) => {
     const { x, y } = ui;
-    const newPosition = { x, y };
     setHasMoved(true);
     setNewPositionCircle({ x, y });
-    // console.log(newPosition);
   };
 
   const handleEditShape = async (shapeId, body) => {
@@ -87,7 +113,6 @@ const CircleShape = ({ children, circle }) => {
       console.log("error", error);
     }
   };
-  // console.log("shapeId", shapeId);
 
   const handleClickOutside = (e) => {
     if (
@@ -132,6 +157,7 @@ const CircleShape = ({ children, circle }) => {
         onClick={() => handleShowToggleForm(circle._id)}
         tabIndex={0}
         onFocus={toggleShapeForm}
+        circle={circle}
       >
         <div className="handle circle-name" style={handleStyle}>
           {circle.name}

@@ -39,8 +39,8 @@ const DisplayLayouts = () => {
   useEffect(() => {
     setLayoutId(null);
     setLayoutDetails(null);
-    setCircles(null);
-    setSquares(null);
+    setCircles([]);
+    setSquares([]);
   }, []);
 
   useEffect(() => {

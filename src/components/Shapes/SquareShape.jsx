@@ -7,11 +7,10 @@ import { editShapes } from "../../services/shape.service";
 
 const StyledSquare = styled.div`
   position: absolute;
-  width: ${({ width }) => (width ? width : "100")}px;
-  height: ${({ height }) => (height ? height : "100")}px;
-  background-color: ${({ backgroundColor }) =>
-    backgroundColor ? backgroundColor : "#000"};
-  border: ${({ borderSize }) => (borderSize ? borderSize : 3)}px solid black;
+  width: ${(props) => props.square?.width}px;
+  height: ${(props) => props.square?.height}px;
+  background-color: ${(props) => props.square?.backgroundColor};
+  border: ${(props) => props.square?.borderSize}px solid black;
   max-width: 100%;
   max-height: 100%;
   text-align: center;
@@ -24,8 +23,6 @@ const SquareShape = ({ children, square }) => {
   const [newPositionSquare, setNewPositionSquare] = useState({
     x: 0,
     y: 0,
-    width: square.width,
-    height: square.height,
   });
   const {
     showInput,
@@ -37,7 +34,8 @@ const SquareShape = ({ children, square }) => {
     shapeId,
     setShowShapeForm,
     setShapeEdited,
-    setSquares
+    squares,
+    setSquares,
   } = useContext(ShapeContext);
   const [hasMoved, setHasMoved] = useState(false);
 
@@ -58,6 +56,7 @@ const SquareShape = ({ children, square }) => {
 
   const updateShape = debounce((shapeId, body) => {
     editShapes(shapeId, body);
+    console.log("debounce working");
   }, 250);
 
   useEffect(() => {
@@ -65,15 +64,19 @@ const SquareShape = ({ children, square }) => {
       for (let entry of entries) {
         const { width } = entry.contentRect;
         const { height } = entry.contentRect;
-        // console.log(`Square Width: ${width}px`);
-        // console.log(`Square Heigth: ${height}px`);
-        setNewPositionSquare((prev) => ({
-          ...prev,
-          width: width,
-          height: height,
-        }));
+        if (width || height) {
+          updateShape(square._id, { width, height });
+        }
 
-        updateShape(square._id, { width, height });
+        setSquares((prevSquares) => {
+          return prevSquares.map((sq) => {
+            if (sq._id === square._id) {
+              // Actualiza solo el square que ha sido redimensionado
+              return { ...sq, width, height };
+            }
+            return sq; // Retorna los que no han cambiado
+          });
+        });
       }
     });
 
@@ -100,7 +103,7 @@ const SquareShape = ({ children, square }) => {
     const newPosition = { x, y };
     setHasMoved(true);
     setNewPositionSquare({ x, y });
-    console.log(newPosition);
+    // console.log(newPosition);
   };
 
   const handleEditShape = async (shapeId, body) => {
@@ -109,10 +112,9 @@ const SquareShape = ({ children, square }) => {
       console.log("Edited Shape:", response);
       console.log("Line 59 - Body:", body);
       // setShapeEdited(true);
-      setSquares(prev => {
-        return prev.map(square => {
+      setSquares((prev) => {
+        return prev.map((square) => {
           if (square._id === shapeId) {
-        
             return response.shape;
           } else {
             return square;
@@ -169,7 +171,11 @@ const SquareShape = ({ children, square }) => {
         ref={squareRef}
         onDoubleClick={handleShowInput}
         tabIndex={1}
-        onClick={() => handleShowToggleForm(square._id)}
+        onClick={() => {
+          handleShowToggleForm(square._id);
+          console.log(square);
+        }}
+        square={square}
       >
         <div className="handle" style={handleStyle}></div>
 
