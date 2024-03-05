@@ -2103,7 +2103,7 @@ button:hover {
 }
 
 .shape-label-input > input {
-  width: 50%;
+  width: 80%;
   font-family: var(--primary--font);
   
 }
@@ -2128,4 +2128,38 @@ button:hover {
   display: flex;
   flex-direction: column;
   justify-content: center;
+}
+
+/* Shape Tools */
+
+.checkmark {
+  background-image: url(/check.png);
+  background-size: 90%;
+  background-repeat: no-repeat;
+  background-position: center;
+  width: 45px;
+  height: 45px;
+  cursor: pointer;
+}
+
+.checkmark:hover {
+  box-shadow: 0px 5px 0px var(--black);
+  width: 40px;
+  height: 40px;
+}
+
+.xmark {
+  background-image: url(/delete.png);
+  background-size: 90%;
+  background-repeat: no-repeat;
+  background-position: center;
+  width: 45px;
+  height: 45px;
+  cursor: pointer;
+}
+
+.xmark:hover {
+  box-shadow: 0px 5px 0px var(--black);
+  width: 40px;
+  height: 40px;
 }

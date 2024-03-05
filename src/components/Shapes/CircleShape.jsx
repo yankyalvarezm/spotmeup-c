@@ -7,9 +7,8 @@ import { editShapes } from "../../services/shape.service";
 const StyledCircle = styled.div`
   width: ${(prop) => prop.circle?.width}px;
   height: ${(prop) => prop.circle?.height}px;
-  border-radius: ${(prop) => prop.circle?.borderRadius  || 50}%;
-  background-color: ${(prop) =>
-    prop.circle?.backgroundColor};
+  border-radius: ${(prop) => prop.circle?.borderRadius || 50}%;
+  background-color: ${(prop) => prop.circle?.backgroundColor};
   border: ${(prop) => prop.circle?.borderSize}px solid black;
   resize: both;
   overflow: hidden;
@@ -29,11 +28,11 @@ const CircleShape = ({ children, circle }) => {
     setShapeId,
     setShowShapeForm,
     setCircles,
-    shapeId
+    shapeId,
+    getShape
   } = useContext(ShapeContext);
 
   const [hasMoved, setHasMoved] = useState(false);
-
 
   function debounce(fn, delay) {
     let timeoutID = null;
@@ -64,7 +63,7 @@ const CircleShape = ({ children, circle }) => {
             if (cr._id === circle._id) {
               return { ...cr, width, height };
             }
-            return cr; 
+            return cr;
           });
         });
       }
@@ -84,7 +83,7 @@ const CircleShape = ({ children, circle }) => {
   const handleStyle = {
     width: "100%",
     height: "80%",
-    backgroundColor: "black",
+    backgroundColor: circle.backgroundColor,
     cursor: "grab",
   };
 
@@ -136,6 +135,7 @@ const CircleShape = ({ children, circle }) => {
   const handleShowToggleForm = (shapeId) => {
     setShowShapeForm(true);
     setShapeId(shapeId);
+    getShape()
     console.log("shapeId:", shapeId);
   };
 

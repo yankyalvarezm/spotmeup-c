@@ -36,6 +36,7 @@ const SquareShape = ({ children, square }) => {
     setShapeEdited,
     squares,
     setSquares,
+    getShape,
   } = useContext(ShapeContext);
   const [hasMoved, setHasMoved] = useState(false);
 
@@ -143,6 +144,7 @@ const SquareShape = ({ children, square }) => {
   const handleShowToggleForm = (shapeId) => {
     setShowShapeForm(true);
     setShapeId(shapeId);
+    getShape();
   };
 
   useEffect(() => {

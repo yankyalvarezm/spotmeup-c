@@ -14,6 +14,7 @@ const ShapesTools = () => {
     setCircles,
     setSquares,
     showShapeForm,
+    setShowShapeForm,
     shapeForm,
     shapeId,
     setShapeDeleted,
@@ -21,7 +22,7 @@ const ShapesTools = () => {
     toggleShapeForm,
     shapeAdded,
     setShapeAdded,
-    squares
+    squares,
   } = useContext(ShapeContext);
 
   const param = useParams();
@@ -34,8 +35,8 @@ const ShapesTools = () => {
     width: 100,
     height: 100,
     borderSize: 1,
-    color: "",
-    backgroundColor: "",
+    backgroundColor: "black",
+    color: "white",
     x: 0,
     y: 0,
   });
@@ -108,6 +109,15 @@ const ShapesTools = () => {
     e.preventDefault();
   };
 
+  const handleInputChange = (e) => {
+    const { field, value } = e.target;
+
+    setShapeBody((prev) => ({
+      ...prev,
+      [field]: value,
+    }));
+  };
+
   return (
     <>
       <div
@@ -145,24 +155,57 @@ const ShapesTools = () => {
           <div className="shape-form-fields-container">
             <div className="shape-label-input">
               <label htmlFor="height">Heigth</label>
-              <input type="text" name="height" />
+              <input
+                type="text"
+                name="height"
+                onChange={handleInputChange}
+                value={shapeBody.height}
+              />
+            </div>
+
+            <div className="shape-label-input">
+              <label htmlFor="width">Width</label>
+              <input
+                type="text"
+                name="width"
+                onChange={handleInputChange}
+                value={shapeBody.width}
+              />
             </div>
 
             <div className="shape-label-input">
               <label htmlFor="borderSize">borderSize</label>
-              <input type="text" name="borderSize" />
+              <input
+                type="text"
+                name="borderSize"
+                onChange={handleInputChange}
+                value={shapeBody.borderSize}
+              />
             </div>
 
             <div className="shape-label-input">
               <label htmlFor="color">Color</label>
-              <input type="text" name="color" />
+              <input
+                type="text"
+                name="color"
+                onChange={handleInputChange}
+                value={shapeBody.color}
+              />
             </div>
 
             <div className="shape-label-input">
               <label htmlFor="backgroundColor">backgroundColor</label>
-              <input type="text" name="backgroundColor" />
+              <input
+                type="text"
+                name="backgroundColor"
+                onChange={handleInputChange}
+                value={shapeBody.backgroundColor}
+              />
             </div>
           </div>
+
+          <div className="checkmark"></div>
+          <div className="xmark" onClick={() => setShowShapeForm(false)}></div>
 
           <div>
             <button onClick={() => deleteTheShape(shapeId)}>Delete</button>
