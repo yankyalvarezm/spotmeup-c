@@ -23,6 +23,7 @@ const ShapesTools = () => {
     shapeAdded,
     setShapeAdded,
     squares,
+    circles,
   } = useContext(ShapeContext);
 
   const param = useParams();
@@ -42,6 +43,7 @@ const ShapesTools = () => {
   });
 
   const [showShapes, setShowShapes] = useState(false);
+  
 
   const toggleShowShapes = () => {
     setShowShapes((prev) => !prev);
@@ -109,13 +111,26 @@ const ShapesTools = () => {
     e.preventDefault();
   };
 
-  const handleInputChange = (e) => {
-    const { field, value } = e.target;
+  const currentShape = [...circles, ...squares].find(
+    (shape) => shape._id === shapeId
+  );
 
-    setShapeBody((prev) => ({
-      ...prev,
-      [field]: value,
-    }));
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+
+    if (currentShape.shapeType.toLowerCase() === "circle") {
+      setCircles((prevCircles) =>
+        prevCircles.map((circle) =>
+          circle._id === shapeId ? { ...circle, [name]: value } : circle
+        )
+      );
+    } else if (currentShape.shapeType.toLowerCase() === "square") {
+      setSquares((prevSquares) =>
+        prevSquares.map((square) =>
+          square._id === shapeId ? { ...square, [name]: value } : square
+        )
+      );
+    }
   };
 
   return (
@@ -156,30 +171,30 @@ const ShapesTools = () => {
             <div className="shape-label-input">
               <label htmlFor="height">Heigth</label>
               <input
-                type="text"
+                type="number"
                 name="height"
                 onChange={handleInputChange}
-                value={shapeBody.height}
+                value={currentShape?.height}
               />
             </div>
 
             <div className="shape-label-input">
               <label htmlFor="width">Width</label>
               <input
-                type="text"
+                type="number"
                 name="width"
                 onChange={handleInputChange}
-                value={shapeBody.width}
+                value={currentShape?.width}
               />
             </div>
 
             <div className="shape-label-input">
               <label htmlFor="borderSize">borderSize</label>
               <input
-                type="text"
+                type="number"
                 name="borderSize"
                 onChange={handleInputChange}
-                value={shapeBody.borderSize}
+                value={currentShape?.borderSize}
               />
             </div>
 
@@ -189,7 +204,7 @@ const ShapesTools = () => {
                 type="text"
                 name="color"
                 onChange={handleInputChange}
-                value={shapeBody.color}
+                value={currentShape?.color}
               />
             </div>
 
@@ -199,7 +214,7 @@ const ShapesTools = () => {
                 type="text"
                 name="backgroundColor"
                 onChange={handleInputChange}
-                value={shapeBody.backgroundColor}
+                value={currentShape?.backgroundColor}
               />
             </div>
           </div>
