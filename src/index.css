@@ -2094,7 +2094,9 @@ button:hover {
 }
 
 .shape-form-fields-container {
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 1rem;
 }
 
 .shape-label-input {
@@ -2162,4 +2164,151 @@ button:hover {
   box-shadow: 0px 5px 0px var(--black);
   width: 40px;
   height: 40px;
+}
+
+.handle {
+  color: white;
+  font-family: var(--primary--font);
+  display: flex;
+}
+
+.justify-content-input  {
+  display: flex;
+  justify-content: center;
+}
+
+.justify-content-input > input {
+  width: 10%;
+}
+
+.justify-left {
+  background-image: url(/left-indent.png);
+  background-size: 100%;
+  background-repeat: no-repeat;
+  background-position: center;
+  width: 30px;
+  height: 30px;
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
+  box-shadow: none;
+  margin-top: 0.5rem;
+}
+
+.justify-center {
+  background-image: url(/center-indent.png);
+  background-size: 100%;
+  background-repeat: no-repeat;
+  background-position: center;
+  width: 30px;
+  height: 30px;
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
+  box-shadow: none;
+  margin-top: 0.5rem;
+
+}
+
+.justify-right {
+  background-image: url(/right-indent.png);
+  background-size: 100%;
+  background-repeat: no-repeat;
+  background-position: center;
+  width: 30px;
+  height: 30px;
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
+  box-shadow: none;
+  margin-top: 0.5rem;
+}
+
+.justify-left:hover {
+  width: 34px;
+  height: 34px;
+  box-shadow: none;
+}
+
+.justify-center:hover {
+  width: 34px;
+  height: 34px;
+  box-shadow: none;
+}
+
+.justify-right:hover {
+  width: 34px;
+  height: 34px;
+  box-shadow: none;
+}
+
+.justify-content-title {
+  white-space: nowrap;
+  color: var(--black);
+  margin-bottom: 0rem;
+  text-align: center;
+}
+
+.square-shape:focus {
+  box-shadow: 0px 0px 8px var(--black);
+}
+
+.align-left {
+  background-image: url(/align-top.png);
+  background-size: 100%;
+  background-repeat: no-repeat;
+  background-position: center;
+  width: 30px;
+  height: 30px;
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
+  box-shadow: none;
+  margin-top: 0.5rem;
+}
+
+.align-center {
+  background-image: url(/align-center.png);
+  background-size: 100%;
+  background-repeat: no-repeat;
+  background-position: center;
+  width: 30px;
+  height: 30px;
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
+  box-shadow: none;
+  margin-top: 0.5rem;
+}
+
+.align-right {
+  background-image: url(/align-bottom.png);
+  background-size: 100%;
+  background-repeat: no-repeat;
+  background-position: center;
+  width: 30px;
+  height: 30px;
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
+  box-shadow: none;
+  margin-top: 0.5rem;
+}
+
+.align-left:hover {
+  width: 34px;
+  height: 34px;
+  box-shadow: none;
+}
+
+.align-center:hover {
+  width: 34px;
+  height: 34px;
+  box-shadow: none;
+}
+
+.align-right:hover {
+  width: 34px;
+  height: 34px;
+  box-shadow: none;
 }

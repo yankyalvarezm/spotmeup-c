@@ -10,7 +10,8 @@ const StyledSquare = styled.div`
   width: ${(props) => props.square?.width}px;
   height: ${(props) => props.square?.height}px;
   background-color: ${(props) => props.square?.backgroundColor};
-  border: ${(props) => props.square?.borderSize}px solid black;
+  border: ${(props) => props.square?.borderSize}px solid
+    ${(props) => props.square?.borderColor};
   max-width: 100%;
   max-height: 100%;
   text-align: center;
@@ -94,8 +95,11 @@ const SquareShape = ({ children, square }) => {
   const handleStyle = {
     width: "100%",
     height: "80%",
-    backgroundColor: "black",
+    backgroundColor: square.backgroundColor,
     cursor: "grab",
+    color: square.color,
+    justifyContent: square.justifyContent,
+    alignItems: square.alignItems,
   };
 
   const handleDrag = (e, ui) => {
@@ -169,7 +173,6 @@ const SquareShape = ({ children, square }) => {
     >
       <StyledSquare
         ref={squareRef}
-        onDoubleClick={handleShowInput}
         tabIndex={1}
         onClick={() => {
           handleShowToggleForm(square._id);
@@ -178,7 +181,9 @@ const SquareShape = ({ children, square }) => {
         square={square}
         className="square-shape"
       >
-        <div className="handle" style={handleStyle}></div>
+        <div className="handle" style={handleStyle}>
+          {square?.name}
+        </div>
 
         {children}
       </StyledSquare>

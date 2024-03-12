@@ -2,7 +2,11 @@ import React, { useContext, useEffect, useState } from "react";
 import { handleInputChange } from "../../services/tools.service";
 import { ShapeContext } from "../../context/shape.context";
 import { useParams } from "react-router-dom";
-import { createShape, deleteShape } from "../../services/shape.service";
+import {
+  createShape,
+  deleteShape,
+  editShapes,
+} from "../../services/shape.service";
 // import { FloatingLabel, Form } from "react-bootstrap";
 
 // import FloatingLabel from "react-bootstrap";
@@ -36,8 +40,11 @@ const ShapesTools = () => {
     width: 100,
     height: 100,
     borderSize: 1,
+    borderColor: "black",
     backgroundColor: "black",
     color: "white",
+    justifyContent: "",
+    alignItems: "",
     x: 0,
     y: 0,
   });
@@ -114,22 +121,88 @@ const ShapesTools = () => {
     (shape) => shape._id === shapeId
   );
 
+  function debounce(fn, delay) {
+    let timeoutID = null;
+    return function (...args) {
+      clearTimeout(timeoutID);
+      timeoutID = setTimeout(() => {
+        fn(...args);
+      }, delay);
+    };
+  }
+
+  const updateShape = debounce((shapeId, body) => {
+    editShapes(shapeId, body);
+    console.log("Tools debounce working");
+  }, 500);
+
   const handleInputChange = (e) => {
     const { name, value } = e.target;
+    let updatedShape = {};
 
     if (currentShape.shapeType.toLowerCase() === "circle") {
+      updatedShape = { ...currentShape, [name]: value };
       setCircles((prevCircles) =>
         prevCircles.map((circle) =>
-          circle._id === shapeId ? { ...circle, [name]: value } : circle
+          circle._id === shapeId ? updatedShape : circle
         )
       );
     } else if (currentShape.shapeType.toLowerCase() === "square") {
+      updatedShape = { ...currentShape, [name]: value };
       setSquares((prevSquares) =>
         prevSquares.map((square) =>
-          square._id === shapeId ? { ...square, [name]: value } : square
+          square._id === shapeId ? updatedShape : square
         )
       );
     }
+
+    if (name !== "height" && name !== "width") {
+      updateShape(shapeId, updatedShape);
+    }
+  };
+
+  const updateJustifyContent = (justifyValue) => {
+    let updatedShape = {};
+
+    if (currentShape.shapeType.toLowerCase() === "circle") {
+      updatedShape = { ...currentShape, justifyContent: justifyValue };
+      setCircles((prevCircles) =>
+        prevCircles.map((circle) =>
+          circle._id === shapeId ? updatedShape : circle
+        )
+      );
+    } else if (currentShape.shapeType.toLowerCase() === "square") {
+      updatedShape = { ...currentShape, justifyContent: justifyValue };
+      setSquares((prevSquares) =>
+        prevSquares.map((square) =>
+          square._id === shapeId ? updatedShape : square
+        )
+      );
+    }
+
+    updateShape(shapeId, updatedShape);
+  };
+
+  const updateAlignItems = (alignValue) => {
+    let updatedShape = {};
+
+    if (currentShape.shapeType.toLowerCase() === "circle") {
+      updatedShape = { ...currentShape, alignItems: alignValue };
+      setCircles((prevCircles) =>
+        prevCircles.map((circle) =>
+          circle._id === shapeId ? updatedShape : circle
+        )
+      );
+    } else if (currentShape.shapeType.toLowerCase() === "square") {
+      updatedShape = { ...currentShape, alignItems: alignValue };
+      setSquares((prevSquares) =>
+        prevSquares.map((square) =>
+          square._id === shapeId ? updatedShape : square
+        )
+      );
+    }
+
+    updateShape(shapeId, updatedShape);
   };
 
   useEffect(() => {
@@ -186,6 +259,15 @@ const ShapesTools = () => {
         >
           <div className="shape-form-fields-container">
             <div className="shape-label-input">
+              <label htmlFor="name">Name</label>
+              <input
+                type="text"
+                name="name"
+                onChange={handleInputChange}
+                value={currentShape?.name}
+              />
+            </div>
+            <div className="shape-label-input">
               <label htmlFor="height">Heigth</label>
               <input
                 type="number"
@@ -216,6 +298,16 @@ const ShapesTools = () => {
             </div>
 
             <div className="shape-label-input">
+              <label htmlFor="borderColor">borderColor</label>
+              <input
+                type="text"
+                name="borderColor"
+                onChange={handleInputChange}
+                value={currentShape?.borderColor}
+              />
+            </div>
+
+            <div className="shape-label-input">
               <label htmlFor="color">Color</label>
               <input
                 type="text"
@@ -233,6 +325,54 @@ const ShapesTools = () => {
                 onChange={handleInputChange}
                 value={currentShape?.backgroundColor}
               />
+            </div>
+
+            <div className="shape-label-input">
+              <p className="justify-content-title">Justify Content</p>
+              <div className="justify-content-input">
+                <button
+                  type="text"
+                  className="justify-left"
+                  name="justifyContent"
+                  onClick={() => updateJustifyContent("flex-start")}
+                />
+                <button
+                  type="text"
+                  className="justify-center"
+                  name="justifyContent"
+                  onClick={() => updateJustifyContent("center")}
+                />
+                <button
+                  type="text"
+                  className="justify-right"
+                  name="justifyContent"
+                  onClick={() => updateJustifyContent("flex-end")}
+                />
+              </div>
+            </div>
+
+            <div className="shape-label-input">
+              <p className="justify-content-title">Align Items</p>
+              <div className="justify-content-input">
+                <button
+                  type="text"
+                  className="align-left"
+                  name="alignItems"
+                  onClick={() => updateAlignItems("flex-start")}
+                />
+                <button
+                  type="text"
+                  className="align-center"
+                  name="alignItems"
+                  onClick={() => updateAlignItems("center")}
+                />
+                <button
+                  type="text"
+                  className="align-right"
+                  name="alignItems"
+                  onClick={() => updateAlignItems("flex-end")}
+                />
+              </div>
             </div>
           </div>
 
