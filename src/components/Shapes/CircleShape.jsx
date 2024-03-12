@@ -29,7 +29,7 @@ const CircleShape = ({ children, circle }) => {
     setShowShapeForm,
     setCircles,
     shapeId,
-    getShape
+    getShape,
   } = useContext(ShapeContext);
 
   const [hasMoved, setHasMoved] = useState(false);
@@ -54,18 +54,18 @@ const CircleShape = ({ children, circle }) => {
       for (let entry of entries) {
         const { width, height } = entry.contentRect;
 
-        if (width || height) {
+        if (width && height) {
           updateShape(circle._id, { width, height });
-        }
 
-        setCircles((prevSquares) => {
-          return prevSquares.map((cr) => {
-            if (cr._id === circle._id) {
-              return { ...cr, width, height };
-            }
-            return cr;
+          setCircles((prevCircles) => {
+            return prevCircles.map((cr) => {
+              if (cr._id === circle._id) {
+                return { ...cr, width, height };
+              }
+              return cr;
+            });
           });
-        });
+        }
       }
     });
 
@@ -135,7 +135,7 @@ const CircleShape = ({ children, circle }) => {
   const handleShowToggleForm = (shapeId) => {
     setShowShapeForm(true);
     setShapeId(shapeId);
-    getShape()
+    getShape();
     console.log("shapeId:", shapeId);
   };
 
@@ -158,6 +158,7 @@ const CircleShape = ({ children, circle }) => {
         tabIndex={0}
         onFocus={toggleShapeForm}
         circle={circle}
+        className="circle-shape"
       >
         <div className="handle circle-name" style={handleStyle}>
           {circle.name}

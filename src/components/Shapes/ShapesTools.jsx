@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { handleInputChange } from "../../services/tools.service";
 import { ShapeContext } from "../../context/shape.context";
 import { useParams } from "react-router-dom";
@@ -43,7 +43,6 @@ const ShapesTools = () => {
   });
 
   const [showShapes, setShowShapes] = useState(false);
-  
 
   const toggleShowShapes = () => {
     setShowShapes((prev) => !prev);
@@ -132,6 +131,24 @@ const ShapesTools = () => {
       );
     }
   };
+
+  useEffect(() => {
+    if (currentShape?.shapeType.toLowerCase() === "circle") {
+      let remove = document.getElementsByClassName("circle-shape");
+
+      for (let i = 0; i < circles.length; i++) {
+        remove[i].style.removeProperty("height");
+        remove[i].style.removeProperty("width");
+      }
+    } else if (currentShape?.shapeType.toLowerCase() === "square") {
+      let remove = document.getElementsByClassName("square-shape");
+
+      for (let i = 0; i < squares.length; i++) {
+        remove[i].style.removeProperty("height");
+        remove[i].style.removeProperty("width");
+      }
+    }
+  }, [currentShape]);
 
   return (
     <>

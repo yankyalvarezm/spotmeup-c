@@ -65,19 +65,18 @@ const SquareShape = ({ children, square }) => {
       for (let entry of entries) {
         const { width } = entry.contentRect;
         const { height } = entry.contentRect;
-        if (width || height) {
+        if (width && height) {
           updateShape(square._id, { width, height });
-        }
 
-        setSquares((prevSquares) => {
-          return prevSquares.map((sq) => {
-            if (sq._id === square._id) {
-              // Actualiza solo el square que ha sido redimensionado
-              return { ...sq, width, height };
-            }
-            return sq; // Retorna los que no han cambiado
+          setSquares((prevSquares) => {
+            return prevSquares.map((sq) => {
+              if (sq._id === square._id) {
+                return { ...sq, width, height };
+              }
+              return sq;
+            });
           });
-        });
+        }
       }
     });
 
@@ -90,7 +89,7 @@ const SquareShape = ({ children, square }) => {
         resizeObserver.unobserve(squareRef.current);
       }
     };
-  }, [square._id]);
+  }, []);
 
   const handleStyle = {
     width: "100%",
@@ -104,7 +103,6 @@ const SquareShape = ({ children, square }) => {
     const newPosition = { x, y };
     setHasMoved(true);
     setNewPositionSquare({ x, y });
-    // console.log(newPosition);
   };
 
   const handleEditShape = async (shapeId, body) => {
@@ -178,6 +176,7 @@ const SquareShape = ({ children, square }) => {
           console.log(square);
         }}
         square={square}
+        className="square-shape"
       >
         <div className="handle" style={handleStyle}></div>
 
