@@ -10,13 +10,15 @@ const StyledCircle = styled.div`
   border-radius: ${(prop) => prop.circle?.borderRadius || 50}%;
   background-color: ${(prop) => prop.circle?.backgroundColor};
   border: ${(prop) => prop.circle?.borderSize}px solid black;
-  resize: both;
-  overflow: hidden;
+  max-width: 100%;
+  max-height: 100%;
   position: absolute;
+  text-align: center;
   transform: translate(
     ${(props) => props.circle?.x}px,
     ${(props) => props.circle?.y}px
   );
+  ${(props) => (props.resize ? "resize:both; overflow: hidden;" : "")}
 `;
 
 const CircleShape = ({ children, circle }) => {
@@ -34,6 +36,7 @@ const CircleShape = ({ children, circle }) => {
     setCircles,
     shapeId,
     getShape,
+    showShapeForm
   } = useContext(ShapeContext);
 
   const [hasMoved, setHasMoved] = useState(false);
@@ -85,10 +88,14 @@ const CircleShape = ({ children, circle }) => {
   }, []);
 
   const handleStyle = {
-    width: "100%",
-    height: "80%",
+    width: circle.width,
+    height: circle.height,
     backgroundColor: circle.backgroundColor,
     cursor: "grab",
+    color: circle.color,
+    justifyContent: circle.justifyContent,
+    alignItems: circle.alignItems,
+    borderRadius: "50%",
   };
 
   const handleDrag = (e, ui) => {
@@ -131,9 +138,9 @@ const CircleShape = ({ children, circle }) => {
   };
 
   useEffect(() => {
-    document.addEventListener("mousedown", handleClickOutside);
+    document.addEventListener("mouseup", handleClickOutside);
 
-    return () => document.removeEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mouseup", handleClickOutside);
   }, []);
 
   const handleShowToggleForm = (shapeId) => {
@@ -163,6 +170,7 @@ const CircleShape = ({ children, circle }) => {
         onFocus={toggleShapeForm}
         circle={circle}
         className="circle-shape"
+        resize={showShapeForm}
       >
         <div className="handle circle-name" style={handleStyle}>
           {circle.name}

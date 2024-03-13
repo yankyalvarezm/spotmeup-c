@@ -40,6 +40,14 @@ const ShapesTools = () => {
     width: 100,
     height: 100,
     borderSize: 1,
+    borderLeftSize: 0,
+    borderLeftColor: "",
+    borderRightSize: 0,
+    borderRightColor: "",
+    borderBottomSize: 0,
+    borderBottomColor: "",
+    borderTopSize: 0,
+    borderTopColor: "",
     borderColor: "black",
     backgroundColor: "black",
     color: "white",
@@ -47,6 +55,7 @@ const ShapesTools = () => {
     alignItems: "",
     x: 0,
     y: 0,
+    fontSize: 15,
   });
 
   const [showShapes, setShowShapes] = useState(false);
@@ -154,6 +163,38 @@ const ShapesTools = () => {
           square._id === shapeId ? updatedShape : square
         )
       );
+      if (name === "borderSize") {
+        updatedShape = {
+          ...updatedShape,
+          borderLeftSize: value,
+          borderRightSize: value,
+          borderBottomSize: value,
+          borderTopSize: value,
+        };
+        setSquares((prevSquares) =>
+          prevSquares.map((square) =>
+            square._id === shapeId ? updatedShape : square
+          )
+        );
+
+        updateShape(shapeId, updatedShape);
+      }
+      if (name === "borderColor") {
+        updatedShape = {
+          ...updatedShape,
+          borderLeftColor: value,
+          borderRightColor: value,
+          borderBottomColor: value,
+          borderTopColor: value,
+        };
+        setSquares((prevSquares) =>
+          prevSquares.map((square) =>
+            square._id === shapeId ? updatedShape : square
+          )
+        );
+
+        updateShape(shapeId, updatedShape);
+      }
     }
 
     if (name !== "height" && name !== "width") {
@@ -179,7 +220,7 @@ const ShapesTools = () => {
     let updatedShape = {};
 
     if (currentShape.shapeType.toLowerCase() === "circle") {
-      updatedShape = { ...currentShape, justifyContent: justifyValue };
+      updatedShape = { ...currentShape, alignItems: justifyValue };
       setCircles((prevCircles) =>
         prevCircles.map((circle) =>
           circle._id === shapeId ? updatedShape : circle
@@ -201,7 +242,7 @@ const ShapesTools = () => {
     let updatedShape = {};
 
     if (currentShape.shapeType.toLowerCase() === "circle") {
-      updatedShape = { ...currentShape, alignItems: alignValue };
+      updatedShape = { ...currentShape, justifyContent: alignValue };
       setCircles((prevCircles) =>
         prevCircles.map((circle) =>
           circle._id === shapeId ? updatedShape : circle
@@ -272,15 +313,9 @@ const ShapesTools = () => {
           onSubmit={handleFormSubmit}
         >
           <div className="shape-form-fields-container">
-            <div className="shape-label-input">
-              <label htmlFor="name">Name</label>
-              <input
-                type="text"
-                name="name"
-                onChange={handleInputChange}
-                value={currentShape?.name}
-              />
-            </div>
+            {/* <div> */}
+            <h1 className="text-input-title">Size</h1>
+
             <div className="shape-label-input">
               <label htmlFor="height">Heigth</label>
               <input
@@ -320,24 +355,27 @@ const ShapesTools = () => {
                 value={currentShape?.y}
               />
             </div>
+            {/* </div> */}
 
             <div className="shape-label-input">
-              <label htmlFor="borderSize">borderSize</label>
+              <label htmlFor="backgroundColor">backgroundColor</label>
               <input
-                type="number"
-                name="borderSize"
+                type="text"
+                name="backgroundColor"
                 onChange={handleInputChange}
-                value={currentShape?.borderSize}
+                value={currentShape?.backgroundColor}
               />
             </div>
 
+            <h1 className="text-input-title">Font</h1>
+
             <div className="shape-label-input">
-              <label htmlFor="borderColor">borderColor</label>
+              <label htmlFor="name">Name</label>
               <input
                 type="text"
-                name="borderColor"
+                name="name"
                 onChange={handleInputChange}
-                value={currentShape?.borderColor}
+                value={currentShape?.name}
               />
             </div>
 
@@ -352,12 +390,12 @@ const ShapesTools = () => {
             </div>
 
             <div className="shape-label-input">
-              <label htmlFor="backgroundColor">backgroundColor</label>
+              <label htmlFor="fontSize">Size</label>
               <input
-                type="text"
-                name="backgroundColor"
+                type="number"
+                name="fontSize"
                 onChange={handleInputChange}
-                value={currentShape?.backgroundColor}
+                value={currentShape?.fontSize}
               />
             </div>
 
@@ -408,10 +446,117 @@ const ShapesTools = () => {
                 />
               </div>
             </div>
+
+            <h1 className="text-input-border">Border</h1>
+            <h1 className="text-input-border-left">Border Left</h1>
+            <h1 className="text-input-border-right">Border Right</h1>
+
+            <div className="shape-label-input">
+              <label htmlFor="borderSize">borderSize</label>
+              <input
+                type="number"
+                name="borderSize"
+                onChange={handleInputChange}
+                value={currentShape?.borderSize}
+              />
+            </div>
+
+            <div className="shape-label-input">
+              <label htmlFor="borderColor">borderColor</label>
+              <input
+                type="text"
+                name="borderColor"
+                onChange={handleInputChange}
+                value={currentShape?.borderColor}
+              />
+            </div>
+
+            <div className="shape-label-input">
+              <label htmlFor="borderLeftSize">borderLeftSize</label>
+              <input
+                type="number"
+                name="borderLeftSize"
+                onChange={handleInputChange}
+                value={currentShape?.borderLeftSize}
+              />
+            </div>
+
+            <div className="shape-label-input">
+              <label htmlFor="borderLeftColor">borderLeftColor</label>
+              <input
+                type="text"
+                name="borderLeftColor"
+                onChange={handleInputChange}
+                value={currentShape?.borderLeftColor}
+              />
+            </div>
+
+            <div className="shape-label-input">
+              <label htmlFor="borderRightSize">borderRightSize</label>
+              <input
+                type="number"
+                name="borderRightSize"
+                onChange={handleInputChange}
+                value={currentShape?.borderRightSize}
+              />
+            </div>
+            <h1 className="text-input-border-right-2">Border Right</h1>
+            <h1 className="text-input-border-bottom">Border Bottom</h1>
+            <h1 className="text-input-border-top">Border Top</h1>
+
+            <div className="shape-label-input">
+              <label htmlFor="borderRightColor">borderRightColor</label>
+              <input
+                type="text"
+                name="borderRightColor"
+                onChange={handleInputChange}
+                value={currentShape?.borderRightColor}
+              />
+            </div>
+
+            <div className="shape-label-input">
+              <label htmlFor="borderBottomSize">borderBottomSize</label>
+              <input
+                type="number"
+                name="borderBottomSize"
+                onChange={handleInputChange}
+                value={currentShape?.borderBottomSize}
+              />
+            </div>
+
+            <div className="shape-label-input">
+              <label htmlFor="borderBottomColor">borderBottomColor</label>
+              <input
+                type="text"
+                name="borderBottomColor"
+                onChange={handleInputChange}
+                value={currentShape?.borderBottomColor}
+              />
+            </div>
+
+            <div className="shape-label-input">
+              <label htmlFor="borderTopSize">borderTopSize</label>
+              <input
+                type="number"
+                name="borderTopSize"
+                onChange={handleInputChange}
+                value={currentShape?.borderTopSize}
+              />
+            </div>
+
+            <div className="shape-label-input">
+              <label htmlFor="borderTopColor">borderTopColor</label>
+              <input
+                type="text"
+                name="borderTopColor"
+                onChange={handleInputChange}
+                value={currentShape?.borderTopColor}
+              />
+            </div>
           </div>
 
-          <div className="checkmark"></div>
-          <div className="xmark" onClick={() => setShowShapeForm(false)}></div>
+          {/* <div className="checkmark"></div> */}
+          {/* <div className="xmark" onClick={() => setShowShapeForm(false)}></div> */}
 
           <div>
             <button onClick={() => deleteTheShape(shapeId)}>Delete</button>

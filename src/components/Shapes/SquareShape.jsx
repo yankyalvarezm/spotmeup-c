@@ -10,12 +10,25 @@ const StyledSquare = styled.div`
   width: ${(props) => props.square?.width}px;
   height: ${(props) => props.square?.height}px;
   background-color: ${(props) => props.square?.backgroundColor};
-  border: ${(props) => props.square?.borderSize}px solid
-    ${(props) => props.square?.borderColor};
+  /* border: ${(props) => props.square?.borderSize}px solid
+    ${(props) => props.square?.borderColor}; */
+  border-left: ${(props) =>
+      props.square?.borderLeftSize ? props.square?.borderLeftSize : props.square?.borderSize}px
+    solid
+    ${(props) =>
+      props.square?.borderLeftColor
+        ? props.square?.borderLeftColor
+        : props.square?.borderColor};
+  border-right: ${(props) => props.square?.borderRightSize ? props.square?.borderRightSize: props.square?.borderSize}px solid
+    ${(props) => props.square?.borderRightColor ? props.square?.borderRightColor: props.square?.borderColor};
+  border-bottom: ${(props) => props.square?.borderBottomSize? props.square?.borderBottomSize: props.square?.borderSize}px solid
+    ${(props) => props.square?.borderBottomColor ? props.square?.borderBottomColor : props.square?.borderColor};
+  border-top: ${(props) => props.square?.borderTopSize? props.square?.borderTopSize: props.square?.borderSize}px solid
+    ${(props) => props.square?.borderTopColor? props.square?.borderTopColor: props.square?.borderColor};
   max-width: 100%;
   max-height: 100%;
   text-align: center;
-  ${(props) => props.resize? "resize:both; overflow: hidden;" : ""}
+  ${(props) => (props.resize ? "resize:both; overflow: hidden;" : "")}
   transform: translate(
     ${(props) => props.square?.x}px,
     ${(props) => props.square?.y}px
@@ -103,6 +116,7 @@ const SquareShape = ({ children, square }) => {
     color: square.color,
     justifyContent: square.justifyContent,
     alignItems: square.alignItems,
+    fontSize: `${square.fontSize}px`,
   };
 
   const handleDrag = (e, ui) => {
@@ -132,8 +146,6 @@ const SquareShape = ({ children, square }) => {
     }
   };
 
-  // console.log("shapeId", shapeId);
-
   const handleClickOutside = (e) => {
     if (
       squareRef.current &&
@@ -142,9 +154,12 @@ const SquareShape = ({ children, square }) => {
       !shapeForm.current.contains(e.target)
     ) {
       setShowShapeForm(false);
+
       setShapeId(null);
     }
   };
+
+  console.log("handleClickOutside:", showShapeForm);
 
   const handleShowToggleForm = (shapeId) => {
     setShowShapeForm(true);
@@ -153,16 +168,20 @@ const SquareShape = ({ children, square }) => {
   };
 
   useEffect(() => {
-    document.addEventListener("mousedown", handleClickOutside);
+    document.addEventListener("mouseup", handleClickOutside);
 
-    return () => document.removeEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mouseup", handleClickOutside);
   }, []);
 
   return (
     <Draggable
       bounds="parent"
       handle=".handle"
-      onDrag={(e, ui) => handleDrag(e, ui)}
+      onDrag={(e, ui) => {
+        handleDrag(e, ui);
+        console.log("onDrag - showShapeForm:", showShapeForm);
+        console.log("onDrag - shapeId:", shapeId);
+      }}
       defaultPosition={{
         x: square.x,
         y: square.y,
@@ -171,6 +190,8 @@ const SquareShape = ({ children, square }) => {
         if (hasMoved) {
           handleEditShape(square._id, newPositionSquare);
           setHasMoved(false);
+          console.log("onStop - showShapeForm:", showShapeForm);
+          console.log("onStop - shapeId:", shapeId);
         }
       }}
     >
@@ -179,13 +200,21 @@ const SquareShape = ({ children, square }) => {
         tabIndex={1}
         onClick={() => {
           handleShowToggleForm(square._id);
-          console.log(square);
+          // console.log(square);
         }}
         square={square}
         className="square-shape"
-        resize={true}
+        resize={showShapeForm}
       >
-        <div className="handle" style={handleStyle}>
+        <div
+          className="handle"
+          style={handleStyle}
+          onClick={() => {
+            console.log("onClick handleStyles - showShapeForm:", showShapeForm);
+
+            console.log("onClick handleStyles - shapeId:", shapeId);
+          }}
+        >
           {square?.name}
         </div>
 
