@@ -15,8 +15,11 @@ const StyledSquare = styled.div`
   max-width: 100%;
   max-height: 100%;
   text-align: center;
-  resize: both;
-  overflow: hidden;
+  ${(props) => props.resize? "resize:both; overflow: hidden;" : ""}
+  transform: translate(
+    ${(props) => props.square?.x}px,
+    ${(props) => props.square?.y}px
+  );
 `;
 
 const SquareShape = ({ children, square }) => {
@@ -180,6 +183,7 @@ const SquareShape = ({ children, square }) => {
         }}
         square={square}
         className="square-shape"
+        resize={true}
       >
         <div className="handle" style={handleStyle}>
           {square?.name}

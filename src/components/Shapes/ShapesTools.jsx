@@ -159,6 +159,20 @@ const ShapesTools = () => {
     if (name !== "height" && name !== "width") {
       updateShape(shapeId, updatedShape);
     }
+
+    if (currentShape?.shapeType.toLowerCase() === "circle") {
+      let remove = document.getElementsByClassName("circle-shape");
+
+      for (let i = 0; i < circles.length; i++) {
+        remove[i].style.removeProperty("transform");
+      }
+    } else if (currentShape?.shapeType.toLowerCase() === "square") {
+      let remove = document.getElementsByClassName("square-shape");
+
+      for (let i = 0; i < squares.length; i++) {
+        remove[i].style.removeProperty("transform");
+      }
+    }
   };
 
   const updateJustifyContent = (justifyValue) => {
@@ -284,6 +298,26 @@ const ShapesTools = () => {
                 name="width"
                 onChange={handleInputChange}
                 value={currentShape?.width}
+              />
+            </div>
+
+            <div className="shape-label-input">
+              <label htmlFor="height">X-Axis</label>
+              <input
+                type="number"
+                name="x"
+                onChange={handleInputChange}
+                value={currentShape?.x}
+              />
+            </div>
+
+            <div className="shape-label-input">
+              <label htmlFor="width">Y-Axis</label>
+              <input
+                type="number"
+                name="y"
+                onChange={handleInputChange}
+                value={currentShape?.y}
               />
             </div>
 

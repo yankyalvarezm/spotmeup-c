@@ -13,6 +13,10 @@ const StyledCircle = styled.div`
   resize: both;
   overflow: hidden;
   position: absolute;
+  transform: translate(
+    ${(props) => props.circle?.x}px,
+    ${(props) => props.circle?.y}px
+  );
 `;
 
 const CircleShape = ({ children, circle }) => {
