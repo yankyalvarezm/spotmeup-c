@@ -2408,3 +2408,56 @@ button:hover {
   text-align: center;
   margin-top: 1rem;
 }
+
+.red-container {
+  /* width: 280px; */
+  /* height: 280px; */
+  /* margin-top: 20rem; */
+  /* border: 2px solid black; */
+  /* margin-left: 10rem; */
+  /* align-items: center; */
+  /* background-color: red; */
+  /* clip-path: path("M 0 0 Q 140 230 280 0 L 280 280 L 0 280 Z"); */
+  /* position: relative; */
+  /* border-radius: 10px; */
+}
+
+.dot-drag {
+  /* position: absolute;
+  background-color: greenyellow;
+  width: 20px;
+  height: 20px;
+  top: calc(230px / 2);
+  left: 130px;
+  cursor: grab; */
+  color: black;
+  font-family: var(--primary--font);
+  text-align: center;
+}
+
+.red {
+  color: black;
+  font-size: 30px;
+}
+
+/* .red-container::after {
+  content: '';
+  position: absolute;
+  width: 5px; 
+  height: 280px; 
+  top: 0;
+  right: 0;
+  cursor: col-resize; 
+  background-color: black;
+} */
+
+/* .red-container::before {
+  content: '';
+  position: absolute;
+  width: 5px; 
+  height: 280px; 
+  top: 0;
+  left: 0;
+  cursor: col-resize; 
+  background-color: black;
+} */
