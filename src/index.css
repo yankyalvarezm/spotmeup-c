@@ -2409,7 +2409,7 @@ button:hover {
   margin-top: 1rem;
 }
 
-.red-container {
+/* .red-container { */
   /* width: 280px; */
   /* height: 280px; */
   /* margin-top: 20rem; */
@@ -2420,7 +2420,7 @@ button:hover {
   /* clip-path: path("M 0 0 Q 140 230 280 0 L 280 280 L 0 280 Z"); */
   /* position: relative; */
   /* border-radius: 10px; */
-}
+/* } */
 
 .dot-drag {
   /* position: absolute;
