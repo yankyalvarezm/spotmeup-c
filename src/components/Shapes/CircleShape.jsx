@@ -9,7 +9,44 @@ const StyledCircle = styled.div`
   height: ${(prop) => prop.circle?.width}px;
   border-radius: ${(prop) => prop.circle?.borderRadius || 50}%;
   background-color: ${(prop) => prop.circle?.backgroundColor};
-  border: ${(prop) => prop.circle?.borderSize}px solid ${(prop) => prop.circle?.borderColor};
+  // border: ${(prop) => prop.circle?.borderSize}px solid
+  //   ${(prop) => prop.circle?.borderColor};
+  border-left: ${(props) =>
+      props.circle?.borderLeftSize
+        ? props.circle?.borderLeftSize
+        : props.circle?.borderSize}px
+    solid
+    ${(props) =>
+      props.circle?.borderLeftColor
+        ? props.circle?.borderLeftColor
+        : props.circle?.borderColor};
+  border-right: ${(props) =>
+      props.circle?.borderRightSize
+        ? props.circle?.borderRightSize
+        : props.circle?.borderSize}px
+    solid
+    ${(props) =>
+      props.circle?.borderRightColor
+        ? props.circle?.borderRightColor
+        : props.circle?.borderColor};
+  border-bottom: ${(props) =>
+      props.circle?.borderBottomSize
+        ? props.circle?.borderBottomSize
+        : props.circle?.borderSize}px
+    solid
+    ${(props) =>
+      props.circle?.borderBottomColor
+        ? props.circle?.borderBottomColor
+        : props.circle?.borderColor};
+  border-top: ${(props) =>
+      props.circle?.borderTopSize
+        ? props.circle?.borderTopSize
+        : props.circle?.borderSize}px
+    solid
+    ${(props) =>
+      props.circle?.borderTopColor
+        ? props.circle?.borderTopColor
+        : props.circle?.borderColor};
   max-width: 100%;
   max-height: 100%;
   position: absolute;
@@ -35,8 +72,7 @@ const CircleShape = ({ children, circle }) => {
     setShowShapeForm,
     setCircles,
     shapeId,
-    getShape,
-    showShapeForm
+    showShapeForm,
   } = useContext(ShapeContext);
 
   const [hasMoved, setHasMoved] = useState(false);
@@ -118,7 +154,6 @@ const CircleShape = ({ children, circle }) => {
           }
         });
       });
-      // setShapeEdited(true)
     } catch (error) {
       console.log("error", error);
     }
@@ -146,8 +181,6 @@ const CircleShape = ({ children, circle }) => {
   const handleShowToggleForm = (shapeId) => {
     setShowShapeForm(true);
     setShapeId(shapeId);
-    getShape();
-    console.log("shapeId:", shapeId);
   };
 
   return (

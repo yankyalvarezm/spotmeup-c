@@ -69,7 +69,7 @@ const LayoutTools = ({ children }) => {
   const handleSaveLayout = async () => {
     try {
       const response = await editLayout(param.layoutIdParam, layoutBody);
-      console.log("response after debounce", response);
+      // console.log("response after debounce", response);
       if (response.success) {
         setSuccessMessage(response.message);
       }

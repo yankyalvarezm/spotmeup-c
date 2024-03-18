@@ -121,7 +121,6 @@ const SquareShape = ({ children, square }) => {
 
   const handleDrag = (e, ui) => {
     const { x, y } = ui;
-    const newPosition = { x, y };
     setHasMoved(true);
     setNewPositionSquare({ x, y });
   };
@@ -159,12 +158,11 @@ const SquareShape = ({ children, square }) => {
     }
   };
 
-  console.log("handleClickOutside:", showShapeForm);
+  // console.log("handleClickOutside:", showShapeForm);
 
   const handleShowToggleForm = (shapeId) => {
     setShowShapeForm(true);
     setShapeId(shapeId);
-    getShape();
   };
 
   useEffect(() => {
@@ -200,7 +198,6 @@ const SquareShape = ({ children, square }) => {
         tabIndex={1}
         onClick={() => {
           handleShowToggleForm(square._id);
-          // console.log(square);
         }}
         square={square}
         className="square-shape"

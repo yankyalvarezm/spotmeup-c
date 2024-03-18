@@ -39,8 +39,6 @@ const AddShape = () => {
   return (
     <div className={showShapes ? "showshapes-false" : "shape-tools-container"}>
       <h1 className="shape-tools-title">Add New Shape</h1>
-
-     
           <div className="shape-content">
             <div
               className="shape-cirlce"
@@ -51,9 +49,6 @@ const AddShape = () => {
               onClick={() => addSquare(param.layoutIdParam, shapeBody)}
             ></div>
           </div>
-
-          
-       
     </div>
   );
 };

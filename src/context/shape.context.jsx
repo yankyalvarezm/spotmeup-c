@@ -1,7 +1,5 @@
 import React, {
   createContext,
-  useContext,
-  useEffect,
   useState,
   useRef,
 } from "react";
@@ -12,7 +10,6 @@ const ShapeContext = createContext();
 function ShapeProvider({ children }) {
   const [column, setColumn] = useState(3);
   const [circleCount, setCircleCount] = useState(0);
-  const [allShapes, setAllShapes] = useState([]);
   const [circles, setCircles] = useState([]);
   const [squares, setSquares] = useState([]);
   const [squareCount, setSquareCount] = useState(0);
@@ -39,19 +36,12 @@ function ShapeProvider({ children }) {
           (shape) =>
             shape.shapeType === "Square" || shape.shapeType === "square"
         );
-        setAllShapes(response.shapes);
         setCircles(circleFilter);
         setSquares(squareFilter);
       }
     } catch (error) {
       console.error("error:", error);
     }
-  };
-
-  const getShape = () => {
-    const selectedShape = allShapes.filter((shape) => shape._id === shapeId);
-    console.log("Selected Shape:", selectedShape);
-    return selectedShape;
   };
 
   const toggleShapeForm = () => {
