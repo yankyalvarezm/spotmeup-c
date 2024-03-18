@@ -22,26 +22,26 @@ const EditModal = () => {
   }, [layoutId]);
 
   return (
-    <div>
+    <div className="design-big-container">
       <button onClick={goBack} className="goback-btn-design">
         Go Back
       </button>
+      <div className="tools-title">
+        <div className="design-container">
+          <div className="design-header-container">
+            <h1 id="design-layout-title">
+              {layoutDetails && layoutDetails.name}
+            </h1>
+          </div>
 
-      <div className="design-container">
-        <div className="design-header-container">
-          <h1 id="design-layout-title">
-            {layoutDetails && layoutDetails.name}
-          </h1>
+          <div className="design-main-content">
+            <LayoutContent>
+              <DisplayShapes />
+            </LayoutContent>
+          </div>
         </div>
-
-        <div className="design-main-content">
-          <LayoutContent>
-            <DisplayShapes />
-          </LayoutContent>
-
-          <LayoutTools />
-          <ShapesTools />
-        </div>
+        <ShapesTools />
+        <LayoutTools />
       </div>
     </div>
   );

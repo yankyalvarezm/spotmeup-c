@@ -31,6 +31,69 @@ const ShapesTools = () => {
   } = useContext(ShapeContext);
 
   const param = useParams();
+  const [dropDownOne, setDropDownOne] = useState(false);
+  const [dropDownTwo, setDropDownTwo] = useState(false);
+  const [dropDownThree, setDropDownThree] = useState(false);
+  const [dropDownFour, setDropDownFour] = useState(false);
+
+  const handleDropOne = () => {
+    setDropDownOne((prev) => !prev);
+
+    if (dropDownTwo) {
+      setDropDownTwo(false);
+    } else if (dropDownThree) {
+      setDropDownThree(false);
+    } else if (dropDownFour) {
+      setDropDownFour(false);
+    }
+  };
+
+  const handleDropTwo = () => {
+    setDropDownTwo((prev) => !prev);
+
+    if (dropDownOne) {
+      setDropDownOne(false);
+    } else if (dropDownThree) {
+      setDropDownThree(false);
+    } else if (dropDownFour) {
+      setDropDownFour(false);
+    }
+  };
+
+  const handleDropThree = () => {
+    setDropDownThree((prev) => !prev);
+
+    if (dropDownOne) {
+      setDropDownOne(false);
+    } else if (dropDownTwo) {
+      setDropDownTwo(false);
+    } else if (dropDownThree) {
+      setDropDownFour(false);
+    }
+  };
+
+  const handleDropFour = () => {
+    setDropDownFour((prev) => !prev);
+  };
+
+  // useEffect(()=> {
+  //   if(dropDownTwo || dropDownThree || dropDownFour){
+  //     setDropDownOne(false)
+  //   }
+
+  //   if(dropDownOne || dropDownThree || dropDownFour ) {
+  //     setDropDownTwo(false)
+  //   }
+
+  //   if(dropDownOne || dropDownTwo || dropDownFour ) {
+  //     setDropDownThree(false)
+  //   }
+
+  //   if(dropDownOne || dropDownTwo || dropDownThree ) {
+  //     setDropDownFour(false)
+  //   }
+
+  // }, [dropDownOne, dropDownTwo, dropDownThree, dropDownFour])
 
   //   console.log("param", param);
 
@@ -312,254 +375,268 @@ const ShapesTools = () => {
           ref={shapeForm}
           onSubmit={handleFormSubmit}
         >
-          <div className="shape-form-fields-container">
-            {/* <div> */}
-            <h1 className="text-input-title">Size</h1>
-
-            <div className="shape-label-input">
-              <label htmlFor="height">Heigth</label>
-              <input
-                type="number"
-                name="height"
-                onChange={handleInputChange}
-                value={currentShape?.height}
-              />
-            </div>
-
-            <div className="shape-label-input">
-              <label htmlFor="width">Width</label>
-              <input
-                type="number"
-                name="width"
-                onChange={handleInputChange}
-                value={currentShape?.width}
-              />
-            </div>
-
-            <div className="shape-label-input">
-              <label htmlFor="height">X-Axis</label>
-              <input
-                type="number"
-                name="x"
-                onChange={handleInputChange}
-                value={currentShape?.x}
-              />
-            </div>
-
-            <div className="shape-label-input">
-              <label htmlFor="width">Y-Axis</label>
-              <input
-                type="number"
-                name="y"
-                onChange={handleInputChange}
-                value={currentShape?.y}
-              />
-            </div>
-            {/* </div> */}
-
-            <div className="shape-label-input">
-              <label htmlFor="backgroundColor">backgroundColor</label>
-              <input
-                type="text"
-                name="backgroundColor"
-                onChange={handleInputChange}
-                value={currentShape?.backgroundColor}
-              />
-            </div>
-
-            <h1 className="text-input-title">Font</h1>
-
-            <div className="shape-label-input">
-              <label htmlFor="name">Name</label>
-              <input
-                type="text"
-                name="name"
-                onChange={handleInputChange}
-                value={currentShape?.name}
-              />
-            </div>
-
-            <div className="shape-label-input">
-              <label htmlFor="color">Color</label>
-              <input
-                type="text"
-                name="color"
-                onChange={handleInputChange}
-                value={currentShape?.color}
-              />
-            </div>
-
-            <div className="shape-label-input">
-              <label htmlFor="fontSize">Size</label>
-              <input
-                type="number"
-                name="fontSize"
-                onChange={handleInputChange}
-                value={currentShape?.fontSize}
-              />
-            </div>
-
-            <div className="shape-label-input">
-              <p className="justify-content-title">Justify Content</p>
-              <div className="justify-content-input">
-                <button
-                  type="text"
-                  className="justify-left"
-                  name="justifyContent"
-                  onClick={() => updateJustifyContent("flex-start")}
-                />
-                <button
-                  type="text"
-                  className="justify-center"
-                  name="justifyContent"
-                  onClick={() => updateJustifyContent("center")}
-                />
-                <button
-                  type="text"
-                  className="justify-right"
-                  name="justifyContent"
-                  onClick={() => updateJustifyContent("flex-end")}
-                />
+          <div>
+            <h1 className="form-title">Shape Tools</h1>
+            <div className="shape-form-fields-container">
+              {/* ----------------------- Field #1 ----------------------- */}
+              <div className="dropdown-container" onClick={handleDropOne}>
+                <h1 className="text-input-title">Size & Color</h1>
+                <div className={dropDownOne ? "down-arrow" : "up-arrow"}></div>
               </div>
-            </div>
+              <div className={dropDownOne ? "show-dropdown" : "hide-dropdown"}>
+                <div className="shape-label-input">
+                  <label htmlFor="height">Heigth</label>
+                  <input
+                    type="number"
+                    name="height"
+                    onChange={handleInputChange}
+                    value={currentShape?.height}
+                  />
+                </div>
 
-            <div className="shape-label-input">
-              <p className="justify-content-title">Align Items</p>
-              <div className="justify-content-input">
-                <button
-                  type="text"
-                  className="align-left"
-                  name="alignItems"
-                  onClick={() => updateAlignItems("flex-start")}
-                />
-                <button
-                  type="text"
-                  className="align-center"
-                  name="alignItems"
-                  onClick={() => updateAlignItems("center")}
-                />
-                <button
-                  type="text"
-                  className="align-right"
-                  name="alignItems"
-                  onClick={() => updateAlignItems("flex-end")}
-                />
+                <div className="shape-label-input">
+                  <label htmlFor="width">Width</label>
+                  <input
+                    type="number"
+                    name="width"
+                    onChange={handleInputChange}
+                    value={currentShape?.width}
+                  />
+                </div>
+
+                <div className="shape-label-input">
+                  <label htmlFor="height">X-Axis</label>
+                  <input
+                    type="number"
+                    name="x"
+                    onChange={handleInputChange}
+                    value={currentShape?.x}
+                  />
+                </div>
+
+                <div className="shape-label-input">
+                  <label htmlFor="width">Y-Axis</label>
+                  <input
+                    type="number"
+                    name="y"
+                    onChange={handleInputChange}
+                    value={currentShape?.y}
+                  />
+                </div>
+
+                <div className="shape-label-input">
+                  <label htmlFor="backgroundColor">backgroundColor</label>
+                  <input
+                    type="text"
+                    name="backgroundColor"
+                    onChange={handleInputChange}
+                    value={currentShape?.backgroundColor}
+                  />
+                </div>
               </div>
-            </div>
 
-            <h1 className="text-input-border">Border</h1>
-            <h1 className="text-input-border-left">Border Left</h1>
-            <h1 className="text-input-border-right">Border Right</h1>
+              {/* ----------------------- Field #2 ----------------------- */}
+              <div className="dropdown-container" onClick={handleDropTwo}>
+                <h1 className="text-input-title">Font</h1>
+                <div className={dropDownTwo ? "down-arrow" : "up-arrow"}></div>
+              </div>
+              <div className={dropDownTwo ? "" : "hide-dropdown"}>
+                <div className="shape-label-input">
+                  <label htmlFor="name">Name</label>
+                  <input
+                    type="text"
+                    name="name"
+                    onChange={handleInputChange}
+                    value={currentShape?.name}
+                  />
+                </div>
 
-            <div className="shape-label-input">
-              <label htmlFor="borderSize">borderSize</label>
-              <input
-                type="number"
-                name="borderSize"
-                onChange={handleInputChange}
-                value={currentShape?.borderSize}
-              />
-            </div>
+                <div className="shape-label-input">
+                  <label htmlFor="color">Color</label>
+                  <input
+                    type="text"
+                    name="color"
+                    onChange={handleInputChange}
+                    value={currentShape?.color}
+                  />
+                </div>
 
-            <div className="shape-label-input">
-              <label htmlFor="borderColor">borderColor</label>
-              <input
-                type="text"
-                name="borderColor"
-                onChange={handleInputChange}
-                value={currentShape?.borderColor}
-              />
-            </div>
+                <div className="shape-label-input">
+                  <label htmlFor="fontSize">Size</label>
+                  <input
+                    type="number"
+                    name="fontSize"
+                    onChange={handleInputChange}
+                    value={currentShape?.fontSize}
+                  />
+                </div>
 
-            <div className="shape-label-input">
-              <label htmlFor="borderLeftSize">borderLeftSize</label>
-              <input
-                type="number"
-                name="borderLeftSize"
-                onChange={handleInputChange}
-                value={currentShape?.borderLeftSize}
-              />
-            </div>
+                <div className="shape-label-input">
+                  <p className="justify-content-title">Justify Content</p>
+                  <div className="justify-content-input">
+                    <button
+                      type="text"
+                      className="justify-left"
+                      name="justifyContent"
+                      onClick={() => updateJustifyContent("flex-start")}
+                    />
+                    <button
+                      type="text"
+                      className="justify-center"
+                      name="justifyContent"
+                      onClick={() => updateJustifyContent("center")}
+                    />
+                    <button
+                      type="text"
+                      className="justify-right"
+                      name="justifyContent"
+                      onClick={() => updateJustifyContent("flex-end")}
+                    />
+                  </div>
+                </div>
 
-            <div className="shape-label-input">
-              <label htmlFor="borderLeftColor">borderLeftColor</label>
-              <input
-                type="text"
-                name="borderLeftColor"
-                onChange={handleInputChange}
-                value={currentShape?.borderLeftColor}
-              />
-            </div>
+                <div className="shape-label-input">
+                  <p className="justify-content-title">Align Items</p>
+                  <div className="justify-content-input">
+                    <button
+                      type="text"
+                      className="align-left"
+                      name="alignItems"
+                      onClick={() => updateAlignItems("flex-start")}
+                    />
+                    <button
+                      type="text"
+                      className="align-center"
+                      name="alignItems"
+                      onClick={() => updateAlignItems("center")}
+                    />
+                    <button
+                      type="text"
+                      className="align-right"
+                      name="alignItems"
+                      onClick={() => updateAlignItems("flex-end")}
+                    />
+                  </div>
+                </div>
+              </div>
 
-            <div className="shape-label-input">
-              <label htmlFor="borderRightSize">borderRightSize</label>
-              <input
-                type="number"
-                name="borderRightSize"
-                onChange={handleInputChange}
-                value={currentShape?.borderRightSize}
-              />
-            </div>
-            <h1 className="text-input-border-right-2">Border Right</h1>
-            <h1 className="text-input-border-bottom">Border Bottom</h1>
-            <h1 className="text-input-border-top">Border Top</h1>
+              {/* ----------------------- Field #3 ----------------------- */}
 
-            <div className="shape-label-input">
-              <label htmlFor="borderRightColor">borderRightColor</label>
-              <input
-                type="text"
-                name="borderRightColor"
-                onChange={handleInputChange}
-                value={currentShape?.borderRightColor}
-              />
-            </div>
+              <div className="dropdown-container" onClick={handleDropThree}>
+                <h1 className="text-input-title">Border</h1>
+                <div
+                  className={dropDownThree ? "down-arrow" : "up-arrow"}
+                ></div>
+              </div>
 
-            <div className="shape-label-input">
-              <label htmlFor="borderBottomSize">borderBottomSize</label>
-              <input
-                type="number"
-                name="borderBottomSize"
-                onChange={handleInputChange}
-                value={currentShape?.borderBottomSize}
-              />
-            </div>
+              <div className={dropDownThree ? "" : "hide-dropdown"}>
+                <div className="shape-label-input">
+                  <label htmlFor="borderSize">borderSize</label>
+                  <input
+                    type="number"
+                    name="borderSize"
+                    onChange={handleInputChange}
+                    value={currentShape?.borderSize}
+                  />
+                </div>
 
-            <div className="shape-label-input">
-              <label htmlFor="borderBottomColor">borderBottomColor</label>
-              <input
-                type="text"
-                name="borderBottomColor"
-                onChange={handleInputChange}
-                value={currentShape?.borderBottomColor}
-              />
-            </div>
+                <div className="shape-label-input">
+                  <label htmlFor="borderColor">borderColor</label>
+                  <input
+                    type="text"
+                    name="borderColor"
+                    onChange={handleInputChange}
+                    value={currentShape?.borderColor}
+                  />
+                </div>
 
-            <div className="shape-label-input">
-              <label htmlFor="borderTopSize">borderTopSize</label>
-              <input
-                type="number"
-                name="borderTopSize"
-                onChange={handleInputChange}
-                value={currentShape?.borderTopSize}
-              />
-            </div>
+                <div className="shape-label-input">
+                  <label htmlFor="borderLeftSize">borderLeftSize</label>
+                  <input
+                    type="number"
+                    name="borderLeftSize"
+                    onChange={handleInputChange}
+                    value={currentShape?.borderLeftSize}
+                  />
+                </div>
 
-            <div className="shape-label-input">
-              <label htmlFor="borderTopColor">borderTopColor</label>
-              <input
-                type="text"
-                name="borderTopColor"
-                onChange={handleInputChange}
-                value={currentShape?.borderTopColor}
-              />
+                <div className="shape-label-input">
+                  <label htmlFor="borderLeftColor">borderLeftColor</label>
+                  <input
+                    type="text"
+                    name="borderLeftColor"
+                    onChange={handleInputChange}
+                    value={currentShape?.borderLeftColor}
+                  />
+                </div>
+
+                <div className="shape-label-input">
+                  <label htmlFor="borderRightSize">borderRightSize</label>
+                  <input
+                    type="number"
+                    name="borderRightSize"
+                    onChange={handleInputChange}
+                    value={currentShape?.borderRightSize}
+                  />
+                </div>
+
+                <div className="shape-label-input">
+                  <label htmlFor="borderRightColor">borderRightColor</label>
+                  <input
+                    type="text"
+                    name="borderRightColor"
+                    onChange={handleInputChange}
+                    value={currentShape?.borderRightColor}
+                  />
+                </div>
+
+                <div className="shape-label-input">
+                  <label htmlFor="borderBottomSize">borderBottomSize</label>
+                  <input
+                    type="number"
+                    name="borderBottomSize"
+                    onChange={handleInputChange}
+                    value={currentShape?.borderBottomSize}
+                  />
+                </div>
+
+                <div className="shape-label-input">
+                  <label htmlFor="borderBottomColor">borderBottomColor</label>
+                  <input
+                    type="text"
+                    name="borderBottomColor"
+                    onChange={handleInputChange}
+                    value={currentShape?.borderBottomColor}
+                  />
+                </div>
+
+                <div className="shape-label-input">
+                  <label htmlFor="borderTopSize">borderTopSize</label>
+                  <input
+                    type="number"
+                    name="borderTopSize"
+                    onChange={handleInputChange}
+                    value={currentShape?.borderTopSize}
+                  />
+                </div>
+
+                <div className="shape-label-input">
+                  <label htmlFor="borderTopColor">borderTopColor</label>
+                  <input
+                    type="text"
+                    name="borderTopColor"
+                    onChange={handleInputChange}
+                    value={currentShape?.borderTopColor}
+                  />
+                </div>
+              </div>
             </div>
           </div>
 
-          {/* <div className="checkmark"></div> */}
-          {/* <div className="xmark" onClick={() => setShowShapeForm(false)}></div> */}
+          {/* -------------------- Delete Div --------------------------- */}
 
-          <div>
-            <button onClick={() => deleteTheShape(shapeId)}>Delete</button>
+          <div className="delete-shape-form">
+            <button onClick={() => deleteTheShape(shapeId)} className="delete-shape-form-button">Delete</button>
           </div>
         </form>
       )}

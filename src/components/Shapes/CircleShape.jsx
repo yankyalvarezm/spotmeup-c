@@ -6,10 +6,10 @@ import { editShapes } from "../../services/shape.service";
 
 const StyledCircle = styled.div`
   width: ${(prop) => prop.circle?.width}px;
-  height: ${(prop) => prop.circle?.height}px;
+  height: ${(prop) => prop.circle?.width}px;
   border-radius: ${(prop) => prop.circle?.borderRadius || 50}%;
   background-color: ${(prop) => prop.circle?.backgroundColor};
-  border: ${(prop) => prop.circle?.borderSize}px solid black;
+  border: ${(prop) => prop.circle?.borderSize}px solid ${(prop) => prop.circle?.borderColor};
   max-width: 100%;
   max-height: 100%;
   position: absolute;
@@ -18,7 +18,7 @@ const StyledCircle = styled.div`
     ${(props) => props.circle?.x}px,
     ${(props) => props.circle?.y}px
   );
-  ${(props) => (props.resize ? "resize:both; overflow: hidden;" : "")}
+  ${(props) => (props.resize ? "resize: horizontal; overflow: hidden;" : "")}
 `;
 
 const CircleShape = ({ children, circle }) => {

@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect } from "react";
+import React, { useContext, useState, useEffect, useCallback } from "react";
 import { LayoutContext } from "../../context/layout.context";
 import { editLayout } from "../../services/layout.service";
 import { useParams } from "react-router-dom";
@@ -31,21 +31,47 @@ const LayoutTools = () => {
     setHasChanged(false);
   }, [layoutDetails]);
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
+  function debounce(func, wait) {
+    let timeout;
 
-    setLayoutBody((prevLayoutBody) => ({
-      ...prevLayoutBody,
-      [name]: value,
-    }));
-    setHasChanged(true);
-  };
+    return function executedFunction(...args) {
+      const later = () => {
+        clearTimeout(timeout);
+        func(...args);
+      };
 
-  const handleSaveLayout = async (e) => {
-    e.preventDefault();
+      clearTimeout(timeout);
+      timeout = setTimeout(later, wait);
+    };
+  }
+
+  // const handleSaveLayout = async () => {
+    
+  //   try {
+  //     const response = await editLayout(param.layoutIdParam, layoutBody);
+  //     console.log("response after debounce", response);
+  //     if (response.success) {
+  //       setSuccessMessage(response.message);
+  //     }
+
+  //     setTimeout(() => {
+  //       setSuccessMessage(null);
+  //     }, 2000);
+
+  //     setHasChanged(false);
+  //   } catch (error) {
+  //     console.log("The error:", error);
+  //     setNotSuccessMessage(error.response.message);
+  //     setTimeout(() => {
+  //       setNotSuccessMessage(null);
+  //     }, 2000);
+  //   }
+  // };
+
+  const handleSaveLayoutDebounced = useCallback(debounce(async () => {
     try {
       const response = await editLayout(param.layoutIdParam, layoutBody);
-      console.log("response", response);
+      console.log("response after debounce", response);
       if (response.success) {
         setSuccessMessage(response.message);
       }
@@ -62,11 +88,28 @@ const LayoutTools = () => {
         setNotSuccessMessage(null);
       }, 2000);
     }
+  }, 1000), [layoutBody])
+
+  // const handleSaveLayoutDebounced = debounce(handleSaveLayout, 4000);
+
+  
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+
+    setLayoutBody((prevLayoutBody) => ({
+      ...prevLayoutBody,
+      [name]: value,
+    }));
+    setHasChanged(true);
+    handleSaveLayoutDebounced()
   };
+
+ 
 
   return (
     <>
-      <form className="layout-tools-container" onSubmit={handleSaveLayout}>
+      <form className="layout-tools-container">
         <h1 className="layout-tools-title">Layout Tools</h1>
         <div className="layout-tools-content-container">
           <div className="layout-tools-content">
@@ -140,12 +183,6 @@ const LayoutTools = () => {
           </div>
         </div>
 
-        {hasChanged && (
-        <button className="layout-tools-savechanges" type="submit">
-          Save Changes
-        </button>
-      )}
-
         {successMessage && (
           <h1 className="layout-tools-success">{successMessage}</h1>
         )}
@@ -153,8 +190,6 @@ const LayoutTools = () => {
           <h1 className="layout-tools-Notsuccess">{notSuccessMessage}</h1>
         )}
       </form>
-
-      
     </>
   );
 };
