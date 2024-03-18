@@ -1,17 +1,12 @@
 import React, { useContext, useEffect, useState } from "react";
 import { handleInputChange } from "../../services/tools.service";
 import { ShapeContext } from "../../context/shape.context";
-import { useParams } from "react-router-dom";
+
 import {
   createShape,
   deleteShape,
   editShapes,
 } from "../../services/shape.service";
-// import { FloatingLabel, Form } from "react-bootstrap";
-
-// import FloatingLabel from "react-bootstrap";
-import { Form, FloatingLabel } from "react-bootstrap";
-// import  from "react-bootstrap";
 
 const ShapesTools = () => {
   const {
@@ -30,7 +25,6 @@ const ShapesTools = () => {
     circles,
   } = useContext(ShapeContext);
 
-  const param = useParams();
   const [dropDownOne, setDropDownOne] = useState(false);
   const [dropDownTwo, setDropDownTwo] = useState(false);
   const [dropDownThree, setDropDownThree] = useState(false);
@@ -76,97 +70,13 @@ const ShapesTools = () => {
     setDropDownFour((prev) => !prev);
   };
 
-  // useEffect(()=> {
-  //   if(dropDownTwo || dropDownThree || dropDownFour){
-  //     setDropDownOne(false)
-  //   }
+  const [selectedBorder, setSelectedBorder] = useState("border");
 
-  //   if(dropDownOne || dropDownThree || dropDownFour ) {
-  //     setDropDownTwo(false)
-  //   }
-
-  //   if(dropDownOne || dropDownTwo || dropDownFour ) {
-  //     setDropDownThree(false)
-  //   }
-
-  //   if(dropDownOne || dropDownTwo || dropDownThree ) {
-  //     setDropDownFour(false)
-  //   }
-
-  // }, [dropDownOne, dropDownTwo, dropDownThree, dropDownFour])
-
-  //   console.log("param", param);
-
-  const [shapeBody, setShapeBody] = useState({
-    shapeType: "circle",
-    name: "",
-    width: 100,
-    height: 100,
-    borderSize: 1,
-    borderLeftSize: 0,
-    borderLeftColor: "",
-    borderRightSize: 0,
-    borderRightColor: "",
-    borderBottomSize: 0,
-    borderBottomColor: "",
-    borderTopSize: 0,
-    borderTopColor: "",
-    borderColor: "black",
-    backgroundColor: "black",
-    color: "white",
-    justifyContent: "",
-    alignItems: "",
-    x: 0,
-    y: 0,
-    fontSize: 15,
-  });
-
-  const [showShapes, setShowShapes] = useState(false);
-
-  const toggleShowShapes = () => {
-    setShowShapes((prev) => !prev);
+  const changeBorder = (e) => {
+    setSelectedBorder(e.target.value);
   };
 
-  const addCircle = async (layoutId, body) => {
-    setShowShapes((prev) => !prev);
-
-    body.shapeType = "Circle";
-
-    try {
-      const response = await createShape(layoutId, body);
-
-      if (response.success) {
-        setCircles((prev) => [...prev, response.shape]);
-      }
-
-      console.log("Shape Response:", response);
-    } catch (error) {
-      console.log("error:", error);
-    }
-  };
-
-  const addSquare = async (layoutId, body) => {
-    setShowShapes((prev) => !prev);
-
-    body.shapeType = "Square";
-
-    try {
-      const response = await createShape(layoutId, body);
-
-      if (response.success) {
-        if (squares) {
-          setSquares((prev) => [...prev, response.shape]);
-          setShapeAdded(true);
-        } else {
-          setSquares([response.shape]);
-        }
-      }
-
-      console.log("Shape Response:", response);
-    } catch (error) {
-      console.log("error:", error);
-    }
-  };
+  console.log("selectedBorder:", selectedBorder);
 
   const deleteTheShape = async (shapeId) => {
     try {
@@ -343,32 +253,6 @@ const ShapesTools = () => {
 
   return (
     <>
-      <div
-        className={showShapes ? "showshapes-false" : "shape-tools-container"}
-      >
-        <h1 className="shape-tools-title">Shape Tools</h1>
-
-        {showShapes ? (
-          <>
-            <div className="shape-content">
-              <div
-                className="shape-cirlce"
-                onClick={() => addCircle(param.layoutIdParam, shapeBody)}
-              ></div>
-              <div
-                className="shape-square"
-                onClick={() => addSquare(param.layoutIdParam, shapeBody)}
-              ></div>
-            </div>
-
-            <button onClick={toggleShowShapes} className="shape-discard">
-              Discard
-            </button>
-          </>
-        ) : (
-          <button onClick={toggleShowShapes}>Add New Shape</button>
-        )}
-      </div>
       {showShapeForm && (
         <form
           className="shape-form-container"
@@ -379,100 +263,154 @@ const ShapesTools = () => {
             <h1 className="form-title">Shape Tools</h1>
             <div className="shape-form-fields-container">
               {/* ----------------------- Field #1 ----------------------- */}
-              <div className="dropdown-container" onClick={handleDropOne}>
-                <h1 className="text-input-title">Size & Color</h1>
-                <div className={dropDownOne ? "down-arrow" : "up-arrow"}></div>
-              </div>
-              <div className={dropDownOne ? "show-dropdown" : "hide-dropdown"}>
-                <div className="shape-label-input">
-                  <label htmlFor="height">Heigth</label>
-                  <input
-                    type="number"
-                    name="height"
-                    onChange={handleInputChange}
-                    value={currentShape?.height}
-                  />
+              <div className="field-one">
+                <div className="dropdown-container" onClick={handleDropOne}>
+                  <h1 className="text-input-title">Size & Color</h1>
+                  <div
+                    className={dropDownOne ? "down-arrow" : "up-arrow"}
+                  ></div>
                 </div>
+                <div
+                  className={dropDownOne ? "show-dropdown" : "hide-dropdown"}
+                >
+                  <div className="shape-label-input-container">
+                    <div className="shape-label-input">
+                      <label htmlFor="height">Heigth</label>
+                      <input
+                        type="number"
+                        name="height"
+                        onChange={handleInputChange}
+                        value={currentShape?.height}
+                      />
+                    </div>
+                    <input
+                      type="range"
+                      className="range"
+                      name="height"
+                      onChange={handleInputChange}
+                      value={currentShape?.height}
+                      min={10}
+                      max={500}
+                    />
+                  </div>
 
-                <div className="shape-label-input">
-                  <label htmlFor="width">Width</label>
-                  <input
-                    type="number"
-                    name="width"
-                    onChange={handleInputChange}
-                    value={currentShape?.width}
-                  />
-                </div>
+                  <div className="shape-label-input-container">
+                    <div className="shape-label-input">
+                      <label htmlFor="width">width</label>
+                      <input
+                        type="number"
+                        name="width"
+                        onChange={handleInputChange}
+                        value={currentShape?.width}
+                      />
+                    </div>
+                    <input
+                      type="range"
+                      className="range"
+                      name="width"
+                      onChange={handleInputChange}
+                      value={currentShape?.width}
+                      min={10}
+                      max={500}
+                    />
+                  </div>
 
-                <div className="shape-label-input">
-                  <label htmlFor="height">X-Axis</label>
-                  <input
-                    type="number"
-                    name="x"
-                    onChange={handleInputChange}
-                    value={currentShape?.x}
-                  />
-                </div>
+                  <div className="shape-label-input-container">
+                    <div className="shape-label-input">
+                      <label htmlFor="x">X-Axis</label>
+                      <input
+                        type="number"
+                        name="x"
+                        onChange={handleInputChange}
+                        value={currentShape?.x}
+                      />
+                    </div>
+                    <input
+                      type="range"
+                      className="range"
+                      name="x"
+                      onChange={handleInputChange}
+                      value={currentShape?.x}
+                      min={10}
+                      max={500}
+                    />
+                  </div>
 
-                <div className="shape-label-input">
-                  <label htmlFor="width">Y-Axis</label>
-                  <input
-                    type="number"
-                    name="y"
-                    onChange={handleInputChange}
-                    value={currentShape?.y}
-                  />
-                </div>
+                  <div className="shape-label-input-container">
+                    <div className="shape-label-input">
+                      <label htmlFor="y">Y-Axis</label>
+                      <input
+                        type="number"
+                        name="y"
+                        onChange={handleInputChange}
+                        value={currentShape?.y}
+                      />
+                    </div>
+                    <input
+                      type="range"
+                      className="range"
+                      name="y"
+                      onChange={handleInputChange}
+                      value={currentShape?.y}
+                      min={10}
+                      max={500}
+                    />
+                  </div>
 
-                <div className="shape-label-input">
-                  <label htmlFor="backgroundColor">backgroundColor</label>
-                  <input
-                    type="text"
-                    name="backgroundColor"
-                    onChange={handleInputChange}
-                    value={currentShape?.backgroundColor}
-                  />
+                  <div className="shape-label-input">
+                    <label htmlFor="backgroundColor">backgroundColor</label>
+                    <input
+                      type="color"
+                      name="backgroundColor"
+                      onChange={handleInputChange}
+                      value={currentShape?.backgroundColor}
+                    />
+                  </div>
                 </div>
               </div>
 
               {/* ----------------------- Field #2 ----------------------- */}
-              <div className="dropdown-container" onClick={handleDropTwo}>
-                <h1 className="text-input-title">Font</h1>
-                <div className={dropDownTwo ? "down-arrow" : "up-arrow"}></div>
-              </div>
-              <div className={dropDownTwo ? "" : "hide-dropdown"}>
-                <div className="shape-label-input">
-                  <label htmlFor="name">Name</label>
-                  <input
-                    type="text"
-                    name="name"
-                    onChange={handleInputChange}
-                    value={currentShape?.name}
-                  />
-                </div>
 
-                <div className="shape-label-input">
-                  <label htmlFor="color">Color</label>
-                  <input
-                    type="text"
-                    name="color"
-                    onChange={handleInputChange}
-                    value={currentShape?.color}
-                  />
+              <div className="field-one">
+                <div className="dropdown-container" onClick={handleDropTwo}>
+                  <h1 className="text-input-title">Text</h1>
+                  <div
+                    className={dropDownTwo ? "down-arrow" : "up-arrow"}
+                  ></div>
                 </div>
+                <div className={dropDownTwo ? "" : "hide-dropdown"}>
+                  <div className="shape-label-input">
+                    <label htmlFor="name">Name</label>
+                    <input
+                      type="text"
+                      name="name"
+                      onChange={handleInputChange}
+                      value={currentShape?.name}
+                    />
+                  </div>
 
-                <div className="shape-label-input">
-                  <label htmlFor="fontSize">Size</label>
-                  <input
-                    type="number"
-                    name="fontSize"
-                    onChange={handleInputChange}
-                    value={currentShape?.fontSize}
-                  />
-                </div>
+                  <div className="shape-label-input">
+                    <div className="text-color-input-container">
+                      <p id="paragraphColorOpener">A</p>
+                      <input
+                        type="color"
+                        name="color"
+                        onChange={handleInputChange}
+                        value={currentShape?.color}
+                        id="colorInput"
+                      />
+                    </div>
 
-                <div className="shape-label-input">
-                  <p className="justify-content-title">Justify Content</p>
+                    <input
+                      id="fontsize-shapetools"
+                      type="number"
+                      name="fontSize"
+                      onChange={handleInputChange}
+                      value={currentShape?.fontSize}
+                    />
+                  </div>
+
+                  <p className="align-text">Align Text</p>
                   <div className="justify-content-input">
                     <button
                       type="text"
@@ -493,10 +431,7 @@ const ShapesTools = () => {
                       onClick={() => updateJustifyContent("flex-end")}
                     />
                   </div>
-                </div>
 
-                <div className="shape-label-input">
-                  <p className="justify-content-title">Align Items</p>
                   <div className="justify-content-input">
                     <button
                       type="text"
@@ -522,121 +457,194 @@ const ShapesTools = () => {
 
               {/* ----------------------- Field #3 ----------------------- */}
 
-              <div className="dropdown-container" onClick={handleDropThree}>
-                <h1 className="text-input-title">Border</h1>
-                <div
-                  className={dropDownThree ? "down-arrow" : "up-arrow"}
-                ></div>
+              <div className="field-one">
+                <div className="dropdown-container" onClick={handleDropThree}>
+                  <h1 className="text-input-title">Border</h1>
+                  <div
+                    className={dropDownThree ? "down-arrow" : "up-arrow"}
+                  ></div>
+                </div>
+
+                <div className={dropDownThree ? "show-input" : "hide-dropdown"}>
+                  <select onChange={changeBorder} value={selectedBorder}>
+                    <option value="border" selected>
+                      All
+                    </option>
+                    <option value="borderRight">borderRight</option>
+                    <option value="borderLeft">borderLeft</option>
+                    <option value="borderTop">borderTop</option>
+                    <option value="borderBottom">borderBottom</option>
+                  </select>
+
+                  <div className="shape-label-input-container">
+                    <div className="shape-label-input">
+                      <label htmlFor="borderSize">borderSize</label>
+                      <input
+                        type="number"
+                        name="borderSize"
+                        onChange={handleInputChange}
+                        value={currentShape?.borderSize}
+                      />
+                    </div>
+                    <input
+                      type="range"
+                      className="range"
+                      name="borderSize"
+                      onChange={handleInputChange}
+                      value={currentShape?.borderSize}
+                      min={0}
+                      max={20}
+                    />
+                  </div>
+
+                  <div className="shape-label-input">
+                    <label htmlFor="borderColor">borderColor</label>
+                    <input
+                      type="color"
+                      name="borderColor"
+                      onChange={handleInputChange}
+                      value={currentShape?.borderColor}
+                    />
+                  </div>
+
+                  <div className="shape-label-input-container">
+                    <div className="shape-label-input">
+                      <label htmlFor="borderLeftSize">borderLeftSize</label>
+                      <input
+                        type="number"
+                        name="borderLeftSize"
+                        onChange={handleInputChange}
+                        value={currentShape?.borderLeftSize}
+                      />
+                    </div>
+                    <input
+                      type="range"
+                      className="range"
+                      name="borderLeftSize"
+                      onChange={handleInputChange}
+                      value={currentShape?.borderLeftSize}
+                      min={0}
+                      max={20}
+                    />
+                  </div>
+
+                  <div className="shape-label-input">
+                    <label htmlFor="borderLeftColor">borderLeftColor</label>
+                    <input
+                      type="color"
+                      name="borderLeftColor"
+                      onChange={handleInputChange}
+                      value={currentShape?.borderLeftColor}
+                    />
+                  </div>
+
+                  <div className="shape-label-input-container">
+                    <div className="shape-label-input">
+                      <label htmlFor="borderRightSize">borderRightSize</label>
+                      <input
+                        type="number"
+                        name="borderRightSize"
+                        onChange={handleInputChange}
+                        value={currentShape?.borderRightSize}
+                      />
+                    </div>
+                    <input
+                      type="range"
+                      className="range"
+                      name="borderRightSize"
+                      onChange={handleInputChange}
+                      value={currentShape?.borderRightSize}
+                      min={0}
+                      max={20}
+                    />
+                  </div>
+
+                  <div className="shape-label-input">
+                    <label htmlFor="borderRightColor">borderRightColor</label>
+                    <input
+                      type="color"
+                      name="borderRightColor"
+                      onChange={handleInputChange}
+                      value={currentShape?.borderRightColor}
+                    />
+                  </div>
+
+                  <div className="shape-label-input-container">
+                    <div className="shape-label-input">
+                      <label htmlFor="borderBottomSize">borderBottomSize</label>
+                      <input
+                        type="number"
+                        name="borderBottomSize"
+                        onChange={handleInputChange}
+                        value={currentShape?.borderBottomSize}
+                      />
+                    </div>
+                    <input
+                      type="range"
+                      className="range"
+                      name="borderBottomSize"
+                      onChange={handleInputChange}
+                      value={currentShape?.borderBottomSize}
+                      min={0}
+                      max={20}
+                    />
+                  </div>
+
+                  <div className="shape-label-input">
+                    <label htmlFor="borderBottomColor">borderBottomColor</label>
+                    <input
+                      type="color"
+                      name="borderBottomColor"
+                      onChange={handleInputChange}
+                      value={currentShape?.borderBottomColor}
+                    />
+                  </div>
+
+                  <div className="shape-label-input-container">
+                    <div className="shape-label-input">
+                      <label htmlFor="borderTopSize">borderTopSize</label>
+                      <input
+                        type="number"
+                        name="borderTopSize"
+                        onChange={handleInputChange}
+                        value={currentShape?.borderTopSize}
+                      />
+                    </div>
+                    <input
+                      type="range"
+                      className="range"
+                      name="borderTopSize"
+                      onChange={handleInputChange}
+                      value={currentShape?.borderTopSize}
+                      min={0}
+                      max={20}
+                    />
+                  </div>
+
+                  <div className="shape-label-input">
+                    <label htmlFor="borderTopColor">borderTopColor</label>
+                    <input
+                      type="color"
+                      name="borderTopColor"
+                      onChange={handleInputChange}
+                      value={currentShape?.borderTopColor}
+                    />
+                  </div>
+                </div>
               </div>
-
-              <div className={dropDownThree ? "" : "hide-dropdown"}>
-                <div className="shape-label-input">
-                  <label htmlFor="borderSize">borderSize</label>
-                  <input
-                    type="number"
-                    name="borderSize"
-                    onChange={handleInputChange}
-                    value={currentShape?.borderSize}
-                  />
-                </div>
-
-                <div className="shape-label-input">
-                  <label htmlFor="borderColor">borderColor</label>
-                  <input
-                    type="text"
-                    name="borderColor"
-                    onChange={handleInputChange}
-                    value={currentShape?.borderColor}
-                  />
-                </div>
-
-                <div className="shape-label-input">
-                  <label htmlFor="borderLeftSize">borderLeftSize</label>
-                  <input
-                    type="number"
-                    name="borderLeftSize"
-                    onChange={handleInputChange}
-                    value={currentShape?.borderLeftSize}
-                  />
-                </div>
-
-                <div className="shape-label-input">
-                  <label htmlFor="borderLeftColor">borderLeftColor</label>
-                  <input
-                    type="text"
-                    name="borderLeftColor"
-                    onChange={handleInputChange}
-                    value={currentShape?.borderLeftColor}
-                  />
-                </div>
-
-                <div className="shape-label-input">
-                  <label htmlFor="borderRightSize">borderRightSize</label>
-                  <input
-                    type="number"
-                    name="borderRightSize"
-                    onChange={handleInputChange}
-                    value={currentShape?.borderRightSize}
-                  />
-                </div>
-
-                <div className="shape-label-input">
-                  <label htmlFor="borderRightColor">borderRightColor</label>
-                  <input
-                    type="text"
-                    name="borderRightColor"
-                    onChange={handleInputChange}
-                    value={currentShape?.borderRightColor}
-                  />
-                </div>
-
-                <div className="shape-label-input">
-                  <label htmlFor="borderBottomSize">borderBottomSize</label>
-                  <input
-                    type="number"
-                    name="borderBottomSize"
-                    onChange={handleInputChange}
-                    value={currentShape?.borderBottomSize}
-                  />
-                </div>
-
-                <div className="shape-label-input">
-                  <label htmlFor="borderBottomColor">borderBottomColor</label>
-                  <input
-                    type="text"
-                    name="borderBottomColor"
-                    onChange={handleInputChange}
-                    value={currentShape?.borderBottomColor}
-                  />
-                </div>
-
-                <div className="shape-label-input">
-                  <label htmlFor="borderTopSize">borderTopSize</label>
-                  <input
-                    type="number"
-                    name="borderTopSize"
-                    onChange={handleInputChange}
-                    value={currentShape?.borderTopSize}
-                  />
-                </div>
-
-                <div className="shape-label-input">
-                  <label htmlFor="borderTopColor">borderTopColor</label>
-                  <input
-                    type="text"
-                    name="borderTopColor"
-                    onChange={handleInputChange}
-                    value={currentShape?.borderTopColor}
-                  />
-                </div>
-              </div>
+              {/* ---------------- Field One End ------------------------ */}
             </div>
           </div>
 
           {/* -------------------- Delete Div --------------------------- */}
 
           <div className="delete-shape-form">
-            <button onClick={() => deleteTheShape(shapeId)} className="delete-shape-form-button">Delete</button>
+            <button
+              onClick={() => deleteTheShape(shapeId)}
+              className="delete-shape-form-button"
+            >
+              Delete
+            </button>
           </div>
         </form>
       )}

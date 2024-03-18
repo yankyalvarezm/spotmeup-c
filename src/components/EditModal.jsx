@@ -1,15 +1,18 @@
 import React, { useContext, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { LayoutContext } from "../context/layout.context";
+import { ShapeContext } from "../context/shape.context";
 import LayoutContent from "./Layouts/LayoutContent";
 import LayoutTools from "./Layouts/LayoutTools";
 import DisplayShapes from "./Shapes/DisplayShapes";
 import ShapesTools from "./Shapes/ShapesTools";
+import AddShape from "./Shapes/AddShape";
 
 const EditModal = () => {
   const navigate = useNavigate();
   const param = useParams();
   const { layoutDetails, setLayoutId, layoutId } = useContext(LayoutContext);
+  const { showShapeForm } = useContext(ShapeContext);
 
   const goBack = () => {
     navigate(-1);
@@ -41,7 +44,11 @@ const EditModal = () => {
           </div>
         </div>
         <ShapesTools />
-        <LayoutTools />
+        {!showShapeForm && (
+          <LayoutTools>
+            <AddShape />
+          </LayoutTools>
+        )}
       </div>
     </div>
   );

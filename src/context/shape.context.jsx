@@ -5,7 +5,7 @@ import React, {
   useState,
   useRef,
 } from "react";
-import { getAllShapes } from "../services/shape.service";
+import { getAllShapes, createShape } from "../services/shape.service";
 
 const ShapeContext = createContext();
 
@@ -23,6 +23,7 @@ function ShapeProvider({ children }) {
   const [shapeEdited, setShapeEdited] = useState(false);
   const [shapeAdded, setShapeAdded] = useState(false);
   const shapeForm = useRef();
+  const [showShapes, setShowShapes] = useState(false);
 
   const fetchShapes = async (layoutId) => {
     try {
@@ -57,6 +58,47 @@ function ShapeProvider({ children }) {
     setShowShapeForm((prev) => !prev);
   };
 
+  const addCircle = async (layoutId, body) => {
+    setShowShapes((prev) => !prev);
+
+    body.shapeType = "Circle";
+
+    try {
+      const response = await createShape(layoutId, body);
+
+      if (response.success) {
+        setCircles((prev) => [...prev, response.shape]);
+      }
+
+      console.log("Shape Response:", response);
+    } catch (error) {
+      console.log("error:", error);
+    }
+  };
+
+  const addSquare = async (layoutId, body) => {
+    setShowShapes((prev) => !prev);
+
+    body.shapeType = "Square";
+
+    try {
+      const response = await createShape(layoutId, body);
+
+      if (response.success) {
+        if (squares) {
+          setSquares((prev) => [...prev, response.shape]);
+          setShapeAdded(true);
+        } else {
+          setSquares([response.shape]);
+        }
+      }
+
+      console.log("Shape Response:", response);
+    } catch (error) {
+      console.log("error:", error);
+    }
+  };
+
   return (
     <ShapeContext.Provider
       value={{
@@ -86,6 +128,10 @@ function ShapeProvider({ children }) {
         shapeAdded,
         setShapeAdded,
         getShape,
+        addCircle,
+        addSquare,
+        showShapes,
+        setShowShapes,
       }}
     >
       {children}

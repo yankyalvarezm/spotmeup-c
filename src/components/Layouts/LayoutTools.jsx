@@ -2,19 +2,15 @@ import React, { useContext, useState, useEffect, useCallback } from "react";
 import { LayoutContext } from "../../context/layout.context";
 import { editLayout } from "../../services/layout.service";
 import { useParams } from "react-router-dom";
+import AddShape from "../Shapes/AddShape";
 
-const LayoutTools = () => {
+const LayoutTools = ({ children }) => {
   const { layoutDetails, layoutBody, setLayoutBody } =
     useContext(LayoutContext);
   const [hasChanged, setHasChanged] = useState(false);
   const param = useParams();
   const [successMessage, setSuccessMessage] = useState(null);
   const [notSuccessMessage, setNotSuccessMessage] = useState(null);
-
-  // console.log("from layout tools:", layoutDetails);
-  // console.log("layoutBody:", layoutBody);
-
-  // console.log("param", param);
 
   useEffect(() => {
     setLayoutBody({
@@ -45,30 +41,32 @@ const LayoutTools = () => {
     };
   }
 
-  // const handleSaveLayout = async () => {
-    
-  //   try {
-  //     const response = await editLayout(param.layoutIdParam, layoutBody);
-  //     console.log("response after debounce", response);
-  //     if (response.success) {
-  //       setSuccessMessage(response.message);
+  // const handleSaveLayoutDebounced = useCallback(
+  //   debounce(async () => {
+  //     try {
+  //       const response = await editLayout(param.layoutIdParam, layoutBody);
+  //       console.log("response after debounce", response);
+  //       if (response.success) {
+  //         setSuccessMessage(response.message);
+  //       }
+
+  //       setTimeout(() => {
+  //         setSuccessMessage(null);
+  //       }, 2000);
+
+  //       setHasChanged(false);
+  //     } catch (error) {
+  //       console.log("The error:", error);
+  //       setNotSuccessMessage(error.response.message);
+  //       setTimeout(() => {
+  //         setNotSuccessMessage(null);
+  //       }, 2000);
   //     }
+  //   }, 1000),
+  //   [layoutBody]
+  // );
 
-  //     setTimeout(() => {
-  //       setSuccessMessage(null);
-  //     }, 2000);
-
-  //     setHasChanged(false);
-  //   } catch (error) {
-  //     console.log("The error:", error);
-  //     setNotSuccessMessage(error.response.message);
-  //     setTimeout(() => {
-  //       setNotSuccessMessage(null);
-  //     }, 2000);
-  //   }
-  // };
-
-  const handleSaveLayoutDebounced = useCallback(debounce(async () => {
+  const handleSaveLayout = async () => {
     try {
       const response = await editLayout(param.layoutIdParam, layoutBody);
       console.log("response after debounce", response);
@@ -88,11 +86,13 @@ const LayoutTools = () => {
         setNotSuccessMessage(null);
       }, 2000);
     }
-  }, 1000), [layoutBody])
+  };
 
-  // const handleSaveLayoutDebounced = debounce(handleSaveLayout, 4000);
+  useEffect(() => {
+    debounce(handleSaveLayout(), 1000);
+  }, [layoutBody]);
 
-  
+  // console.log("layoutbody:", layoutBody);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -102,14 +102,11 @@ const LayoutTools = () => {
       [name]: value,
     }));
     setHasChanged(true);
-    handleSaveLayoutDebounced()
   };
 
- 
-
   return (
-    <>
-      <form className="layout-tools-container">
+    <form className="layout-tools-container">
+      <div className="layout-tools-spacing">
         <h1 className="layout-tools-title">Layout Tools</h1>
         <div className="layout-tools-content-container">
           <div className="layout-tools-content">
@@ -183,14 +180,15 @@ const LayoutTools = () => {
           </div>
         </div>
 
-        {successMessage && (
+        {/* {successMessage && (
           <h1 className="layout-tools-success">{successMessage}</h1>
-        )}
+        )} */}
         {notSuccessMessage && (
           <h1 className="layout-tools-Notsuccess">{notSuccessMessage}</h1>
         )}
-      </form>
-    </>
+      </div>
+      {children}
+    </form>
   );
 };
 

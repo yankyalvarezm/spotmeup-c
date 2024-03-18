@@ -1860,6 +1860,7 @@ button:hover {
 
 .layout-tools-content-container {
   display: flex;
+  margin-left: 1rem;
 }
 
 .layout-tools-content > input {
@@ -1891,6 +1892,13 @@ button:hover {
     height: 16%;
     top: 88%;
     position: absolute;
+}
+
+.layout-tools-spacing {
+  background-color: var(--yellow);
+  padding-bottom: 1rem;
+  border-radius: 10px;
+  margin: 1rem;
 }
 
 .layout-tools-title {
@@ -1938,27 +1946,30 @@ button:hover {
 
 
 .shape-tools-container {
-  display: flex;
-    flex-direction: column;
-    width: 25%;
-    padding: 1rem;
-    position: absolute;
-    transform: translate(-50%, -50%);
-    top: 5.4%;
-    left: 41%;
+ display: flex;
+ flex-direction: column;
+ margin: 1rem;
+ padding-bottom: 1rem;
+ background-color: var(--yellow);
+ border-radius: 10px;
+}
+
+.addshape-btn {
+  width: 90%;
 }
 
 .shape-tools-title {
-    margin: 0.5rem 0rem;
-    text-align: center;
-    color: var(--red);
-    font-size: 20px;
+  margin: 0.5rem 0rem;
+  text-align: center;
+  color: var(--red);
+  font-size: 20px;
 }
 
 .shape-content {
   display: flex;
-  justify-content: space-around;
-  border: 1px solid var(--black);
+  justify-content: center;
+  /* width: 80%; */
+  gap: 2rem;
   margin-bottom: 1rem;
 }
 
@@ -1968,15 +1979,15 @@ button:hover {
 }
 
 .shape-cirlce {
-  width: 25px;
-  height: 25px;
+  width: 40px;
+  height: 40px;
   background-color: var(--black);
   border-radius: 50%;
 }
 
 .shape-square {
-  width: 25px;
-  height: 25px;
+  width: 40px;
+  height: 40px;
   background-color: var(--black);
 }
 
@@ -1993,18 +2004,19 @@ button:hover {
 .showshapes-false {
   display: flex;
   flex-direction: column;
-  width: 25%;
-  padding: 1rem;
-  position: absolute;
-  transform: translate(-50%, -50%);
-  top: 9.4%;
-  left: 41%;
+  align-items: center;
+
+
+ background-color: var(--yellow);
+ border-radius: 10px;
+ margin: 1rem;
 }
 
 .shape-discard {
   background-color: var(--red);
   color: white;
   box-shadow: 2px 4px 0px white;
+  width: 90%;
 }
 
 .shape-discard:hover {
@@ -2035,10 +2047,12 @@ button:hover {
   background-color: var(--black);
   color: white;
   height: 100%;
+  min-width: 100%;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   margin-right: 0.5rem;
+  border: 1px solid var(--red);
 }
 
 .delete-shape-form-button {
@@ -2048,13 +2062,13 @@ button:hover {
 .form-title {
   color: var(--red);
   text-align: center;
-  margin: 0.5rem 0rem;
+  margin: 1rem 0rem;
   font-size: 25px;
 }
 
 .shape-form-fields-container {
-  margin-right: 1rem;
   margin-left: 1rem;
+  margin-right: 1rem;
 }
 
 .dropdown-container {
@@ -2062,7 +2076,7 @@ button:hover {
   width: 100%;
   justify-content: space-between;
   margin-top: 0.5rem;
-  margin-bottom: 0.5rem;
+  margin-bottom: 1rem;
   align-items: center;
 }
 
@@ -2119,6 +2133,8 @@ button:hover {
   color: white;
   background-color: transparent;
   text-align: center;
+  padding: 0rem;
+  border: none;
 }
 
 .shape-label-input > label {
@@ -2199,7 +2215,8 @@ input[type=number] {
 
 .justify-content-input  {
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
+  margin-bottom: 1rem;
 }
 
 .justify-content-input > input {
@@ -2349,9 +2366,8 @@ input[type=number] {
 
 
 .text-input-title {
-  color: white;
-  font-size: 15px;
-  /* margin-bottom: 1rem; */
+  color: var(--black);
+  font-size: 20px;
 }
 
 
@@ -2424,19 +2440,6 @@ input[type=number] {
   margin-top: 1rem;
 }
 
-/* .red-container { */
-  /* width: 280px; */
-  /* height: 280px; */
-  /* margin-top: 20rem; */
-  /* border: 2px solid black; */
-  /* margin-left: 10rem; */
-  /* align-items: center; */
-  /* background-color: red; */
-  /* clip-path: path("M 0 0 Q 140 230 280 0 L 280 280 L 0 280 Z"); */
-  /* position: relative; */
-  /* border-radius: 10px; */
-/* } */
-
 .red-container {
   box-shadow: 0 0 3px black;
 }
@@ -2446,13 +2449,6 @@ input[type=number] {
 }
 
 .dot-drag {
-  /* position: absolute;
-  background-color: greenyellow;
-  width: 20px;
-  height: 20px;
-  top: calc(230px / 2);
-  left: 130px;
-  cursor: grab; */
   color: black;
   font-family: var(--primary--font);
   text-align: center;
@@ -2488,6 +2484,10 @@ input[type=number] {
   display: flex;
   flex-direction: column;
   width: 100%;
+  height: 100%;
+  background-color: var(--black);
+  /* background-color: var(--yellow); */
+  /* border: 1px solid var(--black); */
 }
 
 .tools-title {
@@ -2495,4 +2495,124 @@ input[type=number] {
   grid-template-columns: 10fr 4fr;
   margin: 1rem;
   gap: 1rem;
+}
+
+.addshape-btn {
+  margin: 0 auto;
+}
+
+.range {
+  width: 90%;
+  -webkit-appearance: none;
+  color: var(--yellow);
+  background-color: transparent;
+  border-radius: 20px;
+  border: none;
+}
+
+input[type="range"]::-webkit-slider-runnable-track {
+  height: 2px;
+  background: var(--yellow); 
+  box-shadow: 0 1px 0 0 var(--yellow), 0 -1px 0 0 var(--yellow); 
+  border-radius: 15px;
+}
+
+input[type="range"]::-moz-range-track {
+  height: 2px;
+  background: var(--yellow); 
+  box-shadow: 0 1px 0 0 var(--yellow), 0 -1px 0 0 var(--yellow); 
+  border-radius: 15px;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+  appearance: none;
+  width: 15px; 
+  height: 15px;
+  border-radius: 50%;
+  background: var(--white); 
+  cursor: grab; 
+  margin-top: -7px;
+}
+
+input[type="range"]::-moz-range-thumb {
+  width: 15px; 
+  height: 15px; 
+  background: var(--white);
+  border-radius: 50%;
+  border: none;
+  cursor: grab;
+}
+
+.shape-label-input-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.text-color-input-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 1rem 0rem;
+  border: 1px solid black;
+}
+
+.text-color-input-container > p {
+  margin-bottom: 0rem;
+}
+
+.text-color-input-container > input {
+  background-color: transparent;
+  padding: 0rem;
+  height: 10px;
+  width: 40px;
+  border: none;
+  outline: none;
+  -webkit-appearance: none;
+}
+
+input[type="color"]::-webkit-color-swatch-wrapper {
+  padding: 0;
+}
+
+input[type="color"]{
+  border: none;
+  outline: none;
+  padding: 0rem;
+}
+
+input[type="color"]::-webkit-color-swatch {
+  border: none;
+}
+
+.show-input > div{
+  margin-bottom: 1rem;
+}
+
+#fontsize-shapetools {
+  background-color: white;
+  color: black;
+  -moz-appearance: number;
+  border-radius: 2px;
+  padding: 0.5rem 0rem;
+}
+
+.align-text {
+  font-size: 20px;
+  color: var(--black);
+}
+
+.field-one {
+  background-color: var(--red);
+  padding: 1rem;
+  border-radius: 10px;
+  margin-bottom: 1rem;
+}
+
+#paragraphColorOpener {
+  cursor: pointer;
+  padding: 0rem 1rem;
+}
+
+#colorInput {
+  cursor: pointer;
 }
