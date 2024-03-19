@@ -60,6 +60,7 @@ const StyledCircle = styled.div`
 
 const CircleShape = ({ children, circle }) => {
   const circleRef = useRef(null);
+  const nameRef = useRef(null);
   const [newPositionCircle, setNewPositionCircle] = useState({
     x: 0,
     y: 0,
@@ -76,6 +77,40 @@ const CircleShape = ({ children, circle }) => {
   } = useContext(ShapeContext);
 
   const [hasMoved, setHasMoved] = useState(false);
+  const [editingName, setEditingName] = useState(false);
+  const [circleName, setCircleName] = useState(circle.name);
+
+  const handleNameChange = (e) => {
+    setCircleName(e.target.value);
+  };
+
+  const saveName = async () => {
+    const updated = await editShapes(circle._id, { name: circleName });
+    setCircles((currentCircles) =>
+      currentCircles.map((c) =>
+        c._id === circle._id ? { ...c, name: circleName } : c
+      )
+    );
+    setEditingName(false);
+  };
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (
+        editingName &&
+        circleRef.current &&
+        !circleRef.current.contains(event.target)
+      ) {
+        saveName();
+        setEditingName(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [editingName, saveName]);
 
   function debounce(fn, delay) {
     let timeoutID = null;
@@ -169,6 +204,7 @@ const CircleShape = ({ children, circle }) => {
       setShowShapeForm(false);
       setShapeId(null);
       console.log("shapeId:", shapeId);
+      saveName();
     }
   };
 
@@ -181,6 +217,12 @@ const CircleShape = ({ children, circle }) => {
   const handleShowToggleForm = (shapeId) => {
     setShowShapeForm(true);
     setShapeId(shapeId);
+  };
+
+  const handleKeyDown = (event) => {
+    if (event.key === "Enter") {
+      saveName();
+    }
   };
 
   return (
@@ -205,8 +247,31 @@ const CircleShape = ({ children, circle }) => {
         className="circle-shape"
         resize={showShapeForm}
       >
-        <div className="handle circle-name" style={handleStyle}>
-          {circle.name}
+        <div
+          className="handle circle-name"
+          style={handleStyle}
+          onDoubleClick={() => {
+            setEditingName(true);
+            setTimeout(() => nameRef.current?.focus(), 0);
+          }}
+        >
+          {editingName ? (
+            <input
+              ref={nameRef}
+              type="text"
+              value={circleName}
+              onChange={handleNameChange}
+              className="input-name-cirle"
+              onKeyDown={handleKeyDown}
+              style={{
+                width: `${Math.max(1, circle.name.length) * 10 - 10}%`,
+                color: circle.color,
+                fontSize: circle.fontSize,
+              }}
+            />
+          ) : (
+            <>{circle.name}</>
+          )}
         </div>
         {children}
       </StyledCircle>

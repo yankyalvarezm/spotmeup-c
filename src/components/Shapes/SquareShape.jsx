@@ -13,18 +13,41 @@ const StyledSquare = styled.div`
   /* border: ${(props) => props.square?.borderSize}px solid
     ${(props) => props.square?.borderColor}; */
   border-left: ${(props) =>
-      props.square?.borderLeftSize ? props.square?.borderLeftSize : props.square?.borderSize}px
+      props.square?.borderLeftSize
+        ? props.square?.borderLeftSize
+        : props.square?.borderSize}px
     solid
     ${(props) =>
       props.square?.borderLeftColor
         ? props.square?.borderLeftColor
         : props.square?.borderColor};
-  border-right: ${(props) => props.square?.borderRightSize ? props.square?.borderRightSize: props.square?.borderSize}px solid
-    ${(props) => props.square?.borderRightColor ? props.square?.borderRightColor: props.square?.borderColor};
-  border-bottom: ${(props) => props.square?.borderBottomSize? props.square?.borderBottomSize: props.square?.borderSize}px solid
-    ${(props) => props.square?.borderBottomColor ? props.square?.borderBottomColor : props.square?.borderColor};
-  border-top: ${(props) => props.square?.borderTopSize? props.square?.borderTopSize: props.square?.borderSize}px solid
-    ${(props) => props.square?.borderTopColor? props.square?.borderTopColor: props.square?.borderColor};
+  border-right: ${(props) =>
+      props.square?.borderRightSize
+        ? props.square?.borderRightSize
+        : props.square?.borderSize}px
+    solid
+    ${(props) =>
+      props.square?.borderRightColor
+        ? props.square?.borderRightColor
+        : props.square?.borderColor};
+  border-bottom: ${(props) =>
+      props.square?.borderBottomSize
+        ? props.square?.borderBottomSize
+        : props.square?.borderSize}px
+    solid
+    ${(props) =>
+      props.square?.borderBottomColor
+        ? props.square?.borderBottomColor
+        : props.square?.borderColor};
+  border-top: ${(props) =>
+      props.square?.borderTopSize
+        ? props.square?.borderTopSize
+        : props.square?.borderSize}px
+    solid
+    ${(props) =>
+      props.square?.borderTopColor
+        ? props.square?.borderTopColor
+        : props.square?.borderColor};
   max-width: 100%;
   max-height: 100%;
   text-align: center;
@@ -37,6 +60,7 @@ const StyledSquare = styled.div`
 
 const SquareShape = ({ children, square }) => {
   const squareRef = useRef(null);
+  const nameRef = useRef(null);
   const [newPositionSquare, setNewPositionSquare] = useState({
     x: 0,
     y: 0,
@@ -57,10 +81,40 @@ const SquareShape = ({ children, square }) => {
   } = useContext(ShapeContext);
   const [hasMoved, setHasMoved] = useState(false);
 
-  const handleShowInput = () => {
-    setShowInput((prev) => !prev);
-    console.log("double click");
+  const [editingName, setEditingName] = useState(false);
+  const [squareName, setSquareName] = useState(square.name);
+
+  const handleNameChange = (e) => {
+    setSquareName(e.target.value);
   };
+
+  const saveName = async () => {
+    const updated = await editShapes(square._id, { name: squareName });
+    setSquares((currentSquares) =>
+      currentSquares.map((s) =>
+        s._id === square._id ? { ...s, name: squareName } : s
+      )
+    );
+    setEditingName(false);
+  };
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (
+        editingName &&
+        squareRef.current &&
+        !squareRef.current.contains(event.target)
+      ) {
+        saveName();
+        setEditingName(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [editingName, saveName]);
 
   function debounce(fn, delay) {
     let timeoutID = null;
@@ -171,6 +225,12 @@ const SquareShape = ({ children, square }) => {
     return () => document.removeEventListener("mouseup", handleClickOutside);
   }, []);
 
+  const handleKeyDown = (event) => {
+    if (event.key === "Enter") {
+      saveName();
+    }
+  };
+
   return (
     <Draggable
       bounds="parent"
@@ -204,15 +264,30 @@ const SquareShape = ({ children, square }) => {
         resize={showShapeForm}
       >
         <div
-          className="handle"
+          className="handle circle-name"
           style={handleStyle}
-          onClick={() => {
-            console.log("onClick handleStyles - showShapeForm:", showShapeForm);
-
-            console.log("onClick handleStyles - shapeId:", shapeId);
+          onDoubleClick={() => {
+            setEditingName(true);
+            setTimeout(() => nameRef.current?.focus(), 0);
           }}
         >
-          {square?.name}
+          {editingName ? (
+            <input
+              ref={nameRef}
+              type="text"
+              value={squareName}
+              onChange={handleNameChange}
+              className="input-name-cirle"
+              onKeyDown={handleKeyDown}
+              style={{
+                width: `${Math.max(1, square.name.length) * 10}%`,
+                color: square.color,
+                fontSize: square.fontSize,
+              }}
+            />
+          ) : (
+            <>{square.name}</>
+          )}
         </div>
 
         {children}

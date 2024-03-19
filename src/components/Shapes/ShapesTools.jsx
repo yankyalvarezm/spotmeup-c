@@ -1,10 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import { handleInputChange } from "../../services/tools.service";
 import { ShapeContext } from "../../context/shape.context";
-import {
-  deleteShape,
-  editShapes,
-} from "../../services/shape.service";
+import { deleteShape, editShapes } from "../../services/shape.service";
 
 const ShapesTools = () => {
   const {
@@ -344,7 +341,7 @@ const ShapesTools = () => {
                       onChange={handleInputChange}
                       value={currentShape?.width}
                       min={10}
-                      max={500}
+                      max={1000}
                     />
                   </div>
 
@@ -365,7 +362,7 @@ const ShapesTools = () => {
                       onChange={handleInputChange}
                       value={currentShape?.x}
                       min={10}
-                      max={500}
+                      max={1000}
                     />
                   </div>
 
@@ -386,15 +383,15 @@ const ShapesTools = () => {
                       onChange={handleInputChange}
                       value={currentShape?.y}
                       min={10}
-                      max={500}
+                      max={1000}
                     />
                   </div>
 
-                  <div className="shape-label-input">
-                    <label htmlFor="backgroundColor">backgroundColor</label>
+                  <div>
                     <input
                       type="color"
                       name="backgroundColor"
+                      className="shape-background-color"
                       onChange={handleInputChange}
                       value={currentShape?.backgroundColor}
                     />
@@ -412,13 +409,19 @@ const ShapesTools = () => {
                   ></div>
                 </div>
                 <div className={dropDownTwo ? "" : "hide-dropdown"}>
-                  <div className="shape-label-input">
-                    <label htmlFor="name">Name</label>
+                  <div className="shape-label-name">
                     <input
                       type="text"
                       name="name"
                       onChange={handleInputChange}
                       value={currentShape?.name}
+                      className="input-name-name"
+                      style={{
+                        width: `${
+                          Math.max(1, currentShape?.name.length) * 10 - 10
+                        }px`,
+                        color: currentShape?.color,
+                      }}
                     />
                   </div>
 
@@ -499,46 +502,49 @@ const ShapesTools = () => {
                 </div>
 
                 <div className={dropDownThree ? "show-input" : "hide-dropdown"}>
-                  <select onChange={changeBorder} value={selectedBorder}>
+                  <select
+                    onChange={changeBorder}
+                    value={selectedBorder}
+                    className="select-border"
+                  >
                     <option value="border">All</option>
-                    <option value="borderRight">borderRight</option>
-                    <option value="borderLeft">borderLeft</option>
-                    <option value="borderTop">borderTop</option>
-                    <option value="borderBottom">borderBottom</option>
+                    <option value="borderRight">Right</option>
+                    <option value="borderLeft">Left</option>
+                    <option value="borderTop">Top</option>
+                    <option value="borderBottom">Bottom</option>
                   </select>
 
-                  <div className="shape-label-input-container">
-                    <div className="shape-label-input">
-                      <label htmlFor={`${selectedBorder}Size`}>
+                  <div className="shape-label-input-container border-range">
+                    <div className=" special-input-size">
+                      {/* <label htmlFor={`${selectedBorder}Size`}>
                         borderSize
-                      </label>
+                      </label> */}
                       <input
                         type="number"
                         name={`${selectedBorder}Size`}
                         onChange={handleInputChange}
                         value={currentShape?.[`${selectedBorder}Size`]}
+                        className="size-border-input"
+                      />
+                      <input
+                        type="range"
+                        className="range"
+                        name={`${selectedBorder}Size`}
+                        onChange={handleInputChange}
+                        value={currentShape?.[`${selectedBorder}Size`]}
+                        min={0}
+                        max={20}
                       />
                     </div>
-                    <input
-                      type="range"
-                      className="range"
-                      name={`${selectedBorder}Size`}
-                      onChange={handleInputChange}
-                      value={currentShape?.[`${selectedBorder}Size`]}
-                      min={0}
-                      max={20}
-                    />
                   </div>
 
-                  <div className="shape-label-input">
-                    <label htmlFor={`${selectedBorder}Color`}>
-                      borderColor
-                    </label>
+                  <div className="">
                     <input
                       type="color"
                       name={`${selectedBorder}Color`}
                       onChange={handleInputChange}
                       value={currentShape?.[`${selectedBorder}Color`]}
+                      className="border-color"
                     />
                   </div>
                 </div>

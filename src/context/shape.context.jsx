@@ -117,7 +117,6 @@ function ShapeProvider({ children }) {
         fetchShapes,
         shapeAdded,
         setShapeAdded,
-        getShape,
         addCircle,
         addSquare,
         showShapes,

@@ -1,15 +1,11 @@
 import React, { useContext, useEffect } from "react";
 import { ShapeContext } from "../../context/shape.context";
-import Draggable from "react-draggable";
 import CircleShape from "./CircleShape";
 import SquareShape from "./SquareShape";
-import SquareInput from "./SquareInput";
 import { useParams } from "react-router-dom";
-import { getAllShapes } from "../../services/shape.service";
 
 const DisplayShapes = () => {
   const {
-    showInput,
     circles,
     squares,
     shapeDeleted,
@@ -22,8 +18,6 @@ const DisplayShapes = () => {
   } = useContext(ShapeContext);
 
   const param = useParams();
-
-  // console.log("param:", param);
 
   useEffect(() => {
     if (shapeDeleted) {
@@ -49,9 +43,7 @@ const DisplayShapes = () => {
 
       {squares &&
         squares.map((square) => (
-          <SquareShape square={square} key={square._id}>
-            {showInput && <SquareInput />}
-          </SquareShape>
+          <SquareShape square={square} key={square._id}></SquareShape>
         ))}
     </>
   );
