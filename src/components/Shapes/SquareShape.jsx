@@ -13,7 +13,7 @@ const StyledSquare = styled.div`
   /* border: ${(props) => props.square?.borderSize}px solid
     ${(props) => props.square?.borderColor}; */
   border-left: ${(props) =>
-      props.square?.borderLeftSize
+      props.square?.borderLeftSize || props.square?.borderLeftSize === 0
         ? props.square?.borderLeftSize
         : props.square?.borderSize}px
     solid
@@ -22,7 +22,7 @@ const StyledSquare = styled.div`
         ? props.square?.borderLeftColor
         : props.square?.borderColor};
   border-right: ${(props) =>
-      props.square?.borderRightSize
+      props.square?.borderRightSize || props.square?.borderRightSize === 0
         ? props.square?.borderRightSize
         : props.square?.borderSize}px
     solid
@@ -31,7 +31,7 @@ const StyledSquare = styled.div`
         ? props.square?.borderRightColor
         : props.square?.borderColor};
   border-bottom: ${(props) =>
-      props.square?.borderBottomSize
+      props.square?.borderBottomSize || props.square?.borderBottomSize === 0
         ? props.square?.borderBottomSize
         : props.square?.borderSize}px
     solid
@@ -40,7 +40,7 @@ const StyledSquare = styled.div`
         ? props.square?.borderBottomColor
         : props.square?.borderColor};
   border-top: ${(props) =>
-      props.square?.borderTopSize
+      props.square?.borderTopSize || props.square?.borderTopSize === 0
         ? props.square?.borderTopSize
         : props.square?.borderSize}px
     solid
@@ -66,18 +66,12 @@ const SquareShape = ({ children, square }) => {
     y: 0,
   });
   const {
-    showInput,
-    setShowInput,
-    toggleShapeForm,
     shapeForm,
     setShapeId,
     showShapeForm,
     shapeId,
     setShowShapeForm,
-    setShapeEdited,
-    squares,
     setSquares,
-    getShape,
   } = useContext(ShapeContext);
   const [hasMoved, setHasMoved] = useState(false);
 

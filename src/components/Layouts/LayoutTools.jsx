@@ -141,7 +141,7 @@ const LayoutTools = ({ children }) => {
               type="number"
               name="borderSize"
               value={layoutBody.borderSize}
-              min={1}
+              min={0}
               onChange={handleChange}
             />
           </div>
