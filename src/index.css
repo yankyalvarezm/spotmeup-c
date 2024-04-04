@@ -2692,3 +2692,236 @@ input[type="color"]::-webkit-color-swatch {
   margin-top: 1rem;
   cursor: pointer;
 }
+
+.hide {
+  display: none;
+}
+
+.select-floorplan-container {
+  width: 100%;
+  height: 100%;
+  background-color: var(--green);
+}
+
+.floorplan-shapes-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  justify-items: center;
+  margin-top: 4rem;
+  row-gap: 2rem;
+  height: 100%;
+  overflow-y: scroll;
+}
+
+.floorplan-shapes-container > div {
+  font-family: var(--primary--font);
+  font-size: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer; 
+}
+
+.floorplan-title {
+  text-align: center;
+  padding-top: 1rem;
+  font-size: 2rem;
+  display: flex;
+  flex-direction: column;
+}
+.floorplan-square {
+  
+  border: 2px solid var(--white);
+  background-color: var(--yellow);
+}
+.floorplan-circle {
+  
+  border-radius: 50%;
+  border: 2px solid var(--white);
+  background-color: var(--yellow);
+}
+
+.floorplan-elipse-border {
+  position: relative;
+  width: 80px;
+  height: 70px;
+  background-color: var(--white);
+  clip-path: ellipse(50% 26% at 50% 50%);
+  z-index: 2;
+}
+.floorplan-elipse {
+  position: relative;
+  width: calc(100% - 10px);
+  height: calc(100% - 10px);
+  background-color: var(--yellow);
+  clip-path: ellipse(50% 26% at 50% 50%);
+  color: black;
+  z-index: 3;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.floorplan-triangle-border {
+  position: relative;
+  width: 80px;
+  height: 80px;
+  background-color: var(--white);
+  clip-path: polygon(50% 0%, 0% 97%, 100% 97%);
+  z-index: 2;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.floorplan-triangle {
+  position: absolute;
+  width: calc(100% - 10px);
+  height: calc(100% - 10px);
+  clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+  background-color: var(--yellow);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 3;
+}
+.floorplan-poligon-1-border{
+  width: 100px;
+  height: 100px;
+  background-color: var(--white);
+  clip-path: polygon(72% 0, 72% 39%, 100% 39%, 100% 64%, 71% 64%, 71% 100%, 0 100%, 0 0);
+}
+.floorplan-poligon-1 {
+  width: calc(100% - 10px);
+  height: calc(100% - 10px);
+  background-color: var(--yellow);
+  clip-path: polygon(72% 0, 72% 39%, 100% 40%, 100% 64%, 71% 64%, 71% 100%, 0 100%, 0 0);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.floorplan-poligon-2-border {
+  width: 100px;
+  height: 100px;
+  background-color: var(--white);
+  clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+}
+.floorplan-poligon-2 {
+  width: calc(100% - 10px);
+  height: calc(100% - 10px);
+  background-color: var(--yellow);
+  clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.toggle-floorplan {
+  width: 90%;
+  margin: 0 auto;
+  margin-bottom: 1rem;
+}
+
+.tools-container {
+  height: 100%;
+  background-color: var(--green);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.active-tools {
+  height: 100%;
+  background-color: var(--black);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+#onhold-layout {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  margin-top: 1rem;
+  padding-bottom: 1rem;
+  border: none;
+}
+
+/* ------------- Floor Plan Mess -------------- */
+
+.layout-square {
+  
+  border: 2px solid var(--white);
+  background-color: var(--yellow);
+}
+.layout-circle-border {
+  border-radius: 50%;
+  border: 2px solid var(--white);
+  background-color: var(--yellow);
+}
+
+.layout-elipse-border {
+  position: relative;
+  
+  background-color: var(--white);
+  clip-path: ellipse(50% 26% at 50% 50%);
+  z-index: 2;
+}
+.layout-elipse {
+  position: relative;
+  width: calc(100% - 10px);
+  height: calc(100% - 10px);
+  background-color: var(--yellow);
+  clip-path: ellipse(50% 26% at 50% 50%);
+  color: black;
+  z-index: 3;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.layout-triangle-border {
+  position: relative;
+  
+  background-color: var(--white);
+  clip-path: polygon(50% 0%, 0% 97%, 100% 97%);
+  z-index: 2;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.layout-triangle {
+  position: absolute;
+  width: calc(100% - 10px);
+  height: calc(100% - 10px);
+  clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+  background-color: var(--yellow);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 3;
+}
+.layout-poligon-1-border{
+  background-color: var(--white);
+  clip-path: polygon(72% 0, 72% 39%, 100% 39%, 100% 64%, 71% 64%, 71% 100%, 0 100%, 0 0);
+}
+.layout-poligon-1 {
+  width: calc(100% - 10px);
+  height: calc(100% - 10px);
+  background-color: var(--yellow);
+  clip-path: polygon(72% 0, 72% 39%, 100% 40%, 100% 64%, 71% 64%, 71% 100%, 0 100%, 0 0);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.layout-poligon-2-border {
+  
+  background-color: var(--white);
+  clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+}
+.layout-poligon-2 {
+  width: calc(100% - 10px);
+  height: calc(100% - 10px);
+  background-color: var(--yellow);
+  clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

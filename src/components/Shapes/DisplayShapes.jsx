@@ -1,7 +1,7 @@
 import React, { useContext, useEffect } from "react";
 import { ShapeContext } from "../../context/shape.context";
-import CircleShape from "./CircleShape";
-import SquareShape from "./SquareShape";
+import CircleShape from "./circle/CircleShape";
+import SquareShape from "./square/SquareShape";
 import { useParams } from "react-router-dom";
 
 const DisplayShapes = () => {

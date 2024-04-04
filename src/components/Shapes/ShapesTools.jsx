@@ -1,7 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
-import { handleInputChange } from "../../services/tools.service";
 import { ShapeContext } from "../../context/shape.context";
-import { deleteShape, editShapes } from "../../services/shape.service";
+import { deleteShape } from "../../services/shape.service";
 
 const ShapesTools = () => {
   const {
@@ -14,60 +13,25 @@ const ShapesTools = () => {
     toggleShapeForm,
     squares,
     circles,
+    updateShape,
   } = useContext(ShapeContext);
 
-  const [dropDownOne, setDropDownOne] = useState(false);
-  const [dropDownTwo, setDropDownTwo] = useState(false);
-  const [dropDownThree, setDropDownThree] = useState(false);
-  const [dropDownFour, setDropDownFour] = useState(false);
-
-  const handleDropOne = () => {
-    setDropDownOne((prev) => !prev);
-
-    if (dropDownTwo) {
-      setDropDownTwo(false);
-    } else if (dropDownThree) {
-      setDropDownThree(false);
-    } else if (dropDownFour) {
-      setDropDownFour(false);
-    }
-  };
-
-  const handleDropTwo = () => {
-    setDropDownTwo((prev) => !prev);
-
-    if (dropDownOne) {
-      setDropDownOne(false);
-    } else if (dropDownThree) {
-      setDropDownThree(false);
-    } else if (dropDownFour) {
-      setDropDownFour(false);
-    }
-  };
-
-  const handleDropThree = () => {
-    setDropDownThree((prev) => !prev);
-
-    if (dropDownOne) {
-      setDropDownOne(false);
-    } else if (dropDownTwo) {
-      setDropDownTwo(false);
-    } else if (dropDownThree) {
-      setDropDownFour(false);
-    }
-  };
-
-  const handleDropFour = () => {
-    setDropDownFour((prev) => !prev);
-  };
-
+  const [activeDropDown, setActiveDropDown] = useState(null);
   const [selectedBorder, setSelectedBorder] = useState("border");
+  const currentShape = [...circles, ...squares].find(
+    (shape) => shape._id === shapeId
+  );
+  const isCircle = currentShape?.shapeType.toLowerCase() === "circle";
+
+  const handleDropDown = (number) => {
+    setActiveDropDown((activeDropDown) => {
+      return activeDropDown === number ? null : number;
+    });
+  };
 
   const changeBorder = (e) => {
     setSelectedBorder(e.target.value);
   };
-
-  // console.log("selectedBorder:", selectedBorder);
 
   const deleteTheShape = async (shapeId) => {
     try {
@@ -86,180 +50,67 @@ const ShapesTools = () => {
     }
   };
 
-  const handleFormSubmit = (e) => {
-    e.preventDefault();
-  };
-
-  const currentShape = [...circles, ...squares].find(
-    (shape) => shape._id === shapeId
-  );
-
-  function debounce(fn, delay) {
-    let timeoutID = null;
-    return function (...args) {
-      clearTimeout(timeoutID);
-      timeoutID = setTimeout(() => {
-        fn(...args);
-      }, delay);
-    };
-  }
-
-  const updateShape = debounce((shapeId, body) => {
-    editShapes(shapeId, body);
-    console.log("Tools debounce working");
-  }, 500);
-
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    let updatedShape = {};
-    // console.log("Checking Current Shape", currentShape.shapeType, currentShape);
-    console.log(
-      "Changing Circle Border Color",
-      currentShape.shapeType.toLowerCase() === "circle"
+    const getSetter = (shapeType) =>
+      shapeType.toLowerCase() === "circle" ? setCircles : setSquares;
+
+    let updatedShape = { ...currentShape, [name]: value };
+
+    if (name === "borderSize" || name === "borderColor") {
+      const borderProps = ["Left", "Right", "Bottom", "Top"].reduce(
+        (acc, direction) => {
+          acc[`border${direction}Size`] =
+            name === "borderSize"
+              ? value
+              : currentShape[`border${direction}Size`];
+          acc[`border${direction}Color`] =
+            name === "borderColor"
+              ? value
+              : currentShape[`border${direction}Color`];
+          return acc;
+        },
+        {}
+      );
+
+      updatedShape = { ...updatedShape, ...borderProps };
+    }
+
+    const setShapes = getSetter(currentShape.shapeType);
+    setShapes((prevShapes) =>
+      prevShapes.map((shape) => (shape._id === shapeId ? updatedShape : shape))
     );
 
-    if (currentShape.shapeType.toLowerCase() === "circle") {
-      updatedShape = { ...currentShape, [name]: value };
-      setCircles((prevCircles) =>
-        prevCircles.map((circle) =>
-          circle._id === shapeId ? updatedShape : circle
-        )
-      );
-      if (name === "borderSize") {
-        updatedShape = {
-          ...updatedShape,
-          borderLeftSize: value,
-          borderRightSize: value,
-          borderBottomSize: value,
-          borderTopSize: value,
-        };
-        setCircles((prevCircles) =>
-          prevCircles.map((circle) =>
-            circle._id === shapeId ? updatedShape : circle
-          )
-        );
-      }
-    } else if (currentShape.shapeType.toLowerCase() === "square") {
-      updatedShape = { ...currentShape, [name]: value };
-      setSquares((prevSquares) =>
-        prevSquares.map((square) =>
-          square._id === shapeId ? updatedShape : square
-        )
-      );
-      if (name === "borderSize") {
-        updatedShape = {
-          ...updatedShape,
-          borderLeftSize: value,
-          borderRightSize: value,
-          borderBottomSize: value,
-          borderTopSize: value,
-        };
-        setSquares((prevSquares) =>
-          prevSquares.map((square) =>
-            square._id === shapeId ? updatedShape : square
-          )
-        );
-
-        updateShape(shapeId, updatedShape);
-      }
-
-      console.log("before - name === 'borderColor'");
-    }
-
-    if (name === "borderColor") {
-      updatedShape = {
-        ...updatedShape,
-        borderLeftColor: value,
-        borderRightColor: value,
-        borderBottomColor: value,
-        borderTopColor: value,
-      };
-
-      console.log("Current shape type:", currentShape.shapeType.toLowerCase());
-
-      if (currentShape?.shapeType.toLowerCase() === "square") {
-        console.log("Changing Square Border Color:", updatedShape);
-        setSquares((prevSquares) =>
-          prevSquares.map((square) =>
-            square._id === shapeId ? updatedShape : square
-          )
-        );
-      }
-
-      if (currentShape?.shapeType.toLowerCase() === "circle") {
-        console.log("Changing Circle Border Color:", updatedShape);
-        setCircles((prevCircles) =>
-          prevCircles.map((circle) =>
-            circle._id === shapeId ? updatedShape : circle
-          )
-        );
-      }
-
+    if (!["height", "width"].includes(name)) {
       updateShape(shapeId, updatedShape);
     }
 
-    if (name !== "height" && name !== "width") {
-      updateShape(shapeId, updatedShape);
-    }
+    if (["circle", "square"].includes(currentShape.shapeType.toLowerCase())) {
+      let className = `${currentShape.shapeType.toLowerCase()}-shape`;
+      let elements = document.getElementsByClassName(className);
 
-    if (currentShape?.shapeType.toLowerCase() === "circle") {
-      let remove = document.getElementsByClassName("circle-shape");
-
-      for (let i = 0; i < circles.length; i++) {
-        remove[i].style.removeProperty("transform");
-      }
-    } else if (currentShape?.shapeType.toLowerCase() === "square") {
-      let remove = document.getElementsByClassName("square-shape");
-
-      for (let i = 0; i < squares.length; i++) {
-        remove[i].style.removeProperty("transform");
+      for (let element of elements) {
+        element.style.removeProperty("transform");
       }
     }
   };
 
-  // console.log("currentShape:", currentShape);
-
-  const updateJustifyContent = (justifyValue) => {
-    let updatedShape = {};
+  const shapeOrientation = (property, value) => {
+    let updatedShape = { ...currentShape, [property]: value };
 
     if (currentShape.shapeType.toLowerCase() === "circle") {
-      updatedShape = { ...currentShape, alignItems: justifyValue };
       setCircles((prevCircles) =>
         prevCircles.map((circle) =>
           circle._id === shapeId ? updatedShape : circle
         )
       );
     } else if (currentShape.shapeType.toLowerCase() === "square") {
-      updatedShape = { ...currentShape, justifyContent: justifyValue };
       setSquares((prevSquares) =>
         prevSquares.map((square) =>
           square._id === shapeId ? updatedShape : square
         )
       );
     }
-
-    updateShape(shapeId, updatedShape);
-  };
-
-  const updateAlignItems = (alignValue) => {
-    let updatedShape = {};
-
-    if (currentShape.shapeType.toLowerCase() === "circle") {
-      updatedShape = { ...currentShape, justifyContent: alignValue };
-      setCircles((prevCircles) =>
-        prevCircles.map((circle) =>
-          circle._id === shapeId ? updatedShape : circle
-        )
-      );
-    } else if (currentShape.shapeType.toLowerCase() === "square") {
-      updatedShape = { ...currentShape, alignItems: alignValue };
-      setSquares((prevSquares) =>
-        prevSquares.map((square) =>
-          square._id === shapeId ? updatedShape : square
-        )
-      );
-    }
-
     updateShape(shapeId, updatedShape);
   };
 
@@ -284,49 +135,56 @@ const ShapesTools = () => {
   return (
     <>
       {showShapeForm && (
-        <form
-          className="shape-form-container"
-          ref={shapeForm}
-          onSubmit={handleFormSubmit}
-        >
+        <div className="shape-form-container" ref={shapeForm}>
           <div>
             <h1 className="form-title">Shape Tools</h1>
             <div className="shape-form-fields-container">
               {/* ----------------------- Field #1 ----------------------- */}
               <div className="field-one">
-                <div className="dropdown-container" onClick={handleDropOne}>
+                <div
+                  className="dropdown-container"
+                  onClick={() => handleDropDown(1)}
+                >
                   <h1 className="text-input-title">Size & Color</h1>
                   <div
-                    className={dropDownOne ? "down-arrow" : "up-arrow"}
+                    className={activeDropDown === 1 ? "down-arrow" : "up-arrow"}
                   ></div>
                 </div>
                 <div
-                  className={dropDownOne ? "show-dropdown" : "hide-dropdown"}
+                  className={
+                    activeDropDown === 1 ? "show-dropdown" : "hide-dropdown"
+                  }
                 >
                   <div className="shape-label-input-container">
-                    <div className="shape-label-input">
-                      <label htmlFor="height">Heigth</label>
-                      <input
-                        type="number"
-                        name="height"
-                        onChange={handleInputChange}
-                        value={currentShape?.height}
-                      />
-                    </div>
-                    <input
-                      type="range"
-                      className="range"
-                      name="height"
-                      onChange={handleInputChange}
-                      value={currentShape?.height}
-                      min={10}
-                      max={500}
-                    />
+                    {!isCircle && (
+                      <>
+                        <div className="shape-label-input">
+                          <label htmlFor="height">Heigth</label>
+                          <input
+                            type="number"
+                            name="height"
+                            onChange={handleInputChange}
+                            value={currentShape?.height}
+                          />
+                        </div>
+                        <input
+                          type="range"
+                          className="range"
+                          name="height"
+                          onChange={handleInputChange}
+                          value={currentShape?.height}
+                          min={10}
+                          max={500}
+                        />
+                      </>
+                    )}
                   </div>
 
                   <div className="shape-label-input-container">
                     <div className="shape-label-input">
-                      <label htmlFor="width">width</label>
+                      <label htmlFor="width">
+                        {isCircle ? "Size" : "Width"}
+                      </label>
                       <input
                         type="number"
                         name="width"
@@ -402,13 +260,16 @@ const ShapesTools = () => {
               {/* ----------------------- Field #2 ----------------------- */}
 
               <div className="field-one">
-                <div className="dropdown-container" onClick={handleDropTwo}>
+                <div
+                  className="dropdown-container"
+                  onClick={() => handleDropDown(2)}
+                >
                   <h1 className="text-input-title">Text</h1>
                   <div
-                    className={dropDownTwo ? "down-arrow" : "up-arrow"}
+                    className={activeDropDown === 2 ? "down-arrow" : "up-arrow"}
                   ></div>
                 </div>
-                <div className={dropDownTwo ? "" : "hide-dropdown"}>
+                <div className={activeDropDown === 2 ? "" : "hide-dropdown"}>
                   <div className="shape-label-name">
                     <input
                       type="text"
@@ -449,43 +310,51 @@ const ShapesTools = () => {
                   <p className="align-text">Align Text</p>
                   <div className="justify-content-input">
                     <button
-                      type="text"
+                      type="button"
                       className="justify-left"
                       name="justifyContent"
-                      onClick={() => updateJustifyContent("flex-start")}
+                      onClick={() =>
+                        shapeOrientation("alignItems", "flex-start")
+                      }
                     />
                     <button
-                      type="text"
+                      type="button"
                       className="justify-center"
                       name="justifyContent"
-                      onClick={() => updateJustifyContent("center")}
+                      onClick={() => shapeOrientation("alignItems", "center")}
                     />
                     <button
-                      type="text"
+                      type="button"
                       className="justify-right"
                       name="justifyContent"
-                      onClick={() => updateJustifyContent("flex-end")}
+                      onClick={() => shapeOrientation("alignItems", "flex-end")}
                     />
                   </div>
 
                   <div className="justify-content-input">
                     <button
-                      type="text"
+                      type="button"
                       className="align-left"
                       name="alignItems"
-                      onClick={() => updateAlignItems("flex-start")}
+                      onClick={() =>
+                        shapeOrientation("justifyContent", "flex-start")
+                      }
                     />
                     <button
-                      type="text"
+                      type="button"
                       className="align-center"
                       name="alignItems"
-                      onClick={() => updateAlignItems("center")}
+                      onClick={() =>
+                        shapeOrientation("justifyContent", "center")
+                      }
                     />
                     <button
-                      type="text"
+                      type="button"
                       className="align-right"
                       name="alignItems"
-                      onClick={() => updateAlignItems("flex-end")}
+                      onClick={() =>
+                        shapeOrientation("justifyContent", "flex-end")
+                      }
                     />
                   </div>
                 </div>
@@ -494,14 +363,21 @@ const ShapesTools = () => {
               {/* ----------------------- Field #3 ----------------------- */}
 
               <div className="field-one">
-                <div className="dropdown-container" onClick={handleDropThree}>
+                <div
+                  className="dropdown-container"
+                  onClick={() => handleDropDown(3)}
+                >
                   <h1 className="text-input-title">Border</h1>
                   <div
-                    className={dropDownThree ? "down-arrow" : "up-arrow"}
+                    className={activeDropDown === 3 ? "down-arrow" : "up-arrow"}
                   ></div>
                 </div>
 
-                <div className={dropDownThree ? "show-input" : "hide-dropdown"}>
+                <div
+                  className={
+                    activeDropDown === 3 ? "show-input" : "hide-dropdown"
+                  }
+                >
                   <select
                     onChange={changeBorder}
                     value={selectedBorder}
@@ -553,8 +429,6 @@ const ShapesTools = () => {
             </div>
           </div>
 
-          {/* -------------------- Delete Div --------------------------- */}
-
           <div className="delete-shape-form">
             <button
               onClick={() => deleteTheShape(shapeId)}
@@ -563,7 +437,7 @@ const ShapesTools = () => {
               Delete
             </button>
           </div>
-        </form>
+        </div>
       )}
     </>
   );

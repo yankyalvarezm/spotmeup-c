@@ -14,6 +14,7 @@ function LayoutProvider({ children }) {
   const [layoutDeleted, setLayoutDeleted] = useState(null);
   const [layoutGoBack, setLayoutGoBack] = useState(null);
   const [layoutBody, setLayoutBody] = useState({});
+  const [floorPlan, setFloorPlan] = useState(false);
 
   const toggleEditingModal = () => {
     setShowEditingModal((prev) => !prev);
@@ -42,6 +43,10 @@ function LayoutProvider({ children }) {
     }
   }, [layoutId]);
 
+  const toggleFloorPlan = () => {
+    setFloorPlan(false);
+  };
+
   return (
     <LayoutContext.Provider
       value={{
@@ -65,6 +70,9 @@ function LayoutProvider({ children }) {
         setLayoutBody,
         layoutGoBack,
         setLayoutGoBack,
+        floorPlan,
+        setFloorPlan,
+        toggleFloorPlan,
       }}
     >
       {children}

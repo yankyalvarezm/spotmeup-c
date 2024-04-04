@@ -15,15 +15,18 @@ const StyledDiv = styled.div`
 `;
 
 const LayoutContent = ({ children }) => {
-  const { layoutBody } = useContext(LayoutContext);
+  const { layoutBody, floorPlan } = useContext(LayoutContext);
 
   return (
-   
-      <StyledDiv layoutBody={layoutBody} id="layout-styled-div">
-        {" "}
-        {children}
-      </StyledDiv>
-
+    <StyledDiv
+      layoutBody={layoutBody}
+      id={floorPlan ? "layout-styled-div" : "onhold-layout"}
+      className={`layout-${layoutBody.layoutType}-border`}
+    >
+      {" "}
+      <div className={`layout-${layoutBody.layoutType}`}></div>
+      {children}
+    </StyledDiv>
   );
 };
 
