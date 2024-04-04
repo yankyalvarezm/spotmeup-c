@@ -110,8 +110,8 @@ const CircleShape = ({ children, circle }) => {
   const handleEditShape = async (shapeId, body) => {
     try {
       const response = await editShapes(shapeId, body);
-      console.log("Edited Shape", response);
-      console.log("Line 59 - Body:", body);
+      // console.log("Edited Shape", response);
+      // console.log("Line 59 - Body:", body);
       setCircles((prev) => {
         return prev.map((circle) => {
           if (circle._id === shapeId) {
@@ -159,6 +159,7 @@ const CircleShape = ({ children, circle }) => {
 
   return (
     <Draggable
+      // bounds={{ left: 50, top: 0, right: 100, bottom: 220 }}
       bounds="parent"
       handle=".handle"
       onDrag={(e, ui) => handleDrag(e, ui)}

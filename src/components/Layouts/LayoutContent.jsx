@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { LayoutContext } from "../../context/layout.context";
 import styled from "styled-components";
 import Draggable from "react-draggable";
@@ -18,6 +18,11 @@ const StyledDiv = styled.div`
 
 const LayoutContent = ({ children }) => {
   const { layoutBody, floorPlan } = useContext(LayoutContext);
+
+  useEffect(() => {
+    // debugger
+    console.log(`Layout Content: ${layoutBody.layoutType}`);
+  }, [layoutBody]);
 
   return (
     <StyledDiv

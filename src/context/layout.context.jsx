@@ -28,6 +28,8 @@ function LayoutProvider({ children }) {
     setShowLayoutForm((prev) => !prev);
   };
 
+  console.log("Context LayoutBody:", layoutBody);
+
   useEffect(() => {
     const fetchLayout = async () => {
       try {

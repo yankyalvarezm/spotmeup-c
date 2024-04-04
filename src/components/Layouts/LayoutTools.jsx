@@ -5,13 +5,18 @@ import { useParams } from "react-router-dom";
 import AddShape from "../Shapes/AddShape";
 
 const LayoutTools = ({ children }) => {
-  const { layoutDetails, layoutBody, setLayoutBody, floorPlan, setFloorPlan } =
-    useContext(LayoutContext);
+  const {
+    layoutDetails,
+    layoutBody,
+    setLayoutBody,
+    floorPlan,
+    setFloorPlan,
+    setLayoutDetails,
+  } = useContext(LayoutContext);
   const [hasChanged, setHasChanged] = useState(false);
   const param = useParams();
   const [successMessage, setSuccessMessage] = useState(null);
   const [notSuccessMessage, setNotSuccessMessage] = useState(null);
- 
 
   useEffect(() => {
     setLayoutBody({
@@ -29,14 +34,24 @@ const LayoutTools = ({ children }) => {
     setHasChanged(false);
   }, [layoutDetails]);
 
+  useEffect(() => {
+    // debugger;
+    console.log(`LayoutTools: ${layoutBody.layoutType}`);
+  }, [layoutBody]);
+
   const handleFloorPlanSelect = async (floorPlanType) => {
+    // debugger;
     setLayoutBody((prevLayoutBody) => ({
       ...prevLayoutBody,
       layoutType: floorPlanType,
     }));
 
+    setLayoutDetails((prevLayoutBody) => ({
+      ...prevLayoutBody,
+      layoutType: floorPlanType,
+    }));
+
     setFloorPlan(true);
-    setHasChanged(true);
   };
 
   function debounce(func, wait) {
@@ -77,9 +92,7 @@ const LayoutTools = ({ children }) => {
 
   useEffect(() => {
     debounce(handleSaveLayout(), 1000);
-  }, [layoutBody, hasChanged]);
-
-  // console.log("layoutbody:", layoutBody);
+  }, [layoutBody, floorPlan]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -180,8 +193,6 @@ const LayoutTools = ({ children }) => {
           )}
         </div>
         {children}
-
-        
       </form>
 
       <div className={floorPlan ? "hide" : "select-floorplan-container"}>

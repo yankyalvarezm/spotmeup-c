@@ -35,7 +35,7 @@ const DisplayShapes = () => {
   }, [param.layoutIdParam, shapeDeleted, shapeEdited, shapeAdded]);
 
   return (
-    <>
+    <div className="display-shapes-container">
       {circles &&
         circles.map((circle) => (
           <CircleShape circle={circle} key={circle._id}></CircleShape>
@@ -45,7 +45,7 @@ const DisplayShapes = () => {
         squares.map((square) => (
           <SquareShape square={square} key={square._id}></SquareShape>
         ))}
-    </>
+    </div>
   );
 };
 

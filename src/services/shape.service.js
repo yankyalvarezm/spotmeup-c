@@ -29,7 +29,7 @@ export const getAllShapes = async (layoutId) => {
 export const editShapes = async (shapeId, body) => {
   try {
     const response = await axios.put(`${API_URL}/shape/${shapeId}/edit`, body);
-    console.log("response", response.data);
+    // console.log("response", response.data);
     return response.data;
   } catch (error) {
     console.log("error:", error);
