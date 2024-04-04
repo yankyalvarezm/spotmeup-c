@@ -2715,7 +2715,6 @@ input[type="color"]::-webkit-color-swatch {
 
 .floorplan-shapes-container > div {
   font-family: var(--primary--font);
-  font-size: 10px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -2730,26 +2729,28 @@ input[type="color"]::-webkit-color-swatch {
   flex-direction: column;
 }
 .floorplan-square {
-  
+  height: 100px;
+  width: 100px;
   border: 2px solid var(--white);
   background-color: var(--yellow);
 }
 .floorplan-circle {
-  
+  height: 100px;
+  width: 100px;
   border-radius: 50%;
   border: 2px solid var(--white);
   background-color: var(--yellow);
 }
 
-.floorplan-elipse-border {
+.floorplan-ellipse-border {
   position: relative;
-  width: 80px;
-  height: 70px;
+  height: 100px;
+  width: 100px;
   background-color: var(--white);
   clip-path: ellipse(50% 26% at 50% 50%);
   z-index: 2;
 }
-.floorplan-elipse {
+.floorplan-ellipse {
   position: relative;
   width: calc(100% - 10px);
   height: calc(100% - 10px);
@@ -2763,8 +2764,8 @@ input[type="color"]::-webkit-color-swatch {
 }
 .floorplan-triangle-border {
   position: relative;
-  width: 80px;
-  height: 80px;
+  height: 100px;
+  width: 100px;
   background-color: var(--white);
   clip-path: polygon(50% 0%, 0% 97%, 100% 97%);
   z-index: 2;
@@ -2843,29 +2844,28 @@ input[type="color"]::-webkit-color-swatch {
   margin-top: 1rem;
   padding-bottom: 1rem;
   border: none;
+  background-color: transparent;
 }
 
 /* ------------- Floor Plan Mess -------------- */
 
 .layout-square {
-  
   border: 2px solid var(--white);
   background-color: var(--yellow);
 }
 .layout-circle-border {
-  border-radius: 50%;
+  border-radius: 50% !important;
   border: 2px solid var(--white);
   background-color: var(--yellow);
 }
 
-.layout-elipse-border {
+.layout-ellipse-border {
   position: relative;
-  
   background-color: var(--white);
   clip-path: ellipse(50% 26% at 50% 50%);
   z-index: 2;
 }
-.layout-elipse {
+.layout-ellipse {
   position: relative;
   width: calc(100% - 10px);
   height: calc(100% - 10px);
@@ -2879,7 +2879,6 @@ input[type="color"]::-webkit-color-swatch {
 }
 .layout-triangle-border {
   position: relative;
-  
   background-color: var(--white);
   clip-path: polygon(50% 0%, 0% 97%, 100% 97%);
   z-index: 2;
@@ -2924,4 +2923,8 @@ input[type="color"]::-webkit-color-swatch {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.transparent {
+  background-color: transparent;
 }

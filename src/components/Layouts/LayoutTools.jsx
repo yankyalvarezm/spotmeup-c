@@ -200,9 +200,9 @@ const LayoutTools = ({ children }) => {
           >
             Circle
           </div>
-          <div className="floorplan-elipse-border">
+          <div className="floorplan-ellipse-border">
             <div
-              className="floorplan-elipse"
+              className="floorplan-ellipse"
               onClick={() => handleFloorPlanSelect("ellipse")}
             >
               Ellipse
