@@ -1878,7 +1878,8 @@ button:hover {
   transform: translate(-50%, -50%);
   text-align: center;
   margin-top: 1rem;
-  padding-bottom: 1rem;
+  /* padding-bottom: 1rem; */
+  /* border: none !important; */
 }
 
 #layout-styled-div > h1 {
@@ -2849,19 +2850,32 @@ input[type="color"]::-webkit-color-swatch {
 
 /* ------------- Floor Plan Mess -------------- */
 
+.layout-square-border {
+  height: 100%;
+  width: 100%;
+  /* border: 2px solid var(--black); */
+}
+
 .layout-square {
-  border: 2px solid var(--white);
-  background-color: var(--yellow);
+  width: 100%;
+  height: 100%;
+  /* border: 2px solid var(--black); */
 }
 .layout-circle-border {
   border-radius: 50% !important;
-  border: 2px solid var(--white);
-  background-color: var(--yellow);
+  /* border: 2px solid var(--black); */
+}
+
+.layout-circle {
+  width: 100%;
+  height: 100%;
+  border-radius: 50% !important;
+  /* border: 2px solid var(--black); */
 }
 
 .layout-ellipse-border {
   position: relative;
-  background-color: var(--white);
+  background-color: var(--black);
   clip-path: ellipse(50% 26% at 50% 50%);
   z-index: 2;
 }
@@ -2869,7 +2883,7 @@ input[type="color"]::-webkit-color-swatch {
   position: relative;
   width: calc(100% - 10px);
   height: calc(100% - 10px);
-  background-color: var(--yellow);
+  background-color: var(--white);
   clip-path: ellipse(50% 26% at 50% 50%);
   color: black;
   z-index: 3;
@@ -2878,47 +2892,68 @@ input[type="color"]::-webkit-color-swatch {
   align-items: center;
 }
 .layout-triangle-border {
-  position: relative;
-  background-color: var(--white);
-  clip-path: polygon(50% 0%, 0% 97%, 100% 97%);
-  z-index: 2;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  border: none !important;
 }
 .layout-triangle {
-  position: absolute;
-  width: calc(100% - 10px);
-  height: calc(100% - 10px);
+  position: relative;
+  width: calc(100% - 20px);
+  height: calc(100% - 20px);
   clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
-  background-color: var(--yellow);
+  background-color: var(--black);
   display: flex;
   justify-content: center;
   align-items: center;
   z-index: 3;
+  border: none;
+}
+.layout-triangle::before {
+  content: '';
+  position: absolute;
+  width: 90%;
+  height: 95%;
+  clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+  top: 50%;
+  left: 50%; 
+  z-index: -1;
+  background-color: var(--white); 
+  transform: translate(-50%, -50%);
+  /* Omitir el clip-path aquí permite que el pseudo-elemento actúe como un fondo/borde */
 }
 .layout-poligon-1-border{
-  background-color: var(--white);
-  clip-path: polygon(72% 0, 72% 39%, 100% 39%, 100% 64%, 71% 64%, 71% 100%, 0 100%, 0 0);
+  border: none !important;
 }
 .layout-poligon-1 {
-  width: calc(100% - 10px);
-  height: calc(100% - 10px);
-  background-color: var(--yellow);
+  position: relative;
+  width: 100%;
+  height: 100%;
+  background-color: var(--black);
   clip-path: polygon(72% 0, 72% 39%, 100% 40%, 100% 64%, 71% 64%, 71% 100%, 0 100%, 0 0);
   display: flex;
   justify-content: center;
   align-items: center;
 }
-.layout-poligon-2-border {
+
+.layout-poligon-1::before {
+  content: '';
+  position: absolute;
+  width: 90%;
+  height: 90%;
+  clip-path: polygon(72% 0, 72% 39%, 100% 40%, 100% 64%, 71% 64%, 71% 100%, 0 100%, 0 0);
+  top: 50%;
+  left: 50%; 
+  z-index: -1;
+  background-color: var(--white); 
+  transform: translate(-50%, -50%);
   
-  background-color: var(--white);
+}
+.layout-poligon-2-border {
+  background-color: var(--black);
   clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
 }
 .layout-poligon-2 {
   width: calc(100% - 10px);
   height: calc(100% - 10px);
-  background-color: var(--yellow);
+  background-color: var(--white);
   clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
   display: flex;
   justify-content: center;
