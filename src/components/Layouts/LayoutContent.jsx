@@ -12,6 +12,8 @@ const StyledDiv = styled.div`
   border-radius: ${(props) => props.layoutBody?.borderRadius}%;
   left: ${(props) => props.layoutBody?.x}%;
   top: ${(props) => props.layoutBody?.y}%;
+  overflow: hidden;
+  resize: both;
 `;
 
 const LayoutContent = ({ children }) => {

@@ -1835,6 +1835,8 @@ button:hover {
   /* justify-content: space-between; */
   flex-grow: 1;
   position: relative;
+  justify-content: center;
+  align-items: center;
 }
 
 .design-header-container {
@@ -1874,12 +1876,17 @@ button:hover {
 }
 
 #layout-styled-div{
-  position: absolute;
-  transform: translate(-50%, -50%);
-  text-align: center;
-  margin-top: 1rem;
+  /* position: absolute; */
+  /* transform: translate(-50%, -50%); */
+  /* text-align: center; */
+  /* margin-top: 1rem; */
   /* padding-bottom: 1rem; */
   /* border: none !important; */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  width: 100%;
 }
 
 #layout-styled-div > h1 {
@@ -1889,10 +1896,10 @@ button:hover {
 
 .layout-tools-savechanges {
   width: 80%;
-    margin-top: 1rem;
-    height: 16%;
-    top: 88%;
-    position: absolute;
+  margin-top: 1rem;
+  height: 16%;
+  top: 88%;
+  position: absolute;
 }
 
 .layout-tools-spacing {
@@ -2853,31 +2860,27 @@ input[type="color"]::-webkit-color-swatch {
 .layout-square-border {
   height: 100%;
   width: 100%;
-  /* border: 2px solid var(--black); */
 }
 
 .layout-square {
   width: 100%;
   height: 100%;
-  /* border: 2px solid var(--black); */
 }
 .layout-circle-border {
   border-radius: 50% !important;
-  /* border: 2px solid var(--black); */
 }
 
 .layout-circle {
   width: 100%;
   height: 100%;
   border-radius: 50% !important;
-  /* border: 2px solid var(--black); */
 }
 
 .layout-ellipse-border {
   position: relative;
   background-color: var(--black);
   clip-path: ellipse(50% 26% at 50% 50%);
-  z-index: 2;
+  /* z-index: 2; */
 }
 .layout-ellipse {
   position: relative;
@@ -2886,7 +2889,6 @@ input[type="color"]::-webkit-color-swatch {
   background-color: var(--white);
   clip-path: ellipse(50% 26% at 50% 50%);
   color: black;
-  z-index: 3;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -2896,25 +2898,24 @@ input[type="color"]::-webkit-color-swatch {
 }
 .layout-triangle {
   position: relative;
-  width: calc(100% - 20px);
-  height: calc(100% - 20px);
+  width: 100%;
+  height: 100%;
   clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
   background-color: var(--black);
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 3;
   border: none;
 }
 .layout-triangle::before {
   content: '';
   position: absolute;
   width: 90%;
-  height: 95%;
+  height: 90%;
   clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
   top: 50%;
   left: 50%; 
-  z-index: -1;
+  /* z-index: -1; */
   background-color: var(--white); 
   transform: translate(-50%, -50%);
   /* Omitir el clip-path aquí permite que el pseudo-elemento actúe como un fondo/borde */
@@ -2941,7 +2942,7 @@ input[type="color"]::-webkit-color-swatch {
   clip-path: polygon(72% 0, 72% 39%, 100% 40%, 100% 64%, 71% 64%, 71% 100%, 0 100%, 0 0);
   top: 50%;
   left: 50%; 
-  z-index: -1;
+  /* z-index: -1; */
   background-color: var(--white); 
   transform: translate(-50%, -50%);
   
