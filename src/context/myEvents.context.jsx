@@ -36,6 +36,7 @@ function MyEventsProvider({ children }) {
     setShowEventsForm(false);
   };
 
+  
   return (
     <MyEventsContext.Provider
       value={{
