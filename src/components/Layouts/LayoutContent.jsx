@@ -31,8 +31,10 @@ const LayoutContent = ({ children }) => {
       className={`layout-${layoutBody.layoutType}-border`}
     >
       {" "}
-      <div className={floorPlan ? `layout-${layoutBody.layoutType}` : "transparent"}></div>
+      <div className={floorPlan ? `layout-${layoutBody.layoutType}` : "transparent"}>
+
       {children}
+      </div>
     </StyledDiv>
   );
 };

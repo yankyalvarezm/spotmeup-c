@@ -1894,6 +1894,10 @@ button:hover {
   padding-bottom: 1rem;
 }
 
+#layout-styled-div > :first-child {
+  position: relative;
+}
+
 .layout-tools-savechanges {
   width: 80%;
   margin-top: 1rem;
@@ -2809,13 +2813,13 @@ input[type="color"]::-webkit-color-swatch {
   width: 100px;
   height: 100px;
   background-color: var(--white);
-  clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+  clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
 }
 .floorplan-poligon-2 {
   width: calc(100% - 10px);
   height: calc(100% - 10px);
   background-color: var(--yellow);
-  clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+  clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -2861,49 +2865,55 @@ input[type="color"]::-webkit-color-swatch {
 }
 
 .layout-square {
-  /* width: 100%; */
-  /* height: 100%; */
+  width: 100%;
+  height: 100%;
 }
 .layout-circle-border {
   border-radius: 50% !important;
 }
 
-/* .layout-circle {
+.layout-circle {
   width: 100%;
   height: 100%;
-  border-radius: 50% !important;
-} */
+}
 
 .layout-ellipse-border {
-  position: relative;
-  background-color: var(--black);
-  clip-path: ellipse(50% 26% at 50% 50%);
-  /* z-index: 2; */
+  border: none !important;
 }
 .layout-ellipse {
   position: relative;
-  width: calc(100% - 10px);
-  height: calc(100% - 10px);
-  background-color: var(--white);
+  width: 100%;
+  height: 100%;
+  background-color: var(--black);
   clip-path: ellipse(50% 26% at 50% 50%);
   color: black;
   display: flex;
   justify-content: center;
-  align-items: center;
-}
-.layout-triangle-border {
-  border: none !important;
+  border: none;
 }
 .layout-triangle {
   position: relative;
   width: 100%;
   height: 100%;
-  clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
   background-color: var(--black);
+  clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
   display: flex;
   justify-content: center;
   align-items: center;
   border: none;
+}
+.layout-ellipse::before {
+  content: '';
+  position: absolute;
+  width: 90%;
+  height: 90%;
+  background-color: var(--white);
+  clip-path: ellipse(50% 26% at 50% 50%);
+  top: 50%;
+  left: 50%;
+  display: flex;
+  justify-content: center;
+  transform: translate(-50%, -50%);
 }
 .layout-triangle::before {
   content: '';
@@ -2913,10 +2923,11 @@ input[type="color"]::-webkit-color-swatch {
   clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
   top: 50%;
   left: 50%; 
-  /* z-index: -1; */
   background-color: var(--white); 
   transform: translate(-50%, -50%);
-  /* Omitir el clip-path aquí permite que el pseudo-elemento actúe como un fondo/borde */
+}
+.layout-triangle-border {
+  border: none !important;
 }
 .layout-poligon-1-border{
   border: none !important;
@@ -2947,13 +2958,13 @@ input[type="color"]::-webkit-color-swatch {
 }
 .layout-poligon-2-border {
   background-color: var(--black);
-  clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+  clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
 }
 .layout-poligon-2 {
   width: calc(100% - 10px);
   height: calc(100% - 10px);
   background-color: var(--white);
-  clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+  clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
   display: flex;
   justify-content: center;
   align-items: center;
