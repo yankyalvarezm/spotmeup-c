@@ -4,3 +4,4 @@
 const API_URL = "https://spotmeup-s.adaptable.app"
 
 export {API_URL}
+
