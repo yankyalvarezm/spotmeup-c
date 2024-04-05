@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useRef } from "react";
 import { LayoutContext } from "../../context/layout.context";
 import styled from "styled-components";
-import Draggable from "react-draggable";
+import { useParams } from "react-router-dom";
 
 const StyledDiv = styled.div`
   width: ${(props) => props.layoutBody?.width}px;
@@ -17,14 +17,17 @@ const StyledDiv = styled.div`
 `;
 
 const LayoutContent = ({ children }) => {
-  const { layoutBody, floorPlan, setLayoutBody, updateLayout, layoutId } = useContext(LayoutContext);
+  const { layoutBody, floorPlan, setLayoutBody, setLayoutDetails, updateLayout, layoutId } =
+    useContext(LayoutContext);
   const layoutRef = useRef(null);
+  const param = useParams();
+  // console.log("param:", param);
 
   let element = document.querySelector("#layout-styled-div");
   useEffect(() => {
     if (layoutBody?.layoutType) {
       // console.log("element", element);
-      
+
       if (element) {
         element.style.removeProperty("width");
         element.style.removeProperty("height");
@@ -38,8 +41,7 @@ const LayoutContent = ({ children }) => {
         const { width, height } = entry.contentRect;
 
         if (width && height) {
-          updateLayout(layoutId, {width, height})
-
+          // updateLayout(param.layoutIdParam, { width, height });
 
           // console.log("element", element);
           setLayoutBody((prevLayoutBody) => ({
@@ -47,6 +49,12 @@ const LayoutContent = ({ children }) => {
             width,
             height,
           }));
+          setLayoutDetails((prevLayoutBody) => ({
+            ...prevLayoutBody,
+            width,
+            height,
+          }));
+
         }
       }
     });

@@ -34,11 +34,6 @@ const LayoutTools = ({ children }) => {
     setHasChanged(false);
   }, [layoutDetails]);
 
-  useEffect(() => {
-    // debugger;
-    console.log(`LayoutTools: ${layoutBody.layoutType}`);
-  }, [layoutBody]);
-
   const handleFloorPlanSelect = async (floorPlanType) => {
     // debugger;
     setLayoutBody((prevLayoutBody) => ({
@@ -73,7 +68,7 @@ const LayoutTools = ({ children }) => {
       const response = await editLayout(param.layoutIdParam, layoutBody);
       if (response.success) {
         setSuccessMessage(response.message);
-        console.log("layout updated:", response);
+        // console.log("layout updated:", response);
       }
 
       setTimeout(() => {
@@ -92,7 +87,7 @@ const LayoutTools = ({ children }) => {
 
   useEffect(() => {
     debounce(handleSaveLayout(), 1000);
-  }, [layoutBody, floorPlan]);
+  }, [hasChanged, floorPlan]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
