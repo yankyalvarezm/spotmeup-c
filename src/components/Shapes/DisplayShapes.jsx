@@ -31,6 +31,7 @@ const DisplayShapes = () => {
       setShapeAdded(false);
     }
 
+
     fetchShapes(param.layoutIdParam);
   }, [param.layoutIdParam, shapeDeleted, shapeEdited, shapeAdded]);
 
