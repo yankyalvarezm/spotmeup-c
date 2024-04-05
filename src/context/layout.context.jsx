@@ -1,5 +1,6 @@
 import React, { createContext, useEffect, useState } from "react";
 import { getOneLayout } from "../services/layout.service";
+import { editLayout } from "../services/layout.service";
 
 const LayoutContext = createContext();
 
@@ -28,7 +29,7 @@ function LayoutProvider({ children }) {
     setShowLayoutForm((prev) => !prev);
   };
 
-  console.log("Context LayoutBody:", layoutBody);
+  // console.log("Context LayoutBody:", layoutBody);
 
   useEffect(() => {
     const fetchLayout = async () => {
@@ -48,6 +49,21 @@ function LayoutProvider({ children }) {
   const toggleFloorPlan = () => {
     setFloorPlan(false);
   };
+
+  function debounce(fn, delay) {
+    let timeoutID = null;
+    return function (...args) {
+      clearTimeout(timeoutID);
+      timeoutID = setTimeout(() => {
+        fn(...args);
+      }, delay);
+    };
+  }
+
+  const updateLayout = debounce((layoutId, body) => {
+    editLayout(layoutId, body);
+    // console.log("updateLayout:", body );  
+  }, 1000);
 
   return (
     <LayoutContext.Provider
@@ -75,6 +91,7 @@ function LayoutProvider({ children }) {
         floorPlan,
         setFloorPlan,
         toggleFloorPlan,
+        updateLayout
       }}
     >
       {children}

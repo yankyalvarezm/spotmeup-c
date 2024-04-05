@@ -2937,7 +2937,7 @@ input[type="color"]::-webkit-color-swatch {
   width: 100%;
   height: 100%;
   background-color: var(--black);
-  clip-path: polygon(72% 0, 72% 39%, 100% 40%, 100% 64%, 71% 64%, 71% 100%, 0 100%, 0 0);
+  clip-path: polygon(72% 0, 72% 39%, 100% 40%, 100% 64%, 71% 64%, 71% 100%, 1 100%, 0 0);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -2954,7 +2954,6 @@ input[type="color"]::-webkit-color-swatch {
   /* z-index: -1; */
   background-color: var(--white); 
   transform: translate(-50%, -50%);
-  
 }
 .layout-poligon-2-border {
   background-color: var(--black);
@@ -2978,6 +2977,6 @@ input[type="color"]::-webkit-color-swatch {
   position: relative;
   width: 100%;
   height: 100%;
-  border: 2px solid red;
+  border: 4px solid red;
   z-index: 99;
 }
