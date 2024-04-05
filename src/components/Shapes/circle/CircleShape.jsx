@@ -159,8 +159,8 @@ const CircleShape = ({ children, circle }) => {
 
   return (
     <Draggable
-      bounds={{ left: 20, top: 20, right: 327, bottom: 250 }}
-      // bounds="parent"
+      // bounds={{ left: 20, top: 20, right: 327, bottom: 250 }}
+      bounds="parent"
       handle=".handle"
       onDrag={(e, ui) => handleDrag(e, ui)}
       defaultPosition={{ x: circle.x, y: circle.y }}

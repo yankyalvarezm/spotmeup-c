@@ -11,32 +11,10 @@ const DisplayVenues = () => {
   const { venueDetail, setVenueDetail, venueId, setVenueId } =
     useContext(VenuesContext);
 
-  const responsive = {
-    superLargeDesktop: {
-      breakpoint: { max: 4000, min: 3000 },
-      items: 4,
-      partialVisibilityGutter: 20,
-    },
-    desktop: {
-      breakpoint: { max: 1500, min: 1024 },
-      items: 4,
-      partialVisibilityGutter: 15,
-    },
-    tablet: {
-      breakpoint: { max: 1024, min: 464 },
-      items: 2,
-      partialVisibilityGutter: 15,
-    },
-    mobile: {
-      breakpoint: { max: 464, min: 0 },
-      items: 1,
-      partialVisibilityGutter: 15,
-    },
-  };
 
   const responsive2 = {
     superLargeDesktop: {
-      breakpoint: { max: 4000, min: 3000 },
+      breakpoint: { max: 9000, min: 3000 },
       items: 4,
       partialVisibilityGutter: 80,
     },
@@ -88,8 +66,7 @@ const DisplayVenues = () => {
   }, []);
 
   return (
-    <div className="display-venues-container">
-      <h1 className="carousel-title">Recently Added</h1>
+    
       <Carousel
         responsive={responsive2}
         className="carousel-recently-added carousel-class2"
@@ -106,7 +83,7 @@ const DisplayVenues = () => {
               <div
                 className={`${
                   hoveredVenueId === venue._id
-                    ? "hovered-venue transition-base"
+                    ? "hovered-venues transition-bases"
                     : "venue-img venue-img-hov transition-base"
                 } ${index === 0 ? "lastly-added" : ""}`}
                 id={`${hoveredVenueId === venue._id ? "" : "venue-img-first"}`}
@@ -140,45 +117,6 @@ const DisplayVenues = () => {
             </div>
           ))}
       </Carousel>
-
-      <h1 className="carousel-title">Clasicos</h1>
-      <Carousel
-        responsive={responsive}
-        infinite={false}
-        className="carousel-package"
-        partialVisible={true}
-
-        // focusOnSelect
-      >
-        {venues.map((venue, index) => (
-          <div key={index} className="venue-fields-container">
-            <div className="venue-img" id="venue-img">
-              <h1 className="venue-field venue-name">{venue.name}</h1>
-              <h1 className="venue-field venue-city">{venue.address.street}</h1>
-            </div>
-          </div>
-        ))}
-      </Carousel>
-
-      <h1 className="carousel-title">Los que no fallan</h1>
-      <Carousel
-        responsive={responsive}
-        infinite={false}
-        className="carousel-package"
-        partialVisible={true}
-      >
-        {venues.map((venue, index) => (
-          <div key={index} className="venue-fields-container">
-            <div className="venue-img" id="venue-img">
-              <h1 className="venue-field venue-name">{venue.name}</h1>
-              <h1 className="venue-field venue-city">{venue.address.street}</h1>
-            </div>
-          </div>
-        ))}
-      </Carousel>
-
-      {/* <VenueDetail /> */}
-    </div>
   );
 };
 
