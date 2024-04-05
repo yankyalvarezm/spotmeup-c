@@ -1,9 +1,9 @@
-import React, {
-  createContext,
-  useState,
-  useRef,
-} from "react";
-import { getAllShapes, createShape } from "../services/shape.service";
+import React, { createContext, useState, useRef } from "react";
+import {
+  getAllShapes,
+  createShape,
+  editShapes,
+} from "../services/shape.service";
 
 const ShapeContext = createContext();
 
@@ -25,8 +25,7 @@ function ShapeProvider({ children }) {
   const fetchShapes = async (layoutId) => {
     try {
       const response = await getAllShapes(layoutId);
-
-      console.log("Fetch Shapes", response);
+      // console.log("Fetch Shapes", response);
       if (response.success) {
         const circleFilter = response.shapes.filter(
           (shape) =>
@@ -59,8 +58,7 @@ function ShapeProvider({ children }) {
       if (response.success) {
         setCircles((prev) => [...prev, response.shape]);
       }
-
-      console.log("Shape Response:", response);
+      // console.log("Shape Response:", response);
     } catch (error) {
       console.log("error:", error);
     }
@@ -82,12 +80,26 @@ function ShapeProvider({ children }) {
           setSquares([response.shape]);
         }
       }
-
-      console.log("Shape Response:", response);
+      // console.log("Shape Response:", response);
     } catch (error) {
       console.log("error:", error);
     }
   };
+
+  function debounce(fn, delay) {
+    let timeoutID = null;
+    return function (...args) {
+      clearTimeout(timeoutID);
+      timeoutID = setTimeout(() => {
+        fn(...args);
+      }, delay);
+    };
+  }
+
+  const updateShape = debounce((shapeId, body) => {
+    editShapes(shapeId, body);
+    // console.log("Tools debounce working");
+  }, 500);
 
   return (
     <ShapeContext.Provider
@@ -121,6 +133,8 @@ function ShapeProvider({ children }) {
         addSquare,
         showShapes,
         setShowShapes,
+        updateShape,
+        debounce,
       }}
     >
       {children}

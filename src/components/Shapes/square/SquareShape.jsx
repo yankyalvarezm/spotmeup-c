@@ -1,62 +1,9 @@
 import React, { useEffect, useRef, useContext, useState } from "react";
 import Draggable from "react-draggable";
-import styled from "styled-components";
-import { ShapeContext } from "../../context/shape.context";
+import { ShapeContext } from "../../../context/shape.context";
 import { shapes } from "konva/lib/Shape";
-import { editShapes } from "../../services/shape.service";
-
-const StyledSquare = styled.div`
-  position: absolute;
-  width: ${(props) => props.square?.width}px;
-  height: ${(props) => props.square?.height}px;
-  background-color: ${(props) => props.square?.backgroundColor};
-  /* border: ${(props) => props.square?.borderSize}px solid
-    ${(props) => props.square?.borderColor}; */
-  border-left: ${(props) =>
-      props.square?.borderLeftSize
-        ? props.square?.borderLeftSize
-        : props.square?.borderSize}px
-    solid
-    ${(props) =>
-      props.square?.borderLeftColor
-        ? props.square?.borderLeftColor
-        : props.square?.borderColor};
-  border-right: ${(props) =>
-      props.square?.borderRightSize
-        ? props.square?.borderRightSize
-        : props.square?.borderSize}px
-    solid
-    ${(props) =>
-      props.square?.borderRightColor
-        ? props.square?.borderRightColor
-        : props.square?.borderColor};
-  border-bottom: ${(props) =>
-      props.square?.borderBottomSize
-        ? props.square?.borderBottomSize
-        : props.square?.borderSize}px
-    solid
-    ${(props) =>
-      props.square?.borderBottomColor
-        ? props.square?.borderBottomColor
-        : props.square?.borderColor};
-  border-top: ${(props) =>
-      props.square?.borderTopSize
-        ? props.square?.borderTopSize
-        : props.square?.borderSize}px
-    solid
-    ${(props) =>
-      props.square?.borderTopColor
-        ? props.square?.borderTopColor
-        : props.square?.borderColor};
-  max-width: 100%;
-  max-height: 100%;
-  text-align: center;
-  ${(props) => (props.resize ? "resize:both; overflow: hidden;" : "")}
-  transform: translate(
-    ${(props) => props.square?.x}px,
-    ${(props) => props.square?.y}px
-  );
-`;
+import { editShapes } from "../../../services/shape.service";
+import { StyledSquare } from "./StyledSquare";
 
 const SquareShape = ({ children, square }) => {
   const squareRef = useRef(null);
@@ -66,18 +13,13 @@ const SquareShape = ({ children, square }) => {
     y: 0,
   });
   const {
-    showInput,
-    setShowInput,
-    toggleShapeForm,
     shapeForm,
     setShapeId,
     showShapeForm,
     shapeId,
     setShowShapeForm,
-    setShapeEdited,
-    squares,
     setSquares,
-    getShape,
+    updateShape,
   } = useContext(ShapeContext);
   const [hasMoved, setHasMoved] = useState(false);
 
@@ -115,21 +57,6 @@ const SquareShape = ({ children, square }) => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [editingName, saveName]);
-
-  function debounce(fn, delay) {
-    let timeoutID = null;
-    return function (...args) {
-      clearTimeout(timeoutID);
-      timeoutID = setTimeout(() => {
-        fn(...args);
-      }, delay);
-    };
-  }
-
-  const updateShape = debounce((shapeId, body) => {
-    editShapes(shapeId, body);
-    console.log("debounce working");
-  }, 250);
 
   useEffect(() => {
     const resizeObserver = new ResizeObserver((entries) => {

@@ -5,8 +5,14 @@ import { useParams } from "react-router-dom";
 import AddShape from "../Shapes/AddShape";
 
 const LayoutTools = ({ children }) => {
-  const { layoutDetails, layoutBody, setLayoutBody } =
-    useContext(LayoutContext);
+  const {
+    layoutDetails,
+    layoutBody,
+    setLayoutBody,
+    floorPlan,
+    setFloorPlan,
+    setLayoutDetails,
+  } = useContext(LayoutContext);
   const [hasChanged, setHasChanged] = useState(false);
   const param = useParams();
   const [successMessage, setSuccessMessage] = useState(null);
@@ -22,10 +28,26 @@ const LayoutTools = ({ children }) => {
       borderSize: layoutDetails?.borderSize,
       x: layoutDetails?.x,
       y: layoutDetails?.y,
+      layoutType: layoutDetails?.layoutType,
     });
 
     setHasChanged(false);
   }, [layoutDetails]);
+
+  const handleFloorPlanSelect = async (floorPlanType) => {
+    // debugger;
+    setLayoutBody((prevLayoutBody) => ({
+      ...prevLayoutBody,
+      layoutType: floorPlanType,
+    }));
+
+    setLayoutDetails((prevLayoutBody) => ({
+      ...prevLayoutBody,
+      layoutType: floorPlanType,
+    }));
+
+    setFloorPlan(true);
+  };
 
   function debounce(func, wait) {
     let timeout;
@@ -41,37 +63,12 @@ const LayoutTools = ({ children }) => {
     };
   }
 
-  // const handleSaveLayoutDebounced = useCallback(
-  //   debounce(async () => {
-  //     try {
-  //       const response = await editLayout(param.layoutIdParam, layoutBody);
-  //       console.log("response after debounce", response);
-  //       if (response.success) {
-  //         setSuccessMessage(response.message);
-  //       }
-
-  //       setTimeout(() => {
-  //         setSuccessMessage(null);
-  //       }, 2000);
-
-  //       setHasChanged(false);
-  //     } catch (error) {
-  //       console.log("The error:", error);
-  //       setNotSuccessMessage(error.response.message);
-  //       setTimeout(() => {
-  //         setNotSuccessMessage(null);
-  //       }, 2000);
-  //     }
-  //   }, 1000),
-  //   [layoutBody]
-  // );
-
   const handleSaveLayout = async () => {
     try {
       const response = await editLayout(param.layoutIdParam, layoutBody);
-      // console.log("response after debounce", response);
       if (response.success) {
         setSuccessMessage(response.message);
+        // console.log("layout updated:", response);
       }
 
       setTimeout(() => {
@@ -90,9 +87,7 @@ const LayoutTools = ({ children }) => {
 
   useEffect(() => {
     debounce(handleSaveLayout(), 1000);
-  }, [layoutBody]);
-
-  // console.log("layoutbody:", layoutBody);
+  }, [hasChanged, floorPlan]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -105,90 +100,145 @@ const LayoutTools = ({ children }) => {
   };
 
   return (
-    <form className="layout-tools-container">
-      <div className="layout-tools-spacing">
-        <h1 className="layout-tools-title">Layout Tools</h1>
-        <div className="layout-tools-content-container">
-          <div className="layout-tools-content">
-            <label htmlFor="width">Width</label>
-            <input
-              type="number"
-              value={layoutBody.width}
-              name="width"
-              max={layoutBody.maxWidth}
-              min={100}
-              onChange={handleChange}
-            />
+    <div>
+      <form
+        className={
+          floorPlan ? "layout-tools-container" : "layout-tools-container hide"
+        }
+      >
+        <div className="layout-tools-spacing">
+          <h1 className="layout-tools-title">Layout Tools</h1>
+          <div className="layout-tools-content-container">
+            <div className="layout-tools-content">
+              <label htmlFor="width">Width</label>
+              <input
+                type="number"
+                value={layoutBody.width}
+                name="width"
+                max={layoutBody.maxWidth}
+                min={100}
+                onChange={handleChange}
+              />
+            </div>
+
+            <div className="layout-tools-content">
+              <label htmlFor="height">height</label>
+              <input
+                type="number"
+                name="height"
+                value={layoutBody.height}
+                max={layoutBody.maxHeight}
+                min={100}
+                onChange={handleChange}
+              />
+            </div>
           </div>
 
-          <div className="layout-tools-content">
-            <label htmlFor="height">height</label>
-            <input
-              type="number"
-              name="height"
-              value={layoutBody.height}
-              max={layoutBody.maxHeight}
-              min={100}
-              onChange={handleChange}
-            />
-          </div>
-        </div>
+          <div className="layout-tools-content-container">
+            <div className="layout-tools-content">
+              <label htmlFor="borderSize">Border</label>
+              <input
+                type="number"
+                name="borderSize"
+                value={layoutBody.borderSize}
+                min={0}
+                onChange={handleChange}
+              />
+            </div>
 
-        <div className="layout-tools-content-container">
-          <div className="layout-tools-content">
-            <label htmlFor="borderSize">Border</label>
-            <input
-              type="number"
-              name="borderSize"
-              value={layoutBody.borderSize}
-              min={1}
-              onChange={handleChange}
-            />
-          </div>
-
-          <div className="layout-tools-content">
-            <label htmlFor="borderRadius">Radius</label>
-            <input
-              type="number"
-              name="borderRadius"
-              value={layoutBody.borderRadius}
-              min={0}
-              onChange={handleChange}
-            />
-          </div>
-        </div>
-
-        <div className="layout-tools-content-container">
-          <div className="layout-tools-content">
-            <label htmlFor="x">X</label>
-            <input
-              type="number"
-              name="x"
-              value={layoutBody.x}
-              onChange={handleChange}
-            />
+            <div className="layout-tools-content">
+              <label htmlFor="borderRadius">Radius</label>
+              <input
+                type="number"
+                name="borderRadius"
+                value={layoutBody.borderRadius}
+                min={0}
+                onChange={handleChange}
+              />
+            </div>
           </div>
 
-          <div className="layout-tools-content">
-            <label htmlFor="y">Y</label>
-            <input
-              type="number"
-              name="y"
-              value={layoutBody.y}
-              onChange={handleChange}
-            />
-          </div>
-        </div>
+          <div className="layout-tools-content-container">
+            <div className="layout-tools-content">
+              <label htmlFor="x">X</label>
+              <input
+                type="number"
+                name="x"
+                value={layoutBody.x}
+                onChange={handleChange}
+              />
+            </div>
 
-        {/* {successMessage && (
+            <div className="layout-tools-content">
+              <label htmlFor="y">Y</label>
+              <input
+                type="number"
+                name="y"
+                value={layoutBody.y}
+                onChange={handleChange}
+              />
+            </div>
+          </div>
+
+          {/* {successMessage && (
           <h1 className="layout-tools-success">{successMessage}</h1>
         )} */}
-        {notSuccessMessage && (
-          <h1 className="layout-tools-Notsuccess">{notSuccessMessage}</h1>
-        )}
+          {notSuccessMessage && (
+            <h1 className="layout-tools-Notsuccess">{notSuccessMessage}</h1>
+          )}
+        </div>
+        {children}
+      </form>
+
+      <div className={floorPlan ? "hide" : "select-floorplan-container"}>
+        <h1 className="floorplan-title">Select A Floor Plan</h1>
+
+        <div className="floorplan-shapes-container">
+          <div
+            className="floorplan-square"
+            onClick={() => handleFloorPlanSelect("square")}
+          >
+            Square
+          </div>
+          <div
+            className="floorplan-circle"
+            onClick={() => handleFloorPlanSelect("circle")}
+          >
+            Circle
+          </div>
+          <div className="floorplan-ellipse-border">
+            <div
+              className="floorplan-ellipse"
+              onClick={() => handleFloorPlanSelect("ellipse")}
+            >
+              Ellipse
+            </div>
+          </div>
+          <div className="floorplan-triangle-border">
+            <div
+              className="floorplan-triangle"
+              onClick={() => handleFloorPlanSelect("triangle")}
+            >
+              Triangle
+            </div>
+          </div>
+          <div className="floorplan-poligon-1-border">
+            <div
+              className="floorplan-poligon-1"
+              onClick={() => handleFloorPlanSelect("poligon-1")}
+            >
+              Poligon #1
+            </div>
+          </div>
+          <div
+            className="floorplan-poligon-2-border"
+            onClick={() => handleFloorPlanSelect("poligon-2")}
+          >
+            <div className="floorplan-poligon-2">Polingon #2</div>
+          </div>
+        </div>
       </div>
-      {children}
-    </form>
+    </div>
   );
 };
 

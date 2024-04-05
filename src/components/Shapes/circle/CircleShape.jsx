@@ -1,62 +1,8 @@
 import React, { useEffect, useRef, useState, useContext } from "react";
 import Draggable from "react-draggable";
-import styled from "styled-components";
-import { ShapeContext } from "../../context/shape.context";
-import { editShapes } from "../../services/shape.service";
-
-const StyledCircle = styled.div`
-  width: ${(prop) => prop.circle?.width}px;
-  height: ${(prop) => prop.circle?.width}px;
-  border-radius: ${(prop) => prop.circle?.borderRadius || 50}%;
-  background-color: ${(prop) => prop.circle?.backgroundColor};
-  // border: ${(prop) => prop.circle?.borderSize}px solid
-  //   ${(prop) => prop.circle?.borderColor};
-  border-left: ${(props) =>
-      props.circle?.borderLeftSize
-        ? props.circle?.borderLeftSize
-        : props.circle?.borderSize}px
-    solid
-    ${(props) =>
-      props.circle?.borderLeftColor
-        ? props.circle?.borderLeftColor
-        : props.circle?.borderColor};
-  border-right: ${(props) =>
-      props.circle?.borderRightSize
-        ? props.circle?.borderRightSize
-        : props.circle?.borderSize}px
-    solid
-    ${(props) =>
-      props.circle?.borderRightColor
-        ? props.circle?.borderRightColor
-        : props.circle?.borderColor};
-  border-bottom: ${(props) =>
-      props.circle?.borderBottomSize
-        ? props.circle?.borderBottomSize
-        : props.circle?.borderSize}px
-    solid
-    ${(props) =>
-      props.circle?.borderBottomColor
-        ? props.circle?.borderBottomColor
-        : props.circle?.borderColor};
-  border-top: ${(props) =>
-      props.circle?.borderTopSize
-        ? props.circle?.borderTopSize
-        : props.circle?.borderSize}px
-    solid
-    ${(props) =>
-      props.circle?.borderTopColor
-        ? props.circle?.borderTopColor
-        : props.circle?.borderColor};
-  max-width: 100%;
-  max-height: 100%;
-  position: absolute;
-  text-align: center;
-  transform: translate(
-    ${(props) => props.circle?.x}px,
-    ${(props) => props.circle?.y}px
-  );
-  ${(props) => (props.resize ? "resize: horizontal; overflow: hidden;" : "")}
-`;
+import { ShapeContext } from "../../../context/shape.context";
+import { editShapes } from "../../../services/shape.service";
+import { StyledCircle } from "./StyledCircle";
 
 const CircleShape = ({ children, circle }) => {
   const circleRef = useRef(null);
@@ -74,6 +20,7 @@ const CircleShape = ({ children, circle }) => {
     setCircles,
     shapeId,
     showShapeForm,
+    updateShape,
   } = useContext(ShapeContext);
 
   const [hasMoved, setHasMoved] = useState(false);
@@ -111,21 +58,6 @@ const CircleShape = ({ children, circle }) => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [editingName, saveName]);
-
-  function debounce(fn, delay) {
-    let timeoutID = null;
-    return function (...args) {
-      clearTimeout(timeoutID);
-      timeoutID = setTimeout(() => {
-        fn(...args);
-      }, delay);
-    };
-  }
-
-  const updateShape = debounce((shapeId, body) => {
-    editShapes(shapeId, body);
-    console.log("debounce working");
-  }, 250);
 
   useEffect(() => {
     const resizeObserver = new ResizeObserver((entries) => {
@@ -178,8 +110,8 @@ const CircleShape = ({ children, circle }) => {
   const handleEditShape = async (shapeId, body) => {
     try {
       const response = await editShapes(shapeId, body);
-      console.log("Edited Shape", response);
-      console.log("Line 59 - Body:", body);
+      // console.log("Edited Shape", response);
+      // console.log("Line 59 - Body:", body);
       setCircles((prev) => {
         return prev.map((circle) => {
           if (circle._id === shapeId) {
@@ -227,7 +159,8 @@ const CircleShape = ({ children, circle }) => {
 
   return (
     <Draggable
-      bounds="parent"
+      bounds={{ left: 20, top: 20, right: 327, bottom: 250 }}
+      // bounds="parent"
       handle=".handle"
       onDrag={(e, ui) => handleDrag(e, ui)}
       defaultPosition={{ x: circle.x, y: circle.y }}
