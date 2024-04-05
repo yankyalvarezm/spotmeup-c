@@ -1,5 +1,5 @@
 import React, { useContext, useState } from "react";
-import { MyEventsContext } from "../../context/MyEvents.context";
+import { MyEventsContext } from "../../context/myEvents.context";
 
 const BackVenueSearch = () => {
   const { toggleVenuesForm } = useContext(MyEventsContext);

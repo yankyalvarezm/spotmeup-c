@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import { Link } from "react-router-dom";
-import { MyEventsContext } from "../../context/MyEvents.context";
+import { MyEventsContext } from "../../context/myEvents.context";
 
 const SubNavbar = () => {
   const { displayEvents, displayVenues, showVenues, showEvents } =

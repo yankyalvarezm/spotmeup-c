@@ -3,7 +3,7 @@ import SubNavbar from "../components/MyEvents/SubNavbar";
 import NavBar from "../components/ToolsC/NavBar";
 import AddNewVenue from "../components/MyEvents/AddNewVenue";
 import SearchVenues from "../components/MyEvents/SearchVenues";
-import { MyEventsContext } from "../context/MyEvents.context";
+import { MyEventsContext } from "../context/myEvents.context";
 import SearchEvents from "../components/MyEvents/SearchEvents";
 import AddNewEvent from "../components/MyEvents/AddNewEvent";
 import VenueForm from "../components/Venues/VenueForm";

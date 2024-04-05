@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { MyEventsContext } from "../../context/MyEvents.context";
+import { MyEventsContext } from "../../context/myEvents.context";
 
 const AddNewVenue = () => {
   const { displayVenuesForm } = useContext(MyEventsContext);

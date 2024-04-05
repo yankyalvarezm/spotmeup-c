@@ -1,6 +1,6 @@
 import React, { useState, useContext, useEffect, useRef } from "react";
 import { createVenue } from "../../services/venue.service";
-import { MyEventsContext } from "../../context/MyEvents.context";
+import { MyEventsContext } from "../../context/myEvents.context";
 import { GoogleMapsContext } from "../../context/GoogleMapsContext";
 
 const VenueForm = () => {
