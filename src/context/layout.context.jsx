@@ -26,8 +26,6 @@ function LayoutProvider({ children }) {
     setShowLayoutForm((prev) => !prev);
   };
 
-  // console.log("Context LayoutBody:", layoutBody);
-
   useEffect(() => {
     const fetchLayout = async () => {
       try {
@@ -46,6 +44,16 @@ function LayoutProvider({ children }) {
   const toggleFloorPlan = () => {
     setFloorPlan(false);
     setIsSelected(false);
+
+    setLayoutBody((prevLayoutBody) => ({
+      ...prevLayoutBody,
+      layoutType: undefined,
+    }));
+
+    setLayoutDetails((prevLayoutBody) => ({
+      ...prevLayoutBody,
+      layoutType: undefined,
+    }));
   };
 
   function debounce(fn, delay) {
@@ -58,7 +66,7 @@ function LayoutProvider({ children }) {
     };
   }
 
-  console.log("isSelected:", isSelected);
+  // console.log("isSelected:", isSelected);
 
   const updateLayout = debounce((layoutId, body) => {
     editLayout(layoutId, body);

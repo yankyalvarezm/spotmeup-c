@@ -8,10 +8,6 @@ import { LayoutContext } from "../../../context/layout.context";
 const CircleShape = ({ children, circle }) => {
   const circleRef = useRef(null);
   const nameRef = useRef(null);
-  const [newPositionCircle, setNewPositionCircle] = useState({
-    x: 50,
-    y: 50,
-  });
 
   const {
     toggleShapeForm,
@@ -28,7 +24,16 @@ const CircleShape = ({ children, circle }) => {
   const [hasMoved, setHasMoved] = useState(false);
   const [editingName, setEditingName] = useState(false);
   const [circleName, setCircleName] = useState(circle.name);
-  const [lastValidPosition, setLastValidPosition] = useState({ x: 0, y: 0 });
+  const [lastValidPosition, setLastValidPosition] = useState({
+    x: layoutBody.width / 2 - circle.width / 2,
+    y: layoutBody.width / 2,
+  });
+  const [newPositionCircle, setNewPositionCircle] = useState({
+    x: lastValidPosition.x,
+    y: lastValidPosition.y,
+  });
+
+  // const [startPosition, setStartPosition] = useState({ x: 0, y: 0 });
 
   const handleNameChange = (e) => {
     setCircleName(e.target.value);
@@ -154,6 +159,123 @@ const CircleShape = ({ children, circle }) => {
     }
   };
 
+  function getPolygonPoints(
+    layoutType,
+    containerWidth,
+    containerHeight,
+    circleWidth,
+    circleHeight
+  ) {
+    // console.log("getPolygonPoints called with layoutType:", layoutType);
+    switch (layoutType) {
+      case "poligon-1":
+        return [
+          {
+            x: containerWidth * 0.79 - circle.width / 3,
+            y: containerHeight * 0.02 - circle.height / 3,
+          },
+          {
+            x: containerWidth * 0.79 - circle.width / 3,
+            y: containerHeight * 0.37 - circle.height / 3,
+          },
+          {
+            x: containerWidth * 0.98 - circle.width / 3,
+            y: containerHeight * 0.37 - circle.height / 3,
+          },
+          {
+            x: containerWidth * 0.98 - circle.width / 3,
+            y: containerHeight * 0.63 - circle.height / 3,
+          },
+          {
+            x: containerWidth * 0.79 - circle.width / 3,
+            y: containerHeight * 0.63 - circle.height / 3,
+          },
+          {
+            x: containerWidth * 0.79 - circle.width / 3,
+            y: containerHeight * 0.88 - circle.height / 3,
+          },
+          {
+            x: containerWidth * 0.02 - circle.width / 3,
+            y: containerHeight * 0.98 - circle.height / 3,
+          },
+          {
+            x: containerWidth * 0.02 - circle.width / 3,
+            y: containerHeight * 0.02 - circle.height / 3,
+          },
+        ];
+      case "triangle":
+        return [
+          {
+            x: containerWidth * 0.5 - circle.width / 2,
+            y: containerHeight * 0.02 - circle.height / 2,
+          },
+          {
+            x: containerWidth * 0.02 - circle.width / 2,
+            y: containerHeight * 0.99 - circle.height / 2,
+          },
+          {
+            x: containerWidth * 0.98 - circle.width / 2,
+            y: containerHeight * 0.99 - circle.height / 2,
+          },
+        ];
+      case "poligon-2":
+        return [
+          {
+            x: containerWidth * 0.26 - circle.width / 3,
+            y: containerHeight * 0.02 - circle.height / 3,
+          },
+          {
+            x: containerWidth * 0.74 - circle.width / 3,
+            y: containerHeight * 0.02 - circle.height / 3,
+          },
+          {
+            x: containerWidth * 0.98 - circle.width / 3,
+            y: containerHeight * 0.5 - circle.height / 3,
+          },
+          {
+            x: containerWidth * 0.74 - circle.width / 3,
+            y: containerHeight * 0.98 - circle.height / 3,
+          },
+          {
+            x: containerWidth * 0.26 - circle.width / 3,
+            y: containerHeight * 0.98 - circle.height / 3,
+          },
+          {
+            x: containerWidth * 0.02 - circle.width / 3,
+            y: containerHeight * 0.5 - circle.height / 3,
+          },
+        ];
+
+      default:
+        return [
+          {
+            x: 0,
+            y: 0,
+          },
+          {
+            x: containerWidth,
+            y: 0,
+          },
+          {
+            x: containerWidth,
+            y: containerHeight,
+          },
+          {
+            x: 0,
+            y: containerHeight,
+          },
+        ];
+    }
+  }
+
+  let polygonPoints = getPolygonPoints(
+    layoutBody.layoutType,
+    layoutBody.width,
+    layoutBody.height,
+    circle.width,
+    circle.height
+  );
+
   function isPointInPolygon(polygon, point) {
     let isInside = false;
     const x = point.x,
@@ -171,66 +293,48 @@ const CircleShape = ({ children, circle }) => {
     return isInside;
   }
 
+  console.log("lastValidPosition:", lastValidPosition);
+
+  // useEffect(() => {
+  //   let position1 = {
+  //     x: lastValidPosition.x + circle.width,
+  //     y: lastValidPosition.y,
+  //   };
+  //   let position2 = {
+  //     x: lastValidPosition.x - circle.width,
+  //     y: lastValidPosition.y,
+  //   };
+
+  //   let position3 = {
+  //     x: lastValidPosition.x,
+  //     y: lastValidPosition.y + circle.height,
+  //   };
+  //   let position4 = {
+  //     x: lastValidPosition.x,
+  //     y: lastValidPosition.y + circle.height,
+  //   };
+  //   const checkPos1 = isPointInPolygon(polygonPoints, position1);
+  //   const checkPos2 = isPointInPolygon(polygonPoints, position2);
+  //   const checkPos3 = isPointInPolygon(polygonPoints, position3);
+  //   const checkPos4 = isPointInPolygon(polygonPoints, position4);
+
+  //   if (checkPos1) {
+  //     setStartPosition(position1);
+  //   } else if (checkPos2) {
+  //     setStartPosition(position2);
+  //   } else if (checkPos3) {
+  //     setStartPosition(position3);
+  //   } else if (checkPos4) {
+  //     setStartPosition(position4);
+  //   }
+  // }, [circle]);
+
   const handleDrag = (e, ui) => {
-    const containerWidth = layoutBody.width;
-    const containerHeight = layoutBody.height;
     const newPosition = {
       x: ui.x,
       y: ui.y,
     };
-
-    // console.log("lastValidPositionY:", lastValidPosition.y);
-    // console.log("newPositionCircleY:", newPositionCircle.y);
-
-    // const polygonPoints = [
-    //   {
-    //     x: containerWidth * 0.79 - circle.width / 3,
-    //     y: containerHeight * 0.02 - circle.height / 3,
-    //   },
-    //   {
-    //     x: containerWidth * 0.79 - circle.width / 3,
-    //     y: containerHeight * 0.37 - circle.height / 3,
-    //   },
-    //   {
-    //     x: containerWidth * 0.98 - circle.width / 3,
-    //     y: containerHeight * 0.37 - circle.height / 3,
-    //   },
-    //   {
-    //     x: containerWidth * 0.98 - circle.width / 3,
-    //     y: containerHeight * 0.63 - circle.height / 3,
-    //   },
-    //   {
-    //     x: containerWidth * 0.79 - circle.width / 3,
-    //     y: containerHeight * 0.63 - circle.height / 3,
-    //   },
-    //   {
-    //     x: containerWidth * 0.79 - circle.width / 3,
-    //     y: containerHeight * 0.88 - circle.height / 3,
-    //   },
-    //   {
-    //     x: containerWidth * 0.02 - circle.width / 3,
-    //     y: containerHeight * 0.98 - circle.height / 3,
-    //   },
-    //   {
-    //     x: containerWidth * 0.02 - circle.width / 3,
-    //     y: containerHeight * 0.02 - circle.height / 3,
-    //   },
-    // ];
-
-    const polygonPoints = [
-      {
-        x: containerWidth * 0.50 - circle.width / 2,
-        y: containerHeight * 0.02 - circle.height / 2,
-      },
-      {
-        x: containerWidth * 0.02 - circle.width / 2,
-        y: containerHeight * 0.99 - circle.height / 2,
-      },
-      {
-        x: containerWidth * 0.98 - circle.width / 2,
-        y: containerHeight * 0.99 - circle.height / 2,
-      },
-    ];
+    // console.log(`Polygon points for ${layoutBody.layoutType}:`, polygonPoints);
 
     if (isPointInPolygon(polygonPoints, newPosition)) {
       // console.log("INSIDE");
@@ -244,21 +348,21 @@ const CircleShape = ({ children, circle }) => {
       const dy = newPosition.y - lastValidPosition.y;
 
       if (Math.abs(dx) > Math.abs(dy)) {
-        console.log("X - OUT");
+        // console.log("X - OUT");
 
         setNewPositionCircle({
           x: lastValidPosition.x,
           y: newPosition.y,
         });
       } else if (Math.abs(dy) > Math.abs(dx)) {
-        console.log("Y - OUT");
+        // console.log("Y - OUT");
 
         setNewPositionCircle({
           x: newPosition.x,
           y: lastValidPosition.y,
         });
       } else {
-        console.log("same shit");
+        // console.log("same shit");
         setNewPositionCircle(lastValidPosition);
       }
     }
@@ -270,6 +374,7 @@ const CircleShape = ({ children, circle }) => {
       handle=".handle"
       onDrag={(e, ui) => handleDrag(e, ui)}
       position={{ x: newPositionCircle.x, y: newPositionCircle.y }}
+      // defaultPosition={{ x: startPosition.x, y: startPosition.y }}
       onStop={() => {
         if (hasMoved) {
           handleEditShape(circle._id, newPositionCircle);
