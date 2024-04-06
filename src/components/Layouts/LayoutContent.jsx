@@ -26,7 +26,6 @@ const LayoutContent = ({ children }) => {
   let element = document.querySelector("#layout-styled-div");
   useEffect(() => {
     if (layoutBody?.layoutType) {
-      // console.log("element", element);
 
       if (element) {
         element.style.removeProperty("width");
@@ -41,9 +40,6 @@ const LayoutContent = ({ children }) => {
         const { width, height } = entry.contentRect;
 
         if (width && height) {
-          // updateLayout(param.layoutIdParam, { width, height });
-
-          // console.log("element", element);
           setLayoutBody((prevLayoutBody) => ({
             ...prevLayoutBody,
             width,

@@ -2741,14 +2741,14 @@ input[type="color"]::-webkit-color-swatch {
 .floorplan-square {
   height: 100px;
   width: 100px;
-  border: 2px solid var(--white);
+  border: 2px solid var(--black);
   background-color: var(--yellow);
 }
 .floorplan-circle {
   height: 100px;
   width: 100px;
   border-radius: 50%;
-  border: 2px solid var(--white);
+  border: 2px solid var(--black);
   background-color: var(--yellow);
 }
 
@@ -2794,21 +2794,30 @@ input[type="color"]::-webkit-color-swatch {
   align-items: center;
   z-index: 3;
 }
-.floorplan-poligon-1-border{
+
+.floorplan-poligon-1 {
+  position: relative;
   width: 100px;
   height: 100px;
-  background-color: var(--white);
-  clip-path: polygon(72% 0, 72% 39%, 100% 39%, 100% 64%, 71% 64%, 71% 100%, 0 100%, 0 0);
-}
-.floorplan-poligon-1 {
-  width: calc(100% - 10px);
-  height: calc(100% - 10px);
-  background-color: var(--yellow);
-  clip-path: polygon(72% 0, 72% 39%, 100% 40%, 100% 64%, 71% 64%, 71% 100%, 0 100%, 0 0);
+  background-color: var(--black);
+  clip-path: polygon(81% 0, 81% 35%, 100% 35%, 100% 65%, 81% 65%, 81% 100%, 0 100%, 0 0);
   display: flex;
   justify-content: center;
   align-items: center;
 }
+
+.floorplan-poligon-1::before {
+  content: '';
+  position: absolute;
+  width: 100px;
+  height: 100px;
+  clip-path: polygon(79% 2%, 79% 37%, 98% 37%, 98% 63%, 79% 63%, 79% 98%, 2% 98%, 2% 2%);
+  top: 50%;
+  left: 50%; 
+  background-color: var(--yellow); 
+  transform: translate(-50%, -50%);
+}
+
 .floorplan-poligon-2-border {
   width: 100px;
   height: 100px;
@@ -2937,7 +2946,7 @@ input[type="color"]::-webkit-color-swatch {
   width: 100%;
   height: 100%;
   background-color: var(--black);
-  clip-path: polygon(72% 0, 72% 39%, 100% 40%, 100% 64%, 71% 64%, 71% 100%, 1 100%, 0 0);
+  clip-path: polygon(81% 0, 81% 35%, 100% 35%, 100% 65%, 81% 65%, 81% 100%, 0 100%, 0 0);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -2946,12 +2955,11 @@ input[type="color"]::-webkit-color-swatch {
 .layout-poligon-1::before {
   content: '';
   position: absolute;
-  width: 90%;
-  height: 90%;
-  clip-path: polygon(72% 0, 72% 39%, 100% 40%, 100% 64%, 71% 64%, 71% 100%, 0 100%, 0 0);
+  width: 100%;
+  height: 100%;
+  clip-path: polygon(79% 2%, 79% 37%, 98% 37%, 98% 63%, 79% 63%, 79% 98%, 2% 98%, 2% 2%);
   top: 50%;
   left: 50%; 
-  /* z-index: -1; */
   background-color: var(--white); 
   transform: translate(-50%, -50%);
 }
@@ -2971,12 +2979,12 @@ input[type="color"]::-webkit-color-swatch {
 
 .transparent {
   background-color: transparent;
+  height: 100%;
 }
 
 .display-shapes-container {
   position: relative;
   width: 100%;
   height: 100%;
-  /* border: 4px solid red; */
   z-index: 99;
 }

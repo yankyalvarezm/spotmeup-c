@@ -198,20 +198,20 @@ const LayoutTools = ({ children }) => {
             className="floorplan-square"
             onClick={() => handleFloorPlanSelect("square")}
           >
-            Square
+            
           </div>
           <div
             className="floorplan-circle"
             onClick={() => handleFloorPlanSelect("circle")}
           >
-            Circle
+            
           </div>
           <div className="floorplan-ellipse-border">
             <div
               className="floorplan-ellipse"
               onClick={() => handleFloorPlanSelect("ellipse")}
             >
-              Ellipse
+              
             </div>
           </div>
           <div className="floorplan-triangle-border">
@@ -219,7 +219,7 @@ const LayoutTools = ({ children }) => {
               className="floorplan-triangle"
               onClick={() => handleFloorPlanSelect("triangle")}
             >
-              Triangle
+              
             </div>
           </div>
           <div className="floorplan-poligon-1-border">
@@ -227,14 +227,14 @@ const LayoutTools = ({ children }) => {
               className="floorplan-poligon-1"
               onClick={() => handleFloorPlanSelect("poligon-1")}
             >
-              Poligon #1
+              
             </div>
           </div>
           <div
             className="floorplan-poligon-2-border"
             onClick={() => handleFloorPlanSelect("poligon-2")}
           >
-            <div className="floorplan-poligon-2">Polingon #2</div>
+            <div className="floorplan-poligon-2"></div>
           </div>
         </div>
       </div>
