@@ -24,13 +24,10 @@ const CircleShape = ({ children, circle }) => {
   const [hasMoved, setHasMoved] = useState(false);
   const [editingName, setEditingName] = useState(false);
   const [circleName, setCircleName] = useState(circle.name);
-  const [lastValidPosition, setLastValidPosition] = useState({
+  const [lastValidPosition, setLastValidPosition] = useState({ x: 0, y: 0 });
+  const [newPositionCircle, setNewPositionCircle] = useState({
     x: layoutBody.width / 2 - circle.width / 2,
     y: layoutBody.width / 2,
-  });
-  const [newPositionCircle, setNewPositionCircle] = useState({
-    x: lastValidPosition.x,
-    y: lastValidPosition.y,
   });
 
   // const [startPosition, setStartPosition] = useState({ x: 0, y: 0 });
