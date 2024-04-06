@@ -3,14 +3,13 @@ import Draggable from "react-draggable";
 import { ShapeContext } from "../../../context/shape.context";
 import { editShapes } from "../../../services/shape.service";
 import { StyledCircle } from "./StyledCircle";
-import { LayoutContext } from "../../../context/layout.context";
 
 const CircleShape = ({ children, circle }) => {
   const circleRef = useRef(null);
   const nameRef = useRef(null);
   const [newPositionCircle, setNewPositionCircle] = useState({
-    x: 50,
-    y: 50,
+    x: 0,
+    y: 0,
   });
 
   const {
@@ -23,12 +22,10 @@ const CircleShape = ({ children, circle }) => {
     showShapeForm,
     updateShape,
   } = useContext(ShapeContext);
-  const { layoutBody } = useContext(LayoutContext);
 
   const [hasMoved, setHasMoved] = useState(false);
   const [editingName, setEditingName] = useState(false);
   const [circleName, setCircleName] = useState(circle.name);
-  const [lastValidPosition, setLastValidPosition] = useState({ x: 0, y: 0 });
 
   const handleNameChange = (e) => {
     setCircleName(e.target.value);
@@ -104,11 +101,17 @@ const CircleShape = ({ children, circle }) => {
     borderRadius: "50%",
   };
 
+  const handleDrag = (e, ui) => {
+    const { x, y } = ui;
+    setHasMoved(true);
+    setNewPositionCircle({ x, y });
+  };
+
   const handleEditShape = async (shapeId, body) => {
     try {
       const response = await editShapes(shapeId, body);
-      // console.log("Edited Shape", response);
-      // console.log("Line 59 - Body:", body);
+      console.log("Edited Shape", response);
+      console.log("Line 59 - Body:", body);
       setCircles((prev) => {
         return prev.map((circle) => {
           if (circle._id === shapeId) {
@@ -154,108 +157,12 @@ const CircleShape = ({ children, circle }) => {
     }
   };
 
-  function isPointInPolygon(polygon, point) {
-    let isInside = false;
-    const x = point.x,
-      y = point.y;
-    for (let i = 0, j = polygon.length - 1; i < polygon.length; j = i++) {
-      const xi = polygon[i].x,
-        yi = polygon[i].y;
-      const xj = polygon[j].x,
-        yj = polygon[j].y;
-
-      const intersect =
-        yi > y !== yj > y && x < ((xj - xi) * (y - yi)) / (yj - yi) + xi;
-      if (intersect) isInside = !isInside;
-    }
-
-    return isInside;
-  }
-
-  const handleDrag = (e, ui) => {
-    const containerWidth = layoutBody.width;
-    const containerHeight = layoutBody.height;
-    const newPosition = {
-      x: ui.x,
-      y: ui.y,
-    };
-
-    // console.log("lastValidPositionY:", lastValidPosition.y);
-    // console.log("newPositionCircleY:", newPositionCircle.y);
-
-    const polygonPoints = [
-      {
-        x: containerWidth * 0.79 - circle.width / 3,
-        y: containerHeight * 0.02 - circle.height / 3,
-      },
-      {
-        x: containerWidth * 0.79 - circle.width / 3,
-        y: containerHeight * 0.37 - circle.height / 3,
-      },
-      {
-        x: containerWidth * 0.98 - circle.width / 3,
-        y: containerHeight * 0.37 - circle.height / 3,
-      },
-      {
-        x: containerWidth * 0.98 - circle.width / 3,
-        y: containerHeight * 0.63 - circle.height / 3,
-      },
-      {
-        x: containerWidth * 0.79 - circle.width / 3,
-        y: containerHeight * 0.63 - circle.height / 3,
-      },
-      {
-        x: containerWidth * 0.79 - circle.width / 3,
-        y: containerHeight * 0.88 - circle.height / 3,
-      },
-      {
-        x: containerWidth * 0.02 - circle.width / 3,
-        y: containerHeight * 0.98 - circle.height / 3,
-      },
-      {
-        x: containerWidth * 0.02 - circle.width / 3,
-        y: containerHeight * 0.02 - circle.height / 3,
-      },
-    ];
-
-    if (isPointInPolygon(polygonPoints, newPosition)) {
-      // console.log("INSIDE");
-      setHasMoved(true);
-      setLastValidPosition(newPosition);
-      setNewPositionCircle(newPosition);
-    } else {
-      // console.log("OUTSIDE");
-
-      const dx = newPosition.x - lastValidPosition.x;
-      const dy = newPosition.y - lastValidPosition.y;
-
-      if (Math.abs(dx) > Math.abs(dy)) {
-        // console.log("X - OUT");
-
-        setNewPositionCircle({
-          x: lastValidPosition.x,
-          y: newPosition.y,
-        });
-      } else if (Math.abs(dy) > Math.abs(dx)) {
-        // console.log("Y - OUT");
-
-        setNewPositionCircle({
-          x: newPosition.x,
-          y: lastValidPosition.y,
-        });
-      } else {
-        console.log("same shit");
-        setNewPositionCircle(lastValidPosition);
-      }
-    }
-  };
-
   return (
     <Draggable
       bounds="parent"
       handle=".handle"
       onDrag={(e, ui) => handleDrag(e, ui)}
-      position={{ x: newPositionCircle.x, y: newPositionCircle.y }}
+      defaultPosition={{ x: circle.x, y: circle.y }}
       onStop={() => {
         if (hasMoved) {
           handleEditShape(circle._id, newPositionCircle);

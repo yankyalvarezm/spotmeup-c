@@ -104,11 +104,7 @@ const SquareShape = ({ children, square }) => {
     const { x, y } = ui;
     setHasMoved(true);
     setNewPositionSquare({ x, y });
-    
   };
-
-  // console.log("squareX:", newPositionSquare.x)
-  // console.log("squareY:", newPositionSquare.y)
 
   const handleEditShape = async (shapeId, body) => {
     try {
