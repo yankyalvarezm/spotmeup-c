@@ -16,13 +16,10 @@ function LayoutProvider({ children }) {
   const [layoutGoBack, setLayoutGoBack] = useState(null);
   const [layoutBody, setLayoutBody] = useState({});
   const [floorPlan, setFloorPlan] = useState(false);
+  const [isSelected, setIsSelected] = useState(false);
 
   const toggleEditingModal = () => {
     setShowEditingModal((prev) => !prev);
-  };
-
-  const toggleEditInput = () => {
-    setShowEditInput((prev) => !prev);
   };
 
   const toggleLayoutForm = () => {
@@ -48,6 +45,7 @@ function LayoutProvider({ children }) {
 
   const toggleFloorPlan = () => {
     setFloorPlan(false);
+    setIsSelected(false);
   };
 
   function debounce(fn, delay) {
@@ -60,9 +58,11 @@ function LayoutProvider({ children }) {
     };
   }
 
+  console.log("isSelected:", isSelected);
+
   const updateLayout = debounce((layoutId, body) => {
     editLayout(layoutId, body);
-    // console.log("updateLayout:", body );  
+    // console.log("updateLayout:", body );
   }, 1000);
 
   return (
@@ -91,7 +91,9 @@ function LayoutProvider({ children }) {
         floorPlan,
         setFloorPlan,
         toggleFloorPlan,
-        updateLayout
+        updateLayout,
+        isSelected,
+        setIsSelected,
       }}
     >
       {children}

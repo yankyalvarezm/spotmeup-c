@@ -22,6 +22,7 @@ const CircleShape = ({ children, circle }) => {
     showShapeForm,
     updateShape,
   } = useContext(ShapeContext);
+  
 
   const [hasMoved, setHasMoved] = useState(false);
   const [editingName, setEditingName] = useState(false);

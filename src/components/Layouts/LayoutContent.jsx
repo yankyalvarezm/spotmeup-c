@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useRef } from "react";
 import { LayoutContext } from "../../context/layout.context";
 import styled from "styled-components";
 import { useParams } from "react-router-dom";
+import { ShapeContext } from "../../context/shape.context";
 
 const StyledDiv = styled.div`
   width: ${(props) => props.layoutBody?.width}px;
@@ -13,20 +14,28 @@ const StyledDiv = styled.div`
   left: ${(props) => props.layoutBody?.x}%;
   top: ${(props) => props.layoutBody?.y}%;
   overflow: hidden;
-  resize: both;
+  ${(props) => (props.resize ? "resize: both; overflow: hidden;" : "")}
 `;
 
 const LayoutContent = ({ children }) => {
-  const { layoutBody, floorPlan, setLayoutBody, setLayoutDetails, updateLayout, layoutId } =
-    useContext(LayoutContext);
+  const {
+    layoutBody,
+    floorPlan,
+    setLayoutBody,
+    setLayoutDetails,
+    updateLayout,
+    layoutId,
+    isSelected,
+    setIsSelected
+  } = useContext(LayoutContext);
   const layoutRef = useRef(null);
   const param = useParams();
+  const { showShapeForm } = useContext(ShapeContext);
   // console.log("param:", param);
 
   let element = document.querySelector("#layout-styled-div");
   useEffect(() => {
     if (layoutBody?.layoutType) {
-
       if (element) {
         element.style.removeProperty("width");
         element.style.removeProperty("height");
@@ -50,7 +59,6 @@ const LayoutContent = ({ children }) => {
             width,
             height,
           }));
-
         }
       }
     });
@@ -66,12 +74,18 @@ const LayoutContent = ({ children }) => {
     };
   }, []);
 
+  const trueIsSelected = () => {
+    setIsSelected(true)
+  }
+
   return (
     <StyledDiv
       layoutBody={layoutBody}
       id={floorPlan ? "layout-styled-div" : "onhold-layout"}
       className={`layout-${layoutBody.layoutType}-border`}
       ref={layoutRef}
+      resize={!showShapeForm && isSelected && floorPlan}
+      onClick={trueIsSelected}
     >
       {" "}
       <div

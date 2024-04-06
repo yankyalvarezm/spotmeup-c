@@ -2752,47 +2752,51 @@ input[type="color"]::-webkit-color-swatch {
   background-color: var(--yellow);
 }
 
-.floorplan-ellipse-border {
-  position: relative;
-  height: 100px;
-  width: 100px;
-  background-color: var(--white);
-  clip-path: ellipse(50% 26% at 50% 50%);
-  z-index: 2;
-}
 .floorplan-ellipse {
   position: relative;
-  width: calc(100% - 10px);
-  height: calc(100% - 10px);
-  background-color: var(--yellow);
-  clip-path: ellipse(50% 26% at 50% 50%);
-  color: black;
-  z-index: 3;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-.floorplan-triangle-border {
-  position: relative;
-  height: 100px;
   width: 100px;
-  background-color: var(--white);
-  clip-path: polygon(50% 0%, 0% 97%, 100% 97%);
-  z-index: 2;
+  height: 100px;
+  background-color: var(--black);
+  clip-path: ellipse(38% 50% at 50% 50%);
+  color: black;
   display: flex;
   justify-content: center;
-  align-items: center;
+  border: none;
+}
+.floorplan-ellipse::before {
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-color: var(--yellow);
+  clip-path: ellipse(36% 48% at 50% 50%);
+  top: 50%;
+  left: 50%;
+  display: flex;
+  justify-content: center;
+  transform: translate(-50%, -50%);
 }
 .floorplan-triangle {
-  position: absolute;
-  width: calc(100% - 10px);
-  height: calc(100% - 10px);
+  position: relative;
+  width: 100px;
+  height: 100px;
+  background-color: var(--black);
   clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
-  background-color: var(--yellow);
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 3;
+  border: none;
+}
+.floorplan-triangle::before {
+  content: '';
+  position: absolute;
+  width: 100px;
+  height: 100px;
+  clip-path: polygon(50% 2%, 2% 99%, 98% 99%);
+  top: 50%;
+  left: 50%; 
+  background-color: var(--yellow); 
+  transform: translate(-50%, -50%);
 }
 
 .floorplan-poligon-1 {
@@ -2818,17 +2822,24 @@ input[type="color"]::-webkit-color-swatch {
   transform: translate(-50%, -50%);
 }
 
-.floorplan-poligon-2-border {
+.floorplan-poligon-2 {
+  position: relative;
   width: 100px;
   height: 100px;
-  background-color: var(--white);
+  background-color: var(--black);
   clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
-.floorplan-poligon-2 {
-  width: calc(100% - 10px);
-  height: calc(100% - 10px);
+
+.floorplan-poligon-2::before {
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 100%;
   background-color: var(--yellow);
-  clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
+  clip-path: polygon(26% 2%, 74% 2%, 98% 50%, 74% 98%, 26% 98%, 2% 50%);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -2889,6 +2900,8 @@ input[type="color"]::-webkit-color-swatch {
 .layout-ellipse-border {
   border: none !important;
 }
+
+
 .layout-ellipse {
   position: relative;
   width: 100%;
@@ -2899,6 +2912,19 @@ input[type="color"]::-webkit-color-swatch {
   display: flex;
   justify-content: center;
   border: none;
+}
+.layout-ellipse::before {
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-color: var(--white);
+  clip-path: ellipse(48% 24% at 50% 50%);
+  top: 50%;
+  left: 50%;
+  display: flex;
+  justify-content: center;
+  transform: translate(-50%, -50%);
 }
 .layout-triangle {
   position: relative;
@@ -2911,25 +2937,12 @@ input[type="color"]::-webkit-color-swatch {
   align-items: center;
   border: none;
 }
-.layout-ellipse::before {
-  content: '';
-  position: absolute;
-  width: 90%;
-  height: 90%;
-  background-color: var(--white);
-  clip-path: ellipse(50% 26% at 50% 50%);
-  top: 50%;
-  left: 50%;
-  display: flex;
-  justify-content: center;
-  transform: translate(-50%, -50%);
-}
 .layout-triangle::before {
   content: '';
   position: absolute;
-  width: 90%;
-  height: 90%;
-  clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+  width: 100%;
+  height: 100%;
+  clip-path: polygon(50% 2%, 2% 99%, 98% 99%);
   top: 50%;
   left: 50%; 
   background-color: var(--white); 
@@ -2963,15 +2976,33 @@ input[type="color"]::-webkit-color-swatch {
   background-color: var(--white); 
   transform: translate(-50%, -50%);
 }
-.layout-poligon-2-border {
+
+.layout-poligon-1-border{
+  border: none !important;
+}
+
+.layout-poligon-2-border{
+  border: none !important;
+}
+
+.layout-poligon-2 {
+  position: relative;
+  width: 100%;
+  height: 100%;
   background-color: var(--black);
   clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
-.layout-poligon-2 {
-  width: calc(100% - 10px);
-  height: calc(100% - 10px);
+
+.layout-poligon-2::before {
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 100%;
   background-color: var(--white);
-  clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
+  clip-path: polygon(26% 2%, 74% 2%, 98% 50%, 74% 98%, 26% 98%, 2% 50%);
   display: flex;
   justify-content: center;
   align-items: center;

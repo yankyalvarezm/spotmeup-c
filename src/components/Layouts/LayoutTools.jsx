@@ -12,6 +12,7 @@ const LayoutTools = ({ children }) => {
     floorPlan,
     setFloorPlan,
     setLayoutDetails,
+    setIsSelected,
   } = useContext(LayoutContext);
   const [hasChanged, setHasChanged] = useState(false);
   const param = useParams();
@@ -47,6 +48,7 @@ const LayoutTools = ({ children }) => {
     }));
 
     setFloorPlan(true);
+    setIsSelected((prev) => !prev);
   };
 
   function debounce(func, wait) {
@@ -197,38 +199,28 @@ const LayoutTools = ({ children }) => {
           <div
             className="floorplan-square"
             onClick={() => handleFloorPlanSelect("square")}
-          >
-            
-          </div>
+          ></div>
           <div
             className="floorplan-circle"
             onClick={() => handleFloorPlanSelect("circle")}
-          >
-            
-          </div>
+          ></div>
           <div className="floorplan-ellipse-border">
             <div
               className="floorplan-ellipse"
               onClick={() => handleFloorPlanSelect("ellipse")}
-            >
-              
-            </div>
+            ></div>
           </div>
           <div className="floorplan-triangle-border">
             <div
               className="floorplan-triangle"
               onClick={() => handleFloorPlanSelect("triangle")}
-            >
-              
-            </div>
+            ></div>
           </div>
           <div className="floorplan-poligon-1-border">
             <div
               className="floorplan-poligon-1"
               onClick={() => handleFloorPlanSelect("poligon-1")}
-            >
-              
-            </div>
+            ></div>
           </div>
           <div
             className="floorplan-poligon-2-border"
