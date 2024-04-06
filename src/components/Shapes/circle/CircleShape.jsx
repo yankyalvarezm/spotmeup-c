@@ -168,7 +168,6 @@ const CircleShape = ({ children, circle }) => {
         yi > y !== yj > y && x < ((xj - xi) * (y - yi)) / (yj - yi) + xi;
       if (intersect) isInside = !isInside;
     }
-
     return isInside;
   }
 
@@ -183,38 +182,53 @@ const CircleShape = ({ children, circle }) => {
     // console.log("lastValidPositionY:", lastValidPosition.y);
     // console.log("newPositionCircleY:", newPositionCircle.y);
 
+    // const polygonPoints = [
+    //   {
+    //     x: containerWidth * 0.79 - circle.width / 3,
+    //     y: containerHeight * 0.02 - circle.height / 3,
+    //   },
+    //   {
+    //     x: containerWidth * 0.79 - circle.width / 3,
+    //     y: containerHeight * 0.37 - circle.height / 3,
+    //   },
+    //   {
+    //     x: containerWidth * 0.98 - circle.width / 3,
+    //     y: containerHeight * 0.37 - circle.height / 3,
+    //   },
+    //   {
+    //     x: containerWidth * 0.98 - circle.width / 3,
+    //     y: containerHeight * 0.63 - circle.height / 3,
+    //   },
+    //   {
+    //     x: containerWidth * 0.79 - circle.width / 3,
+    //     y: containerHeight * 0.63 - circle.height / 3,
+    //   },
+    //   {
+    //     x: containerWidth * 0.79 - circle.width / 3,
+    //     y: containerHeight * 0.88 - circle.height / 3,
+    //   },
+    //   {
+    //     x: containerWidth * 0.02 - circle.width / 3,
+    //     y: containerHeight * 0.98 - circle.height / 3,
+    //   },
+    //   {
+    //     x: containerWidth * 0.02 - circle.width / 3,
+    //     y: containerHeight * 0.02 - circle.height / 3,
+    //   },
+    // ];
+
     const polygonPoints = [
       {
-        x: containerWidth * 0.79 - circle.width / 3,
-        y: containerHeight * 0.02 - circle.height / 3,
+        x: containerWidth * 0.50 - circle.width / 2,
+        y: containerHeight * 0.02 - circle.height / 2,
       },
       {
-        x: containerWidth * 0.79 - circle.width / 3,
-        y: containerHeight * 0.37 - circle.height / 3,
+        x: containerWidth * 0.02 - circle.width / 2,
+        y: containerHeight * 0.99 - circle.height / 2,
       },
       {
-        x: containerWidth * 0.98 - circle.width / 3,
-        y: containerHeight * 0.37 - circle.height / 3,
-      },
-      {
-        x: containerWidth * 0.98 - circle.width / 3,
-        y: containerHeight * 0.63 - circle.height / 3,
-      },
-      {
-        x: containerWidth * 0.79 - circle.width / 3,
-        y: containerHeight * 0.63 - circle.height / 3,
-      },
-      {
-        x: containerWidth * 0.79 - circle.width / 3,
-        y: containerHeight * 0.88 - circle.height / 3,
-      },
-      {
-        x: containerWidth * 0.02 - circle.width / 3,
-        y: containerHeight * 0.98 - circle.height / 3,
-      },
-      {
-        x: containerWidth * 0.02 - circle.width / 3,
-        y: containerHeight * 0.02 - circle.height / 3,
+        x: containerWidth * 0.98 - circle.width / 2,
+        y: containerHeight * 0.99 - circle.height / 2,
       },
     ];
 
@@ -230,14 +244,14 @@ const CircleShape = ({ children, circle }) => {
       const dy = newPosition.y - lastValidPosition.y;
 
       if (Math.abs(dx) > Math.abs(dy)) {
-        // console.log("X - OUT");
+        console.log("X - OUT");
 
         setNewPositionCircle({
           x: lastValidPosition.x,
           y: newPosition.y,
         });
       } else if (Math.abs(dy) > Math.abs(dx)) {
-        // console.log("Y - OUT");
+        console.log("Y - OUT");
 
         setNewPositionCircle({
           x: newPosition.x,
