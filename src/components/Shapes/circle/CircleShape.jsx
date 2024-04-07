@@ -370,8 +370,9 @@ const CircleShape = ({ children, circle }) => {
       bounds="parent"
       handle=".handle"
       onDrag={(e, ui) => handleDrag(e, ui)}
-      position={{ x: newPositionCircle.x, y: newPositionCircle.y }}
-      // defaultPosition={{ x: startPosition.x, y: startPosition.y }}
+      // position={{ x: newPositionCircle.x, y: newPositionCircle.y }}
+      defaultPosition={{ x: circle.x, y: circle.y }}
+      // positionOffset={{ x: newPositionCircle.x, y: newPositionCircle.y }}
       onStop={() => {
         if (hasMoved) {
           handleEditShape(circle._id, newPositionCircle);
