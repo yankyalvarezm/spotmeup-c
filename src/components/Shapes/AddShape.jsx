@@ -36,8 +36,8 @@ const AddShape = () => {
     color: "white",
     justifyContent: "",
     alignItems: "",
-    // x: layoutBody.width / 2,
-    // y: layoutBody.height / 2,
+    x: layoutBody.width / 2 - 50,
+    y: layoutBody.height / 2 - 50,
     fontSize: 15,
   });
 

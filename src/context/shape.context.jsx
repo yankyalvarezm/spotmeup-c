@@ -25,7 +25,7 @@ function ShapeProvider({ children }) {
   const fetchShapes = async (layoutId) => {
     try {
       const response = await getAllShapes(layoutId);
-      // console.log("Fetch Shapes", response);
+      console.log("Fetch Shapes", response);
       if (response.success) {
         const circleFilter = response.shapes.filter(
           (shape) =>

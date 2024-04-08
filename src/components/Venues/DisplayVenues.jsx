@@ -66,7 +66,6 @@ const DisplayVenues = () => {
   }, []);
 
   return (
-    
       <Carousel
         responsive={responsive2}
         className="carousel-recently-added carousel-class2"

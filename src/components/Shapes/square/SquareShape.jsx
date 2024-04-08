@@ -4,14 +4,12 @@ import { ShapeContext } from "../../../context/shape.context";
 import { shapes } from "konva/lib/Shape";
 import { editShapes } from "../../../services/shape.service";
 import { StyledSquare } from "./StyledSquare";
+import { LayoutContext } from "../../../context/layout.context";
 
 const SquareShape = ({ children, square }) => {
   const squareRef = useRef(null);
   const nameRef = useRef(null);
-  const [newPositionSquare, setNewPositionSquare] = useState({
-    x: 0,
-    y: 0,
-  });
+  const { layoutBody } = useContext(LayoutContext);
   const {
     shapeForm,
     setShapeId,
@@ -22,9 +20,13 @@ const SquareShape = ({ children, square }) => {
     updateShape,
   } = useContext(ShapeContext);
   const [hasMoved, setHasMoved] = useState(false);
-
   const [editingName, setEditingName] = useState(false);
   const [squareName, setSquareName] = useState(square.name);
+  const [lastValidPosition, setLastValidPosition] = useState({ x: 0, y: 0 });
+  const [newPositionSquare, setNewPositionSquare] = useState({
+    x: layoutBody.width / 2 - square.width / 2,
+    y: layoutBody.width / 2,
+  });
 
   const handleNameChange = (e) => {
     setSquareName(e.target.value);
@@ -100,13 +102,6 @@ const SquareShape = ({ children, square }) => {
     fontSize: `${square.fontSize}px`,
   };
 
-  const handleDrag = (e, ui) => {
-    const { x, y } = ui;
-    setHasMoved(true);
-    setNewPositionSquare({ x, y });
-    
-  };
-
   // console.log("squareX:", newPositionSquare.x)
   // console.log("squareY:", newPositionSquare.y)
 
@@ -114,8 +109,9 @@ const SquareShape = ({ children, square }) => {
     try {
       const response = await editShapes(shapeId, body);
       console.log("Edited Shape:", response);
-      console.log("Line 59 - Body:", body);
+      // console.log("Line 59 - Body:", body);
       // setShapeEdited(true);
+      // debugger
       setSquares((prev) => {
         return prev.map((square) => {
           if (square._id === shapeId) {
@@ -143,8 +139,6 @@ const SquareShape = ({ children, square }) => {
     }
   };
 
-  // console.log("handleClickOutside:", showShapeForm);
-
   const handleShowToggleForm = (shapeId) => {
     setShowShapeForm(true);
     setShapeId(shapeId);
@@ -162,25 +156,216 @@ const SquareShape = ({ children, square }) => {
     }
   };
 
+  function getPolygonPoints(
+    layoutType,
+    containerWidth,
+    containerHeight,
+    squareWidth,
+    squareHeight
+  ) {
+    switch (layoutType) {
+      case "poligon-1":
+        return [
+          {
+            x: containerWidth * 0.79 - square.width,
+            y: containerHeight * 0.02,
+          },
+          {
+            x: containerWidth * 0.79 - square.width,
+            y: containerHeight * 0.37,
+          },
+          {
+            x: containerWidth * 0.98 - square.width,
+            y: containerHeight * 0.37,
+          },
+          {
+            x: containerWidth * 0.98 - square.width,
+            y: containerHeight * 0.63 - square.height,
+          },
+          {
+            x: containerWidth * 0.79 - square.width,
+            y: containerHeight * 0.63 - square.height,
+          },
+          {
+            x: containerWidth * 0.79 - square.width,
+            y: containerHeight * 0.88,
+          },
+          {
+            x: containerWidth * 0.02 - square.width,
+            y: containerHeight * 0.98,
+          },
+          {
+            x: containerWidth * 0.02 - square.width,
+            y: containerHeight * 0.02,
+          },
+        ];
+      case "triangle":
+        return [
+          {
+            x: containerWidth * 0.5 - square.width,
+            y: containerHeight * 0.02,
+          },
+          {
+            x: containerWidth * 0.02 - square.width,
+            y: containerHeight * 0.99 + square.height,
+          },
+          {
+            x: containerWidth * 0.98 - square.width,
+            y: containerHeight * 0.99,
+          },
+        ];
+      case "poligon-2":
+        return [
+          {
+            x: containerWidth * 0.26 - square.width / 3,
+            y: containerHeight * 0.02 - square.height / 3,
+          },
+          {
+            x: containerWidth * 0.74 - square.width / 3,
+            y: containerHeight * 0.02 - square.height / 3,
+          },
+          {
+            x: containerWidth * 0.98 - square.width / 3,
+            y: containerHeight * 0.5 - square.height / 3,
+          },
+          {
+            x: containerWidth * 0.74 - square.width / 3,
+            y: containerHeight * 0.98 - square.height / 3,
+          },
+          {
+            x: containerWidth * 0.26 - square.width / 3,
+            y: containerHeight * 0.98 - square.height / 3,
+          },
+          {
+            x: containerWidth * 0.02 - square.width / 3,
+            y: containerHeight * 0.5 - square.height / 3,
+          },
+        ];
+
+      default:
+        return [
+          {
+            x: 0,
+            y: 0,
+          },
+          {
+            x: containerWidth,
+            y: 0,
+          },
+          {
+            x: containerWidth,
+            y: containerHeight,
+          },
+          {
+            x: 0,
+            y: containerHeight,
+          },
+        ];
+    }
+  }
+
+  let polygonPoints = getPolygonPoints(
+    layoutBody.layoutType,
+    layoutBody.width,
+    layoutBody.height,
+    square.width,
+    square.height
+  );
+
+  function isPointInPolygon(polygon, point) {
+    let isInside = false;
+    const x = point.x,
+      y = point.y;
+    for (let i = 0, j = polygon.length - 1; i < polygon.length; j = i++) {
+      const xi = polygon[i].x,
+        yi = polygon[i].y;
+      const xj = polygon[j].x,
+        yj = polygon[j].y;
+
+      const intersect =
+        yi > y !== yj > y && x < ((xj - xi) * (y - yi)) / (yj - yi) + xi;
+      if (intersect) isInside = !isInside;
+    }
+    return isInside;
+  }
+
+  const handleDrag = (e, ui) => {
+    const newPosition = {
+      x: ui.x,
+      y: ui.y,
+    };
+    // console.log(`Polygon points for ${layoutBody.layoutType}:`, polygonPoints);
+
+    if (isPointInPolygon(polygonPoints, newPosition)) {
+      // console.log("INSIDE");
+      setHasMoved(true);
+      setLastValidPosition(newPosition);
+      setNewPositionSquare(newPosition);
+      setSquares(prevSquares =>
+        prevSquares.map(s =>
+          s._id === square._id ? { ...s, x: newPosition.x, y: newPosition.y } : s
+        )
+      );
+    } else {
+      // console.log("OUTSIDE");
+
+      const dx = newPosition.x - lastValidPosition.x;
+      const dy = newPosition.y - lastValidPosition.y;
+
+      if (Math.abs(dx) > Math.abs(dy)) {
+        // console.log("X - OUT");
+
+        setNewPositionSquare({
+          x: lastValidPosition.x,
+          y: newPosition.y,
+        });
+        setSquares(prevSquares =>
+          prevSquares.map(s =>
+            s._id === square._id ? { ...s, x: lastValidPosition.x, y: newPosition.y } : s
+          )
+        );
+        
+      } else if (Math.abs(dy) > Math.abs(dx)) {
+        // console.log("Y - OUT");
+
+        setNewPositionSquare({
+          x: newPosition.x,
+          y: lastValidPosition.y,
+        });
+        setSquares(prevSquares =>
+          prevSquares.map(s =>
+            s._id === square._id ? { ...s, x: newPosition.x, y: lastValidPosition.y } : s
+          )
+        );
+      } else {
+        // console.log("same shit");
+        setNewPositionSquare(lastValidPosition);
+        setSquares(prevSquares =>
+          prevSquares.map(s =>
+            s._id === square._id ? { ...s, x: lastValidPosition.x, y: lastValidPosition.y } : s
+          )
+        );
+      }
+    }
+  };
+
   return (
     <Draggable
       bounds="parent"
       handle=".handle"
       onDrag={(e, ui) => {
         handleDrag(e, ui);
-        console.log("onDrag - showShapeForm:", showShapeForm);
-        console.log("onDrag - shapeId:", shapeId);
       }}
-      defaultPosition={{
+      position={{
         x: square.x,
         y: square.y,
       }}
-      onStop={() => {
+      onStop={(e, ui) => {
+        // const newPosition = { x: ui.x, y: ui.y };
         if (hasMoved) {
+          
           handleEditShape(square._id, newPositionSquare);
           setHasMoved(false);
-          console.log("onStop - showShapeForm:", showShapeForm);
-          console.log("onStop - shapeId:", shapeId);
         }
       }}
     >

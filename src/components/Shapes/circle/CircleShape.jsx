@@ -163,7 +163,6 @@ const CircleShape = ({ children, circle }) => {
     circleWidth,
     circleHeight
   ) {
-    // console.log("getPolygonPoints called with layoutType:", layoutType);
     switch (layoutType) {
       case "poligon-1":
         return [
@@ -290,42 +289,6 @@ const CircleShape = ({ children, circle }) => {
     return isInside;
   }
 
-  console.log("lastValidPosition:", lastValidPosition);
-
-  // useEffect(() => {
-  //   let position1 = {
-  //     x: lastValidPosition.x + circle.width,
-  //     y: lastValidPosition.y,
-  //   };
-  //   let position2 = {
-  //     x: lastValidPosition.x - circle.width,
-  //     y: lastValidPosition.y,
-  //   };
-
-  //   let position3 = {
-  //     x: lastValidPosition.x,
-  //     y: lastValidPosition.y + circle.height,
-  //   };
-  //   let position4 = {
-  //     x: lastValidPosition.x,
-  //     y: lastValidPosition.y + circle.height,
-  //   };
-  //   const checkPos1 = isPointInPolygon(polygonPoints, position1);
-  //   const checkPos2 = isPointInPolygon(polygonPoints, position2);
-  //   const checkPos3 = isPointInPolygon(polygonPoints, position3);
-  //   const checkPos4 = isPointInPolygon(polygonPoints, position4);
-
-  //   if (checkPos1) {
-  //     setStartPosition(position1);
-  //   } else if (checkPos2) {
-  //     setStartPosition(position2);
-  //   } else if (checkPos3) {
-  //     setStartPosition(position3);
-  //   } else if (checkPos4) {
-  //     setStartPosition(position4);
-  //   }
-  // }, [circle]);
-
   const handleDrag = (e, ui) => {
     const newPosition = {
       x: ui.x,
@@ -338,6 +301,11 @@ const CircleShape = ({ children, circle }) => {
       setHasMoved(true);
       setLastValidPosition(newPosition);
       setNewPositionCircle(newPosition);
+      setCircles(prevCircles =>
+        prevCircles.map(c =>
+          c._id === circle._id ? { ...c, x: newPosition.x, y: newPosition.y } : c
+        )
+      );
     } else {
       // console.log("OUTSIDE");
 
@@ -351,6 +319,11 @@ const CircleShape = ({ children, circle }) => {
           x: lastValidPosition.x,
           y: newPosition.y,
         });
+        setCircles(prevCircles =>
+          prevCircles.map(c =>
+            c._id === circle._id ? { ...c, x: lastValidPosition.x, y: newPosition.y } : c
+          )
+        );
       } else if (Math.abs(dy) > Math.abs(dx)) {
         // console.log("Y - OUT");
 
@@ -358,9 +331,19 @@ const CircleShape = ({ children, circle }) => {
           x: newPosition.x,
           y: lastValidPosition.y,
         });
+        setCircles(prevCircles =>
+          prevCircles.map(c =>
+            c._id === circle._id ? { ...c, x: newPosition.x, y: lastValidPosition.y } : c
+          )
+        );
       } else {
         // console.log("same shit");
         setNewPositionCircle(lastValidPosition);
+        setCircles(prevCircles =>
+          prevCircles.map(c =>
+            c._id === circle._id ? { ...c, x: lastValidPosition.x, y: lastValidPosition.y } : c
+          )
+        );
       }
     }
   };
@@ -371,8 +354,7 @@ const CircleShape = ({ children, circle }) => {
       handle=".handle"
       onDrag={(e, ui) => handleDrag(e, ui)}
       // position={{ x: newPositionCircle.x, y: newPositionCircle.y }}
-      defaultPosition={{ x: circle.x, y: circle.y }}
-      // positionOffset={{ x: newPositionCircle.x, y: newPositionCircle.y }}
+      position={{ x: circle.x, y: circle.y }}
       onStop={() => {
         if (hasMoved) {
           handleEditShape(circle._id, newPositionCircle);
