@@ -26,7 +26,7 @@ const LayoutContent = ({ children }) => {
     updateLayout,
     layoutId,
     isSelected,
-    setIsSelected
+    setIsSelected,
   } = useContext(LayoutContext);
   const layoutRef = useRef(null);
   const param = useParams();
@@ -75,13 +75,17 @@ const LayoutContent = ({ children }) => {
   }, []);
 
   const trueIsSelected = () => {
-    setIsSelected(true)
-  }
+    setIsSelected(true);
+  };
 
   return (
     <StyledDiv
       layoutBody={layoutBody}
-      id={floorPlan ? "layout-styled-div" : "onhold-layout"}
+      id={
+        floorPlan || layoutBody.layoutType
+          ? "layout-styled-div"
+          : "onhold-layout"
+      }
       className={`layout-${layoutBody.layoutType}-border`}
       ref={layoutRef}
       resize={!showShapeForm && isSelected && floorPlan}
@@ -90,7 +94,7 @@ const LayoutContent = ({ children }) => {
       {" "}
       <div
         className={
-          floorPlan ? `layout-${layoutBody.layoutType}` : "transparent"
+          floorPlan || layoutBody.layoutType ? `layout-${layoutBody.layoutType}` : "transparent"
         }
       >
         {children}

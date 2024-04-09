@@ -2091,7 +2091,7 @@ button:hover {
 }
 
 .hide-dropdown {
-  display: none;
+  display: none !important;
 }
 
 .down-arrow {

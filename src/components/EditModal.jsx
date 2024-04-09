@@ -11,7 +11,7 @@ import AddShape from "./Shapes/AddShape";
 const EditModal = () => {
   const navigate = useNavigate();
   const param = useParams();
-  const { layoutDetails, setLayoutId, layoutId, floorPlan, toggleFloorPlan } =
+  const { layoutDetails, setLayoutId, layoutId, floorPlan, toggleFloorPlan, layoutBody } =
     useContext(LayoutContext);
   const { showShapeForm } = useContext(ShapeContext);
 
@@ -24,6 +24,9 @@ const EditModal = () => {
       setLayoutId(param.layoutIdParam);
     }
   }, [layoutId]);
+
+  console.log("floorplan --->", floorPlan);
+  console.log("layoutType --->", layoutDetails);
 
   return (
     <div className="design-big-container">
@@ -46,12 +49,22 @@ const EditModal = () => {
         </div>
         <ShapesTools />
         {!showShapeForm && (
-          <div className={floorPlan ? "active-tools" : "tools-container"}>
+          <div
+            className={
+              floorPlan || layoutBody.layoutType
+                ? "active-tools"
+                : "tools-container"
+            }
+          >
             <LayoutTools>
               <AddShape />
             </LayoutTools>
             <button
-              className={floorPlan ? "toggle-floorplan" : "hide"}
+              className={
+                floorPlan || layoutBody?.layoutType
+                  ? "toggle-floorplan"
+                  : "hide"
+              }
               onClick={toggleFloorPlan}
             >
               Floor Plans

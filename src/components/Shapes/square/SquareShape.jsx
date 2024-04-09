@@ -250,10 +250,10 @@ const SquareShape = ({ children, square }) => {
         const xDistance = Math.sqrt(radius ** 2 - (y - radius) ** 2);
         const leftLimit = radius - xDistance;
         const rightLimit = radius + xDistance - squareWidth;
-
+        
         return { leftLimit, rightLimit };
       }
-
+      
       let { leftLimit, rightLimit } = calculateXLimit(square.y);
 
       console.log("layoutWidht:", layoutWidth);

@@ -105,7 +105,7 @@ const LayoutTools = ({ children }) => {
     <div>
       <form
         className={
-          floorPlan ? "layout-tools-container" : "layout-tools-container hide"
+          floorPlan || layoutBody.layoutType ? "layout-tools-container" : "layout-tools-container hide"
         }
       >
         <div className="layout-tools-spacing">
@@ -192,7 +192,7 @@ const LayoutTools = ({ children }) => {
         {children}
       </form>
 
-      <div className={floorPlan ? "hide" : "select-floorplan-container"}>
+      <div className={floorPlan || layoutBody.layoutType ? "hide" : "select-floorplan-container"}>
         <h1 className="floorplan-title">Select A Floor Plan</h1>
 
         <div className="floorplan-shapes-container">
