@@ -9,7 +9,7 @@ import { LayoutContext } from "../../../context/layout.context";
 const SquareShape = ({ children, square }) => {
   const squareRef = useRef(null);
   const nameRef = useRef(null);
-  const { layoutBody } = useContext(LayoutContext);
+  const { layoutBody, floorplan } = useContext(LayoutContext);
   const {
     shapeForm,
     setShapeId,
@@ -294,64 +294,221 @@ const SquareShape = ({ children, square }) => {
       x: ui.x,
       y: ui.y,
     };
-    // console.log(`Polygon points for ${layoutBody.layoutType}:`, polygonPoints);
 
-    if (isPointInPolygon(polygonPoints, newPosition)) {
-      // console.log("INSIDE");
-      setHasMoved(true);
-      setLastValidPosition(newPosition);
-      setNewPositionSquare(newPosition);
-      setSquares(prevSquares =>
-        prevSquares.map(s =>
-          s._id === square._id ? { ...s, x: newPosition.x, y: newPosition.y } : s
-        )
-      );
-    } else {
-      // console.log("OUTSIDE");
-
-      const dx = newPosition.x - lastValidPosition.x;
-      const dy = newPosition.y - lastValidPosition.y;
-
-      if (Math.abs(dx) > Math.abs(dy)) {
-        // console.log("X - OUT");
-
-        setNewPositionSquare({
-          x: lastValidPosition.x,
-          y: newPosition.y,
-        });
-        setSquares(prevSquares =>
-          prevSquares.map(s =>
-            s._id === square._id ? { ...s, x: lastValidPosition.x, y: newPosition.y } : s
-          )
-        );
-        
-      } else if (Math.abs(dy) > Math.abs(dx)) {
-        // console.log("Y - OUT");
-
-        setNewPositionSquare({
-          x: newPosition.x,
-          y: lastValidPosition.y,
-        });
-        setSquares(prevSquares =>
-          prevSquares.map(s =>
-            s._id === square._id ? { ...s, x: newPosition.x, y: lastValidPosition.y } : s
-          )
-        );
-      } else {
-        // console.log("same shit");
-        setNewPositionSquare(lastValidPosition);
-        setSquares(prevSquares =>
-          prevSquares.map(s =>
-            s._id === square._id ? { ...s, x: lastValidPosition.x, y: lastValidPosition.y } : s
-          )
-        );
-      }
-    }
+    setNewPositionSquare(newPosition);
+    setSquares((prevSquares) =>
+      prevSquares.map((s) =>
+        s._id === square._id ? { ...s, x: newPosition.x, y: newPosition.y } : s
+      )
+    );
   };
+
+  const layoutWidth = layoutBody.width;
+  const layoutHeight = layoutBody.height;
+  const squareWidth = square.width;
+  const squareHeight = square.height;
+
+  const [bounds, setBounds] = useState({});
+
+  useEffect(() => {
+    let newBounds = {
+      left: 0,
+      top: 0,
+      right: layoutWidth - squareWidth,
+      bottom: layoutHeight - squareHeight,
+    };
+
+    if (layoutBody.layoutType === "poligon-1") {
+      // console.log("poligon-1");
+      if (
+        square.y >= (layoutHeight * 37) / 100 &&
+        square.y <= (layoutHeight * 63) / 100 &&
+        square.x >= layoutWidth * 0.79 - square.width
+      ) {
+        newBounds = {
+          left: layoutWidth * 0.02,
+          top: layoutHeight * 0.37,
+          right: layoutWidth * 0.98 - squareWidth,
+          bottom: layoutHeight * 0.63 - squareHeight,
+        };
+      } else {
+        newBounds = {
+          left: layoutWidth * 0.02,
+          top: layoutHeight * 0.02,
+          right: layoutWidth * 0.79 - squareWidth,
+          bottom: layoutHeight * 0.98 - squareHeight,
+        };
+        // console.log("poligon-1");
+      }
+      setBounds(newBounds);
+    } else if (layoutBody.layoutType === "triangle") {
+      // B = Intersection
+      // Y = Vertical Axis
+      // X = Horizontal Axis
+      // R = R-Slope
+      // L = L-Slope
+
+      const x1 = 0.5;
+      const x2 = 0.02;
+      const x3 = 0.98;
+      const y1 = 0.02;
+      const y2 = 0.99;
+
+      const absX1 = layoutWidth * x1;
+      const absX2 = layoutWidth * x2;
+      const absX3 = layoutWidth * x3;
+      const absY1 = layoutHeight * y1;
+      const absY2 = layoutHeight * y2;
+
+      const lSlope = (absY2 - absY1) / (absX2 - absX1);
+      const rSlope = (absY2 - absY1) / (absX3 - absX1);
+
+      const leftLimit = (square.y - absY1) / lSlope + absX1;
+      const rightLimit = (square.y - absY1) / rSlope + absX1;
+
+      newBounds = {
+        left: leftLimit,
+        top: squareHeight,
+        right: rightLimit - squareWidth,
+        bottom: layoutHeight - squareHeight,
+      };
+
+      setBounds(newBounds);
+    } else if (layoutBody.layoutType === "circle") {
+      // radius = 50%
+
+      const radius = layoutWidth / 2;
+
+      function calculateXLimit(y) {
+        const xDistance = Math.sqrt(radius ** 2 - (y - radius) ** 2);
+        const leftLimit = radius - xDistance;
+        const rightLimit = radius + xDistance - squareWidth;
+
+        return { leftLimit, rightLimit };
+      }
+
+      let { leftLimit, rightLimit } = calculateXLimit(square.y);
+
+      console.log("layoutWidht:", layoutWidth);
+      console.log("layoutHeight:", layoutHeight);
+      console.log("radius:", radius);
+
+      newBounds = {
+        left: leftLimit,
+        top: 0,
+        right: rightLimit,
+        bottom: layoutHeight - squareHeight,
+      };
+
+      setBounds(newBounds);
+    } else if (layoutBody.layoutType === "ellipse") {
+      const a = layoutWidth * 0.48;
+      const b = layoutHeight * 0.24;
+
+      function calculateXLimit(y) {
+        const yRelativeToCenter = y - layoutHeight / 2;
+
+        const xDistance = a * Math.sqrt(1 - yRelativeToCenter ** 2 / b ** 2);
+
+        const centerX = layoutWidth / 2;
+        const leftLimit = centerX - xDistance;
+        const rightLimit = centerX + xDistance - squareWidth;
+
+        return { leftLimit, rightLimit };
+      }
+
+      let { leftLimit, rightLimit } = calculateXLimit(square.y);
+      newBounds = {
+        left: leftLimit,
+        top: a - squareHeight,
+        right: rightLimit,
+        bottom: layoutHeight - squareHeight,
+      };
+      setBounds(newBounds);
+    } else if (layoutBody.layoutType === "poligon-2") {
+      const x1 = 0.26;
+      const x2 = 0.74;
+      const x3 = 0.98;
+      const x4 = 0.74;
+      const x5 = 0.26;
+      const x6 = 0.02;
+      const y1 = 0.02;
+      const y2 = 0.02;
+      const y3 = 0.5;
+      const y4 = 0.98;
+      const y5 = 0.98;
+      const y6 = 0.5;
+
+      // Calcula las pendientes para las zonas superior e inferior
+      const lSlopeTop =
+        (layoutHeight * y3 - layoutHeight * y1) /
+        (layoutWidth * x6 - layoutWidth * x1);
+      const rSlopeTop =
+        (layoutHeight * y3 - layoutHeight * y1) /
+        (layoutWidth * x3 - layoutWidth * x1);
+
+      const lSlopeBottom =
+        (layoutHeight * y4 - layoutHeight * y6) /
+        (layoutWidth * x5 - layoutWidth * x4);
+      const rSlopeBottom =
+        (layoutHeight * y4 - layoutHeight * y6) /
+        (layoutWidth * x2 - layoutWidth * x3);
+
+        function calculateBounds(y) {
+          let leftLimit, rightLimit;
+        
+          if (y < layoutHeight * y3) {
+            // Parte superior
+            leftLimit = (y - layoutHeight * y1) / lSlopeTop + layoutWidth * x1;
+            rightLimit = (y - layoutHeight * y1) / rSlopeTop + layoutWidth * x1;
+          } else if (y > layoutHeight * y4) {
+            // Parte inferior
+            leftLimit = (y - layoutHeight * y6) / lSlopeBottom + layoutWidth * x4;
+            rightLimit = (y - layoutHeight * y6) / rSlopeBottom + layoutWidth * x3;
+          } else {
+            // Centro, incluyendo las secciones rectas
+            leftLimit = layoutWidth * x6; // Límite izquierdo para la sección recta
+            rightLimit = layoutWidth * x3; // Límite derecho, ajustado correctamente
+          }
+        
+          // Ajusta para incluir el ancho del cuadrado en el límite derecho
+          rightLimit -= squareWidth;
+        
+          return { leftLimit, rightLimit };
+        }
+        
+
+      let { leftLimit, rightLimit } = calculateBounds(square.y);
+
+      newBounds = {
+        left: leftLimit,
+        top: 0,
+        right: rightLimit,
+        bottom: layoutHeight - squareHeight,
+      };
+
+      setBounds(newBounds);
+    } else {
+      setBounds(newBounds);
+    }
+  }, [
+    square.x,
+    square.y,
+    layoutWidth,
+    layoutHeight,
+    squareWidth,
+    squareHeight,
+    layoutBody.layoutType,
+  ]);
+
+  // console.log("Bounds:", bounds);
+
+  // console.log("floorplan:", layoutBody.layoutType);
 
   return (
     <Draggable
-      bounds="parent"
+      // bounds="parent"
+      bounds={bounds}
       handle=".handle"
       onDrag={(e, ui) => {
         handleDrag(e, ui);
@@ -361,13 +518,13 @@ const SquareShape = ({ children, square }) => {
         y: square.y,
       }}
       onStop={(e, ui) => {
-        // const newPosition = { x: ui.x, y: ui.y };
         if (hasMoved) {
-          
           handleEditShape(square._id, newPositionSquare);
           setHasMoved(false);
         }
       }}
+      // offsetParent={parent}
+      // scale={100}
     >
       <StyledSquare
         ref={squareRef}
