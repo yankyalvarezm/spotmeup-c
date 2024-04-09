@@ -156,139 +156,6 @@ const SquareShape = ({ children, square }) => {
     }
   };
 
-  function getPolygonPoints(
-    layoutType,
-    containerWidth,
-    containerHeight,
-    squareWidth,
-    squareHeight
-  ) {
-    switch (layoutType) {
-      case "poligon-1":
-        return [
-          {
-            x: containerWidth * 0.79 - square.width,
-            y: containerHeight * 0.02,
-          },
-          {
-            x: containerWidth * 0.79 - square.width,
-            y: containerHeight * 0.37,
-          },
-          {
-            x: containerWidth * 0.98 - square.width,
-            y: containerHeight * 0.37,
-          },
-          {
-            x: containerWidth * 0.98 - square.width,
-            y: containerHeight * 0.63 - square.height,
-          },
-          {
-            x: containerWidth * 0.79 - square.width,
-            y: containerHeight * 0.63 - square.height,
-          },
-          {
-            x: containerWidth * 0.79 - square.width,
-            y: containerHeight * 0.88,
-          },
-          {
-            x: containerWidth * 0.02 - square.width,
-            y: containerHeight * 0.98,
-          },
-          {
-            x: containerWidth * 0.02 - square.width,
-            y: containerHeight * 0.02,
-          },
-        ];
-      case "triangle":
-        return [
-          {
-            x: containerWidth * 0.5 - square.width,
-            y: containerHeight * 0.02,
-          },
-          {
-            x: containerWidth * 0.02 - square.width,
-            y: containerHeight * 0.99 + square.height,
-          },
-          {
-            x: containerWidth * 0.98 - square.width,
-            y: containerHeight * 0.99,
-          },
-        ];
-      case "poligon-2":
-        return [
-          {
-            x: containerWidth * 0.26 - square.width / 3,
-            y: containerHeight * 0.02 - square.height / 3,
-          },
-          {
-            x: containerWidth * 0.74 - square.width / 3,
-            y: containerHeight * 0.02 - square.height / 3,
-          },
-          {
-            x: containerWidth * 0.98 - square.width / 3,
-            y: containerHeight * 0.5 - square.height / 3,
-          },
-          {
-            x: containerWidth * 0.74 - square.width / 3,
-            y: containerHeight * 0.98 - square.height / 3,
-          },
-          {
-            x: containerWidth * 0.26 - square.width / 3,
-            y: containerHeight * 0.98 - square.height / 3,
-          },
-          {
-            x: containerWidth * 0.02 - square.width / 3,
-            y: containerHeight * 0.5 - square.height / 3,
-          },
-        ];
-
-      default:
-        return [
-          {
-            x: 0,
-            y: 0,
-          },
-          {
-            x: containerWidth,
-            y: 0,
-          },
-          {
-            x: containerWidth,
-            y: containerHeight,
-          },
-          {
-            x: 0,
-            y: containerHeight,
-          },
-        ];
-    }
-  }
-
-  let polygonPoints = getPolygonPoints(
-    layoutBody.layoutType,
-    layoutBody.width,
-    layoutBody.height,
-    square.width,
-    square.height
-  );
-
-  function isPointInPolygon(polygon, point) {
-    let isInside = false;
-    const x = point.x,
-      y = point.y;
-    for (let i = 0, j = polygon.length - 1; i < polygon.length; j = i++) {
-      const xi = polygon[i].x,
-        yi = polygon[i].y;
-      const xj = polygon[j].x,
-        yj = polygon[j].y;
-
-      const intersect =
-        yi > y !== yj > y && x < ((xj - xi) * (y - yi)) / (yj - yi) + xi;
-      if (intersect) isInside = !isInside;
-    }
-    return isInside;
-  }
-
   const handleDrag = (e, ui) => {
     const newPosition = {
       x: ui.x,
@@ -439,7 +306,6 @@ const SquareShape = ({ children, square }) => {
       const y5 = 0.98;
       const y6 = 0.5;
 
-      // Calcula las pendientes para las zonas superior e inferior
       const lSlopeTop =
         (layoutHeight * y3 - layoutHeight * y1) /
         (layoutWidth * x6 - layoutWidth * x1);
@@ -454,29 +320,25 @@ const SquareShape = ({ children, square }) => {
         (layoutHeight * y4 - layoutHeight * y6) /
         (layoutWidth * x2 - layoutWidth * x3);
 
-        function calculateBounds(y) {
-          let leftLimit, rightLimit;
-        
-          if (y < layoutHeight * y3) {
-            // Parte superior
-            leftLimit = (y - layoutHeight * y1) / lSlopeTop + layoutWidth * x1;
-            rightLimit = (y - layoutHeight * y1) / rSlopeTop + layoutWidth * x1;
-          } else if (y > layoutHeight * y4) {
-            // Parte inferior
-            leftLimit = (y - layoutHeight * y6) / lSlopeBottom + layoutWidth * x4;
-            rightLimit = (y - layoutHeight * y6) / rSlopeBottom + layoutWidth * x3;
-          } else {
-            // Centro, incluyendo las secciones rectas
-            leftLimit = layoutWidth * x6; // Límite izquierdo para la sección recta
-            rightLimit = layoutWidth * x3; // Límite derecho, ajustado correctamente
-          }
-        
-          // Ajusta para incluir el ancho del cuadrado en el límite derecho
-          rightLimit -= squareWidth;
-        
-          return { leftLimit, rightLimit };
+      function calculateBounds(y) {
+        let leftLimit, rightLimit;
+
+        if (y < layoutHeight * y3) {
+          leftLimit = (y - layoutHeight * y1) / lSlopeTop + layoutWidth * x1;
+          rightLimit = (y - layoutHeight * y1) / rSlopeTop + layoutWidth * x1;
+        } else if (y > layoutHeight * y4) {
+          leftLimit = (y - layoutHeight * y6) / lSlopeBottom + layoutWidth * x4;
+          rightLimit =
+            (y - layoutHeight * y6) / rSlopeBottom + layoutWidth * x3;
+        } else {
+          leftLimit = layoutWidth * x6;
+          rightLimit = layoutWidth * x3;
         }
-        
+
+        rightLimit -= squareWidth;
+
+        return { leftLimit, rightLimit };
+      }
 
       let { leftLimit, rightLimit } = calculateBounds(square.y);
 

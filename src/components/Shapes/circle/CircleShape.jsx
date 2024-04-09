@@ -156,201 +156,221 @@ const CircleShape = ({ children, circle }) => {
     }
   };
 
-  function getPolygonPoints(
-    layoutType,
-    containerWidth,
-    containerHeight,
-    circleWidth,
-    circleHeight
-  ) {
-    switch (layoutType) {
-      case "poligon-1":
-        return [
-          {
-            x: containerWidth * 0.79 - circle.width / 3,
-            y: containerHeight * 0.02 - circle.height / 3,
-          },
-          {
-            x: containerWidth * 0.79 - circle.width / 3,
-            y: containerHeight * 0.37 - circle.height / 3,
-          },
-          {
-            x: containerWidth * 0.98 - circle.width / 3,
-            y: containerHeight * 0.37 - circle.height / 3,
-          },
-          {
-            x: containerWidth * 0.98 - circle.width / 3,
-            y: containerHeight * 0.63 - circle.height / 3,
-          },
-          {
-            x: containerWidth * 0.79 - circle.width / 3,
-            y: containerHeight * 0.63 - circle.height / 3,
-          },
-          {
-            x: containerWidth * 0.79 - circle.width / 3,
-            y: containerHeight * 0.88 - circle.height / 3,
-          },
-          {
-            x: containerWidth * 0.02 - circle.width / 3,
-            y: containerHeight * 0.98 - circle.height / 3,
-          },
-          {
-            x: containerWidth * 0.02 - circle.width / 3,
-            y: containerHeight * 0.02 - circle.height / 3,
-          },
-        ];
-      case "triangle":
-        return [
-          {
-            x: containerWidth * 0.5 - circle.width / 2,
-            y: containerHeight * 0.02 - circle.height / 2,
-          },
-          {
-            x: containerWidth * 0.02 - circle.width / 2,
-            y: containerHeight * 0.99 - circle.height / 2,
-          },
-          {
-            x: containerWidth * 0.98 - circle.width / 2,
-            y: containerHeight * 0.99 - circle.height / 2,
-          },
-        ];
-      case "poligon-2":
-        return [
-          {
-            x: containerWidth * 0.26 - circle.width / 3,
-            y: containerHeight * 0.02 - circle.height / 3,
-          },
-          {
-            x: containerWidth * 0.74 - circle.width / 3,
-            y: containerHeight * 0.02 - circle.height / 3,
-          },
-          {
-            x: containerWidth * 0.98 - circle.width / 3,
-            y: containerHeight * 0.5 - circle.height / 3,
-          },
-          {
-            x: containerWidth * 0.74 - circle.width / 3,
-            y: containerHeight * 0.98 - circle.height / 3,
-          },
-          {
-            x: containerWidth * 0.26 - circle.width / 3,
-            y: containerHeight * 0.98 - circle.height / 3,
-          },
-          {
-            x: containerWidth * 0.02 - circle.width / 3,
-            y: containerHeight * 0.5 - circle.height / 3,
-          },
-        ];
-
-      default:
-        return [
-          {
-            x: 0,
-            y: 0,
-          },
-          {
-            x: containerWidth,
-            y: 0,
-          },
-          {
-            x: containerWidth,
-            y: containerHeight,
-          },
-          {
-            x: 0,
-            y: containerHeight,
-          },
-        ];
-    }
-  }
-
-  let polygonPoints = getPolygonPoints(
-    layoutBody.layoutType,
-    layoutBody.width,
-    layoutBody.height,
-    circle.width,
-    circle.height
-  );
-
-  function isPointInPolygon(polygon, point) {
-    let isInside = false;
-    const x = point.x,
-      y = point.y;
-    for (let i = 0, j = polygon.length - 1; i < polygon.length; j = i++) {
-      const xi = polygon[i].x,
-        yi = polygon[i].y;
-      const xj = polygon[j].x,
-        yj = polygon[j].y;
-
-      const intersect =
-        yi > y !== yj > y && x < ((xj - xi) * (y - yi)) / (yj - yi) + xi;
-      if (intersect) isInside = !isInside;
-    }
-    return isInside;
-  }
-
   const handleDrag = (e, ui) => {
     const newPosition = {
       x: ui.x,
       y: ui.y,
     };
     // console.log(`Polygon points for ${layoutBody.layoutType}:`, polygonPoints);
+    setNewPositionCircle(newPosition);
 
-    if (isPointInPolygon(polygonPoints, newPosition)) {
-      // console.log("INSIDE");
-      setHasMoved(true);
-      setLastValidPosition(newPosition);
-      setNewPositionCircle(newPosition);
-      setCircles(prevCircles =>
-        prevCircles.map(c =>
-          c._id === circle._id ? { ...c, x: newPosition.x, y: newPosition.y } : c
-        )
-      );
-    } else {
-      // console.log("OUTSIDE");
-
-      const dx = newPosition.x - lastValidPosition.x;
-      const dy = newPosition.y - lastValidPosition.y;
-
-      if (Math.abs(dx) > Math.abs(dy)) {
-        // console.log("X - OUT");
-
-        setNewPositionCircle({
-          x: lastValidPosition.x,
-          y: newPosition.y,
-        });
-        setCircles(prevCircles =>
-          prevCircles.map(c =>
-            c._id === circle._id ? { ...c, x: lastValidPosition.x, y: newPosition.y } : c
-          )
-        );
-      } else if (Math.abs(dy) > Math.abs(dx)) {
-        // console.log("Y - OUT");
-
-        setNewPositionCircle({
-          x: newPosition.x,
-          y: lastValidPosition.y,
-        });
-        setCircles(prevCircles =>
-          prevCircles.map(c =>
-            c._id === circle._id ? { ...c, x: newPosition.x, y: lastValidPosition.y } : c
-          )
-        );
-      } else {
-        // console.log("same shit");
-        setNewPositionCircle(lastValidPosition);
-        setCircles(prevCircles =>
-          prevCircles.map(c =>
-            c._id === circle._id ? { ...c, x: lastValidPosition.x, y: lastValidPosition.y } : c
-          )
-        );
-      }
-    }
+    setCircles((prevCircles) =>
+      prevCircles.map((c) =>
+        c._id === circle._id ? { ...c, x: newPosition.x, y: newPosition.y } : c
+      )
+    );
   };
+
+
+  const layoutWidth = layoutBody.width;
+  const layoutHeight = layoutBody.height;
+  const circleWidth = circle.width;
+  const circleHeight = circle.height;
+
+  const [bounds, setBounds] = useState({});
+
+  useEffect(() => {
+    let newBounds = {
+      left: 0,
+      top: 0,
+      right: layoutWidth - circleWidth,
+      bottom: layoutHeight - circleHeight,
+    };
+
+    if (layoutBody.layoutType === "poligon-1") {
+      console.log("poligon-1");
+      if (
+        circle.y >= (layoutHeight * 37) / 100 &&
+        circle.y <= (layoutHeight * 63) / 100 &&
+        circle.x >= layoutWidth * 0.79 - circle.width
+      ) {
+        newBounds = {
+          left: layoutWidth * 0.02,
+          top: layoutHeight * 0.37,
+          right: layoutWidth * 0.98 - circleWidth,
+          bottom: layoutHeight * 0.63 - circleHeight,
+        };
+      } else {
+        newBounds = {
+          left: layoutWidth * 0.02,
+          top: layoutHeight * 0.02,
+          right: layoutWidth * 0.79 - circleWidth,
+          bottom: layoutHeight * 0.98 - circleHeight,
+        };
+        // console.log("poligon-1");
+      }
+      setBounds(newBounds);
+    } else if (layoutBody.layoutType === "triangle") {
+      // B = Intersection
+      // Y = Vertical Axis
+      // X = Horizontal Axis
+      // R = R-Slope
+      // L = L-Slope
+
+      console.log("triangle")
+
+      const x1 = 0.5;
+      const x2 = 0.02;
+      const x3 = 0.98;
+      const y1 = 0.02;
+      const y2 = 0.99;
+
+      const absX1 = layoutWidth * x1;
+      const absX2 = layoutWidth * x2;
+      const absX3 = layoutWidth * x3;
+      const absY1 = layoutHeight * y1;
+      const absY2 = layoutHeight * y2;
+
+      const lSlope = (absY2 - absY1) / (absX2 - absX1);
+      const rSlope = (absY2 - absY1) / (absX3 - absX1);
+
+      const leftLimit = (circle.y - absY1) / lSlope + absX1;
+      const rightLimit = (circle.y - absY1) / rSlope + absX1;
+
+      newBounds = {
+        left: leftLimit - circleWidth / 4.5,
+        top: circleHeight / 1.35,
+        right: rightLimit - circleWidth / 1.25,
+        bottom: layoutHeight - circleHeight,
+      };
+
+      setBounds(newBounds);
+    } else if (layoutBody.layoutType === "circle") {
+      // radius = 50%
+      console.log("circle")
+      const radius = layoutWidth / 2;
+
+      function calculateXLimit(y) {
+        const xDistance = Math.sqrt(radius ** 2 - (y - radius) ** 2);
+        const leftLimit = radius - xDistance;
+        const rightLimit = radius + xDistance - circleWidth;
+
+        return { leftLimit, rightLimit };
+      }
+
+      let { leftLimit, rightLimit } = calculateXLimit(circle.y);
+
+      console.log("layoutWidht:", layoutWidth);
+      console.log("layoutHeight:", layoutHeight);
+      console.log("radius:", radius);
+
+      newBounds = {
+        left: leftLimit,
+        top: 0,
+        right: rightLimit,
+        bottom: layoutHeight - circleHeight,
+      };
+
+      setBounds(newBounds);
+    } else if (layoutBody.layoutType === "ellipse") {
+      const a = layoutWidth * 0.48;
+      const b = layoutHeight * 0.24;
+
+      function calculateXLimit(y) {
+        const yRelativeToCenter = y - layoutHeight / 2;
+
+        const xDistance = a * Math.sqrt(1 - yRelativeToCenter ** 2 / b ** 2);
+
+        const centerX = layoutWidth / 2;
+        const leftLimit = centerX - xDistance;
+        const rightLimit = centerX + xDistance - circleWidth;
+
+        return { leftLimit, rightLimit };
+      }
+
+      let { leftLimit, rightLimit } = calculateXLimit(circle.y);
+      newBounds = {
+        left: leftLimit,
+        top: a - circleHeight,
+        right: rightLimit,
+        bottom: layoutHeight - circleHeight,
+      };
+      setBounds(newBounds);
+    } else if (layoutBody.layoutType === "poligon-2") {
+      const x1 = 0.26;
+      const x2 = 0.74;
+      const x3 = 0.98;
+      const x4 = 0.74;
+      const x5 = 0.26;
+      const x6 = 0.02;
+      const y1 = 0.02;
+      const y2 = 0.02;
+      const y3 = 0.5;
+      const y4 = 0.98;
+      const y5 = 0.98;
+      const y6 = 0.5;
+
+      const lSlopeTop =
+        (layoutHeight * y3 - layoutHeight * y1) /
+        (layoutWidth * x6 - layoutWidth * x1);
+      const rSlopeTop =
+        (layoutHeight * y3 - layoutHeight * y1) /
+        (layoutWidth * x3 - layoutWidth * x1);
+
+      const lSlopeBottom =
+        (layoutHeight * y4 - layoutHeight * y6) /
+        (layoutWidth * x5 - layoutWidth * x4);
+      const rSlopeBottom =
+        (layoutHeight * y4 - layoutHeight * y6) /
+        (layoutWidth * x2 - layoutWidth * x3);
+
+      function calculateBounds(y) {
+        let leftLimit, rightLimit;
+
+        if (y < layoutHeight * y3) {
+          leftLimit = (y - layoutHeight * y1) / lSlopeTop + layoutWidth * x1;
+          rightLimit = (y - layoutHeight * y1) / rSlopeTop + layoutWidth * x1;
+        } else if (y > layoutHeight * y4) {
+          leftLimit = (y - layoutHeight * y6) / lSlopeBottom + layoutWidth * x4;
+          rightLimit =
+            (y - layoutHeight * y6) / rSlopeBottom + layoutWidth * x3;
+        } else {
+          leftLimit = layoutWidth * x6;
+          rightLimit = layoutWidth * x3;
+        }
+
+        rightLimit -= circleWidth;
+
+        return { leftLimit, rightLimit };
+      }
+
+      let { leftLimit, rightLimit } = calculateBounds(circle.y);
+
+      newBounds = {
+        left: leftLimit,
+        top: 0,
+        right: rightLimit,
+        bottom: layoutHeight - circleHeight,
+      };
+
+      setBounds(newBounds);
+    } else {
+      setBounds(newBounds);
+    }
+  }, [
+    circle.x,
+    circle.y,
+    layoutWidth,
+    layoutHeight,
+    circleWidth,
+    circleHeight,
+    layoutBody.layoutType,
+  ]);
 
   return (
     <Draggable
-      bounds="parent"
+      // bounds="parent"
+      bounds={bounds}
       handle=".handle"
       onDrag={(e, ui) => handleDrag(e, ui)}
       // position={{ x: newPositionCircle.x, y: newPositionCircle.y }}
