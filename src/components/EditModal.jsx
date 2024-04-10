@@ -7,6 +7,7 @@ import LayoutTools from "./Layouts/LayoutTools";
 import DisplayShapes from "./Shapes/DisplayShapes";
 import ShapesTools from "./Shapes/ShapesTools";
 import AddShape from "./Shapes/AddShape";
+import AddBlock from "./Blocks/AddBlock";
 
 const EditModal = () => {
   const navigate = useNavigate();
@@ -58,6 +59,7 @@ const EditModal = () => {
           >
             <LayoutTools>
               <AddShape />
+              <AddBlock />
             </LayoutTools>
             <button
               className={

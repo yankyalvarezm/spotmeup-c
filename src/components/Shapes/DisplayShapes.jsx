@@ -23,15 +23,12 @@ const DisplayShapes = () => {
     if (shapeDeleted) {
       setShapeDeleted(null);
     }
-
     if (shapeEdited) {
       setShapeEdited(false);
     }
     if (shapeAdded) {
       setShapeAdded(false);
     }
-
-
     fetchShapes(param.layoutIdParam);
   }, [param.layoutIdParam, shapeDeleted, shapeEdited, shapeAdded]);
 

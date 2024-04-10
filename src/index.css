@@ -3017,4 +3017,11 @@ input[type="color"]::-webkit-color-swatch {
   width: 100%;
   height: 100%;
   z-index: 99;
+  /* background-image: url(/bck-1.png);
+  background-repeat: repeat;
+  background-size: 30%; */
+}
+
+.add-block-container {
+  background-color: var(--yellow);
 }

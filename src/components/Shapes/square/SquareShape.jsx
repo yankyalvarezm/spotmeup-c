@@ -253,7 +253,7 @@ const SquareShape = ({ children, square }) => {
         
         return { leftLimit, rightLimit };
       }
-      
+
       let { leftLimit, rightLimit } = calculateXLimit(square.y);
 
       console.log("layoutWidht:", layoutWidth);
@@ -364,7 +364,6 @@ const SquareShape = ({ children, square }) => {
   ]);
 
   // console.log("Bounds:", bounds);
-
   // console.log("floorplan:", layoutBody.layoutType);
 
   return (
