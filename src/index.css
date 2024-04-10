@@ -1959,7 +1959,6 @@ button:hover {
  display: flex;
  flex-direction: column;
  margin: 1rem;
- padding-bottom: 1rem;
  background-color: var(--yellow);
  border-radius: 10px;
 }
@@ -1976,11 +1975,10 @@ button:hover {
 }
 
 .shape-content {
-  display: flex;
-  justify-content: center;
-  /* width: 80%; */
-  gap: 2rem;
-  margin-bottom: 1rem;
+  display: grid;
+  justify-items: center;
+  grid-template-columns: 1fr 1fr;
+  width: 100%;
 }
 
 .shape-content > div {
@@ -3022,6 +3020,72 @@ input[type="color"]::-webkit-color-swatch {
   background-size: 30%; */
 }
 
+/* --------- Add Block ---------- */
+
+.add-block-title {
+  margin: 0.5rem 0rem;
+  text-align: center;
+  color: var(--red);
+  font-size: 20px;
+}
+
 .add-block-container {
+  display: flex;
+  flex-direction: column;
+  margin: 1rem;
   background-color: var(--yellow);
+  border-radius: 10px;
+}
+
+.add-block-shapes {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  justify-items: center;
+  margin-bottom: 1rem;
+}
+
+.add-block-circle {
+  width: 40px;
+  height: 40px;
+  background-color: var(--white);
+  border-radius: 50%;
+  border: 4px solid var(--black);
+}
+
+.add-block-square {
+  width: 36px;
+  height: 36px;
+  background-color: var(--white);
+  border: 4px solid var(--black);
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-column-gap: 1px;
+  justify-items: center;
+  align-items: center;
+}
+
+.add-block-small-circle {
+  background-color: var(--black);
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  /* margin: 1.5px; */
+  margin: 0px;
+  color: white;
+  font-size: 8px;
+  font-family: var(--primary--font);
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.add-block-square:hover {
+  cursor: pointer;
+  box-shadow: 0px 0px 6px var(--black);
+}
+
+.add-block-circle:hover {
+  cursor: pointer;
+  box-shadow: 0px 0px 6px var(--black);
 }

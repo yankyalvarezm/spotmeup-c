@@ -43,9 +43,7 @@ function ShapeProvider({ children }) {
     }
   };
 
-  const toggleShapeForm = () => {
-    setShowShapeForm((prev) => !prev);
-  };
+  
 
   const addCircle = async (layoutId, body) => {
     setShowShapes((prev) => !prev);
@@ -84,6 +82,10 @@ function ShapeProvider({ children }) {
     } catch (error) {
       console.log("error:", error);
     }
+  };
+
+  const toggleShapeForm = () => {
+    setShowShapeForm((prev) => !prev);
   };
 
   function debounce(fn, delay) {

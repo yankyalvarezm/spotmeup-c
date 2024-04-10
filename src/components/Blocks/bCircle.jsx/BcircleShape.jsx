@@ -1,23 +1,23 @@
 import React from 'react'
 import Draggable from "react-draggable";
-import StyledbSquare from "./StyledbSquare"
-const BsquareShape = ({children, square}) => {
+import StyledbCircle from "./StyledbCircle";
+
+const BcircleShape = ({children, circle}) => {
   return (
     <Draggable
       bounds="parent"
       handle=".handle"
 
     >
-      <StyledbSquare
-        square={square}
-
+      <StyledbCircle
+        circle={circle}
       >
         <div className="handle" />
         {children}
-      </StyledbSquare>
+      </StyledbCircle>
 
     </Draggable>
   )
 }
 
-export default BsquareShape
+export default BcircleShape;
