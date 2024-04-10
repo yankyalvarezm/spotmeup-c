@@ -26,8 +26,8 @@ const EditModal = () => {
     }
   }, [layoutId]);
 
-  console.log("floorplan --->", floorPlan);
-  console.log("layoutType --->", layoutDetails);
+  // console.log("floorplan --->", floorPlan);
+  // console.log("layoutType --->", layoutDetails);
 
   return (
     <div className="design-big-container">

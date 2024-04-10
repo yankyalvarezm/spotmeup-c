@@ -250,7 +250,7 @@ const SquareShape = ({ children, square }) => {
         const xDistance = Math.sqrt(radius ** 2 - (y - radius) ** 2);
         const leftLimit = radius - xDistance;
         const rightLimit = radius + xDistance - squareWidth;
-        
+
         return { leftLimit, rightLimit };
       }
 
@@ -293,61 +293,57 @@ const SquareShape = ({ children, square }) => {
       };
       setBounds(newBounds);
     } else if (layoutBody.layoutType === "poligon-2") {
-      const x1 = 0.26;
-      const x2 = 0.74;
-      const x3 = 0.98;
-      const x4 = 0.74;
-      const x5 = 0.26;
-      const x6 = 0.02;
-      const y1 = 0.02;
-      const y2 = 0.02;
-      const y3 = 0.5;
-      const y4 = 0.98;
-      const y5 = 0.98;
-      const y6 = 0.5;
+      // console.log("squareY:", square.y);
+      console.log("squareY:", square.y + squareHeight);
+      console.log("condition-2", 0.83 * layoutWidth);
+      if (square.y + squareHeight <= 0.17 * layoutHeight + squareHeight) {
+        newBounds = {
+          left: 0.17 * layoutWidth,
+          top: 0.02 * layoutHeight,
+          right: 0.83 * layoutWidth - squareWidth,
+          bottom: 0.83 * layoutHeight - squareHeight,
+        };
 
-      const lSlopeTop =
-        (layoutHeight * y3 - layoutHeight * y1) /
-        (layoutWidth * x6 - layoutWidth * x1);
-      const rSlopeTop =
-        (layoutHeight * y3 - layoutHeight * y1) /
-        (layoutWidth * x3 - layoutWidth * x1);
+        console.log("condition - 1 checked");
+      } else if (
+        square.x >= 0.2 * layoutWidth &&
+        square.x + squareWidth <= 0.5 * layoutWidth &&
+        square.y + squareHeight >= 0.83 * layoutWidth
+      ) {
+        newBounds = {
+          left: 0.2 * layoutWidth,
+          top: 0.02 * layoutHeight,
+          right: 0.5 * layoutWidth - squareWidth,
+          bottom: 0.98 * layoutHeight - squareHeight,
+        };
 
-      const lSlopeBottom =
-        (layoutHeight * y4 - layoutHeight * y6) /
-        (layoutWidth * x5 - layoutWidth * x4);
-      const rSlopeBottom =
-        (layoutHeight * y4 - layoutHeight * y6) /
-        (layoutWidth * x2 - layoutWidth * x3);
-
-      function calculateBounds(y) {
-        let leftLimit, rightLimit;
-
-        if (y < layoutHeight * y3) {
-          leftLimit = (y - layoutHeight * y1) / lSlopeTop + layoutWidth * x1;
-          rightLimit = (y - layoutHeight * y1) / rSlopeTop + layoutWidth * x1;
-        } else if (y > layoutHeight * y4) {
-          leftLimit = (y - layoutHeight * y6) / lSlopeBottom + layoutWidth * x4;
-          rightLimit =
-            (y - layoutHeight * y6) / rSlopeBottom + layoutWidth * x3;
-        } else {
-          leftLimit = layoutWidth * x6;
-          rightLimit = layoutWidth * x3;
-        }
-
-        rightLimit -= squareWidth;
-
-        return { leftLimit, rightLimit };
+        console.log("condition - 2 checked");
+      } else if (square.x < 0.18 * layoutWidth) {
+        newBounds = {
+          left: 0.02 * layoutWidth,
+          top: 0.1701 * layoutHeight,
+          right: layoutWidth - squareWidth,
+          bottom: 0.83 * layoutHeight - squareHeight,
+        };
+      } else if (
+        square.x + squareWidth >= 0.5 * layoutWidth &&
+        square.x + squareWidth <= 0.83 * layoutWidth
+      ) {
+        newBounds = {
+          left: 0.02 * layoutWidth,
+          top: 0,
+          right: layoutWidth - squareWidth,
+          bottom: 0.83 * layoutHeight - squareHeight,
+        };
+      } else if (square.x + squareWidth >= 0.83 * layoutWidth) {
+        newBounds = {
+          left: 0.02 * layoutWidth,
+          top: 0.1701 * layoutHeight,
+          right: layoutWidth - squareWidth,
+          bottom: 0.83 * layoutHeight - squareHeight,
+        };
       }
-
-      let { leftLimit, rightLimit } = calculateBounds(square.y);
-
-      newBounds = {
-        left: leftLimit,
-        top: 0,
-        right: rightLimit,
-        bottom: layoutHeight - squareHeight,
-      };
+      // console.log("2%", 0.02 * layoutWidth);
 
       setBounds(newBounds);
     } else {
