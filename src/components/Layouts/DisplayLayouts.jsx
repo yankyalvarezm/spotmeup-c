@@ -93,9 +93,6 @@ const DisplayLayouts = () => {
     navigate(`/admin/designpage/${layoutId}`);
   };
 
-  console.log("layoutDetails:", layoutDetails);
-  console.log("layoutId", layoutId);
-
   return (
     <>
       <div className="layout-title-container-parent">

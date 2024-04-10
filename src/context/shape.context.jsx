@@ -43,8 +43,6 @@ function ShapeProvider({ children }) {
     }
   };
 
-  
-
   const addCircle = async (layoutId, body) => {
     setShowShapes((prev) => !prev);
 

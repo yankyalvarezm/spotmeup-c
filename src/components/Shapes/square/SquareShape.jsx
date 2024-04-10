@@ -162,6 +162,7 @@ const SquareShape = ({ children, square }) => {
       y: ui.y,
     };
 
+    setHasMoved(true)
     setNewPositionSquare(newPosition);
     setSquares((prevSquares) =>
       prevSquares.map((s) =>
@@ -380,8 +381,9 @@ const SquareShape = ({ children, square }) => {
           setHasMoved(false);
         }
       }}
+      grid={[5, 5]}
       // offsetParent={parent}
-      // scale={100}
+      // scale={1}
     >
       <StyledSquare
         ref={squareRef}

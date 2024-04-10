@@ -109,7 +109,7 @@ const CircleShape = ({ children, circle }) => {
   const handleEditShape = async (shapeId, body) => {
     try {
       const response = await editShapes(shapeId, body);
-      // console.log("Edited Shape", response);
+      console.log("Edited Shape", response);
       // console.log("Line 59 - Body:", body);
       setCircles((prev) => {
         return prev.map((circle) => {
@@ -163,6 +163,7 @@ const CircleShape = ({ children, circle }) => {
     };
     // console.log(`Polygon points for ${layoutBody.layoutType}:`, polygonPoints);
     setNewPositionCircle(newPosition);
+    setHasMoved(true)
 
     setCircles((prevCircles) =>
       prevCircles.map((c) =>
@@ -170,7 +171,6 @@ const CircleShape = ({ children, circle }) => {
       )
     );
   };
-
 
   const layoutWidth = layoutBody.width;
   const layoutHeight = layoutBody.height;
@@ -217,7 +217,7 @@ const CircleShape = ({ children, circle }) => {
       // R = R-Slope
       // L = L-Slope
 
-      console.log("triangle")
+      console.log("triangle");
 
       const x1 = 0.5;
       const x2 = 0.02;
@@ -247,7 +247,7 @@ const CircleShape = ({ children, circle }) => {
       setBounds(newBounds);
     } else if (layoutBody.layoutType === "circle") {
       // radius = 50%
-      console.log("circle")
+      console.log("circle");
       const radius = layoutWidth / 2;
 
       function calculateXLimit(y) {
@@ -359,6 +359,9 @@ const CircleShape = ({ children, circle }) => {
     layoutBody.layoutType,
   ]);
 
+  console.log("circle.x:", circle.x);
+  // console.log("circle.y:", circle.y);
+
   return (
     <Draggable
       // bounds="parent"
@@ -373,6 +376,7 @@ const CircleShape = ({ children, circle }) => {
           setHasMoved(false);
         }
       }}
+      // grid={[5, 5]}
     >
       <StyledCircle
         ref={circleRef}
