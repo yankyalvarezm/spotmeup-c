@@ -8,6 +8,8 @@ const AddBlock = () => {
   const { layoutBody } = useContext(LayoutContext);
   const param = useParams();
 
+  // console.log("layoutBody from blocks:", layoutBody);
+
   const [blockBody, setBlockBody] = useState({
     blockType: "",
     status: "",
@@ -31,8 +33,8 @@ const AddBlock = () => {
     color: "white",
     justifyContent: "",
     alignItems: "",
-    x: layoutBody.width / 2 - 50,
-    y: layoutBody.height / 2 - 50,
+    x: layoutBody?.width / 2 - 50,
+    y: layoutBody?.height / 2 - 50,
     fontSize: 15,
   });
 

@@ -2,52 +2,52 @@ import styled from "styled-components"
 
 const StyledBSquare = styled.div`
 position: absolute;
-width: ${(props) => props.square?.width}px;
-height: ${(props) => props.square?.height}px;
-background-color: ${(props) => props.square?.backgroundColor};
+width: ${(props) => props.bSquare?.width}px;
+height: ${(props) => props.bSquare?.height}px;
+background-color: ${(props) => props.bSquare?.backgroundColor};
 border-left: ${(props) =>
-    props.square?.borderLeftSize || props.square?.borderLeftSize === 0
-      ? props.square?.borderLeftSize
-      : props.square?.borderSize}px
+    props.bSquare?.borderLeftSize || props.bSquare?.borderLeftSize === 0
+      ? props.bSquare?.borderLeftSize
+      : props.bSquare?.borderSize}px
   solid
   ${(props) =>
-    props.square?.borderLeftColor
-      ? props.square?.borderLeftColor
-      : props.square?.borderColor};
+    props.bSquare?.borderLeftColor
+      ? props.bSquare?.borderLeftColor
+      : props.bSquare?.borderColor};
 border-right: ${(props) =>
-    props.square?.borderRightSize || props.square?.borderRightSize === 0
-      ? props.square?.borderRightSize
-      : props.square?.borderSize}px
+    props.bSquare?.borderRightSize || props.bSquare?.borderRightSize === 0
+      ? props.bSquare?.borderRightSize
+      : props.bSquare?.borderSize}px
   solid
   ${(props) =>
-    props.square?.borderRightColor
-      ? props.square?.borderRightColor
-      : props.square?.borderColor};
+    props.bSquare?.borderRightColor
+      ? props.bSquare?.borderRightColor
+      : props.bSquare?.borderColor};
 border-bottom: ${(props) =>
-    props.square?.borderBottomSize || props.square?.borderBottomSize === 0
-      ? props.square?.borderBottomSize
-      : props.square?.borderSize}px
+    props.bSquare?.borderBottomSize || props.bSquare?.borderBottomSize === 0
+      ? props.bSquare?.borderBottomSize
+      : props.bSquare?.borderSize}px
   solid
   ${(props) =>
-    props.square?.borderBottomColor
-      ? props.square?.borderBottomColor
-      : props.square?.borderColor};
+    props.bSquare?.borderBottomColor
+      ? props.bSquare?.borderBottomColor
+      : props.bSquare?.borderColor};
 border-top: ${(props) =>
-    props.square?.borderTopSize || props.square?.borderTopSize === 0
-      ? props.square?.borderTopSize
-      : props.square?.borderSize}px
+    props.bSquare?.borderTopSize || props.bSquare?.borderTopSize === 0
+      ? props.bSquare?.borderTopSize
+      : props.bSquare?.borderSize}px
   solid
   ${(props) =>
-    props.square?.borderTopColor
-      ? props.square?.borderTopColor
-      : props.square?.borderColor};
+    props.bSquare?.borderTopColor
+      ? props.bSquare?.borderTopColor
+      : props.bSquare?.borderColor};
 max-width: 100%;
 max-height: 100%;
 text-align: center;
 ${(props) => (props.resize ? "resize:both; overflow: hidden;" : "")}
 transform: translate(
-  ${(props) => props.square?.x}px,
-  ${(props) => props.square?.y}px
+  ${(props) => props.bSquare?.x}px,
+  ${(props) => props.bSquare?.y}px
 );
 `
 export default StyledBSquare;

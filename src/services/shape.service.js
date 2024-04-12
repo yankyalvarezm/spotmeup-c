@@ -18,7 +18,7 @@ export const createShape = async (layoutId, shapeBody) => {
 export const getAllShapes = async (layoutId) => {
   try {
     const response = await axios.get(`${API_URL}/shape/${layoutId}/findAll`);
-    console.log("Line 22 - response", response);
+    // console.log("Line 22 - response", response);
     return response.data;
   } catch (error) {
     console.log("error:", error);

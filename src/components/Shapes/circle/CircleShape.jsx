@@ -24,7 +24,7 @@ const CircleShape = ({ children, circle }) => {
   const [hasMoved, setHasMoved] = useState(false);
   const [editingName, setEditingName] = useState(false);
   const [circleName, setCircleName] = useState(circle.name);
-  const [lastValidPosition, setLastValidPosition] = useState({ x: 0, y: 0 });
+
   const [newPositionCircle, setNewPositionCircle] = useState({
     x: layoutBody.width / 2 - circle.width / 2,
     y: layoutBody.width / 2,
@@ -109,7 +109,7 @@ const CircleShape = ({ children, circle }) => {
   const handleEditShape = async (shapeId, body) => {
     try {
       const response = await editShapes(shapeId, body);
-      console.log("Edited Shape", response);
+      // console.log("Edited Shape", response);
       // console.log("Line 59 - Body:", body);
       setCircles((prev) => {
         return prev.map((circle) => {
@@ -134,7 +134,7 @@ const CircleShape = ({ children, circle }) => {
     ) {
       setShowShapeForm(false);
       setShapeId(null);
-      console.log("shapeId:", shapeId);
+      // console.log("shapeId:", shapeId);
       saveName();
     }
   };
@@ -188,7 +188,7 @@ const CircleShape = ({ children, circle }) => {
     };
 
     if (layoutBody.layoutType === "poligon-1") {
-      console.log("poligon-1");
+      // console.log("poligon-1");
       if (
         circle.y >= (layoutHeight * 37) / 100 &&
         circle.y <= (layoutHeight * 63) / 100 &&
@@ -217,7 +217,7 @@ const CircleShape = ({ children, circle }) => {
       // R = R-Slope
       // L = L-Slope
 
-      console.log("triangle");
+      // console.log("triangle");
 
       const x1 = 0.5;
       const x2 = 0.02;
@@ -247,7 +247,7 @@ const CircleShape = ({ children, circle }) => {
       setBounds(newBounds);
     } else if (layoutBody.layoutType === "circle") {
       // radius = 50%
-      console.log("circle");
+      // console.log("circle");
       const radius = layoutWidth / 2;
 
       function calculateXLimit(y) {
@@ -260,9 +260,9 @@ const CircleShape = ({ children, circle }) => {
 
       let { leftLimit, rightLimit } = calculateXLimit(circle.y);
 
-      console.log("layoutWidht:", layoutWidth);
-      console.log("layoutHeight:", layoutHeight);
-      console.log("radius:", radius);
+      // console.log("layoutWidht:", layoutWidth);
+      // console.log("layoutHeight:", layoutHeight);
+      // console.log("radius:", radius);
 
       newBounds = {
         left: leftLimit,
@@ -305,7 +305,7 @@ const CircleShape = ({ children, circle }) => {
           bottom: 0.83 * layoutHeight - circleHeight,
         };
 
-        console.log("condition - 1 checked");
+        // console.log("condition - 1 checked");
       } else if (
         circle.x >= 0.2 * layoutWidth &&
         circle.x + circleWidth <= 0.5 * layoutWidth &&
@@ -318,7 +318,7 @@ const CircleShape = ({ children, circle }) => {
           bottom: 0.98 * layoutHeight - circleHeight,
         };
 
-        console.log("condition - 2 checked");
+        // console.log("condition - 2 checked");
       } else if (circle.x < 0.18 * layoutWidth) {
         newBounds = {
           left: 0.02 * layoutWidth,
@@ -359,7 +359,7 @@ const CircleShape = ({ children, circle }) => {
     layoutBody.layoutType,
   ]);
 
-  console.log("circle.x:", circle.x);
+  // console.log("circle.x:", circle.x);
   // console.log("circle.y:", circle.y);
 
   return (

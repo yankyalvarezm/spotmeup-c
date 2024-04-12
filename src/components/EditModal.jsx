@@ -8,6 +8,7 @@ import DisplayShapes from "./Shapes/DisplayShapes";
 import ShapesTools from "./Shapes/ShapesTools";
 import AddShape from "./Shapes/AddShape";
 import AddBlock from "./Blocks/AddBlock";
+import DisplayBlocks from "./Blocks/DisplayBlocks";
 
 const EditModal = () => {
   const navigate = useNavigate();
@@ -45,6 +46,7 @@ const EditModal = () => {
           <div className="design-main-content">
             <LayoutContent>
               <DisplayShapes />
+              <DisplayBlocks />
             </LayoutContent>
           </div>
         </div>

@@ -1,7 +1,6 @@
 import React, { useEffect, useRef, useContext, useState } from "react";
 import Draggable from "react-draggable";
 import { ShapeContext } from "../../../context/shape.context";
-import { shapes } from "konva/lib/Shape";
 import { editShapes } from "../../../services/shape.service";
 import { StyledSquare } from "./StyledSquare";
 import { LayoutContext } from "../../../context/layout.context";
@@ -22,7 +21,6 @@ const SquareShape = ({ children, square }) => {
   const [hasMoved, setHasMoved] = useState(false);
   const [editingName, setEditingName] = useState(false);
   const [squareName, setSquareName] = useState(square.name);
-  const [lastValidPosition, setLastValidPosition] = useState({ x: 0, y: 0 });
   const [newPositionSquare, setNewPositionSquare] = useState({
     x: layoutBody.width / 2 - square.width / 2,
     y: layoutBody.width / 2,
@@ -108,7 +106,7 @@ const SquareShape = ({ children, square }) => {
   const handleEditShape = async (shapeId, body) => {
     try {
       const response = await editShapes(shapeId, body);
-      console.log("Edited Shape:", response);
+      // console.log("Edited Shape:", response);
       // console.log("Line 59 - Body:", body);
       // setShapeEdited(true);
       // debugger
@@ -257,9 +255,9 @@ const SquareShape = ({ children, square }) => {
 
       let { leftLimit, rightLimit } = calculateXLimit(square.y);
 
-      console.log("layoutWidht:", layoutWidth);
-      console.log("layoutHeight:", layoutHeight);
-      console.log("radius:", radius);
+      // console.log("layoutWidht:", layoutWidth);
+      // console.log("layoutHeight:", layoutHeight);
+      // console.log("radius:", radius);
 
       newBounds = {
         left: leftLimit,
@@ -295,8 +293,8 @@ const SquareShape = ({ children, square }) => {
       setBounds(newBounds);
     } else if (layoutBody.layoutType === "poligon-2") {
       // console.log("squareY:", square.y);
-      console.log("squareY:", square.y + squareHeight);
-      console.log("condition-2", 0.83 * layoutWidth);
+      // console.log("squareY:", square.y + squareHeight);
+      // console.log("condition-2", 0.83 * layoutWidth);
       if (square.y + squareHeight <= 0.17 * layoutHeight + squareHeight) {
         newBounds = {
           left: 0.17 * layoutWidth,
@@ -305,7 +303,7 @@ const SquareShape = ({ children, square }) => {
           bottom: 0.83 * layoutHeight - squareHeight,
         };
 
-        console.log("condition - 1 checked");
+        // console.log("condition - 1 checked");
       } else if (
         square.x >= 0.2 * layoutWidth &&
         square.x + squareWidth <= 0.5 * layoutWidth &&
@@ -318,7 +316,7 @@ const SquareShape = ({ children, square }) => {
           bottom: 0.98 * layoutHeight - squareHeight,
         };
 
-        console.log("condition - 2 checked");
+        // console.log("condition - 2 checked");
       } else if (square.x < 0.18 * layoutWidth) {
         newBounds = {
           left: 0.02 * layoutWidth,

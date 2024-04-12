@@ -1,53 +1,53 @@
 import styled from "styled-components";
 
 const StyledBCircle = styled.div`
-  width: ${(prop) => prop.circle?.width}px;
-  height: ${(prop) => prop.circle?.width}px;
-  border-radius: ${(prop) => prop.circle?.borderRadius || 50}%;
-  background-color: ${(prop) => prop.circle?.backgroundColor};
+  width: ${(prop) => prop.bCircle?.width}px;
+  height: ${(prop) => prop.bCircle?.width}px;
+  border-radius: ${(prop) => prop.bCircle?.borderRadius || 50}%;
+  background-color: ${(prop) => prop.bCircle?.backgroundColor};
   border-left: ${(props) =>
-      props.circle?.borderLeftSize || props.circle?.borderLeftSize === 0
-        ? props.circle?.borderLeftSize
-        : props.circle?.borderSize}px
+      props.bCircle?.borderLeftSize || props.bCircle?.borderLeftSize === 0
+        ? props.bCircle?.borderLeftSize
+        : props.bCircle?.borderSize}px
     solid
     ${(props) =>
-      props.circle?.borderLeftColor
-        ? props.circle?.borderLeftColor
-        : props.circle?.borderColor};
+      props.bCircle?.borderLeftColor
+        ? props.bCircle?.borderLeftColor
+        : props.bCircle?.borderColor};
   border-right: ${(props) =>
-      props.circle?.borderRightSize || props.circle?.borderRightSize === 0
-        ? props.circle?.borderRightSize
-        : props.circle?.borderSize}px
+      props.bCircle?.borderRightSize || props.bCircle?.borderRightSize === 0
+        ? props.bCircle?.borderRightSize
+        : props.bCircle?.borderSize}px
     solid
     ${(props) =>
-      props.circle?.borderRightColor
-        ? props.circle?.borderRightColor
-        : props.circle?.borderColor};
+      props.bCircle?.borderRightColor
+        ? props.bCircle?.borderRightColor
+        : props.bCircle?.borderColor};
   border-bottom: ${(props) =>
-      props.circle?.borderBottomSize || props.circle?.borderBottomSize === 0
-        ? props.circle?.borderBottomSize
-        : props.circle?.borderSize}px
+      props.bCircle?.borderBottomSize || props.bCircle?.borderBottomSize === 0
+        ? props.bCircle?.borderBottomSize
+        : props.bCircle?.borderSize}px
     solid
     ${(props) =>
-      props.circle?.borderBottomColor
-        ? props.circle?.borderBottomColor
-        : props.circle?.borderColor};
+      props.bCircle?.borderBottomColor
+        ? props.bCircle?.borderBottomColor
+        : props.bCircle?.borderColor};
   border-top: ${(props) =>
-      props.circle?.borderTopSize || props.circle?.borderTopSize === 0
-        ? props.circle?.borderTopSize
-        : props.circle?.borderSize}px
+      props.bCircle?.borderTopSize || props.bCircle?.borderTopSize === 0
+        ? props.bCircle?.borderTopSize
+        : props.bCircle?.borderSize}px
     solid
     ${(props) =>
-      props.circle?.borderTopColor
-        ? props.circle?.borderTopColor
-        : props.circle?.borderColor};
+      props.bCircle?.borderTopColor
+        ? props.bCircle?.borderTopColor
+        : props.bCircle?.borderColor};
   max-width: 100%;
   max-height: 100%;
   position: absolute;
   text-align: center;
   transform: translate(
-    ${(props) => props.circle?.x}px,
-    ${(props) => props.circle?.y}px
+    ${(props) => props.bCircle?.x}px,
+    ${(props) => props.bCircle?.y}px
   );
   ${(props) => (props.resize ? "resize: horizontal; overflow: hidden;" : "")}
 `;
