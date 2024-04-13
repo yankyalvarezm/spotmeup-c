@@ -133,7 +133,7 @@ const BsquareShape = ({ children, bSquare }) => {
       bShapeForm.current && !bShapeForm.current.contains(e.target)
     ) {
       setShowBShapeForm(false);
-      setShapeId(null);
+      setBlockId(null);
       saveName()
     }
   };
