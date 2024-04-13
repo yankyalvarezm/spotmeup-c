@@ -40,7 +40,7 @@ const BsquareShape = ({ children, bSquare }) => {
   };
 
   const saveName = async () => {
-    const updated = await editShapes(bSquare._id, { name: bSquareName });
+    const updated = await editBlock(bSquare._id, { name: bSquareName });
     setBSquares((currentBSquares) =>
       currentBSquares.map((b) =>
         b._id === bSquare._id ? { ...b, name: bSquareName } : b
