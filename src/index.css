@@ -2377,6 +2377,7 @@ input[type=number] {
 .text-input-title {
   color: var(--black);
   font-size: 20px;
+  white-space: nowrap;
 }
 
 
@@ -3125,4 +3126,72 @@ input[type="color"]::-webkit-color-swatch {
 
 .circle-shape {
   pointer-events: all;
+}
+
+.block-form-container {
+  background-color: white;
+  color: white;
+  height: 100%;
+  min-width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  margin-right: 0.5rem;
+  border: 1px solid black;
+}
+
+.delete-block-form-button {
+  width: 90%;
+  color: white;
+  background-color: black;
+  box-shadow: 2px 4px 0px grey;
+}
+
+.delete-block-form-button:hover {
+  color: var(--red);
+  box-shadow: 2px 4px 0px var(--red);
+}
+
+.block-form-title {
+  color: black;
+  text-align: center;
+  margin: 1rem 0rem;
+  font-size: 25px;
+}
+
+.block-dropdown-fields {
+  background-color: var(--black);
+  padding: 1rem;
+  border-radius: 10px;
+  margin-bottom: 1rem;
+}
+
+.block-input-title {
+  color: white;
+  font-size: 20px;
+  white-space: nowrap;
+}
+
+.block-select-border {
+  width: 100%;
+  border: none;
+  border-radius: 10px;
+  background-color: white;
+  color: var(--black);
+  font-family: var(--primary--font);
+  padding: 0.5rem;
+  margin-bottom: 0.6rem;
+}
+
+.block-size-border-input {
+  background-color: transparent;
+  border: none;
+  padding: none;
+  margin: 0rem;
+  outline: none;
+  width: 25px;
+  padding: 0rem;
+  text-align: center;
+  font-size: 20px;
+  color: white;
 }

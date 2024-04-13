@@ -1,13 +1,16 @@
-import React, { createContext, useState } from "react";
+import React, { createContext, useState, useRef } from "react";
 import { createBlock, getAllBlocks } from "../services/block.service";
 import { editBlock } from "../services/block.service";
 
 const BlockContext = createContext();
 
 function BlockProvider({ children }) {
-  const [bCircle, setBCircles] = useState([]);
-  const [bSquare, setBSquares] = useState([]);
+  const bShapeForm = useRef();
+  const [bCircles, setBCircles] = useState([]);
+  const [bSquares, setBSquares] = useState([]);
   const [bShapeAdded, setBShapeAdded] = useState(false);
+  const [showBShapeForm, setShowBShapeForm] = useState(false);
+  const [blockId, setBlockId] = useState(null);
 
   const fetchBlocks = async (layoutId) => {
     console.log("Fetch Blocks");
@@ -58,6 +61,10 @@ function BlockProvider({ children }) {
     }
   };
 
+  const toggleBShapeForm = () => {
+    setShowBShapeForm((prev) => !prev);
+  };
+
   function debounce(fn, delay) {
     let timeoutID = null;
     return function (...args) {
@@ -76,9 +83,9 @@ function BlockProvider({ children }) {
   return (
     <BlockContext.Provider
       value={{
-        bCircle,
+        bCircles,
         setBCircles,
-        bSquare,
+        bSquares,
         setBSquares,
         bShapeAdded,
         setBShapeAdded,
@@ -86,6 +93,12 @@ function BlockProvider({ children }) {
         addBlockSquare,
         fetchBlocks,
         updateBShape,
+        showBShapeForm,
+        setShowBShapeForm,
+        blockId,
+        setBlockId,
+        bShapeForm,
+        toggleBShapeForm,
       }}
     >
       {children}

@@ -6,10 +6,26 @@ import StyledbSquare from "./StyledbSquare";
 import { LayoutContext } from "../../../context/layout.context";
 
 const BsquareShape = ({ children, bSquare }) => {
+  //*! -------  UseRefs --------------
   const bSquareRef = useRef(null);
   const nameRef = useRef(null);
+
+  //*! -------  Contexts --------------
+  // ? -- BlockContext ----------------
+  const {
+    setBSquares,
+    updateBShape,
+    setShowBShapeForm,
+    showBShapeForm,
+    blockId,
+    setBlockId,
+    bShapeForm,
+  } = useContext(BlockContext);
+
+  // ? -- LayoutContext ---------------
   const { layoutBody } = useContext(LayoutContext);
-  const { setBSquares, updateBShape } = useContext(BlockContext);
+
+  //*! -------  Local States --------------
   const [hasMoved, setHasMoved] = useState(false);
   const [editingName, setEditingName] = useState(false);
   const [bSquareName, setBSquareName] = useState(bSquare?.name);
@@ -18,6 +34,7 @@ const BsquareShape = ({ children, bSquare }) => {
     y: layoutBody.height / 2,
   });
 
+  //*! -------- Update Name -------------------
   const handleNameChange = (e) => {
     setBSquareName(e.target.value);
   };
@@ -32,24 +49,13 @@ const BsquareShape = ({ children, bSquare }) => {
     setEditingName(false);
   };
 
-  useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (
-        editingName &&
-        bSquareRef.current &&
-        !bSquareRef.current.contains(event.target)
-      ) {
-        saveName();
-        setEditingName(false);
-      }
-    };
-    document.addEventListener("mousedown", handleClickOutside);
+  const handleKeyDown = (event) => {
+    if (event.key === "Enter") {
+      saveName();
+    }
+  };
 
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, [editingName, saveName]);
-
+  //*! ---------- Resize Observer for Width & Height -------------
   useEffect(() => {
     const resizeObserver = new ResizeObserver((entries) => {
       for (let entry of entries) {
@@ -81,6 +87,8 @@ const BsquareShape = ({ children, bSquare }) => {
     };
   }, []);
 
+  //*! ------- Draggable Area Styles ---------------------------
+
   const handleStyle = {
     width: "100%",
     height: "80%",
@@ -91,6 +99,8 @@ const BsquareShape = ({ children, bSquare }) => {
     alignItems: bSquare?.alignItems,
     fontSize: `${bSquare?.fontSize}px`,
   };
+
+  //*! ------- Edit BShape ---------------------------
 
   const handleEditShape = async (blockId, body) => {
     try {
@@ -113,17 +123,38 @@ const BsquareShape = ({ children, bSquare }) => {
     }
   };
 
+  //*! -------- Handle Click Outside ------------------
+
   const handleClickOutside = (e) => {
     if (
       bSquareRef.current &&
-      !bSquareRef.current.contains(e.target) 
-      // &&
-      // shapeForm.current && !shapeForm.current.contains(e.target)
+      !bSquareRef.current.contains(e.target)
+      &&
+      bShapeForm.current && !bShapeForm.current.contains(e.target)
     ) {
-      // setShowShapeForm(false);
-      // setShapeId(null);
+      setShowBShapeForm(false);
+      setShapeId(null);
+      saveName()
     }
   };
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (
+        editingName &&
+        bSquareRef.current &&
+        !bSquareRef.current.contains(event.target)
+      ) {
+        saveName();
+        setEditingName(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [editingName, saveName]);
 
   useEffect(() => {
     document.addEventListener("mouseup", handleClickOutside);
@@ -131,11 +162,16 @@ const BsquareShape = ({ children, bSquare }) => {
     return () => document.removeEventListener("mouseup", handleClickOutside);
   }, []);
 
-  const handleKeyDown = (event) => {
-    if (event.key === "Enter") {
-      saveName();
-    }
+  //*! --------------- Show & Hide Form --------------
+
+  const handleShowToggleForm = (bShapeId) => {
+    setShowBShapeForm(true);
+    setBlockId(bShapeId);
+    // console.log("bShapeId:", bShapeId);
+    // console.log("showBShapeForm:", showBShapeForm);
   };
+
+  //*! -------------- On Drag Logic ----------------
 
   const handleDrag = (e, ui) => {
     const newPosition = {
@@ -158,6 +194,8 @@ const BsquareShape = ({ children, bSquare }) => {
   const bSquareHeight = bSquare?.height;
 
   const [bounds, setBounds] = useState({});
+
+  // *! ------------ Bounds -----------------------
 
   useEffect(() => {
     let newBounds = {
@@ -340,6 +378,10 @@ const BsquareShape = ({ children, bSquare }) => {
     bSquareHeight,
     layoutBody.layoutType,
   ]);
+
+  // *! -------- DOM ELEMENTS -----------------------
+  // *! -------- DOM ELEMENTS -----------------------
+  // *! -------- DOM ELEMENTS -----------------------
 
   return (
     <Draggable

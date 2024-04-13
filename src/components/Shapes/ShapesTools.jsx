@@ -3,6 +3,7 @@ import { ShapeContext } from "../../context/shape.context";
 import { deleteShape } from "../../services/shape.service";
 
 const ShapesTools = () => {
+  // *! ----- Context ---------------------------------------
   const {
     setCircles,
     setSquares,
@@ -15,23 +16,32 @@ const ShapesTools = () => {
     circles,
     updateShape,
   } = useContext(ShapeContext);
-
+  // *! ----- Local States ------------------------------------
   const [activeDropDown, setActiveDropDown] = useState(null);
   const [selectedBorder, setSelectedBorder] = useState("border");
+
+  // *! ----- Current Shape -----------------------------------
   const currentShape = [...circles, ...squares].find(
     (shape) => shape._id === shapeId
   );
+
+  // *! ----- isCircle ----------------------------------------
   const isCircle = currentShape?.shapeType.toLowerCase() === "circle";
 
+  // *! ----- DropDown Logic -----------------------------------
   const handleDropDown = (number) => {
     setActiveDropDown((activeDropDown) => {
       return activeDropDown === number ? null : number;
     });
   };
 
+  // *! ----- Change Border ------------------------------------
+
   const changeBorder = (e) => {
     setSelectedBorder(e.target.value);
   };
+
+  // *! ----- Delete Shapes ---------------------------------------
 
   const deleteTheShape = async (shapeId) => {
     try {
@@ -49,6 +59,8 @@ const ShapesTools = () => {
       console.log("error:", error);
     }
   };
+
+  // *! ----- Handle Input Change ------------------------------
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -95,6 +107,8 @@ const ShapesTools = () => {
     }
   };
 
+  // *! ----- Text Position (Align Items & Justify Content) ------
+
   const shapeOrientation = (property, value) => {
     let updatedShape = { ...currentShape, [property]: value };
 
@@ -114,6 +128,8 @@ const ShapesTools = () => {
     updateShape(shapeId, updatedShape);
   };
 
+  // *! ---- Resize Adjustments (Width & Height - Remover) --------
+
   useEffect(() => {
     if (currentShape?.shapeType.toLowerCase() === "circle") {
       let remove = document.getElementsByClassName("circle-shape");
@@ -131,6 +147,10 @@ const ShapesTools = () => {
       }
     }
   }, [currentShape]);
+
+  // *! -------- DOM ELEMENTS -----------------------
+  // *! -------- DOM ELEMENTS -----------------------
+  // *! -------- DOM ELEMENTS -----------------------
 
   return (
     <>
@@ -425,7 +445,6 @@ const ShapesTools = () => {
                   </div>
                 </div>
               </div>
-              {/* ---------------- Field One End ------------------------ */}
             </div>
           </div>
 

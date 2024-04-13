@@ -5,7 +5,7 @@ import BcircleShape from "./bCircle/BcircleShape";
 import { useParams } from "react-router-dom";
 
 const DisplayBlocks = () => {
-  const { bSquare, bCircle, setBShapeAdded, bShapeAdded, fetchBlocks } =
+  const { bSquares, bCircles, setBShapeAdded, bShapeAdded, fetchBlocks } =
     useContext(BlockContext);
   const param = useParams();
 
@@ -19,13 +19,13 @@ const DisplayBlocks = () => {
 
   return (
     <div className="display-blocks-container">
-      {bCircle &&
-        bCircle.map((bCircle) => (
+      {bCircles &&
+        bCircles.map((bCircle) => (
           <BcircleShape bCircle={bCircle} key={bCircle._id}></BcircleShape>
         ))}
 
-      {bSquare &&
-        bSquare.map((bSquare) => (
+      {bSquares &&
+        bSquares.map((bSquare) => (
           <BsquareShape bSquare={bSquare} key={bSquare._id}></BsquareShape>
         ))}
     </div>

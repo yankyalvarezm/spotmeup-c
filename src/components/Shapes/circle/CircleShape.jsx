@@ -6,9 +6,12 @@ import { StyledCircle } from "./StyledCircle";
 import { LayoutContext } from "../../../context/layout.context";
 
 const CircleShape = ({ children, circle }) => {
+  //*! -------  UseRefs --------------
   const circleRef = useRef(null);
   const nameRef = useRef(null);
 
+  //*! -------  Contexts --------------
+  // ? -- BlockContext ----------------
   const {
     toggleShapeForm,
     shapeForm,
@@ -19,21 +22,28 @@ const CircleShape = ({ children, circle }) => {
     showShapeForm,
     updateShape,
   } = useContext(ShapeContext);
+
+  // ? -- LayoutContext ---------------
   const { layoutBody } = useContext(LayoutContext);
 
+  //*! -------  Local States --------------
   const [hasMoved, setHasMoved] = useState(false);
   const [editingName, setEditingName] = useState(false);
   const [circleName, setCircleName] = useState(circle.name);
-
   const [newPositionCircle, setNewPositionCircle] = useState({
     x: layoutBody.width / 2 - circle.width / 2,
     y: layoutBody.width / 2,
   });
 
-  // const [startPosition, setStartPosition] = useState({ x: 0, y: 0 });
-
+  //*! -------- Update Name -------------------
   const handleNameChange = (e) => {
     setCircleName(e.target.value);
+  };
+
+  const handleKeyDown = (event) => {
+    if (event.key === "Enter") {
+      saveName();
+    }
   };
 
   const saveName = async () => {
@@ -46,24 +56,7 @@ const CircleShape = ({ children, circle }) => {
     setEditingName(false);
   };
 
-  useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (
-        editingName &&
-        circleRef.current &&
-        !circleRef.current.contains(event.target)
-      ) {
-        saveName();
-        setEditingName(false);
-      }
-    };
-    document.addEventListener("mousedown", handleClickOutside);
-
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, [editingName, saveName]);
-
+  //*! ---------- Resize Observer for Width & Height -------------
   useEffect(() => {
     const resizeObserver = new ResizeObserver((entries) => {
       for (let entry of entries) {
@@ -95,6 +88,8 @@ const CircleShape = ({ children, circle }) => {
     };
   }, []);
 
+  //*! ------- Draggable Area Styles ---------------------------
+
   const handleStyle = {
     width: circle.width,
     height: circle.height,
@@ -105,6 +100,8 @@ const CircleShape = ({ children, circle }) => {
     alignItems: circle.alignItems,
     borderRadius: "50%",
   };
+
+  //*! ------- Edit Shape ---------------------------
 
   const handleEditShape = async (shapeId, body) => {
     try {
@@ -124,6 +121,8 @@ const CircleShape = ({ children, circle }) => {
       console.log("error", error);
     }
   };
+
+  //*! -------- Handle Click Outside ------------------
 
   const handleClickOutside = (e) => {
     if (
@@ -145,16 +144,32 @@ const CircleShape = ({ children, circle }) => {
     return () => document.removeEventListener("mouseup", handleClickOutside);
   }, []);
 
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (
+        editingName &&
+        circleRef.current &&
+        !circleRef.current.contains(event.target)
+      ) {
+        saveName();
+        setEditingName(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [editingName, saveName]);
+
+  //*! --------------- Show & Hide Form --------------
+
   const handleShowToggleForm = (shapeId) => {
     setShowShapeForm(true);
     setShapeId(shapeId);
   };
 
-  const handleKeyDown = (event) => {
-    if (event.key === "Enter") {
-      saveName();
-    }
-  };
+  //*! -------------- On Drag Logic ----------------
 
   const handleDrag = (e, ui) => {
     const newPosition = {
@@ -163,7 +178,7 @@ const CircleShape = ({ children, circle }) => {
     };
     // console.log(`Polygon points for ${layoutBody.layoutType}:`, polygonPoints);
     setNewPositionCircle(newPosition);
-    setHasMoved(true)
+    setHasMoved(true);
 
     setCircles((prevCircles) =>
       prevCircles.map((c) =>
@@ -171,6 +186,8 @@ const CircleShape = ({ children, circle }) => {
       )
     );
   };
+
+  // *! ------------ Bounds -----------------------
 
   const layoutWidth = layoutBody.width;
   const layoutHeight = layoutBody.height;
@@ -361,6 +378,10 @@ const CircleShape = ({ children, circle }) => {
 
   // console.log("circle.x:", circle.x);
   // console.log("circle.y:", circle.y);
+
+  // *! -------- DOM ELEMENTS -----------------------
+  // *! -------- DOM ELEMENTS -----------------------
+  // *! -------- DOM ELEMENTS -----------------------
 
   return (
     <Draggable

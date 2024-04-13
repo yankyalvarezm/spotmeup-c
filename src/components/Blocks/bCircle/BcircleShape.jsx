@@ -6,20 +6,35 @@ import { BlockContext } from "../../../context/block.context";
 import { editBlock } from "../../../services/block.service";
 
 const BcircleShape = ({ children, bCircle }) => {
+  //*! -------  UseRefs --------------
   const bCircleRef = useRef(null);
   const nameRef = useRef(null);
 
-  const { setBCircles, updateBShape } = useContext(BlockContext);
+  //*! -------  Contexts --------------
+  // ? -- BlockContext ----------------
+  const {
+    setBCircles,
+    updateBShape,
+    setShowBShapeForm,
+    showBShapeForm,
+    blockId,
+    setBlockId,
+    bShapeForm,
+  } = useContext(BlockContext);
+
+  // ? -- LayoutContext ---------------
   const { layoutBody } = useContext(LayoutContext);
 
+  //*! -------  Local States --------------
   const [hasMoved, setHasMoved] = useState(false);
   const [editingBName, setEditingBName] = useState(false);
   const [bCircleName, setBCircleName] = useState(bCircle.name);
-
   const [newPositionBCircle, setNewPositionBCircle] = useState({
     x: layoutBody.width / 2 - bCircle.width / 2,
     y: layoutBody.width / 2,
   });
+
+  //*! -------- Update Name -------------------
 
   const handleNameChange = (e) => {
     setBCircleName(e.target.value);
@@ -29,30 +44,19 @@ const BcircleShape = ({ children, bCircle }) => {
     await editBlock(bCircle._id, { name: bCircleName });
     setBCircles((currentBCircles) =>
       currentBCircles.map((bC) =>
-        bC._id === bCircle._id ? { ...bC, name: bCircleName } : c
+        bC._id === bCircle._id ? { ...bC, name: bCircleName } : bC
       )
     );
     setEditingBName(false);
   };
 
-  useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (
-        editingBName &&
-        bCircleRef.current &&
-        !bCircleRef.current.contains(event.target)
-      ) {
-        saveName();
-        setEditingBName(false);
-      }
-    };
-    document.addEventListener("mousedown", handleClickOutside);
+  const handleKeyDown = (event) => {
+    if (event.key === "Enter") {
+      saveName();
+    }
+  };
 
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, [editingBName, saveName]);
-
+  //*! ---------- Resize Observer for Width & Height -------------
   useEffect(() => {
     const resizeObserver = new ResizeObserver((entries) => {
       for (let entry of entries) {
@@ -84,6 +88,8 @@ const BcircleShape = ({ children, bCircle }) => {
     };
   }, []);
 
+  //*! ------- Draggable Area Styles ---------------------------
+
   const handleStyle = {
     width: bCircle.width,
     height: bCircle.height,
@@ -95,10 +101,12 @@ const BcircleShape = ({ children, bCircle }) => {
     borderRadius: "50%",
   };
 
+  //*! ------- Edit BShape ---------------------------
+
   const handleEditBShape = async (bShapeId, body) => {
     try {
       const response = await editBlock(bShapeId, body);
-      console.log("Edited Shape", response);
+      console.log("Edited BShape", response);
       // console.log("Line 59 - Body:", body);
       setBCircles((prev) => {
         return prev.map((bCircle) => {
@@ -114,21 +122,35 @@ const BcircleShape = ({ children, bCircle }) => {
     }
   };
 
-  useEffect(() => {
-    document.addEventListener("mouseup", handleClickOutside);
-
-    return () => document.removeEventListener("mouseup", handleClickOutside);
-  }, []);
+  //*! -------- Handle Click Outside ------------------
 
   const handleClickOutside = (e) => {
+    // console.log("handleClickOutside");
+
+    // console.log("bCricleRef:", bCircleRef);
+    // console.log("bCricleRef.Current:", bCircleRef.current);
+    // console.log(
+    //   "bCircleRef.current.contains(e.target):",
+    //   bCircleRef.current.contains(e.target)
+    // );
+
+    // console.log("bShapeFormRef:", bShapeForm);
+    // console.log("bShapeFormRef.Current:", bShapeForm.current);
+    // console.log(
+    //   "bShapeForm.current.contains(e.target):",
+    //   bShapeForm.current.contains(e.target)
+    // );
+
     if (
       bCircleRef.current &&
-      !bCircleRef.current.contains(e.target)
-      // && shapeForm.current && !shapeForm.current.contains(e.target)
+      !bCircleRef.current.contains(e.target) &&
+      bShapeForm.current &&
+      !bShapeForm.current.contains(e.target)
     ) {
-      setShowShapeForm(false);
-      setShapeId(null);
-      // console.log("shapeId:", shapeId);
+      setShowBShapeForm(false);
+      setBlockId(null);
+      console.log("blockId:", blockId);
+      console.log("showBShapeForm:", showBShapeForm);
       saveName();
     }
   };
@@ -138,16 +160,43 @@ const BcircleShape = ({ children, bCircle }) => {
 
     return () => document.removeEventListener("mouseup", handleClickOutside);
   }, []);
-  // const handleShowToggleForm = (bShapeId) => {
-  //   setShowShapeForm(true);
-  //   setShapeId(bShapeId);
-  // };
 
-  const handleKeyDown = (event) => {
-    if (event.key === "Enter") {
-      saveName();
-    }
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (
+        editingBName &&
+        bCircleRef.current &&
+        !bCircleRef.current.contains(event.target)
+      ) {
+        saveName();
+        setEditingBName(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [editingBName, saveName]);
+
+  useEffect(() => {
+    document.addEventListener("mouseup", handleClickOutside);
+
+    return () => document.removeEventListener("mouseup", handleClickOutside);
+  }, []);
+
+  //*! --------------- Show & Hide Form --------------
+
+  const handleShowToggleForm = (bShapeId) => {
+    setShowBShapeForm(true);
+    setBlockId(bShapeId);
+    // console.log("bShapeId:", bShapeId);
+    // console.log("showBShapeForm:", showBShapeForm);
   };
+
+  // console.log("showBShapeForm:", showBShapeForm);
+
+  //*! -------------- On Drag Logic ----------------
 
   const handleDrag = (e, ui) => {
     const newPosition = {
@@ -166,6 +215,8 @@ const BcircleShape = ({ children, bCircle }) => {
       )
     );
   };
+
+  // *! ------------ Bounds -----------------------
 
   const layoutWidth = layoutBody.width;
   const layoutHeight = layoutBody.height;
@@ -354,6 +405,10 @@ const BcircleShape = ({ children, bCircle }) => {
     layoutBody.layoutType,
   ]);
 
+  // *! -------- DOM ELEMENTS -----------------------
+  // *! -------- DOM ELEMENTS -----------------------
+  // *! -------- DOM ELEMENTS -----------------------
+
   return (
     <Draggable
       // bounds="parent"
@@ -370,7 +425,7 @@ const BcircleShape = ({ children, bCircle }) => {
     >
       <StyledbCircle
         ref={bCircleRef}
-        // onClick={() => handleShowToggleForm(bCircle._id)}
+        onClick={() => handleShowToggleForm(bCircle._id)}
         tabIndex={0}
         // onFocus={toggleShapeForm}
         bCircle={bCircle}

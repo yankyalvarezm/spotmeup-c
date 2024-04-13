@@ -8,6 +8,7 @@ import {
 const ShapeContext = createContext();
 
 function ShapeProvider({ children }) {
+  const shapeForm = useRef();
   const [column, setColumn] = useState(3);
   const [circleCount, setCircleCount] = useState(0);
   const [circles, setCircles] = useState([]);
@@ -19,7 +20,6 @@ function ShapeProvider({ children }) {
   const [shapeDeleted, setShapeDeleted] = useState(null);
   const [shapeEdited, setShapeEdited] = useState(false);
   const [shapeAdded, setShapeAdded] = useState(false);
-  const shapeForm = useRef();
   const [showShapes, setShowShapes] = useState(false);
 
   const fetchShapes = async (layoutId) => {

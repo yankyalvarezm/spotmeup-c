@@ -9,12 +9,23 @@ import ShapesTools from "./Shapes/ShapesTools";
 import AddShape from "./Shapes/AddShape";
 import AddBlock from "./Blocks/AddBlock";
 import DisplayBlocks from "./Blocks/DisplayBlocks";
+import BlockTools from "./Blocks/BlockTools";
+import { BlockContext } from "../context/block.context";
 
 const EditModal = () => {
   const navigate = useNavigate();
   const param = useParams();
-  const { layoutDetails, setLayoutId, layoutId, floorPlan, toggleFloorPlan, layoutBody } =
-    useContext(LayoutContext);
+  const {
+    layoutDetails,
+    setLayoutId,
+    layoutId,
+    floorPlan,
+    toggleFloorPlan,
+    layoutBody,
+  } = useContext(LayoutContext);
+
+  const { showBShapeForm, bShapeForm } = useContext(BlockContext);
+
   const { showShapeForm } = useContext(ShapeContext);
 
   const goBack = () => {
@@ -26,6 +37,12 @@ const EditModal = () => {
       setLayoutId(param.layoutIdParam);
     }
   }, [layoutId]);
+
+  // console.log("showShapeForm:", showShapeForm);
+
+  useEffect(() => {
+    // console.log("bShapeForm:", bShapeForm.current);
+  }, [showBShapeForm]);
 
   // console.log("floorplan --->", floorPlan);
   // console.log("layoutType --->", layoutDetails);
@@ -51,7 +68,8 @@ const EditModal = () => {
           </div>
         </div>
         <ShapesTools />
-        {!showShapeForm && (
+        <BlockTools />
+        {!showShapeForm && !showBShapeForm && (
           <div
             className={
               floorPlan || layoutBody.layoutType
