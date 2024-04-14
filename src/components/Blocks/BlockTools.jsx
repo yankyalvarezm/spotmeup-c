@@ -2,8 +2,9 @@ import React, { useContext, useEffect, useState } from "react";
 import { BlockContext } from "../../context/block.context";
 import { deleteBlock } from "../../services/block.service";
 import { useParams } from "react-router-dom";
+import AddTables from "../Tables/AddTables";
 
-const BlockTools = () => {
+const BlockTools = ({ children }) => {
   // *! ----- Context ---------------------------------------
   const {
     bCircles,
@@ -339,21 +340,19 @@ const BlockTools = () => {
                       type="button"
                       className="justify-left"
                       name="justifyContent"
-                      onClick={() =>
-                        shapeOrientation("alignItems", "flex-start")
-                      }
+                      onClick={() => textPosition("alignItems", "flex-start")}
                     />
                     <button
                       type="button"
                       className="justify-center"
                       name="justifyContent"
-                      onClick={() => shapeOrientation("alignItems", "center")}
+                      onClick={() => textPosition("alignItems", "center")}
                     />
                     <button
                       type="button"
                       className="justify-right"
                       name="justifyContent"
-                      onClick={() => shapeOrientation("alignItems", "flex-end")}
+                      onClick={() => textPosition("alignItems", "flex-end")}
                     />
                   </div>
 
@@ -363,24 +362,20 @@ const BlockTools = () => {
                       className="align-left"
                       name="alignItems"
                       onClick={() =>
-                        shapeOrientation("justifyContent", "flex-start")
+                        textPosition("justifyContent", "flex-start")
                       }
                     />
                     <button
                       type="button"
                       className="align-center"
                       name="alignItems"
-                      onClick={() =>
-                        shapeOrientation("justifyContent", "center")
-                      }
+                      onClick={() => textPosition("justifyContent", "center")}
                     />
                     <button
                       type="button"
                       className="align-right"
                       name="alignItems"
-                      onClick={() =>
-                        shapeOrientation("justifyContent", "flex-end")
-                      }
+                      onClick={() => textPosition("justifyContent", "flex-end")}
                     />
                   </div>
                 </div>
@@ -451,6 +446,8 @@ const BlockTools = () => {
                   </div>
                 </div>
               </div>
+              <hr />
+              {children}
             </div>
           </div>
 

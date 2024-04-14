@@ -6,7 +6,7 @@ import StyledbSquare from "./StyledbSquare";
 import { LayoutContext } from "../../../context/layout.context";
 
 const BsquareShape = ({ children, bSquare }) => {
-  //*! -------  UseRefs --------------
+  //*! -------  UseRefs ---------------
   const bSquareRef = useRef(null);
   const nameRef = useRef(null);
 
@@ -413,7 +413,7 @@ const BsquareShape = ({ children, bSquare }) => {
         }}
         bSquare={bSquare}
         className="square-shape"
-        // resize={showShapeForm}
+        resize={showBShapeForm}
       >
         <div
           className="handle circle-name"

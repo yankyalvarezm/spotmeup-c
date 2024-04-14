@@ -125,22 +125,7 @@ const BcircleShape = ({ children, bCircle }) => {
   //*! -------- Handle Click Outside ------------------
 
   const handleClickOutside = (e) => {
-    // console.log("handleClickOutside");
-
-    // console.log("bCricleRef:", bCircleRef);
-    // console.log("bCricleRef.Current:", bCircleRef.current);
-    // console.log(
-    //   "bCircleRef.current.contains(e.target):",
-    //   bCircleRef.current.contains(e.target)
-    // );
-
-    // console.log("bShapeFormRef:", bShapeForm);
-    // console.log("bShapeFormRef.Current:", bShapeForm.current);
-    // console.log(
-    //   "bShapeForm.current.contains(e.target):",
-    //   bShapeForm.current.contains(e.target)
-    // );
-
+   
     if (
       bCircleRef.current &&
       !bCircleRef.current.contains(e.target) &&
@@ -430,7 +415,7 @@ const BcircleShape = ({ children, bCircle }) => {
         // onFocus={toggleShapeForm}
         bCircle={bCircle}
         className="circle-shape"
-        // resize={showShapeForm}
+        resize={showBShapeForm}
       >
         <div
           className="handle circle-name"

@@ -10,6 +10,7 @@ import { VenuesProvider } from "./context/venues.context.jsx";
 import { LayoutProvider } from "./context/layout.context.jsx";
 import { ShapeProvider } from "./context/shape.context.jsx";
 import { BlockProvider } from "./context/block.context.jsx";
+import { TableProvider } from "./context/table.context.jsx";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
@@ -21,7 +22,9 @@ ReactDOM.createRoot(document.getElementById("root")).render(
               <LayoutProvider>
                 <ShapeProvider>
                   <BlockProvider>
-                    <App />
+                    <TableProvider>
+                      <App />
+                    </TableProvider>
                   </BlockProvider>
                 </ShapeProvider>
               </LayoutProvider>

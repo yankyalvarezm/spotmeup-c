@@ -11,6 +11,7 @@ import AddBlock from "./Blocks/AddBlock";
 import DisplayBlocks from "./Blocks/DisplayBlocks";
 import BlockTools from "./Blocks/BlockTools";
 import { BlockContext } from "../context/block.context";
+import AddTables from "./Tables/AddTables";
 
 const EditModal = () => {
   const navigate = useNavigate();
@@ -68,7 +69,9 @@ const EditModal = () => {
           </div>
         </div>
         <ShapesTools />
-        <BlockTools />
+        <BlockTools>
+          <AddTables/>
+        </BlockTools>
         {!showShapeForm && !showBShapeForm && (
           <div
             className={
