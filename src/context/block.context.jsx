@@ -6,11 +6,14 @@ const BlockContext = createContext();
 
 function BlockProvider({ children }) {
   const bShapeForm = useRef();
+  const bSquareRef = useRef(null);
+  const bCircleRef = useRef(null);
   const [bCircles, setBCircles] = useState([]);
   const [bSquares, setBSquares] = useState([]);
   const [bShapeAdded, setBShapeAdded] = useState(false);
   const [showBShapeForm, setShowBShapeForm] = useState(false);
   const [blockId, setBlockId] = useState(null);
+  const [currentBlock, setCurrentBlock] = useState(null);
 
   const fetchBlocks = async (layoutId) => {
     console.log("Fetch Blocks");
@@ -40,7 +43,7 @@ function BlockProvider({ children }) {
       if (response.success) {
         setBCircles((prev) => [...prev, response.block]);
         setBShapeAdded(true);
-        console.log("Block Circle Added:", bCircle.length);
+        console.log("Block Circle Added:", bCircles.length);
       }
     } catch (error) {
       console.error(error);
@@ -75,6 +78,8 @@ function BlockProvider({ children }) {
     };
   }
 
+  // console.log("blockID Contect", blockId);
+
   const updateBShape = debounce((shapeId, body) => {
     editBlock(shapeId, body);
     // console.log("Tools debounce working");
@@ -99,6 +104,10 @@ function BlockProvider({ children }) {
         setBlockId,
         bShapeForm,
         toggleBShapeForm,
+        currentBlock,
+        setCurrentBlock,
+        bSquareRef,
+        bCircleRef,
       }}
     >
       {children}

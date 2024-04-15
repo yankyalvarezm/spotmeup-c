@@ -61,6 +61,7 @@ const BlockTools = ({ children }) => {
         return prev.filter((bSquare) => bSquare._id !== blockId);
       });
       setBlockId(null);
+      // debugger;
       toggleBShapeForm();
     } catch (error) {
       console.log("error:", error);

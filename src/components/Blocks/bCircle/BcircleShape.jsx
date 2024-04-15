@@ -7,8 +7,9 @@ import { editBlock } from "../../../services/block.service";
 
 const BcircleShape = ({ children, bCircle }) => {
   //*! -------  UseRefs --------------
-  const bCircleRef = useRef(null);
+
   const nameRef = useRef(null);
+  const tableGridRef = useRef(null);
 
   //*! -------  Contexts --------------
   // ? -- BlockContext ----------------
@@ -20,6 +21,10 @@ const BcircleShape = ({ children, bCircle }) => {
     blockId,
     setBlockId,
     bShapeForm,
+    currentBlock,
+    setCurrentBlock,
+    bCircleRef,
+    bSquareRef,
   } = useContext(BlockContext);
 
   // ? -- LayoutContext ---------------
@@ -106,7 +111,7 @@ const BcircleShape = ({ children, bCircle }) => {
   const handleEditBShape = async (bShapeId, body) => {
     try {
       const response = await editBlock(bShapeId, body);
-      console.log("Edited BShape", response);
+      // console.log("Edited BShape", response);
       // console.log("Line 59 - Body:", body);
       setBCircles((prev) => {
         return prev.map((bCircle) => {
@@ -124,51 +129,29 @@ const BcircleShape = ({ children, bCircle }) => {
 
   //*! -------- Handle Click Outside ------------------
 
-  const handleClickOutside = (e) => {
-   
-    if (
-      bCircleRef.current &&
-      !bCircleRef.current.contains(e.target) &&
-      bShapeForm.current &&
-      !bShapeForm.current.contains(e.target)
-    ) {
-      setShowBShapeForm(false);
-      setBlockId(null);
-      console.log("blockId:", blockId);
-      console.log("showBShapeForm:", showBShapeForm);
-      saveName();
-    }
-  };
-
-  useEffect(() => {
-    document.addEventListener("mouseup", handleClickOutside);
-
-    return () => document.removeEventListener("mouseup", handleClickOutside);
-  }, []);
-
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (
-        editingBName &&
         bCircleRef.current &&
-        !bCircleRef.current.contains(event.target)
+        !bCircleRef.current.contains(event.target) &&
+        bShapeForm.current &&
+        !bShapeForm.current.contains(event.target) &&
+        !bSquareRef.current.contains(event.target)
       ) {
+        setShowBShapeForm(false);
+        setBlockId(null);
+        setCurrentBlock(null);
         saveName();
-        setEditingBName(false);
+        console.log("Circle - Clicked Outside");
       }
     };
-    document.addEventListener("mousedown", handleClickOutside);
 
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, [editingBName, saveName]);
-
-  useEffect(() => {
     document.addEventListener("mouseup", handleClickOutside);
 
-    return () => document.removeEventListener("mouseup", handleClickOutside);
-  }, []);
+    return () => {
+      document.removeEventListener("mouseup", handleClickOutside);
+    };
+  }, [bCircleRef, bShapeForm, tableGridRef]);
 
   //*! --------------- Show & Hide Form --------------
 
@@ -394,6 +377,33 @@ const BcircleShape = ({ children, bCircle }) => {
   // *! -------- DOM ELEMENTS -----------------------
   // *! -------- DOM ELEMENTS -----------------------
 
+  // *! ------------- Render Add --------------------
+
+  const renderAdd = () => {
+    let tables = [];
+    for (let row = 1; row <= currentBlock?.layout?.maxRow; row++) {
+      for (let col = 1; col <= currentBlock?.layout?.maxCol; col++) {
+        tables.push(
+          <div
+            key={`${row}-${col}`}
+            className={
+              currentBlock?.layout?._id === bCircle._id ? "grid-item" : "hide"
+            }
+            style={{
+              backgroundColor: `${bCircle?.backgroundColor}`,
+            }}
+            ref={tableGridRef}
+          >
+            Add
+          </div>
+        );
+      }
+    }
+    return tables;
+  };
+
+  // console.log("currentBlock - circles:", currentBlock);
+
   return (
     <Draggable
       // bounds="parent"
@@ -415,7 +425,7 @@ const BcircleShape = ({ children, bCircle }) => {
         // onFocus={toggleShapeForm}
         bCircle={bCircle}
         className="circle-shape"
-        resize={showBShapeForm}
+        resize={blockId === bCircle._id}
       >
         <div
           className="handle circle-name"
@@ -444,7 +454,19 @@ const BcircleShape = ({ children, bCircle }) => {
           )}
         </div>
 
-        {children}
+        <div
+          className={
+            currentBlock?.layout?._id === bCircle._id ? "table-grid-circle" : ""
+          }
+          style={{
+            gridTemplateColumns: `repeat(${currentBlock?.layout?.maxCol}, 1fr)`,
+            gridTemplateRows: `repeat(${currentBlock?.layout?.maxRow}, 1fr)`,
+          }}
+        >
+          {renderAdd()}
+
+          {children}
+        </div>
       </StyledbCircle>
     </Draggable>
   );

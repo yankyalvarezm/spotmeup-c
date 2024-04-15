@@ -3,7 +3,7 @@ import styled from "styled-components";
 const StyledBCircle = styled.div`
   width: ${(prop) => prop.bCircle?.width}px;
   height: ${(prop) => prop.bCircle?.width}px;
-  border-radius: ${(prop) => prop.bCircle?.borderRadius || 50}%;
+  border-radius: ${(prop) => prop.bCircle?.borderRadius || 100}%;
   background-color: ${(prop) => prop.bCircle?.backgroundColor};
   border-left: ${(props) =>
       props.bCircle?.borderLeftSize || props.bCircle?.borderLeftSize === 0

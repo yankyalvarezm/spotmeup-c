@@ -1,36 +1,73 @@
-import React, { useContext, useState } from "react";
-import { useParams } from "react-router-dom";
+import React, { useContext, useState, useEffect } from "react";
 import { LayoutContext } from "../../context/layout.context";
 import { TableContext } from "../../context/table.context";
+import { editBlock, findBlock } from "../../services/block.service";
+import { BlockContext } from "../../context/block.context";
 
 const AddTables = () => {
+  // *! ----- Context -----------------------------------------------------
+  // ?  -- TableContext ---------------------------------------------------
   const { tShapeAdded } = useContext(TableContext);
-  const { layoutBody } = useContext(LayoutContext);
-  const param = useParams();
 
-  const [circleSelected, setCircleSelected] = useState(false);
-  const [squareSelected, setSquareSelected] = useState(false);
-  const [tableSelected, setTableSelected] = useState(undefined);
+  // ?  -- LayoutContext --------------------------------------------------
+  const { layoutBody } = useContext(LayoutContext);
+
+  // ?  -- BlockContext ---------------------------------------------------
+  const { blockId, currentBlock, setCurrentBlock } = useContext(BlockContext);
+
+  // *! ----- Local States ------------------------------------------------
 
   const [hoveredRow, setHoveredRow] = useState(null);
   const [hoveredCol, setHoveredCol] = useState(null);
   const [selectedRow, setSelectedRow] = useState(null);
   const [selectedCol, setSelectedCol] = useState(null);
 
-  // console.log("cicleSelected", circleSelected);
-  // console.log("squareSelected", squareSelected);
-  // console.log("tableSelected", tableSelected);
-
-  const hoverTableDisplay = (tableType) => {
-    setTableSelected(tableType);
-    if (tableType === "circle") {
-      setCircleSelected(true);
-      setSquareSelected(false);
-    } else if (tableType === "square") {
-      setSquareSelected(true);
-      setCircleSelected(false);
+  // *! ----- Get Current Block -------------------------------------------
+  const getCurrentBlock = async (blockId) => {
+    try {
+      const response = await findBlock(blockId);
+      // console.log("FindBlock - AddTables:", response);
+      if (response.success) {
+        setCurrentBlock(response);
+      }
+      // console.log("currentBlock:", currentBlock);
+    } catch (error) {
+      console.log("Find Block - Error:", error);
     }
   };
+
+  // *! ----- Change Current Block ----------------------------------------
+
+  const hoverTableDisplay = (tableType, row, col) => {
+    const body = {
+      blockTableType: tableType,
+      maxRow: row,
+      maxCol: col,
+    };
+
+    changeBlockTableType(blockId, body);
+  };
+
+  // *! ----- Save Current Block ------------------------------------------
+  const changeBlockTableType = async (blockId, body) => {
+    try {
+      const response = await editBlock(blockId, body);
+      // console.log("ChangeBlock:", response);
+      if (response.success) {
+        setCurrentBlock(response);
+      }
+    } catch (error) {
+      console.log("error:", error.response);
+    }
+  };
+
+  // *! -----  Updated Current Block --------------------------------------
+
+  useEffect(() => {
+    getCurrentBlock(blockId);
+  }, [blockId, currentBlock?.layout?.blockTableType, selectedCol, selectedRow]);
+
+  // *! ----- Highlight Logic ---------------------------------------------
 
   const handleMouseEnter = (row, col) => {
     setHoveredRow(row);
@@ -42,20 +79,25 @@ const AddTables = () => {
     setHoveredCol(null);
   };
 
-  const handleAreaSelect = (row, col) => {
-    setSelectedRow(row);
-    setSelectedCol(col);
-  };
-
   const shouldHighlight = (row, col) => {
     const isHovered = row <= hoveredRow && col <= hoveredCol;
-    const isSelected = row <= selectedRow && col <= selectedCol;
+    const isSelected =
+      row <= currentBlock?.layout?.maxRow &&
+      col <= currentBlock?.layout?.maxCol;
     return (
-      isHovered || (isSelected && selectedRow !== null && selectedCol !== null)
+      isHovered ||
+      (isSelected &&
+        currentBlock?.layout?.maxRow !== null &&
+        currentBlock?.layout?.maxCol !== null)
     );
   };
+
+  // *! ----- Default Cols & Rows -----------------------------------------
+
   const rows = 4;
   const cols = 5;
+
+  // *! ----- Render Cols & Rows ------------------------------------------
 
   const renderSeats = () => {
     let seats = [];
@@ -64,12 +106,14 @@ const AddTables = () => {
         seats.push(
           <div
             key={`${row}-${col}`}
-            className={`table-${tableSelected}-shape ${
+            className={`table-${currentBlock?.layout.blockTableType}-shape ${
               shouldHighlight(row, col) ? "highlight" : ""
             }`}
             onMouseEnter={() => handleMouseEnter(row, col)}
             onMouseLeave={handleMouseLeave}
-            onClick={() => handleAreaSelect(row, col)}
+            onClick={() =>
+              hoverTableDisplay(currentBlock?.layout?.blockTableType, row, col)
+            }
           />
         );
       }
@@ -77,11 +121,15 @@ const AddTables = () => {
     return seats;
   };
 
+  // *! -------- DOM ELEMENTS -----------------------
+  // *! -------- DOM ELEMENTS -----------------------
+  // *! -------- DOM ELEMENTS -----------------------
+
   return (
     <div className="add-table-container">
       <h1 className="add-table-title">Add Tables</h1>
 
-      {!tableSelected && (
+      {!currentBlock?.layout?.blockTableType && (
         <div className="add-table-shapes">
           <div
             className="add-table-circle"
@@ -94,7 +142,7 @@ const AddTables = () => {
         </div>
       )}
 
-      {tableSelected && (
+      {currentBlock?.layout?.blockTableType && (
         <div className="table-hover-container-parent">
           <h1 className="rows-title">Rows ---></h1>
           <div
@@ -109,22 +157,6 @@ const AddTables = () => {
             >
               Cols ---->
             </h1>
-            {/* <div className={`table-${tableSelected}-shape`}></div>
-            <div className={`table-${tableSelected}-shape`}></div>
-            <div className={`table-${tableSelected}-shape`}></div>
-            <div className={`table-${tableSelected}-shape`}></div>
-            <div className={`table-${tableSelected}-shape`}></div>
-            <div className={`table-${tableSelected}-shape`}></div>
-            <div className={`table-${tableSelected}-shape`}></div>
-            <div className={`table-${tableSelected}-shape`}></div>
-            <div className={`table-${tableSelected}-shape`}></div>
-            <div className={`table-${tableSelected}-shape`}></div>
-            <div className={`table-${tableSelected}-shape`}></div>
-            <div className={`table-${tableSelected}-shape`}></div>
-            <div className={`table-${tableSelected}-shape`}></div>
-            <div className={`table-${tableSelected}-shape`}></div>
-            <div className={`table-${tableSelected}-shape`}></div>
-            <div className={`table-${tableSelected}-shape`}></div> */}
 
             {renderSeats()}
           </div>

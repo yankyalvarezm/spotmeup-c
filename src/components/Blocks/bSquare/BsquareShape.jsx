@@ -7,8 +7,9 @@ import { LayoutContext } from "../../../context/layout.context";
 
 const BsquareShape = ({ children, bSquare }) => {
   //*! -------  UseRefs ---------------
-  const bSquareRef = useRef(null);
+
   const nameRef = useRef(null);
+  const tableGridRef = useRef(null);
 
   //*! -------  Contexts --------------
   // ? -- BlockContext ----------------
@@ -20,6 +21,10 @@ const BsquareShape = ({ children, bSquare }) => {
     blockId,
     setBlockId,
     bShapeForm,
+    currentBlock,
+    setCurrentBlock,
+    bSquareRef,
+    bCircleRef
   } = useContext(BlockContext);
 
   // ? -- LayoutContext ---------------
@@ -125,42 +130,32 @@ const BsquareShape = ({ children, bSquare }) => {
 
   //*! -------- Handle Click Outside ------------------
 
-  const handleClickOutside = (e) => {
-    if (
-      bSquareRef.current &&
-      !bSquareRef.current.contains(e.target)
-      &&
-      bShapeForm.current && !bShapeForm.current.contains(e.target)
-    ) {
-      setShowBShapeForm(false);
-      setBlockId(null);
-      saveName()
-    }
-  };
-
   useEffect(() => {
+    // Definir la función de manejo del clic fuera del componente
     const handleClickOutside = (event) => {
       if (
-        editingName &&
         bSquareRef.current &&
-        !bSquareRef.current.contains(event.target)
+        !bSquareRef.current.contains(event.target) &&
+        bShapeForm.current &&
+        !bShapeForm.current.contains(event.target) &&
+        !bCircleRef.current.contains(event.target)
       ) {
+        setShowBShapeForm(false);
+        setBlockId(null);
+        setCurrentBlock(null);
         saveName();
-        setEditingName(false);
+        // console.log("Square - Clicked Outside");
       }
     };
-    document.addEventListener("mousedown", handleClickOutside);
 
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, [editingName, saveName]);
-
-  useEffect(() => {
+    // Registra el event listener
     document.addEventListener("mouseup", handleClickOutside);
 
-    return () => document.removeEventListener("mouseup", handleClickOutside);
-  }, []);
+    // Limpiar el event listener cuando el componente se desmonta
+    return () => {
+      document.removeEventListener("mouseup", handleClickOutside);
+    };
+  }, [bSquareRef, bShapeForm, tableGridRef]);
 
   //*! --------------- Show & Hide Form --------------
 
@@ -379,6 +374,32 @@ const BsquareShape = ({ children, bSquare }) => {
     layoutBody.layoutType,
   ]);
 
+  // console.log("currentBlock:", currentBlock);
+
+  // *! ------------- Render Add --------------------
+
+  const renderAdd = () => {
+    let tables = [];
+    for (let row = 1; row <= currentBlock?.layout?.maxRow; row++) {
+      for (let col = 1; col <= currentBlock?.layout?.maxCol; col++) {
+        tables.push(
+          <div
+            key={`${row}-${col}`}
+            className={
+              currentBlock?.layout?._id === bSquare._id ? "grid-item" : "hide"
+            }
+            style={{
+              backgroundColor: `${bSquare?.backgroundColor}`,
+            }}
+          >
+            Add
+          </div>
+        );
+      }
+    }
+    return tables;
+  };
+
   // *! -------- DOM ELEMENTS -----------------------
   // *! -------- DOM ELEMENTS -----------------------
   // *! -------- DOM ELEMENTS -----------------------
@@ -413,7 +434,7 @@ const BsquareShape = ({ children, bSquare }) => {
         }}
         bSquare={bSquare}
         className="square-shape"
-        resize={showBShapeForm}
+        resize={blockId === bSquare._id}
       >
         <div
           className="handle circle-name"
@@ -442,7 +463,20 @@ const BsquareShape = ({ children, bSquare }) => {
           )}
         </div>
 
-        {children}
+        <div
+          className={
+            currentBlock?.layout?._id === bSquare._id ? "table-grid" : ""
+          }
+          style={{
+            gridTemplateColumns: `repeat(${currentBlock?.layout?.maxCol}, 1fr)`,
+            gridTemplateRows: `repeat(${currentBlock?.layout?.maxRow}, 1fr)`,
+          }}
+          // ref={tableGridRef}
+        >
+          {renderAdd()}
+
+          {children}
+        </div>
       </StyledbSquare>
     </Draggable>
   );
