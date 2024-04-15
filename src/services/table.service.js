@@ -1,28 +1,20 @@
 import { API_URL } from "./api.service";
 import axios from "axios";
 
-export const createTable = async (blockId, number = 1, tableData = {}) => {
+export const createTable = async (blockId, body) => {
   try {
     const response = await axios.post(
-      `${API_URL}/table/${blockId}/manual/create`,
-      { number, tableData }
+      `${API_URL}/table/b/${blockId}/create`,
+      body
     );
     return response.data;
   } catch (error) {
     throw error;
   }
 };
-export const editTable = async (
-  blockId,
-  tableId,
-  number = 1,
-  tableData = {}
-) => {
+export const editTable = async (tableId,body) => {
   try {
-    const response = await axios.put(
-      `${API_URL}/table/${blockId}/${tableId}/edit`,
-      { number, tableData }
-    );
+    const response = await axios.put(`${API_URL}/table/${tableId}/edit`,body);
     return response.data;
   } catch (error) {
     throw error;
@@ -44,12 +36,9 @@ export const getAllTables = async (blockId) => {
     throw error;
   }
 };
-export const deleteTable = async (blockId, tableId) => {
+export const deleteTable = async (tableId) => {
   try {
-    const response = await axios.delete(
-      `${API_URL}/table/${blockId}/${tableId}/delete`,
-      { number, tableData }
-    );
+    const response = await axios.delete(`${API_URL}/table/${tableId}/delete`);
     return response.data;
   } catch (error) {
     throw error;
