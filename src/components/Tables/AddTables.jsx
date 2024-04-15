@@ -144,7 +144,7 @@ const AddTables = () => {
 
       {currentBlock?.layout?.blockTableType && (
         <div className="table-hover-container-parent">
-          <h1 className="rows-title">Rows ---></h1>
+          <h1 className="rows-title">Rows ------→</h1>
           <div
             className="table-hover-container"
             style={{ gridTemplateColumns: `repeat(${cols}, 1fr)` }}
@@ -155,7 +155,7 @@ const AddTables = () => {
                 gridColumn: `1 / ${cols + 1}`,
               }}
             >
-              Cols ---->
+              Cols ------→
             </h1>
 
             {renderSeats()}

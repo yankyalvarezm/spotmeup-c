@@ -142,8 +142,8 @@ const BsquareShape = ({ children, bSquare }) => {
         !bSquareRef.current.contains(event.target) &&
         bShapeForm.current &&
         !bShapeForm.current.contains(event.target) &&
-        bCircleRef.current &&
-        !bCircleRef.current.contains(event.target)
+        ((bCircleRef.current && !bCircleRef.current.contains(event.target)) ||
+          bCircleRef.current === null)
       ) {
         setShowBShapeForm(false);
         setBlockId(null);
