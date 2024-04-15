@@ -6,6 +6,7 @@ import { editBlock } from "../../../services/block.service";
 import { LayoutContext } from "../../../context/layout.context";
 import { createTable } from "../../../services/table.service";
 import { TableContext } from "../../../context/table.context";
+import AddTables from "../../Tables/AddTables";
 
 const BsquareShape = ({ children, bSquare }) => {
   //*! -------  UseRefs ---------------
@@ -19,7 +20,6 @@ const BsquareShape = ({ children, bSquare }) => {
     setBSquares,
     updateBShape,
     setShowBShapeForm,
-    showBShapeForm,
     blockId,
     setBlockId,
     bShapeForm,
@@ -385,30 +385,7 @@ const BsquareShape = ({ children, bSquare }) => {
 
   // *! ------------- Render Add --------------------
 
-  const renderAdd = () => {
-    let tables = [];
-    for (let row = 1; row <= currentBlock?.layout?.maxRow; row++) {
-      for (let col = 1; col <= currentBlock?.layout?.maxCol; col++) {
-        {
-          /* ------------------- Grid Item --------------------------- */
-        }
-        tables.push(
-          <div
-            key={`${row}-${col}`}
-            className={
-              currentBlock?.layout?._id === bSquare._id ? "grid-item" : "hide"
-            }
-            style={{
-              backgroundColor: `${bSquare?.backgroundColor}`,
-            }}
-          >
-            Add
-          </div>
-        );
-      }
-    }
-    return tables;
-  };
+ 
 
   // *! -------- DOM ELEMENTS -----------------------
   // *! -------- DOM ELEMENTS -----------------------
@@ -480,7 +457,7 @@ const BsquareShape = ({ children, bSquare }) => {
             gridTemplateRows: `repeat(${currentBlock?.layout?.maxRow}, 1fr)`,
           }}
         >
-          {renderAdd()}
+          <AddTables block={bSquare}/>
 
           {children}
         </div>

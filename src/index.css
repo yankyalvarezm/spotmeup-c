@@ -3333,6 +3333,7 @@ input[type="color"]::-webkit-color-swatch {
   display: grid;
   /* grid-template-columns: repeat(2, 2fr); */
   gap: 2px;
+  pointer-events: none;
 }
 
 .table-grid {
@@ -3346,7 +3347,7 @@ input[type="color"]::-webkit-color-swatch {
   display: grid;
   gap: 2px;
   /* grid-template-columns: repeat(2, 2fr); */
-  /* pointer-events: none; */
+  pointer-events: none;
 }
 
 .grid-item {
@@ -3360,7 +3361,7 @@ input[type="color"]::-webkit-color-swatch {
   align-items: center;
   font-family: var(--primary--font);
   cursor: pointer;
-  
+  pointer-events: all;
 }
 
 .grid-item:hover {

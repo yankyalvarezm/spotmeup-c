@@ -4,6 +4,7 @@ import StyledbCircle from "./StyledbCircle";
 import { LayoutContext } from "../../../context/layout.context";
 import { BlockContext } from "../../../context/block.context";
 import { editBlock } from "../../../services/block.service";
+import AddTables from "../../Tables/AddTables";
 
 const BcircleShape = ({ children, bCircle }) => {
   //*! -------  UseRefs --------------
@@ -380,31 +381,6 @@ const BcircleShape = ({ children, bCircle }) => {
 
   // *! ------------- Render Add --------------------
 
-  const renderAdd = () => {
-    let tables = [];
-    for (let row = 1; row <= currentBlock?.layout?.maxRow; row++) {
-      for (let col = 1; col <= currentBlock?.layout?.maxCol; col++) {
-        tables.push(
-          <div
-            key={`${row}-${col}`}
-            className={
-              currentBlock?.layout?._id === bCircle._id ? "grid-item" : "hide"
-            }
-            style={{
-              backgroundColor: `${bCircle?.backgroundColor}`,
-            }}
-            ref={tableGridRef}
-          >
-            Add
-          </div>
-        );
-      }
-    }
-    return tables;
-  };
-
-  // console.log("currentBlock - circles:", currentBlock);
-
   return (
     <Draggable
       // bounds="parent"
@@ -464,7 +440,7 @@ const BcircleShape = ({ children, bCircle }) => {
             gridTemplateRows: `repeat(${currentBlock?.layout?.maxRow}, 1fr)`,
           }}
         >
-          {renderAdd()}
+          <AddTables block={bCircle} />
 
           {children}
         </div>
