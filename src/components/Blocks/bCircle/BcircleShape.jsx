@@ -144,7 +144,7 @@ const BcircleShape = ({ children, bCircle }) => {
         setBlockId(null);
         setCurrentBlock(null);
         saveName();
-        console.log("Circle - Clicked Outside");
+        // console.log("Circle - Clicked Outside");
       }
     };
 
@@ -160,11 +160,7 @@ const BcircleShape = ({ children, bCircle }) => {
   const handleShowToggleForm = (bShapeId) => {
     setShowBShapeForm(true);
     setBlockId(bShapeId);
-    // console.log("bShapeId:", bShapeId);
-    // console.log("showBShapeForm:", showBShapeForm);
   };
-
-  // console.log("showBShapeForm:", showBShapeForm);
 
   //*! -------------- On Drag Logic ----------------
 
@@ -433,11 +429,11 @@ const BcircleShape = ({ children, bCircle }) => {
 
         <div
           className={
-            currentBlock?.layout?._id === bCircle._id ? "table-grid-circle" : ""
+            currentBlock?._id === bCircle._id ? "table-grid-circle" : ""
           }
           style={{
-            gridTemplateColumns: `repeat(${currentBlock?.layout?.maxCol}, 1fr)`,
-            gridTemplateRows: `repeat(${currentBlock?.layout?.maxRow}, 1fr)`,
+            gridTemplateColumns: `repeat(${currentBlock?.maxCol}, 1fr)`,
+            gridTemplateRows: `repeat(${currentBlock?.maxRow}, 1fr)`,
           }}
         >
           <AddTables block={bCircle} />

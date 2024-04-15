@@ -26,10 +26,11 @@ const BlockGridSetUp = () => {
   const getCurrentBlock = async (blockId) => {
     try {
       const response = await findBlock(blockId);
-      // console.log("FindBlock - BlockGridSetUp:", response);
       if (response.success) {
-        setCurrentBlock(response);
+        setCurrentBlock(response.block);
+        // debugger;
       }
+      // console.log("FindBlock - BlockGridSetUp:", response);
       // console.log("currentBlock:", currentBlock);
     } catch (error) {
       console.log("Find Block - Error:", error);
@@ -45,6 +46,7 @@ const BlockGridSetUp = () => {
       maxCol: col,
     };
 
+    console.log("currentBlock", currentBlock);
     changeBlockTableType(blockId, body);
   };
 
@@ -52,10 +54,10 @@ const BlockGridSetUp = () => {
   const changeBlockTableType = async (blockId, body) => {
     try {
       const response = await editBlock(blockId, body);
-      // console.log("ChangeBlock:", response);
       if (response.success) {
-        setCurrentBlock(response);
+        setCurrentBlock(response.block);
       }
+      console.log("ChangeBlock:", response);
     } catch (error) {
       console.log("error:", error.response);
     }
@@ -65,7 +67,7 @@ const BlockGridSetUp = () => {
 
   useEffect(() => {
     getCurrentBlock(blockId);
-  }, [blockId, currentBlock?.layout?.blockTableType, selectedCol, selectedRow]);
+  }, [blockId, currentBlock?.blockTableType, selectedCol, selectedRow]);
 
   // *! ----- Highlight Logic ---------------------------------------------
 
@@ -82,13 +84,12 @@ const BlockGridSetUp = () => {
   const shouldHighlight = (row, col) => {
     const isHovered = row <= hoveredRow && col <= hoveredCol;
     const isSelected =
-      row <= currentBlock?.layout?.maxRow &&
-      col <= currentBlock?.layout?.maxCol;
+      row <= currentBlock?.maxRow && col <= currentBlock?.maxCol;
     return (
       isHovered ||
       (isSelected &&
-        currentBlock?.layout?.maxRow !== null &&
-        currentBlock?.layout?.maxCol !== null)
+        currentBlock?.maxRow !== null &&
+        currentBlock?.maxCol !== null)
     );
   };
 
@@ -106,13 +107,13 @@ const BlockGridSetUp = () => {
         seats.push(
           <div
             key={`${row}-${col}`}
-            className={`table-${currentBlock?.layout.blockTableType}-shape ${
+            className={`table-${currentBlock?.blockTableType}-shape ${
               shouldHighlight(row, col) ? "highlight" : ""
             }`}
             onMouseEnter={() => handleMouseEnter(row, col)}
             onMouseLeave={handleMouseLeave}
             onClick={() =>
-              hoverTableDisplay(currentBlock?.layout?.blockTableType, row, col)
+              hoverTableDisplay(currentBlock?.blockTableType, row, col)
             }
           />
         );
@@ -129,7 +130,7 @@ const BlockGridSetUp = () => {
     <div className="add-table-container">
       <h1 className="add-table-title">Add Tables</h1>
 
-      {!currentBlock?.layout?.blockTableType && (
+      {!currentBlock?.blockTableType && (
         <div className="add-table-shapes">
           <div
             className="add-table-circle"
@@ -142,7 +143,7 @@ const BlockGridSetUp = () => {
         </div>
       )}
 
-      {currentBlock?.layout?.blockTableType && (
+      {currentBlock?.blockTableType && (
         <div className="table-hover-container-parent">
           <h1 className="rows-title">Rows ------→</h1>
           <div

@@ -149,7 +149,7 @@ const BsquareShape = ({ children, bSquare }) => {
         setBlockId(null);
         setCurrentBlock(null);
         saveName();
-        console.log("Square - Clicked Outside:");
+        // console.log("Square - Clicked Outside:");
       }
     };
     document.addEventListener("mousedown", handleClickOutside);
@@ -450,11 +450,11 @@ const BsquareShape = ({ children, bSquare }) => {
         {/* ------------------- Table Grid ------------------------------ */}
         <div
           className={
-            currentBlock?.layout?._id === bSquare._id ? "table-grid" : ""
+            currentBlock?._id === bSquare._id ? "table-grid" : ""
           }
           style={{
-            gridTemplateColumns: `repeat(${currentBlock?.layout?.maxCol}, 1fr)`,
-            gridTemplateRows: `repeat(${currentBlock?.layout?.maxRow}, 1fr)`,
+            gridTemplateColumns: `repeat(${currentBlock?.maxCol}, 1fr)`,
+            gridTemplateRows: `repeat(${currentBlock?.maxRow}, 1fr)`,
           }}
         >
           <AddTables block={bSquare}/>
