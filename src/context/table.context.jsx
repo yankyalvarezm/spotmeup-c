@@ -9,6 +9,17 @@ function TableProvider({ children }) {
   const [tShapeAdded, setTShapeAdded] = useState(false);
   const [showTShapeForm, setShowTShapeForm] = useState(false);
   const [tableId, setTableId] = useState({});
+  let tableData = {
+    x: 0,
+    y: 0,
+    width: 100,
+    height: 100,
+    status: "Available",
+    cprice: 0,
+    tickets: 0,
+    isIncluded: true,
+    number: 0,
+  };
 
   const addTableCircle = async (layoutId, body) => {
     body.blockType = "Circle";

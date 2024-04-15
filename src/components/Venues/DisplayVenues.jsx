@@ -39,16 +39,16 @@ const DisplayVenues = () => {
     }, 500);
 
   };
-  console.log("mouse in");
-  console.log("Venue:", venueDetail);
+  // console.log("mouse in");
+  // console.log("Venue:", venueDetail);
 
   const popDown = () => {
     setTimeout(() => {
       setHoverVenueId(null);
     }, 500);
 
-    console.log("mouse out");
-    console.log("Venue:", venueDetail);
+    // console.log("mouse out");
+    // console.log("Venue:", venueDetail);
   };
 
   useEffect(() => {

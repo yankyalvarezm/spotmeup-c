@@ -136,6 +136,7 @@ const BcircleShape = ({ children, bCircle }) => {
         !bCircleRef.current.contains(event.target) &&
         bShapeForm.current &&
         !bShapeForm.current.contains(event.target) &&
+        bSquareRef.current &&
         !bSquareRef.current.contains(event.target)
       ) {
         setShowBShapeForm(false);
@@ -146,12 +147,12 @@ const BcircleShape = ({ children, bCircle }) => {
       }
     };
 
-    document.addEventListener("mouseup", handleClickOutside);
+    document.addEventListener("mousedown", handleClickOutside);
 
     return () => {
-      document.removeEventListener("mouseup", handleClickOutside);
+      document.removeEventListener("mousedown", handleClickOutside);
     };
-  }, [bCircleRef, bShapeForm, tableGridRef]);
+  }, [bCircleRef, bShapeForm, bSquareRef]);
 
   //*! --------------- Show & Hide Form --------------
 

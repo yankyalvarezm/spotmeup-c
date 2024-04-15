@@ -2,7 +2,6 @@ import React, { useContext, useEffect, useState } from "react";
 import { BlockContext } from "../../context/block.context";
 import { deleteBlock } from "../../services/block.service";
 import { useParams } from "react-router-dom";
-import AddTables from "../Tables/AddTables";
 
 const BlockTools = ({ children }) => {
   // *! ----- Context ---------------------------------------

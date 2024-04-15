@@ -1,9 +1,11 @@
 import React, { useEffect, useRef, useContext, useState } from "react";
+import StyledbSquare from "./StyledbSquare";
 import Draggable from "react-draggable";
 import { BlockContext } from "../../../context/block.context";
 import { editBlock } from "../../../services/block.service";
-import StyledbSquare from "./StyledbSquare";
 import { LayoutContext } from "../../../context/layout.context";
+import { createTable } from "../../../services/table.service";
+import { TableContext } from "../../../context/table.context";
 
 const BsquareShape = ({ children, bSquare }) => {
   //*! -------  UseRefs ---------------
@@ -24,11 +26,14 @@ const BsquareShape = ({ children, bSquare }) => {
     currentBlock,
     setCurrentBlock,
     bSquareRef,
-    bCircleRef
+    bCircleRef,
   } = useContext(BlockContext);
 
   // ? -- LayoutContext ---------------
   const { layoutBody } = useContext(LayoutContext);
+
+  // ? -- TableContext ----------------
+  const { tableData } = useContext(TableContext);
 
   //*! -------  Local States --------------
   const [hasMoved, setHasMoved] = useState(false);
@@ -131,39 +136,34 @@ const BsquareShape = ({ children, bSquare }) => {
   //*! -------- Handle Click Outside ------------------
 
   useEffect(() => {
-    // Definir la función de manejo del clic fuera del componente
     const handleClickOutside = (event) => {
       if (
         bSquareRef.current &&
         !bSquareRef.current.contains(event.target) &&
         bShapeForm.current &&
         !bShapeForm.current.contains(event.target) &&
+        bCircleRef.current &&
         !bCircleRef.current.contains(event.target)
       ) {
         setShowBShapeForm(false);
         setBlockId(null);
         setCurrentBlock(null);
         saveName();
-        // console.log("Square - Clicked Outside");
+        console.log("Square - Clicked Outside:");
       }
     };
+    document.addEventListener("mousedown", handleClickOutside);
 
-    // Registra el event listener
-    document.addEventListener("mouseup", handleClickOutside);
-
-    // Limpiar el event listener cuando el componente se desmonta
     return () => {
-      document.removeEventListener("mouseup", handleClickOutside);
+      document.removeEventListener("mousedown", handleClickOutside);
     };
-  }, [bSquareRef, bShapeForm, tableGridRef]);
+  }, [bSquareRef, bShapeForm, bCircleRef]);
 
   //*! --------------- Show & Hide Form --------------
 
   const handleShowToggleForm = (bShapeId) => {
     setShowBShapeForm(true);
     setBlockId(bShapeId);
-    // console.log("bShapeId:", bShapeId);
-    // console.log("showBShapeForm:", showBShapeForm);
   };
 
   //*! -------------- On Drag Logic ----------------
@@ -374,7 +374,14 @@ const BsquareShape = ({ children, bSquare }) => {
     layoutBody.layoutType,
   ]);
 
-  // console.log("currentBlock:", currentBlock);
+  // *! ------------- Add Tables --------------------
+  const addOneTable = async () => {
+    try {
+      const response = createTable(bSquare._id, 1, tableData);
+    } catch (error) {
+      console.log("createTable - error:", error);
+    }
+  };
 
   // *! ------------- Render Add --------------------
 
@@ -382,6 +389,9 @@ const BsquareShape = ({ children, bSquare }) => {
     let tables = [];
     for (let row = 1; row <= currentBlock?.layout?.maxRow; row++) {
       for (let col = 1; col <= currentBlock?.layout?.maxCol; col++) {
+        {
+          /* ------------------- Grid Item --------------------------- */
+        }
         tables.push(
           <div
             key={`${row}-${col}`}
@@ -423,8 +433,6 @@ const BsquareShape = ({ children, bSquare }) => {
         }
       }}
       grid={[5, 5]}
-      // offsetParent={parent}
-      // scale={1}
     >
       <StyledbSquare
         ref={bSquareRef}
@@ -462,7 +470,7 @@ const BsquareShape = ({ children, bSquare }) => {
             <>{bSquare?.name}</>
           )}
         </div>
-
+        {/* ------------------- Table Grid ------------------------------ */}
         <div
           className={
             currentBlock?.layout?._id === bSquare._id ? "table-grid" : ""
@@ -471,7 +479,6 @@ const BsquareShape = ({ children, bSquare }) => {
             gridTemplateColumns: `repeat(${currentBlock?.layout?.maxCol}, 1fr)`,
             gridTemplateRows: `repeat(${currentBlock?.layout?.maxRow}, 1fr)`,
           }}
-          // ref={tableGridRef}
         >
           {renderAdd()}
 
