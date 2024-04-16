@@ -13,16 +13,23 @@ import DesignPage from "./pages/DesignPage";
 function App() {
   return (
     <Routes>
-      <Route path="/signup" element={<SignUp />}/>
-      <Route path="/login" element={<LogIn />}/>
-      <Route path="/" element={<Home />}/>
-      <Route path="/about" element={<About />}/>
-      <Route path="/profile" element={<Profile />}/>
-      <Route path="/myevents" element={<MyEvents />}/>
-      <Route path="/admin/venuedetails/:venueIdParam" element={<AdminVenueDetail />}/>
-      <Route path="/admin/designpage/:layoutIdParam" element={<DesignPage />}/>
+      <Route path="/signup" element={<SignUp />} />
+      <Route path="/login" element={<LogIn />} />
+      <Route path="/" element={<Home />} />
+      <Route path="/about" element={<About />} />
+      <Route path="/profile" element={<Profile />} />
+      <Route path="/myevents" element={<MyEvents />} />
+      <Route
+        path="/admin/venuedetails/:venueIdParam"
+        element={<AdminVenueDetail />}
+      />
+      <Route path="/admin/designpage/:layoutIdParam" element={<DesignPage />} />
+      <Route
+        path="/admin/designpage/:layoutIdParam/:blockIdParam"
+        element={<DesignPage />}
+      />
     </Routes>
-  )
+  );
 }
 
 export default App;

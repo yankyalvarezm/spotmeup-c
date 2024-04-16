@@ -16,7 +16,6 @@ const AddBlock = () => {
     capacity: 0,
     bprice: 0,
     maxSection: 0,
-    maxTables: 0,
     width: 100,
     height: 100,
     borderSize: 1,

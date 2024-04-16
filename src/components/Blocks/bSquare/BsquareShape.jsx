@@ -4,15 +4,15 @@ import Draggable from "react-draggable";
 import { BlockContext } from "../../../context/block.context";
 import { editBlock } from "../../../services/block.service";
 import { LayoutContext } from "../../../context/layout.context";
-import { createTable } from "../../../services/table.service";
-import { TableContext } from "../../../context/table.context";
-import AddTables from "../../Tables/AddTables";
+import { useNavigate, useParams } from "react-router-dom";
 
 const BsquareShape = ({ children, bSquare }) => {
+  const navigate = useNavigate();
+  const param = useParams()
+
   //*! -------  UseRefs ---------------
 
   const nameRef = useRef(null);
-  const tableGridRef = useRef(null);
 
   //*! -------  Contexts --------------
   // ? -- BlockContext ----------------
@@ -23,17 +23,15 @@ const BsquareShape = ({ children, bSquare }) => {
     blockId,
     setBlockId,
     bShapeForm,
-    currentBlock,
     setCurrentBlock,
     bSquareRef,
     bCircleRef,
   } = useContext(BlockContext);
 
   // ? -- LayoutContext ---------------
-  const { layoutBody } = useContext(LayoutContext);
+  const { layoutBody, layoutDetails } = useContext(LayoutContext);
 
   // ? -- TableContext ----------------
-  const { tableData } = useContext(TableContext);
 
   //*! -------  Local States --------------
   const [hasMoved, setHasMoved] = useState(false);
@@ -137,18 +135,20 @@ const BsquareShape = ({ children, bSquare }) => {
 
   useEffect(() => {
     const handleClickOutside = (event) => {
+      const isClickInside = event.target.closest(".square-shape");
+      const isClickInsideCircle = event.target.closest(".circle-shape");
+
       if (
-        bSquareRef.current &&
-        !bSquareRef.current.contains(event.target) &&
+        !isClickInside &&
+        !isClickInsideCircle &&
         bShapeForm.current &&
-        !bShapeForm.current.contains(event.target) &&
-        ((bCircleRef.current && !bCircleRef.current.contains(event.target)) ||
-          bCircleRef.current === null)
+        !bShapeForm.current.contains(event.target)
       ) {
         setShowBShapeForm(false);
         setBlockId(null);
         setCurrentBlock(null);
         saveName();
+        navigate(`/admin/designpage/${layoutDetails._id}`);
         // console.log("Square - Clicked Outside:");
       }
     };
@@ -164,6 +164,12 @@ const BsquareShape = ({ children, bSquare }) => {
   const handleShowToggleForm = (bShapeId) => {
     setShowBShapeForm(true);
     setBlockId(bShapeId);
+  };
+
+  //*! --------------- Update Url --------------------
+
+  const updateUrl = (layoutId, bShapeId) => {
+    navigate(`/admin/designpage/${layoutId}/${bShapeId}`);
   };
 
   //*! -------------- On Drag Logic ----------------
@@ -374,18 +380,7 @@ const BsquareShape = ({ children, bSquare }) => {
     layoutBody.layoutType,
   ]);
 
-  // *! ------------- Add Tables --------------------
-  const addOneTable = async () => {
-    try {
-      const response = createTable(bSquare._id, 1, tableData);
-    } catch (error) {
-      console.log("createTable - error:", error);
-    }
-  };
-
   // *! ------------- Render Add --------------------
-
- 
 
   // *! -------- DOM ELEMENTS -----------------------
   // *! -------- DOM ELEMENTS -----------------------
@@ -416,6 +411,7 @@ const BsquareShape = ({ children, bSquare }) => {
         tabIndex={1}
         onClick={() => {
           handleShowToggleForm(bSquare._id);
+          updateUrl(param.layoutIdParam, bSquare._id);
         }}
         bSquare={bSquare}
         className="square-shape"
@@ -448,19 +444,8 @@ const BsquareShape = ({ children, bSquare }) => {
           )}
         </div>
         {/* ------------------- Table Grid ------------------------------ */}
-        <div
-          className={
-            currentBlock?._id === bSquare._id ? "table-grid" : ""
-          }
-          style={{
-            gridTemplateColumns: `repeat(${currentBlock?.maxCol}, 1fr)`,
-            gridTemplateRows: `repeat(${currentBlock?.maxRow}, 1fr)`,
-          }}
-        >
-          <AddTables block={bSquare}/>
 
-          {children}
-        </div>
+        {children}
       </StyledbSquare>
     </Draggable>
   );

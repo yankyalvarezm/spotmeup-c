@@ -4,13 +4,15 @@ import StyledbCircle from "./StyledbCircle";
 import { LayoutContext } from "../../../context/layout.context";
 import { BlockContext } from "../../../context/block.context";
 import { editBlock } from "../../../services/block.service";
-import AddTables from "../../Tables/AddTables";
+import { useNavigate, useParams } from "react-router-dom";
 
 const BcircleShape = ({ children, bCircle }) => {
+  const navigate = useNavigate();
+  const param = useParams();
+
   //*! -------  UseRefs --------------
 
   const nameRef = useRef(null);
-  const tableGridRef = useRef(null);
 
   //*! -------  Contexts --------------
   // ? -- BlockContext ----------------
@@ -29,7 +31,7 @@ const BcircleShape = ({ children, bCircle }) => {
   } = useContext(BlockContext);
 
   // ? -- LayoutContext ---------------
-  const { layoutBody } = useContext(LayoutContext);
+  const { layoutBody, layoutDetails } = useContext(LayoutContext);
 
   //*! -------  Local States --------------
   const [hasMoved, setHasMoved] = useState(false);
@@ -132,18 +134,19 @@ const BcircleShape = ({ children, bCircle }) => {
 
   useEffect(() => {
     const handleClickOutside = (event) => {
+      const isClickInside = event.target.closest(".circle-shape ");
+      const isClickInsideSquare = event.target.closest(".square-shape ");
       if (
-        bCircleRef.current &&
-        !bCircleRef.current.contains(event.target) &&
+        !isClickInside &&
+        !isClickInsideSquare &&
         bShapeForm.current &&
-        !bShapeForm.current.contains(event.target) &&
-        ((bSquareRef.current && !bSquareRef.current.contains(event.target)) ||
-          bSquareRef.current === null)
+        !bShapeForm.current.contains(event.target)
       ) {
         setShowBShapeForm(false);
         setBlockId(null);
         setCurrentBlock(null);
         saveName();
+        navigate(`/admin/designpage/${layoutDetails._id}`);
         // console.log("Circle - Clicked Outside");
       }
     };
@@ -160,6 +163,12 @@ const BcircleShape = ({ children, bCircle }) => {
   const handleShowToggleForm = (bShapeId) => {
     setShowBShapeForm(true);
     setBlockId(bShapeId);
+  };
+
+  //*! --------------- Update Url --------------------
+
+  const updateUrl = (layoutId, bShapeId) => {
+    navigate(`/admin/designpage/${layoutId}/${bShapeId}`);
   };
 
   //*! -------------- On Drag Logic ----------------
@@ -393,7 +402,10 @@ const BcircleShape = ({ children, bCircle }) => {
     >
       <StyledbCircle
         ref={bCircleRef}
-        onClick={() => handleShowToggleForm(bCircle._id)}
+        onClick={() => {
+          handleShowToggleForm(bCircle._id);
+          updateUrl(param.layoutIdParam, bCircle._id);
+        }}
         tabIndex={0}
         // onFocus={toggleShapeForm}
         bCircle={bCircle}
@@ -427,19 +439,7 @@ const BcircleShape = ({ children, bCircle }) => {
           )}
         </div>
 
-        <div
-          className={
-            currentBlock?._id === bCircle._id ? "table-grid-circle" : ""
-          }
-          style={{
-            gridTemplateColumns: `repeat(${currentBlock?.maxCol}, 1fr)`,
-            gridTemplateRows: `repeat(${currentBlock?.maxRow}, 1fr)`,
-          }}
-        >
-          <AddTables block={bCircle} />
-
-          {children}
-        </div>
+        {children}
       </StyledbCircle>
     </Draggable>
   );

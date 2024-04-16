@@ -12,6 +12,7 @@ import DisplayBlocks from "./Blocks/DisplayBlocks";
 import BlockTools from "./Blocks/BlockTools";
 import { BlockContext } from "../context/block.context";
 import BlockGridSetUp from "./Blocks/BlockGridSetUp";
+import DisplayTables from "./Tables/DisplayTables";
 
 const EditModal = () => {
   const navigate = useNavigate();
@@ -25,7 +26,7 @@ const EditModal = () => {
     layoutBody,
   } = useContext(LayoutContext);
 
-  const { showBShapeForm, bShapeForm } = useContext(BlockContext);
+  const { showBShapeForm } = useContext(BlockContext);
 
   const { showShapeForm } = useContext(ShapeContext);
 
@@ -39,14 +40,7 @@ const EditModal = () => {
     }
   }, [layoutId]);
 
-  // console.log("showShapeForm:", showShapeForm);
-
-  useEffect(() => {
-    // console.log("bShapeForm:", bShapeForm.current);
-  }, [showBShapeForm]);
-
-  // console.log("floorplan --->", floorPlan);
-  // console.log("layoutType --->", layoutDetails);
+  useEffect(() => {}, [showBShapeForm]);
 
   return (
     <div className="design-big-container">
@@ -64,13 +58,15 @@ const EditModal = () => {
           <div className="design-main-content">
             <LayoutContent>
               <DisplayShapes />
-              <DisplayBlocks />
+              <DisplayBlocks>
+                <DisplayTables/>
+              </DisplayBlocks>
             </LayoutContent>
           </div>
         </div>
         <ShapesTools />
         <BlockTools>
-          <BlockGridSetUp/>
+          <BlockGridSetUp />
         </BlockTools>
         {!showShapeForm && !showBShapeForm && (
           <div

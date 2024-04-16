@@ -29,7 +29,7 @@ function BlockProvider({ children }) {
         );
         setBCircles(blockCircleFilter);
         setBSquares(blockSquareFilter);
-        console.log("All Blocks", response.blocks);
+        // console.log("All Blocks", response.blocks);
       }
     } catch (error) {
       console.log("error:", error);
