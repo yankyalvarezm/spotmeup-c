@@ -49,7 +49,7 @@ function TableProvider({ children }) {
 
   const addTableSquareManual = async (blockId, body) => {
     body.tableType = "Square";
-    body.number = tSquares.length + 1;
+    body.number = tSquares?.length + 1 || 1;
     try {
       const response = await createTable(blockId, body);
       console.log("response square table:", response);
@@ -62,6 +62,8 @@ function TableProvider({ children }) {
       console.error(error);
     }
   };
+
+  console.log("Table Square Added:", tSquares);
 
   function debounce(fn, delay) {
     let timeoutID = null;
@@ -100,7 +102,6 @@ function TableProvider({ children }) {
         updateTShape,
         tCircleRef,
         tSquareRef,
-        tShapeForm,
       }}
     >
       {children}

@@ -3,8 +3,8 @@ import { BlockContext } from "../../../context/block.context";
 
 export const StyledTSquare = styled.div`
   position: absolute;
-  width: calc(100% / ${(props) => props.maxCol});
-  height: calc(100% / ${(props) => props.maxRow});
+  width: ${(props) => props.tSquare?.width}px;
+  height: ${(props) => props.tSquare?.height}px;
   background-color: ${(props) => props.tSquare?.backgroundColor};
   /* border: ${(props) => props.tSquare?.borderSize}px solid
     ${(props) => props.tSquare?.borderColor}; */

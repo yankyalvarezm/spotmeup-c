@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import { BlockContext } from "../../context/block.context";
 import { deleteBlock } from "../../services/block.service";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 
 const BlockTools = ({ children }) => {
   // *! ----- Context ---------------------------------------
@@ -21,6 +21,7 @@ const BlockTools = ({ children }) => {
   // console.log("bshapeForm - blockTools:", bShapeForm)
   // *! ----- Param -------------------------------------------
   const param = useParams();
+  const navigate = useNavigate();
 
   // *! ----- Local States ------------------------------------
   const [activeDropDown, setActiveDropDown] = useState(null);
@@ -60,6 +61,7 @@ const BlockTools = ({ children }) => {
         return prev.filter((bSquare) => bSquare._id !== blockId);
       });
       setBlockId(null);
+      navigate(`/admin/designpage/${param.layoutIdParam}`);
       // debugger;
       toggleBShapeForm();
     } catch (error) {

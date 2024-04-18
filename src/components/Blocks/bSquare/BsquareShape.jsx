@@ -148,7 +148,7 @@ const BsquareShape = ({ children, bSquare }) => {
         setBlockId(null);
         setCurrentBlock(null);
         saveName();
-        navigate(`/admin/designpage/${layoutDetails._id}`);
+        navigate(`/admin/designpage/${param.layoutIdParam}`);
         // console.log("Square - Clicked Outside:");
       }
     };

@@ -39,8 +39,8 @@ const DisplayBlocks = ({ children }) => {
               }}
             >
               <AddTables block={bCircle} />
-              {children}
             </div>
+            {children}
           </BcircleShape>
         ))}
 
@@ -55,8 +55,8 @@ const DisplayBlocks = ({ children }) => {
               }}
             >
               <AddTables block={bSquare} />
-              {children}
             </div>
+            {children}
           </BsquareShape>
         ))}
     </div>

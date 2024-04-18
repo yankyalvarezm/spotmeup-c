@@ -152,6 +152,37 @@ const TsquareShape = ({ tSquare }) => {
     );
   };
 
+  useEffect(() => {
+    const container = document.querySelector(".display-tables-container");
+
+    // console.log("containerWidth:", container.offsetWidth);
+    // console.log("containerHeigth:", container.offsetHeight);
+
+    // console.log("currentBlock.maxCol:", currentBlock?.maxCol)
+    // console.log("currentBlock.maxRow:", currentBlock?.maxRow)
+
+    // debugger
+    if (container && currentBlock) {
+      // debugger
+      if (tableId === tSquare._id) {
+        // debugger
+        setTSquares((prevSquares) =>
+          prevSquares.map((tSqr) =>
+            tSqr._id === tSquare._id
+              ? {
+                ...tSqr,
+                width: container.offsetWidth / currentBlock?.maxCol,
+                height: container.offsetHeight / currentBlock?.maxRow,
+              }
+              : tSqr
+          )
+        );
+      }
+    }
+  }, [currentBlock, tSquare._id, tableId]);
+
+  console.log("tSquare:", tSquare);
+
   return (
     <Draggable
       bounds="parent"
@@ -180,9 +211,9 @@ const TsquareShape = ({ tSquare }) => {
         }}
         tSquare={tSquare}
         className="square-shape"
-        maxRow={currentBlock && currentBlock.maxRow}
-        maxCol={currentBlock && currentBlock.maxCol}
-        // resize={tableId === tSquare._id}
+      // maxRow={currentBlock && currentBlock.maxRow}
+      // maxCol={currentBlock && currentBlock.maxCol}
+      // resize={tableId === tSquare._id}
       >
         <div
           className="handle circle-name"
