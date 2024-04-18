@@ -9,43 +9,66 @@ const AddTables = ({ block }) => {
 
   const container = document.querySelector(".display-tables-container");
 
-
   // console.log("container:", container)
 
   const [tableBody, setTableBody] = useState({});
+  const [exactPosition, setExactPosition] = useState({
+    row: 0,
+    col: 0,
+  });
+  
+  const tableWidth = (container?.offsetWidth * 0.95) / currentBlock?.maxCol;
+  const tableHeigth = (container?.offsetHeight * 0.95) / currentBlock?.maxRow;
+  const positionSubRow = exactPosition.row < 1 ? 0 : 1;
+  const positionSubCol = exactPosition.col < 1 ? 0 : 1;
+  const rowGap = exactPosition.col > 1 ? tableWidth * 0.065 : 0;
+  const colGap = exactPosition.row > 1 ? tableWidth * 0.065 : 0;
+
+  // console.log("-------- Start -----------");
+  // console.log("ExacPosition - Row:", exactPosition?.row);
+  // console.log("ExacPosition - Col:", exactPosition?.col);
+  // console.log("tableWidth:", tableWidth);
+  // console.log("tableHeight:", tableHeigth);
+  // console.log("positionSubRow:", positionSubRow);
+  // console.log("positionSubCol:", positionSubCol);
+  // console.log("rowGap:", rowGap);
+  // console.log("colGap:", colGap);
+  // console.log("-------- End -----------");
 
   useEffect(() => {
     setTableBody({
       tableType: "",
-      x: 0,
-      y: 0,
-      width: container?.offsetWidth * 0.90 / currentBlock?.maxCol,
-      height: container?.offsetHeight * 0.90 / currentBlock?.maxRow,
+      x: (tableWidth + rowGap) * (exactPosition.col - positionSubRow),
+      y: (tableHeigth + colGap) * (exactPosition.row - positionSubCol),
+      width: tableWidth,
+      height: tableHeigth,
       status: "Available",
       cprice: 0,
       tickets: 0,
       isIncluded: 0,
+      row: exactPosition.row,
+      col: exactPosition.col,
       number: 0,
-    })
-  }, [container?.offsetWidth, container?.offsetHeight, currentBlock])
+    });
+  }, [
+    container?.offsetWidth,
+    container?.offsetHeight,
+    currentBlock,
+    exactPosition.row,
+    exactPosition.col,
+  ]);
 
-
-
-  console.log("containerWidth:", container?.offsetWidth);
-  console.log("containerHeigth:", container?.offsetHeight);
-
-  console.log("currentBlock.maxCol:", currentBlock?.maxCol)
-  console.log("currentBlock.maxRow:", currentBlock?.maxRow)
-  console.log("tableBody", tableBody)
+  const handleSetPosition = (row, col) => {
+    setExactPosition({ row, col });
+  };
 
   // console.log("tSquares:", tSquares)
 
-  const [exactPosition, setExactPosition] = useState(null);
   const handleTableAdd = async (row, col) => {
     if (currentBlock?.blockTableType.toLowerCase() === "circle") {
       try {
         await addTableCircleManual(block._id, tableBody);
-        setExactPosition(`${row}:${col}`);
+
         // console.log("addTableCircleManual - response:", tCircles);
       } catch (error) {
         console.error("addTableCircleManual - Error:", error.response);
@@ -56,7 +79,7 @@ const AddTables = ({ block }) => {
       try {
         await addTableSquareManual(block._id, tableBody);
         // debugger
-        setExactPosition(`${row}:${col}`);
+        // setExactPosition({ row: row, col: col });
         console.log("addTableSquareManual - Response:", tSquares);
       } catch (error) {
         console.error("addTableSquareManual - Error:", error);
@@ -81,6 +104,7 @@ const AddTables = ({ block }) => {
               backgroundColor: `${block?.backgroundColor}`,
             }}
             onClick={() => handleTableAdd(row, col)}
+            onMouseEnter={() => handleSetPosition(row, col)}
           >
             Add
           </div>

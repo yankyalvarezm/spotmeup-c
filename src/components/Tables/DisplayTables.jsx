@@ -25,8 +25,10 @@ const DisplayTables = () => {
   useEffect(() => {
     fetchTables(param.blockIdParam);
   }, []);
-
+  console.log("blockIdParam:", param.blockIdParam);
   // console.log("tSquares:", tSquares);
+
+  // debugger;
 
   return (
     <div className="display-tables-container">

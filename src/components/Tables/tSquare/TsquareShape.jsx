@@ -152,34 +152,47 @@ const TsquareShape = ({ tSquare }) => {
     );
   };
 
+  const container = document.querySelector(".display-tables-container");
+
+  const tableWidth = (container?.offsetWidth * 0.95) / currentBlock?.maxCol;
+  const tableHeigth = (container?.offsetHeight * 0.95) / currentBlock?.maxRow;
+  const positionSubRow = tSquare.row < 1 ? 0 : 1;
+  const positionSubCol = tSquare.col < 1 ? 0 : 1;
+  const rowGap = tSquare.col > 1 ? tableWidth * 0.065 : 0;
+  const colGap = tSquare.row > 1 ? tableWidth * 0.065 : 0;
+
   useEffect(() => {
-    const container = document.querySelector(".display-tables-container");
-
-    // console.log("containerWidth:", container.offsetWidth);
-    // console.log("containerHeigth:", container.offsetHeight);
-
-    // console.log("currentBlock.maxCol:", currentBlock?.maxCol)
-    // console.log("currentBlock.maxRow:", currentBlock?.maxRow)
+    // console.log("adjusting");
+    // console.log("tableWidth:", tableWidth);
 
     // debugger
     if (container && currentBlock) {
       // debugger
-      if (tableId === tSquare._id) {
-        // debugger
-        setTSquares((prevSquares) =>
-          prevSquares.map((tSqr) =>
-            tSqr._id === tSquare._id
-              ? {
+
+      // if (tableId === tSquare._id) {
+      // debugger
+      setTSquares((prevSquares) =>
+        prevSquares.map((tSqr) =>
+          tSqr._id === tSquare._id
+            ? {
                 ...tSqr,
-                width: container.offsetWidth / currentBlock?.maxCol,
-                height: container.offsetHeight / currentBlock?.maxRow,
+                width: tableWidth,
+                height: tableHeigth,
+                x: (tableWidth + rowGap) * (tSquare.col - positionSubRow),
+                y: (tableHeigth + colGap) * (tSquare.row - positionSubCol),
               }
-              : tSqr
-          )
-        );
-      }
+            : tSqr
+        )
+      );
+      // }
     }
-  }, [currentBlock, tSquare._id, tableId]);
+  }, [
+    currentBlock,
+    tSquare._id,
+    tableId,
+    container?.offsetWidth,
+    container?.offsetHeight,
+  ]);
 
   console.log("tSquare:", tSquare);
 
@@ -201,7 +214,7 @@ const TsquareShape = ({ tSquare }) => {
           setHasMoved(false);
         }
       }}
-      grid={[tSquare.width, tSquare.height]}
+      // grid={[tSquare.width, tSquare.height]}
     >
       <StyledTSquare
         ref={tSquareRef}
@@ -210,10 +223,10 @@ const TsquareShape = ({ tSquare }) => {
           handleShowToggleForm(tSquare._id);
         }}
         tSquare={tSquare}
-        className="square-shape"
-      // maxRow={currentBlock && currentBlock.maxRow}
-      // maxCol={currentBlock && currentBlock.maxCol}
-      // resize={tableId === tSquare._id}
+        className="square-shape tables-shapes"
+        // maxRow={currentBlock && currentBlock.maxRow}
+        // maxCol={currentBlock && currentBlock.maxCol}
+        // resize={tableId === tSquare._id}
       >
         <div
           className="handle circle-name"

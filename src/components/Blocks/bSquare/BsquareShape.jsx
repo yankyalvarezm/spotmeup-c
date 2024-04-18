@@ -418,7 +418,7 @@ const BsquareShape = ({ children, bSquare }) => {
         resize={blockId === bSquare._id}
       >
         <div
-          className="handle circle-name"
+          className="handle circle-name blocks"
           style={handleStyle}
           onDoubleClick={() => {
             setEditingName(true);

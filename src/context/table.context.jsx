@@ -63,7 +63,7 @@ function TableProvider({ children }) {
     }
   };
 
-  console.log("Table Square Added:", tSquares);
+  // console.log("Table Square Added:", tSquares);
 
   function debounce(fn, delay) {
     let timeoutID = null;
