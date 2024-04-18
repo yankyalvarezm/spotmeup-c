@@ -180,6 +180,7 @@ const TsquareShape = ({ tSquare }) => {
                 height: tableHeigth,
                 x: (tableWidth + rowGap) * (tSquare.col - positionSubRow),
                 y: (tableHeigth + colGap) * (tSquare.row - positionSubCol),
+                name: tSquare.number,
               }
             : tSqr
         )
@@ -229,7 +230,7 @@ const TsquareShape = ({ tSquare }) => {
         // resize={tableId === tSquare._id}
       >
         <div
-          className="handle circle-name"
+          className="handle circle-name tables-one-shape"
           style={handleStyle}
           onDoubleClick={() => {
             setEditingName(true);
@@ -251,8 +252,8 @@ const TsquareShape = ({ tSquare }) => {
               }}
             />
           ) : (
-            <>{tSquare?.name}</>
           )} */}
+          <>{tSquare?.name}</>
         </div>
       </StyledTSquare>
     </Draggable>

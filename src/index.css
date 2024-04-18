@@ -3390,9 +3390,9 @@ input[type="color"]::-webkit-color-swatch {
 .grid-item {
   /* background-color: white; */
   /* border: 4px solid black; */
+  /* z-index: 4; */
   width: auto;
   height: auto;
-  /* z-index: 4; */
   display: flex;
   justify-content: center;
   align-items: center;
@@ -3421,4 +3421,9 @@ input[type="color"]::-webkit-color-swatch {
 .tables-shapes:hover {
   background-color: blue;
   z-index: 99999;
+}
+
+.tables-one-shape {
+  cursor: move !important;
+  color: white;
 }
