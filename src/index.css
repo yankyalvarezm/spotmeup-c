@@ -1240,12 +1240,30 @@ button:hover {
   /* cursor: pointer; */
 }
 
+.venue-carousel-info {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 100px;
+  width: 100%;
+  margin-left: 1rem;
+  margin-top: 0.5rem;
+}
+
 .venue-name {
-  color: var(--yellow);
-  font-size: 25px;
-  padding: 1rem;
+  color: var(--black);
+  font-size: 20px;
+  /* padding: 1rem; */
   z-index: 2;
-  text-align: center;
+  text-align: flex-start;
+}
+
+.venue-address {
+  font-size: 15px;
+  font-family: var(--primary--font);
+  padding: 0rem;
+  margin: 0rem;
+  font-weight: 100;
 }
 
 .venue-city {
@@ -1274,16 +1292,26 @@ button:hover {
   z-index: 1;
 }
 
-.venue-img {
+.venue-slide {
   background-image: url(/venue-sample.jpg);
-  width: 97%;
-  height: 150px;
+  width: 100%;
+  height: 260px;
   background-repeat: no-repeat;
   background-size: cover;
   display: flex;
   flex-direction: column;
   align-items: center;
-  position: relative;
+  position: relative; 
+}
+
+.swiper-slide {
+  transition: transform  0.3s ease-in-out, box-shadow  0.3s ease-in-out;
+}
+
+.swiper-slide:hover {
+  cursor: pointer;
+  transform: scale(1.05);
+  box-shadow: 0px 0px 20px var(--black);
 }
 
 #venue-img::before {
@@ -3426,4 +3454,212 @@ input[type="color"]::-webkit-color-swatch {
 .tables-one-shape {
   cursor: move !important;
   color: white;
+}
+
+/* ----------- Swiper ---------- */
+
+.custom-prev {
+  position: absolute;
+  z-index: 99;
+  top: 8%;
+  left: -1%;
+  transform: translate(-50%, -50%);
+  background-image: url(/next-arrow.png);
+  transform: rotate(180deg) !important;
+  width: 50px;
+  height: 50px;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 70%;
+  border: none;
+  height: 82%;
+  transform: translate(-50%, -50%);
+  background-color: rgba(255, 255, 255, 0.5);
+  border-radius: 0px;
+  box-shadow: none;
+}
+
+.custom-next {
+  position: absolute;
+  z-index: 99;
+  top: 49%;
+  left: 98.3%;
+  background-image: url(/next-arrow.png);
+  width: 50px;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 70%;
+  border: none;
+  height: 82%;
+  transform: translate(-50%, -50%);
+  background-color: rgba(255, 255, 255, 0.5);
+  /* background-color: white; */
+  border-radius: 0px;
+  box-shadow: none;
+}
+
+.custom-next,
+.custom-prev {
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s, visibility 0.3s;
+}
+
+.swiper:hover {
+  .custom-next,
+  .custom-prev {
+    opacity: 1;
+    visibility: visible;
+    box-shadow: none;
+  }
+}
+
+.swiper {
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 3rem;
+  position: relative;
+  overflow: hidden;
+  list-style: none;
+  padding: 1.6rem;
+  padding-bottom: 2rem;
+  padding-top: 2.5rem;
+  z-index: 1;
+  display: block;
+}
+
+.swiper-pagination-bullet-active-next {
+  background-color: black !important;
+  height: 20px;
+  width: 20px;
+  opacity: 1;
+}
+
+.swiper-pagination {
+  /* height: auto; */
+  /* width: 20px; */
+  transform: translateY(-50%);
+  top: 96% !important;
+  background-color: transparent;
+}
+
+.swiper-pagination-bullet {
+  background-color: black;
+  width: 15px;
+  height: 15px;
+}
+
+.swiper-button-disabled {
+  display: none !important;
+}
+
+.swiper-slide {
+  background-color: white;
+  min-height: 265px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-bottom: 1rem;
+}
+
+.recently-added {
+  color: black;
+  font-size: 30px;
+  position: absolute;
+  top: 0%;
+}
+
+/* --------- Loader ---------- */
+
+.glitch {
+  position: relative;
+  font-size: 25px;
+  font-weight: 700;
+  line-height: 1.2;
+  color: #fff;
+  letter-spacing: 5px;
+  z-index: 1;
+  animation: shift 1s ease-in-out infinite alternate;
+}
+
+.glitch:before,
+.glitch:after {
+  display: block;
+  content: attr(data-glitch);
+  position: absolute;
+  top: 0;
+  left: 0;
+  opacity: 0.8;
+}
+
+.glitch:before {
+  animation: glitch 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) both infinite;
+  color: #8b00ff;
+  z-index: -1;
+}
+
+.glitch:after {
+  animation: glitch 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) reverse both infinite;
+  color: #00e571;
+  z-index: -2;
+}
+
+@keyframes glitch {
+  0% {
+    transform: translate(0);
+  }
+
+  20% {
+    transform: translate(-3px, 3px);
+  }
+
+  40% {
+    transform: translate(-3px, -3px);
+  }
+
+  60% {
+    transform: translate(3px, 3px);
+  }
+
+  80% {
+    transform: translate(3px, -3px);
+  }
+
+  to {
+    transform: translate(0);
+  }
+}
+
+@keyframes shift {
+  0%, 40%, 44%, 58%, 61%, 65%, 69%, 73%, 100% {
+    transform: skewX(0deg);
+  }
+
+  41% {
+    transform: skewX(10deg);
+  }
+
+  42% {
+    transform: skewX(-10deg);
+  }
+
+  59% {
+    transform: skewX(40deg) skewY(10deg);
+  }
+
+  60% {
+    transform: skewX(-40deg) skewY(-10deg);
+  }
+
+  63% {
+    transform: skewX(10deg) skewY(-5deg);
+  }
+
+  70% {
+    transform: skewX(-50deg) skewY(-20deg);
+  }
+
+  71% {
+    transform: skewX(10deg) skewY(-10deg);
+  }
 }
