@@ -80,17 +80,17 @@ const TsquareShape = ({ tSquare }) => {
 
   //*! ------- Edit TShape ---------------------------
 
-  const handleEditShape = async (blockId, body) => {
+  const handleEditShape = async (tableId, body) => {
     try {
-      const response = await editTable(blockId, body);
-      console.log("Edited BShape:", response);
+      const response = await editTable(tableId, body);
+      // console.log("Edited TShape:", response);
       // console.log("Line 59 - Body:", body);
       // setShapeEdited(true);
       // debugger
       setTSquares((prev) => {
         return prev.map((tSquare) => {
-          if (tSquare._id === blockId) {
-            return response.block;
+          if (tSquare._id === tableId) {
+            return response.table;
           } else {
             return tSquare;
           }
@@ -130,9 +130,9 @@ const TsquareShape = ({ tSquare }) => {
 
   //*! --------------- Show & Hide Form --------------
 
-  const handleShowToggleForm = (bShapeId) => {
+  const handleShowToggleForm = (tShapeId) => {
     setShowTShapeForm(true);
-    setTableId(bShapeId);
+    setTableId(tShapeId);
   };
 
   //*! -------------- On Drag Logic ----------------
@@ -146,8 +146,8 @@ const TsquareShape = ({ tSquare }) => {
     setHasMoved(true);
     setNewPositionTSquare(newPosition);
     setTSquares((prevTSquares) =>
-      prevTSquares.map((b) =>
-        b._id === tSquare._id ? { ...b, x: newPosition.x, y: newPosition.y } : b
+      prevTSquares.map((t) =>
+        t._id === tSquare._id ? { ...t, x: newPosition.x, y: newPosition.y } : t
       )
     );
   };
@@ -195,13 +195,13 @@ const TsquareShape = ({ tSquare }) => {
     container?.offsetHeight,
   ]);
 
-  console.log("tSquare:", tSquare);
+  // console.log("tSquare:", tSquare);
 
   return (
     <Draggable
       bounds="parent"
       // bounds={bounds}
-      handle=".handle"
+      handle=".table-handle"
       onDrag={(e, ui) => {
         handleDrag(e, ui);
       }}
@@ -215,7 +215,7 @@ const TsquareShape = ({ tSquare }) => {
           setHasMoved(false);
         }
       }}
-      // grid={[tSquare.width, tSquare.height]}
+      grid={[tSquare.width, tSquare.height]}
     >
       <StyledTSquare
         ref={tSquareRef}
@@ -230,7 +230,7 @@ const TsquareShape = ({ tSquare }) => {
         // resize={tableId === tSquare._id}
       >
         <div
-          className="handle circle-name tables-one-shape"
+          className="table-handle circle-name tables-one-shape"
           style={handleStyle}
           onDoubleClick={() => {
             setEditingName(true);
@@ -253,7 +253,7 @@ const TsquareShape = ({ tSquare }) => {
             />
           ) : (
           )} */}
-          <>{tSquare?.name}</>
+          <>{tSquare.name}</>
         </div>
       </StyledTSquare>
     </Draggable>

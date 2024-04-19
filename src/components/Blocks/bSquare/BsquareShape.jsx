@@ -113,7 +113,7 @@ const BsquareShape = ({ children, bSquare }) => {
   const handleEditShape = async (blockId, body) => {
     try {
       const response = await editBlock(blockId, body);
-      console.log("Edited BShape:", response);
+      // console.log("Edited BShape:", response);
       // console.log("Line 59 - Body:", body);
       // setShapeEdited(true);
       // debugger

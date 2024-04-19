@@ -17,6 +17,7 @@ function TableProvider({ children }) {
   const fetchTables = async (blockId) => {
     try {
       const response = await getAllTables(blockId);
+      // console.log("fetchTables:", response);
       if (response.success) {
         const circleFilter = response.tables.filter(
           (table) => table.tableType.toLowerCase() === "circle"
@@ -26,11 +27,15 @@ function TableProvider({ children }) {
         );
         setTCircles(circleFilter);
         setTSquares(squareFilter);
+        // debugger;
       }
     } catch (error) {
       console.error(error);
     }
   };
+
+  // debugger;
+  // console.log("tSquares - Context:", tSquares);
 
   const addTableCircleManual = async (blockId, body) => {
     body.tableType = "Circle";
