@@ -7,13 +7,23 @@ import { VenuesContext } from "../../context/venues.context";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Pagination, Scrollbar, A11y } from "swiper/modules";
 import "swiper/css/bundle";
+import { useNavigate } from "react-router-dom";
 
 const DisplayVenues = () => {
   const [venues, setVenues] = useState([]);
   const [hoveredVenueId, setHoverVenueId] = useState(null);
   const { venueDetail, setVenueDetail, venueId, setVenueId } =
     useContext(VenuesContext);
+  const navigate = useNavigate();
 
+  const changePage = (venueId) => {
+    navigate(`/admin/venuedetails/${venueId}`);
+  };
+
+  const toggleChangePage = (venueId) => {
+    setVenueId(venueId);
+    changePage(venueId);
+  };
   const responsive2 = {
     superLargeDesktop: {
       breakpoint: { max: 9000, min: 3000 },
@@ -51,9 +61,12 @@ const DisplayVenues = () => {
     const findAllVenues = async () => {
       try {
         const response = await getAllVenues();
+
         setVenues(response.venues);
+        // setTimeout(() => {
+        // }, 3000);
       } catch (error) {
-        console.log("Line 10 - Error:", error);
+        console.log("Line 59 - Error:", error);
       }
     };
 
@@ -144,17 +157,16 @@ const DisplayVenues = () => {
           slidesPerView: 3.3,
         },
       }}
+      wrapperClass={!venues.length ? "when-swipper-loading" : ""}
     >
-      {!venues && (
-        <div class="loader">
-          <div data-glitch="Loading..." class="glitch">
-            Loading...
-          </div>
-        </div>
-      )}
       <button className="custom-prev"></button>
       <button className="custom-next"></button>
       <h1 className="recently-added">Recently Added</h1>
+      {!venues.length && (
+        <div class="loader-container">
+          <div className="loader"></div>
+        </div>
+      )}
       {venues
         .slice(-12)
         .reverse()
@@ -163,12 +175,13 @@ const DisplayVenues = () => {
             <SwiperSlide key={venue._id}>
               <div
                 className="venue-slide"
-                onClick={() => getDetails(venue._id)}
+                onClick={() => toggleChangePage(venue._id)}
               >
                 <img className="venue-img-first" />
               </div>
               <div className="venue-carousel-info">
                 <h1 className="venue-name">{venue.name}</h1>
+                {/* <hr className="hr-venue"/> */}
                 <h2 className="venue-address">{venue.address.street}</h2>
                 <h2 className="venue-address">
                   Layouts: {venue.layouts.length}
