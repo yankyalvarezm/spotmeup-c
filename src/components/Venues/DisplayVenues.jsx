@@ -11,9 +11,7 @@ import { useNavigate } from "react-router-dom";
 
 const DisplayVenues = () => {
   const [venues, setVenues] = useState([]);
-  const [hoveredVenueId, setHoverVenueId] = useState(null);
-  const { venueDetail, setVenueDetail, venueId, setVenueId } =
-    useContext(VenuesContext);
+  const { setVenueId } = useContext(VenuesContext);
   const navigate = useNavigate();
 
   const changePage = (venueId) => {
@@ -23,38 +21,6 @@ const DisplayVenues = () => {
   const toggleChangePage = (venueId) => {
     setVenueId(venueId);
     changePage(venueId);
-  };
-  const responsive2 = {
-    superLargeDesktop: {
-      breakpoint: { max: 9000, min: 3000 },
-      items: 4,
-      partialVisibilityGutter: 80,
-    },
-    desktop: {
-      breakpoint: { max: 1500, min: 1024 },
-      items: 3,
-      partialVisibilityGutter: 20,
-    },
-    tablet: {
-      breakpoint: { max: 1024, min: 464 },
-      items: 2,
-    },
-    mobile: {
-      breakpoint: { max: 464, min: 0 },
-      items: 1,
-    },
-  };
-
-  const popUp = (venueId) => {
-    setTimeout(() => {
-      setHoverVenueId(venueId);
-    }, 500);
-  };
-
-  const popDown = () => {
-    setTimeout(() => {
-      setHoverVenueId(null);
-    }, 500);
   };
 
   useEffect(() => {
@@ -72,63 +38,6 @@ const DisplayVenues = () => {
 
     findAllVenues();
   }, []);
-
-  console.log("Venues Object:", venues);
-
-  // return (
-  //     <Carousel
-  //       responsive={responsive2}
-  //       className="carousel-recently-added carousel-class2"
-  //       showDots={true}
-  //       containerClass="custom-carousel-container container"
-  //       partialVisible={true}
-  //       itemClass={!hoveredVenueId ? "" : "item-selected"}
-  //     >
-  //       {[...venues]
-  //         .reverse()
-  //         .slice(0, 10)
-  //         .map((venue, index) => (
-  //           <div key={index} className={`venue-fields-container `}>
-  //             <div
-  //               className={`${
-  //                 hoveredVenueId === venue._id
-  //                   ? "hovered-venues transition-bases"
-  //                   : "venue-img venue-img-hov transition-base"
-  //               } ${index === 0 ? "lastly-added" : ""}`}
-  //               id={`${hoveredVenueId === venue._id ? "" : "venue-img-first"}`}
-  //               onMouseEnter={() => {
-  //                 popUp(venue._id);
-  //                 setTimeout(() => {
-  //                   // setVenueDetail(venue);
-  //                   setVenueId(venue._id);
-  //                 }, 500);
-  //               }}
-  //               onMouseLeave={() => {
-  //                 popDown();
-  //                 setTimeout(() => {
-  //                   // setVenueDetail(null);
-  //                 }, 500);
-  //               }}
-  //             >
-  //               {hoveredVenueId === venue._id ? (
-  //                 <div className="venue-component-container transition-base">
-  //                   <VenueDetail />
-  //                 </div>
-  //               ) : (
-  //                 <>
-  //                   <h1 className="venue-field venue-name">{venue.name}</h1>
-  //                   <h1 className="venue-field venue-city">
-  //                     {venue.address.city}
-  //                   </h1>
-  //                 </>
-  //               )}
-  //             </div>
-  //           </div>
-  //         ))}
-  //     </Carousel>
-  // );
-
-  // const allVenues = venues.filter(carro => carro.marca.name === "Nissan");
 
   return (
     <Swiper
