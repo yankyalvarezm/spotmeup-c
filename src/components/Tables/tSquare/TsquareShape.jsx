@@ -69,10 +69,10 @@ const TsquareShape = ({ tSquare }) => {
 
   const handleStyle = {
     width: "100%",
-    height: "80%",
+    height: "100%",
     backgroundColor: tSquare?.backgroundColor,
     cursor: "grab",
-    color: tSquare?.color,
+    color: "white",
     justifyContent: tSquare?.justifyContent,
     alignItems: tSquare?.alignItems,
     fontSize: `${tSquare?.fontSize}px`,
@@ -117,7 +117,7 @@ const TsquareShape = ({ tSquare }) => {
         setShowTShapeForm(false);
         setTableId(null);
         // setCurrentBlock(null);
-        saveName();
+        // saveName();
         // console.log("Square - Clicked Outside:");
       }
     };
@@ -195,8 +195,10 @@ const TsquareShape = ({ tSquare }) => {
     container?.offsetHeight,
   ]);
 
-  // console.log("tSquare:", tSquare);
-
+  // useEffect(() => {
+  // }, [blockId, tSquare]);
+  
+  console.log("tSquare:", tSquare);
   return (
     <Draggable
       bounds="parent"
@@ -233,7 +235,7 @@ const TsquareShape = ({ tSquare }) => {
           className="table-handle circle-name tables-one-shape"
           style={handleStyle}
           onDoubleClick={() => {
-            setEditingName(true);
+            // setEditingName(true);
             // setTimeout(() => nameRef.current?.focus(), 0);
           }}
         >
@@ -253,7 +255,8 @@ const TsquareShape = ({ tSquare }) => {
             />
           ) : (
           )} */}
-          <>{tSquare.name}</>
+
+          <h1>{tSquare.number}</h1>
         </div>
       </StyledTSquare>
     </Draggable>
