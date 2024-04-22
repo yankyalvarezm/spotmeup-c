@@ -136,8 +136,8 @@ const BsquareShape = ({ children, bSquare }) => {
 
   useEffect(() => {
     const handleClickOutside = (event) => {
-      const isClickInside = event.target.closest(".square-shape");
-      const isClickInsideCircle = event.target.closest(".circle-shape");
+      const isClickInside = event.target.closest(".block-square-shape");
+      const isClickInsideCircle = event.target.closest(".block-circle-shape");
 
       if (
         !isClickInside &&
@@ -417,11 +417,11 @@ const BsquareShape = ({ children, bSquare }) => {
           updateUrl(param.layoutIdParam, bSquare._id);
         }}
         bSquare={bSquare}
-        className="square-shape"
+        className="square-shape block-square-shape"
         resize={blockId === bSquare._id}
       >
         <div
-          className="handle circle-nam blocks"
+          className="handle circle-name blocks"
           style={handleStyle}
           onDoubleClick={() => {
             setEditingName(true);

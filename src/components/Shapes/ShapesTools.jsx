@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import { ShapeContext } from "../../context/shape.context";
 import { deleteShape } from "../../services/shape.service";
+import { BlockContext } from "../../context/block.context";
 
 const ShapesTools = () => {
   // *! ----- Context ---------------------------------------
@@ -16,6 +17,7 @@ const ShapesTools = () => {
     circles,
     updateShape,
   } = useContext(ShapeContext);
+  const { showBShapeForm } = useContext(BlockContext);
   // *! ----- Local States ------------------------------------
   const [activeDropDown, setActiveDropDown] = useState(null);
   const [selectedBorder, setSelectedBorder] = useState("border");

@@ -1,5 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import { BlockContext } from "../../context/block.context";
+import { TableContext } from "../../context/table.context";
 import { deleteBlock } from "../../services/block.service";
 import { useParams, useNavigate } from "react-router-dom";
 
@@ -17,6 +18,8 @@ const BlockTools = ({ children }) => {
     toggleBShapeForm,
     updateBShape,
   } = useContext(BlockContext);
+
+  const { showTShapeForm } = useContext(TableContext);
 
   // console.log("bshapeForm - blockTools:", bShapeForm)
   // *! ----- Param -------------------------------------------
@@ -163,7 +166,7 @@ const BlockTools = ({ children }) => {
 
   return (
     <>
-      {showBShapeForm && (
+      {showBShapeForm && !showTShapeForm && (
         <div className="block-form-container" ref={bShapeForm}>
           <div>
             <h1 className="block-form-title">Block Tools</h1>
