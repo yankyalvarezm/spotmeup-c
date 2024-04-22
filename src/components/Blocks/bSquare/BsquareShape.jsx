@@ -5,6 +5,7 @@ import { BlockContext } from "../../../context/block.context";
 import { editBlock } from "../../../services/block.service";
 import { LayoutContext } from "../../../context/layout.context";
 import { useNavigate, useParams } from "react-router-dom";
+import LockIcon from "../../ToolsC/LockIcon";
 
 const BsquareShape = ({ children, bSquare }) => {
   const navigate = useNavigate();
@@ -420,7 +421,7 @@ const BsquareShape = ({ children, bSquare }) => {
         resize={blockId === bSquare._id}
       >
         <div
-          className="handle circle-name blocks"
+          className="handle circle-nam blocks"
           style={handleStyle}
           onDoubleClick={() => {
             setEditingName(true);
@@ -445,6 +446,8 @@ const BsquareShape = ({ children, bSquare }) => {
             <>{bSquare?.name}</>
           )}
         </div>
+        {/* <h2 className="holaaa">Hola</h2> */}
+        <LockIcon />
         {/* ------------------- Table Grid ------------------------------ */}
 
         {children}

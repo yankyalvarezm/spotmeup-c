@@ -3404,7 +3404,7 @@ input[type="color"]::-webkit-color-swatch {
 .table-grid {
   width: 80%;
   height: 80%;
-  background-color: black;
+  background-color: transparent;
   position: relative;
   transform: translate(-50%, -50%);
   top: -30%;
@@ -3662,17 +3662,26 @@ input[type="color"]::-webkit-color-swatch {
 /* --------- Grid Lock ----------- */
 
 /*------ Settings ------*/
+.square-shape:hover {
+  .grid-lock {
+    display: flex;
+  }
+}
+
+
 .grid-lock {
   --color: #a5a5b0;
-  --size: 30px;
-  display: flex;
+  --size: 23px;
+  display: none;
   justify-content: center;
   align-items: center;
-  position: relative;
   cursor: pointer;
   font-size: var(--size);
   user-select: none;
   fill: var(--color);
+  position: absolute;
+  top: 6%;
+  left: 94%;
 }
 
 .grid-lock .lock-open {
@@ -3718,4 +3727,10 @@ input[type="color"]::-webkit-color-swatch {
 
 .lock-draggable-container {
   display: flex;
+}
+
+.holaaa {
+  position: absolute;
+  top: -6%;
+  left: 81%;
 }

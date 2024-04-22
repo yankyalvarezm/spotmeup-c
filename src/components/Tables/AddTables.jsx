@@ -4,8 +4,13 @@ import { TableContext } from "../../context/table.context";
 
 const AddTables = ({ block }) => {
   const { currentBlock } = useContext(BlockContext);
-  const { addTableCircleManual, addTableSquareManual, tSquares, tCircles } =
-    useContext(TableContext);
+  const {
+    addTableCircleManual,
+    addTableSquareManual,
+    tSquares,
+    tCircles,
+    lockGrid,
+  } = useContext(TableContext);
 
   const container = document.querySelector(".display-tables-container");
 
@@ -16,7 +21,7 @@ const AddTables = ({ block }) => {
     row: 0,
     col: 0,
   });
-  
+
   const tableWidth = (container?.offsetWidth * 0.95) / currentBlock?.maxCol;
   const tableHeigth = (container?.offsetHeight * 0.95) / currentBlock?.maxRow;
   const positionSubRow = exactPosition.row < 1 ? 0 : 1;
@@ -99,7 +104,9 @@ const AddTables = ({ block }) => {
         tables.push(
           <div
             key={`${row}-${col}`}
-            className={currentBlock?._id === block._id ? "grid-item" : "hide"}
+            className={
+              currentBlock?._id === block._id && !lockGrid ? "grid-item" : "hide"
+            }
             style={{
               backgroundColor: `${block?.backgroundColor}`,
             }}
@@ -114,10 +121,7 @@ const AddTables = ({ block }) => {
     return tables;
   };
 
-  return <>
-  
-  {renderAdd()}
-  </>;
+  return <>{renderAdd()}</>;
 };
 
 export default AddTables;
