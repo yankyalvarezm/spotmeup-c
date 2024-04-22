@@ -3658,3 +3658,64 @@ input[type="color"]::-webkit-color-swatch {
     color: purple;
   }
 }
+
+/* --------- Grid Lock ----------- */
+
+/*------ Settings ------*/
+.grid-lock {
+  --color: #a5a5b0;
+  --size: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  cursor: pointer;
+  font-size: var(--size);
+  user-select: none;
+  fill: var(--color);
+}
+
+.grid-lock .lock-open {
+  position: absolute;
+  animation: keyframes-fill 0.5s;
+}
+
+.grid-lock .lock {
+  position: absolute;
+  display: none;
+  animation: keyframes-fill 0.5s;
+}
+
+/* ------ On check event ------ */
+.grid-lock input:checked ~ .lock-open {
+  display: none;
+}
+
+.grid-lock input:checked ~ .lock {
+  display: block;
+}
+
+/* ------ Hide the default checkbox ------ */
+.grid-lock input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+}
+
+/* ------ Animation ------ */
+@keyframes keyframes-fill {
+  0% {
+    transform: scale(0);
+    opacity: 0;
+  }
+
+  50% {
+    transform: scale(1.2);
+  }
+}
+
+.lock-draggable-container {
+  display: flex;
+}

@@ -114,7 +114,10 @@ const AddTables = ({ block }) => {
     return tables;
   };
 
-  return <>{renderAdd()}</>;
+  return <>
+  
+  {renderAdd()}
+  </>;
 };
 
 export default AddTables;

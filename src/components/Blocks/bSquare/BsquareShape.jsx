@@ -8,7 +8,7 @@ import { useNavigate, useParams } from "react-router-dom";
 
 const BsquareShape = ({ children, bSquare }) => {
   const navigate = useNavigate();
-  const param = useParams()
+  const param = useParams();
 
   //*! -------  UseRefs ---------------
 
@@ -387,6 +387,7 @@ const BsquareShape = ({ children, bSquare }) => {
   // *! -------- DOM ELEMENTS -----------------------
 
   return (
+    // <div className="lock-draggable-container">
     <Draggable
       // bounds="parent"
       bounds={bounds}
@@ -406,6 +407,7 @@ const BsquareShape = ({ children, bSquare }) => {
       }}
       grid={[5, 5]}
     >
+      
       <StyledbSquare
         ref={bSquareRef}
         tabIndex={1}

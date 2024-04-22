@@ -13,6 +13,7 @@ function TableProvider({ children }) {
   const [tShapeAdded, setTShapeAdded] = useState(false);
   const [showTShapeForm, setShowTShapeForm] = useState(false);
   const [tableId, setTableId] = useState(null);
+  const [lockGrid, setLockGrid] = useState(false);
 
   const fetchTables = async (blockId) => {
     try {
@@ -107,6 +108,8 @@ function TableProvider({ children }) {
         updateTShape,
         tCircleRef,
         tSquareRef,
+        lockGrid,
+        setLockGrid,
       }}
     >
       {children}

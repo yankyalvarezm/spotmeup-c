@@ -32,6 +32,21 @@ const TsquareShape = ({ tSquare }) => {
     x: layoutBody.width / 2 - tSquare?.width / 2,
     y: layoutBody.height / 2,
   });
+  const container = document.querySelector(".display-tables-container");
+
+  const tableWidth =
+    ((container?.offsetWidth + tSquare.borderSize) * 0.95) /
+    currentBlock?.maxCol;
+  const tableHeigth =
+    ((container?.offsetHeight + tSquare.borderSize) * 0.95) /
+    currentBlock?.maxRow;
+  const positionSubRow = tSquare.row < 1 ? 0 : 1;
+  const positionSubCol = tSquare.col < 1 ? 0 : 1;
+  const rowGap = tSquare.col > 1 ? tableWidth * 0.065 : 0;
+  const colGap = tSquare.row > 1 ? tableWidth * 0.065 : 0;
+  const newRow =
+    Math.round(tSquare.y / (tableHeigth + colGap)) + positionSubCol;
+  const newCol = Math.round(tSquare.x / (tableWidth + rowGap)) + positionSubRow;
 
   //*! ---------- Resize Observer for Width & Height -------------
   useEffect(() => {
@@ -83,14 +98,15 @@ const TsquareShape = ({ tSquare }) => {
   const handleEditShape = async (tableId, body) => {
     try {
       const response = await editTable(tableId, body);
-      // console.log("Edited TShape:", response);
-      // console.log("Line 59 - Body:", body);
-      // setShapeEdited(true);
-      // debugger
+
       setTSquares((prev) => {
         return prev.map((tSquare) => {
           if (tSquare._id === tableId) {
-            return response.table;
+            return {
+              ...response.table,
+              row: newRow,
+              col: newCol,
+            };
           } else {
             return tSquare;
           }
@@ -152,25 +168,12 @@ const TsquareShape = ({ tSquare }) => {
     );
   };
 
-  const container = document.querySelector(".display-tables-container");
-
-  const tableWidth = (container?.offsetWidth * 0.95) / currentBlock?.maxCol;
-  const tableHeigth = (container?.offsetHeight * 0.95) / currentBlock?.maxRow;
-  const positionSubRow = tSquare.row < 1 ? 0 : 1;
-  const positionSubCol = tSquare.col < 1 ? 0 : 1;
-  const rowGap = tSquare.col > 1 ? tableWidth * 0.065 : 0;
-  const colGap = tSquare.row > 1 ? tableWidth * 0.065 : 0;
+  //*! -------------- Update Table Position ----------------
 
   useEffect(() => {
-    // console.log("adjusting");
-    // console.log("tableWidth:", tableWidth);
-
-    // debugger
+    const rowsGap = newCol > 1 ? tableWidth * 0.065 : 0;
+    const columnGap = newRow > 1 ? tableWidth * 0.065 : 0;
     if (container && currentBlock) {
-      // debugger
-
-      // if (tableId === tSquare._id) {
-      // debugger
       setTSquares((prevSquares) =>
         prevSquares.map((tSqr) =>
           tSqr._id === tSquare._id
@@ -178,8 +181,8 @@ const TsquareShape = ({ tSquare }) => {
                 ...tSqr,
                 width: tableWidth,
                 height: tableHeigth,
-                x: (tableWidth + rowGap) * (tSquare.col - positionSubRow),
-                y: (tableHeigth + colGap) * (tSquare.row - positionSubCol),
+                x: (tableWidth + rowsGap) * (tSquare.col - positionSubRow),
+                y: (tableHeigth + columnGap) * (tSquare.row - positionSubCol),
                 name: tSquare.number,
               }
             : tSqr
@@ -195,14 +198,37 @@ const TsquareShape = ({ tSquare }) => {
     container?.offsetHeight,
   ]);
 
-  // useEffect(() => {
-  // }, [blockId, tSquare]);
-  
-  console.log("tSquare:", tSquare);
+  useEffect(() => {
+    console.log("--------------------------------");
+    console.log("tableWidth:", tableWidth);
+    console.log("colGap:", colGap);
+    console.log("rowGap:", rowGap);
+    console.log("newRow:", newRow);
+    console.log("newCol:", newCol);
+    console.log("positionSubCol:", positionSubCol);
+    console.log("positionSubRow:", positionSubRow);
+    // console.log("gridX:", gridX);
+    // console.log("gridY:", gridY);
+    console.log("tSquare Object:", tSquare);
+    console.log("--------------------------------");
+  }, [
+    currentBlock,
+    tSquare._id,
+    tableId,
+    container?.offsetWidth,
+    container?.offsetHeight,
+    newCol,
+    newRow,
+    colGap,
+    rowGap,
+    positionSubCol,
+    positionSubRow,
+  ]);
+
+  // console.log("tSquare:", tSquare);
   return (
     <Draggable
       bounds="parent"
-      // bounds={bounds}
       handle=".table-handle"
       onDrag={(e, ui) => {
         handleDrag(e, ui);
@@ -217,7 +243,10 @@ const TsquareShape = ({ tSquare }) => {
           setHasMoved(false);
         }
       }}
-      grid={[tSquare.width, tSquare.height]}
+      grid={[
+        container?.offsetWidth / currentBlock?.maxCol,
+        container?.offsetHeight / currentBlock?.maxRow,
+      ]}
     >
       <StyledTSquare
         ref={tSquareRef}
@@ -227,35 +256,12 @@ const TsquareShape = ({ tSquare }) => {
         }}
         tSquare={tSquare}
         className="square-shape tables-shapes"
-        // maxRow={currentBlock && currentBlock.maxRow}
-        // maxCol={currentBlock && currentBlock.maxCol}
-        // resize={tableId === tSquare._id}
       >
         <div
           className="table-handle circle-name tables-one-shape"
           style={handleStyle}
-          onDoubleClick={() => {
-            // setEditingName(true);
-            // setTimeout(() => nameRef.current?.focus(), 0);
-          }}
+          onDoubleClick={() => {}}
         >
-          {/* {editingName ? (
-            <input
-              ref={nameRef}
-              type="text"
-              value={tSquareName}
-              // onChange={handleNameChange}
-              className="input-name-cirle"
-              onKeyDown={handleKeyDown}
-              style={{
-                // width: `${Math.max(1, tSquare.name.length) * 10}%`,
-                color: tSquare.color,
-                fontSize: tSquare.fontSize,
-              }}
-            />
-          ) : (
-          )} */}
-
           <h1>{tSquare.number}</h1>
         </div>
       </StyledTSquare>
