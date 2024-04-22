@@ -36,9 +36,10 @@ export const getAllBlocks = async (layoutId) => {
     }
 }
 
-export const deleteBlock = async (layoutId, blockId) => {
+export const deleteBlock = async (blockId) => {
+    //removed layout id
     try {
-        const response = await axios.delete(`${API_URL}/block/${layoutId}/${blockId}/delete`)
+        const response = await axios.delete(`${API_URL}/block/${blockId}/delete`)
         return response.data;
     } catch (error) {
         throw error

@@ -52,7 +52,7 @@ const BlockTools = ({ children }) => {
 
   const deleteTheShape = async (blockId) => {
     try {
-      const response = await deleteBlock(param.layoutIdParam, blockId);
+      const response = await deleteBlock(blockId);
       console.log("Block Deleted:", response);
       setBCircles((prev) => {
         return prev.filter((bCircle) => bCircle._id !== blockId);

@@ -42,7 +42,7 @@ export const editVenue = async (venueId, venueEditedValues) => {
 export const getOneVenue = async (venueId) => {
   try {
     const response = await axios.get(`${API_URL}/venue/${venueId}/find`);
-    console.log("venueId", response.data._id);
+    // console.log("venueId", response.data._id);
 
     return response.data;
   } catch (error) {
