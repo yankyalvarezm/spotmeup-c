@@ -5,6 +5,7 @@ import { LayoutContext } from "../../../context/layout.context";
 import { BlockContext } from "../../../context/block.context";
 import { editBlock } from "../../../services/block.service";
 import { useNavigate, useParams } from "react-router-dom";
+import LockIcon from "../../ToolsC/LockIcon";
 
 const BcircleShape = ({ children, bCircle }) => {
   const navigate = useNavigate();
@@ -438,6 +439,8 @@ const BcircleShape = ({ children, bCircle }) => {
             <>{bCircle.name}</>
           )}
         </div>
+
+        <LockIcon />
 
         {children}
       </StyledbCircle>

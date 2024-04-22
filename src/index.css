@@ -3390,7 +3390,7 @@ input[type="color"]::-webkit-color-swatch {
 .table-grid-circle {
   width: 80%;
   height: 80%;
-  background-color: black;
+  background-color: transparent;
   position: relative;
   transform: translate(-50%, -50%);
   top: -50%;
@@ -3405,6 +3405,7 @@ input[type="color"]::-webkit-color-swatch {
   width: 80%;
   height: 80%;
   background-color: transparent;
+  /* background-color: var(--black); */
   position: relative;
   transform: translate(-50%, -50%);
   top: -30%;
@@ -3667,7 +3668,6 @@ input[type="color"]::-webkit-color-swatch {
     display: flex;
   }
 }
-
 
 .grid-lock {
   --color: #a5a5b0;

@@ -44,10 +44,10 @@ const TcircleShape = ({ tCircle }) => {
   const positionSubRow = tCircle.row < 1 ? 0 : 1;
   const positionSubCol = tCircle.col < 1 ? 0 : 1;
 
-  console.log("tCircle.row:", tCircle.row);
-  console.log("tCircle.col:", tCircle.col);
-  console.log("positionSubRow:", positionSubRow);
-  console.log("positionSubCol:", positionSubCol);
+  // console.log("tCircle.row:", tCircle.row);
+  // console.log("tCircle.col:", tCircle.col);
+  // console.log("positionSubRow:", positionSubRow);
+  // console.log("positionSubCol:", positionSubCol);
 
   const rowGap = tCircle.col > 1 ? tableWidth * 0.065 : 0;
   const colGap = tCircle.row > 1 ? tableWidth * 0.065 : 0;
@@ -193,11 +193,10 @@ const TcircleShape = ({ tCircle }) => {
                 ...tCr,
                 width: tableWidth,
                 height: tableHeigth,
+
+                x: (tableWidth + rowsGap) * (tCircle.col - positionSubRow),
+                y: (tableHeigth + columnGap) * (tCircle.row - positionSubCol),
                 name: tCircle.number,
-                row: newRow,
-                col: newCol,
-                x: (tableWidth + rowsGap) * (newCol - positionSubRow),
-                y: (tableHeigth + columnGap) * (newRow - positionSubCol),
               }
             : tCr
         )
@@ -210,12 +209,12 @@ const TcircleShape = ({ tCircle }) => {
     tableId,
     container?.offsetWidth,
     container?.offsetHeight,
-    newCol,
-    newRow,
-    colGap,
-    rowGap,
-    positionSubCol,
-    positionSubRow,
+    // newCol,
+    // newRow,
+    // colGap,
+    // rowGap,
+    // positionSubCol,
+    // positionSubRow,
   ]);
 
   useEffect(() => {
@@ -223,8 +222,8 @@ const TcircleShape = ({ tCircle }) => {
     console.log("tableWidth:", container.offsetWidth);
     console.log("tableWidth:", tableWidth);
     console.log("tableHeight:", tableHeigth);
-    console.log("Y-Gap:", colGap);
-    console.log("X-Gap:", rowGap);
+    // console.log("Y-Gap:", colGap);
+    // console.log("X-Gap:", rowGap);
     console.log("newRow:", newRow);
     console.log("newCol:", newCol);
     console.log("positionSubCol:", positionSubCol);
@@ -238,6 +237,8 @@ const TcircleShape = ({ tCircle }) => {
       "Y-Position ------>",
       (tableHeigth + colGap) * (newRow - positionSubCol)
     );
+    console.log("Grid-X:", container?.offsetWidth / currentBlock?.maxCol);
+    console.log("Grid-Y:", container?.offsetHeight / currentBlock?.maxRow);
     console.log("--------------------------------");
   }, [
     currentBlock,
@@ -260,50 +261,48 @@ const TcircleShape = ({ tCircle }) => {
   // *! ------------------- DOM ----------------------------
 
   return (
-    <div>
-      <Draggable
-        bounds="parent"
-        handle=".table-handle"
-        onDrag={(e, ui) => {
-          handleDrag(e, ui);
+    <Draggable
+      bounds="parent"
+      handle=".table-handle"
+      onDrag={(e, ui) => {
+        handleDrag(e, ui);
+      }}
+      position={{
+        x: tCircle?.x,
+        y: tCircle?.y,
+      }}
+      onStop={(e, ui) => {
+        if (hasMoved) {
+          handleEditShape(tCircle._id, newPositionTCircle);
+          setHasMoved(false);
+        }
+      }}
+      grid={[
+        container?.offsetWidth / currentBlock?.maxCol,
+        container?.offsetHeight / currentBlock?.maxRow,
+      ]}
+    >
+      <StyledTCircle
+        ref={tCircleRef}
+        tabIndex={1}
+        onClick={() => {
+          handleShowToggleForm(tCircle._id);
         }}
-        position={{
-          x: tCircle?.x,
-          y: tCircle?.y,
-        }}
-        onStop={(e, ui) => {
-          if (hasMoved) {
-            handleEditShape(tCircle._id, newPositionTCircle);
-            setHasMoved(false);
-          }
-        }}
-        grid={[
-          container?.offsetWidth / currentBlock?.maxCol,
-          container?.offsetHeight / currentBlock?.maxRow,
-        ]}
+        // onMouseEnter={() => {
+        //   setTableId(tCircle._id);
+        // }}
+        tCircle={tCircle}
+        className="square-shape tables-shapes"
       >
-        <StyledTCircle
-          ref={tCircleRef}
-          tabIndex={1}
-          onClick={() => {
-            handleShowToggleForm(tCircle._id);
-          }}
-          // onMouseEnter={() => {
-          //   setTableId(tCircle._id);
-          // }}
-          tCircle={tCircle}
-          className="square-shape tables-shapes"
+        <div
+          className="table-handle circle-name tables-one-shape"
+          style={handleStyle}
+          onDoubleClick={() => {}}
         >
-          <div
-            className="table-handle circle-name tables-one-shape"
-            style={handleStyle}
-            onDoubleClick={() => {}}
-          >
-            <h1>{tCircle.number}</h1>
-          </div>
-        </StyledTCircle>
-      </Draggable>
-    </div>
+          <h1>{tCircle.number}</h1>
+        </div>
+      </StyledTCircle>
+    </Draggable>
   );
 };
 
