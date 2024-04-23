@@ -69,6 +69,10 @@ function TableProvider({ children }) {
     }
   };
 
+  const toggleTShapeForm = () => {
+    setShowTShapeForm((prev) => !prev);
+  };
+
   // console.log("Table Square Added:", tSquares);
 
   function debounce(fn, delay) {
@@ -110,6 +114,7 @@ function TableProvider({ children }) {
         tSquareRef,
         lockGrid,
         setLockGrid,
+        toggleTShapeForm
       }}
     >
       {children}

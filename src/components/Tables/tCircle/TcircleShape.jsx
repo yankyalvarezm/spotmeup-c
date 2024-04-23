@@ -132,8 +132,8 @@ const TcircleShape = ({ tCircle }) => {
 
   useEffect(() => {
     const handleClickOutside = (event) => {
-      const isClickInside = event.target.closest(".square-shape");
-      const isClickInsideCircle = event.target.closest(".circle-shape");
+      const isClickInside = event.target.closest(".tables-shapes");
+      const isClickInsideCircle = event.target.closest(".tables-shapes");
 
       if (
         !isClickInside &&
@@ -209,52 +209,7 @@ const TcircleShape = ({ tCircle }) => {
     tableId,
     container?.offsetWidth,
     container?.offsetHeight,
-    // newCol,
-    // newRow,
-    // colGap,
-    // rowGap,
-    // positionSubCol,
-    // positionSubRow,
   ]);
-
-  useEffect(() => {
-    console.log("--------------------------------");
-    console.log("tableWidth:", container.offsetWidth);
-    console.log("tableWidth:", tableWidth);
-    console.log("tableHeight:", tableHeigth);
-    // console.log("Y-Gap:", colGap);
-    // console.log("X-Gap:", rowGap);
-    console.log("newRow:", newRow);
-    console.log("newCol:", newCol);
-    console.log("positionSubCol:", positionSubCol);
-    console.log("positionSubRow:", positionSubRow);
-    console.log("tCircle Object:", tCircle);
-    console.log(
-      "X-Position ------>",
-      (tableWidth + rowGap) * (newCol - positionSubRow)
-    );
-    console.log(
-      "Y-Position ------>",
-      (tableHeigth + colGap) * (newRow - positionSubCol)
-    );
-    console.log("Grid-X:", container?.offsetWidth / currentBlock?.maxCol);
-    console.log("Grid-Y:", container?.offsetHeight / currentBlock?.maxRow);
-    console.log("--------------------------------");
-  }, [
-    currentBlock,
-    tCircle._id,
-    tableId,
-    container?.offsetWidth,
-    container?.offsetHeight,
-    newCol,
-    newRow,
-    colGap,
-    rowGap,
-    positionSubCol,
-    positionSubRow,
-  ]);
-
-  // console.log("tCircle.height:", tCircle.height);
 
   // *! ------------------- DOM ----------------------------
   // *! ------------------- DOM ----------------------------
@@ -292,7 +247,7 @@ const TcircleShape = ({ tCircle }) => {
         //   setTableId(tCircle._id);
         // }}
         tCircle={tCircle}
-        className="square-shape tables-shapes"
+        className="circle-shape tables-shapes"
       >
         <div
           className="table-handle circle-name tables-one-shape"
@@ -300,6 +255,7 @@ const TcircleShape = ({ tCircle }) => {
           onDoubleClick={() => {}}
         >
           <h1>{tCircle.number}</h1>
+          <h1 className="delete-tables-before">X</h1>
         </div>
       </StyledTCircle>
     </Draggable>

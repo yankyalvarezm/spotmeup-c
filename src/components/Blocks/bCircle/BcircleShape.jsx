@@ -135,8 +135,8 @@ const BcircleShape = ({ children, bCircle }) => {
 
   useEffect(() => {
     const handleClickOutside = (event) => {
-      const isClickInside = event.target.closest(".circle-shape ");
-      const isClickInsideSquare = event.target.closest(".square-shape ");
+      const isClickInside = event.target.closest(".block-circle-shape ");
+      const isClickInsideSquare = event.target.closest(".block-square-shape ");
       if (
         !isClickInside &&
         !isClickInsideSquare &&
@@ -410,7 +410,7 @@ const BcircleShape = ({ children, bCircle }) => {
         tabIndex={0}
         // onFocus={toggleShapeForm}
         bCircle={bCircle}
-        className="circle-shape"
+        className="circle-shape block-circle-shape"
         resize={blockId === bCircle._id}
       >
         <div

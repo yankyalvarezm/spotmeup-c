@@ -77,9 +77,9 @@ const DisplayLayouts = () => {
     setLayoutId(layoutId);
   };
 
-  const handleDelete = async (venueId, layoutId) => {
+  const handleDelete = async (layoutId) => {
     try {
-      const response = await deleteLayout(venueId, layoutId);
+      const response = await deleteLayout(layoutId);
       console.log("Deleted Layout", response);
       setLayoutId(layoutId);
       setLayoutDeleted(true);
@@ -135,7 +135,7 @@ const DisplayLayouts = () => {
                       <div className="layout-delete-prompt">
                         <button
                           onClick={() => {
-                            handleDelete(params.venueIdParam, layout._id);
+                            handleDelete(layout._id);
                           }}
                           id="layout-delete-btn-prompt"
                         >

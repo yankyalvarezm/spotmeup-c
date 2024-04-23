@@ -3734,3 +3734,124 @@ input[type="color"]::-webkit-color-swatch {
   top: -6%;
   left: 81%;
 }
+
+/* ----- Table Tools ----- */
+
+.table-form-container {
+  background-color: var(--green);
+  color: var(--green);
+  height: 100%;
+  min-width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  margin-right: 0.5rem;
+  border: 1px solid black;
+}
+
+.table-dropdown-fields {
+  background-color: var(--white);
+  padding: 1rem;
+  border-radius: 10px;
+  margin-bottom: 1rem;
+}
+
+.table-input-title {
+  color: black;
+  font-size: 20px;
+  white-space: nowrap;
+}
+
+.table-dropdown-fields > .dropdown-container > .down-arrow {
+  border-top: 10px solid var(--green);
+}
+
+.table-dropdown-fields > .dropdown-container > .up-arrow {
+  border-bottom: 10px solid var(--green);
+}
+
+.table-range {
+  width: 90%;
+  -webkit-appearance: none;
+  color: var(--green);
+  background-color: transparent;
+  border-radius: 20px;
+  border: none;
+}
+
+.table-special-input > input[type="range"]::-webkit-slider-thumb {
+  appearance: none;
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  background: var(--green);
+  cursor: grab;
+  margin-top: -7px;
+}
+
+.table-special-input > input[type="range"]::-moz-range-thumb {
+  width: 15px;
+  height: 15px;
+  background: var(--green);
+  border-radius: 50%;
+  border: none;
+  cursor: grab;
+}
+
+.table-special-input > [type="range"]::-webkit-slider-runnable-track {
+  height: 2px;
+  background: black;
+  box-shadow: 0 1px 0 0 black, 0 -1px 0 0 black;
+  border-radius: 15px;
+}
+
+.table-special-input > [type="range"]::-moz-range-track {
+  height: 2px;
+  background: black;
+  box-shadow: 0 1px 0 0 black, 0 -1px 0 0 black;
+  border-radius: 15px;
+}
+
+.table-size-border-input {
+  background-color: transparent;
+  border: none;
+  padding: none;
+  margin: 0rem;
+  outline: none;
+  width: 25px;
+  padding: 0rem;
+  text-align: center;
+  font-size: 20px;
+  color: black;
+}
+
+.delete-table-form-button {
+  width: 90%;
+  color: black;
+  background-color: white;
+  box-shadow: 2px 4px 0px grey;
+}
+
+.delete-tables-before {
+  content: "x";
+  background-color: grey;
+  border-radius: 50px;
+  padding: 0.2rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  top: -13%;
+  left: -5%;
+}
+
+.delete-tables-before {
+  display: none;
+}
+
+.tables-one-shape:hover {
+  .delete-tables-before {
+    display: flex;
+    cursor: pointer;
+  }
+}

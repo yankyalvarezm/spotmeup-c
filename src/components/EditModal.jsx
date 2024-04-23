@@ -13,6 +13,8 @@ import BlockTools from "./Blocks/BlockTools";
 import { BlockContext } from "../context/block.context";
 import BlockGridSetUp from "./Blocks/BlockGridSetUp";
 import DisplayTables from "./Tables/DisplayTables";
+import { TableContext } from "../context/table.context";
+import TableTools from "./Tables/TableTools";
 
 const EditModal = () => {
   const navigate = useNavigate();
@@ -27,8 +29,8 @@ const EditModal = () => {
   } = useContext(LayoutContext);
 
   const { showBShapeForm } = useContext(BlockContext);
-
   const { showShapeForm } = useContext(ShapeContext);
+  const { showTShapeForm } = useContext(TableContext);
 
   const goBack = () => {
     navigate(-1);
@@ -59,7 +61,7 @@ const EditModal = () => {
             <LayoutContent>
               <DisplayShapes />
               <DisplayBlocks>
-                <DisplayTables/>
+                <DisplayTables />
               </DisplayBlocks>
             </LayoutContent>
           </div>
@@ -68,7 +70,8 @@ const EditModal = () => {
         <BlockTools>
           <BlockGridSetUp />
         </BlockTools>
-        {!showShapeForm && !showBShapeForm && (
+        <TableTools  />
+        {!showShapeForm && !showBShapeForm && !showTShapeForm && (
           <div
             className={
               floorPlan || layoutBody.layoutType
