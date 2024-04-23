@@ -262,6 +262,7 @@ const TsquareShape = ({ tSquare }) => {
           style={handleStyle}
           onDoubleClick={() => {}}
         >
+          <h1 className="delete-tables-before">X</h1>
           <h1>{tSquare.number}</h1>
         </div>
       </StyledTSquare>

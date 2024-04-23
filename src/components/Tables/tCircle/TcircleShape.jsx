@@ -255,6 +255,7 @@ const TcircleShape = ({ tCircle }) => {
           onDoubleClick={() => {}}
         >
           <h1>{tCircle.number}</h1>
+          <h1 className="delete-tables-before">X</h1>
         </div>
       </StyledTCircle>
     </Draggable>

@@ -3831,3 +3831,27 @@ input[type="color"]::-webkit-color-swatch {
   background-color: white;
   box-shadow: 2px 4px 0px grey;
 }
+
+.delete-tables-before {
+  content: "x";
+  background-color: grey;
+  border-radius: 50px;
+  padding: 0.2rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  top: -13%;
+  left: -5%;
+}
+
+.delete-tables-before {
+  display: none;
+}
+
+.tables-one-shape:hover {
+  .delete-tables-before {
+    display: flex;
+    cursor: pointer;
+  }
+}
