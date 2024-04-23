@@ -3,6 +3,7 @@ import axios from "axios";
 
 export const createTable = async (blockId, body) => {
   try {
+    console.log("On Table Service",body);
     const response = await axios.post(
       `${API_URL}/tables/b/${blockId}/create`,
       body
@@ -15,7 +16,7 @@ export const createTable = async (blockId, body) => {
 };
 export const editTable = async (tableId, body) => {
   try {
-    const response = await axios.put(`${API_URL}/tables/${tableId}/edit`, body);
+    const response = await axios.put(`${API_URL}/tables/b/${tableId}/edit`, body);
     return response.data;
   } catch (error) {
     throw error;
@@ -31,7 +32,7 @@ export const findTable = async (tableId) => {
 };
 export const getAllTables = async (blockId) => {
   try {
-    const response = await axios.get(`${API_URL}/tables/${blockId}/findAll`);
+    const response = await axios.get(`${API_URL}/tables/b/${blockId}/findAll`);
     return response.data;
   } catch (error) {
     throw error;

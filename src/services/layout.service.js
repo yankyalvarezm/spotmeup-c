@@ -50,10 +50,11 @@ export const getOneLayout = async (layoutId) => {
   }
 };
 
-export const deleteLayout = async (venueId, layoutId) => {
+export const deleteLayout = async (layoutId) => {
+  //remove Venue Id
   try {
     const response = await axios.delete(
-      `${API_URL}/layout/${venueId}/${layoutId}/delete`
+      `${API_URL}/layout/${layoutId}/delete`
     );
     console.log("response", response.data);
     return response.data;
