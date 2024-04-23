@@ -19,12 +19,17 @@ const LayoutTools = ({ children }) => {
   const [successMessage, setSuccessMessage] = useState(null);
   const [notSuccessMessage, setNotSuccessMessage] = useState(null);
 
+  const designContainer = document.querySelector(".design-container");
+
+  console.log("designContainer - width:", designContainer?.offsetWidth);
+  console.log("designContainer - height:", designContainer?.offsetHeight);
+
   useEffect(() => {
     setLayoutBody({
       width: layoutDetails?.width,
-      maxWidth: layoutDetails?.maxWidth,
+      maxWidth: designContainer?.offsetWidth,
       height: layoutDetails?.height,
-      maxHeight: layoutDetails?.maxHeight,
+      maxHeight: designContainer?.offsetHeight * 0.93,
       borderRadius: layoutDetails?.borderRadius,
       borderSize: layoutDetails?.borderSize,
       x: layoutDetails?.x,
@@ -35,6 +40,18 @@ const LayoutTools = ({ children }) => {
     setHasChanged(false);
   }, [layoutDetails]);
 
+  useEffect(() => {
+    const designContainer = document.querySelector(".design-container");
+    if (designContainer) {
+      setLayoutBody((prevLayoutBody) => ({
+        ...prevLayoutBody,
+        maxWidth: designContainer.offsetWidth,
+        maxHeight: designContainer.offsetHeight * 0.93,
+      }));
+    }
+  }, [layoutBody.height, layoutBody.width]);
+
+  console.log("layoutBody:", layoutBody);
   const handleFloorPlanSelect = async (floorPlanType) => {
     // debugger;
     setLayoutBody((prevLayoutBody) => ({
@@ -101,82 +118,93 @@ const LayoutTools = ({ children }) => {
     setHasChanged(true);
   };
 
+  // *! ----- Local States ------------------------------------
+  const [activeDropDown, setActiveDropDown] = useState(null);
+  const [selectedBorder, setSelectedBorder] = useState("border");
+
+  // *! ----- DropDown Logic -----------------------------------
+  const handleDropDown = (number) => {
+    setActiveDropDown((activeDropDown) => {
+      return activeDropDown === number ? null : number;
+    });
+  };
+
   return (
     <div>
       <form
         className={
-          floorPlan || layoutBody.layoutType ? "layout-tools-container" : "layout-tools-container hide"
+          floorPlan || layoutBody.layoutType
+            ? "layout-tools-container"
+            : "layout-tools-container hide"
         }
       >
+        <h1 className="layout-tools-title">Layout Tools</h1>
         <div className="layout-tools-spacing">
-          <h1 className="layout-tools-title">Layout Tools</h1>
-          <div className="layout-tools-content-container">
-            <div className="layout-tools-content">
-              <label htmlFor="width">Width</label>
+          <div className="dropdown-container" onClick={() => handleDropDown(1)}>
+            <h1 className="layout-text-input-title">Size & Color</h1>
+            <div
+              className={activeDropDown === 1 ? "down-arrow" : "up-arrow"}
+            ></div>
+          </div>
+          {/* -------- Field #1 ----------- */}
+          <div
+            className={activeDropDown === 1 ? "show-dropdown" : "hide-dropdown"}
+          >
+            <div className="layout-input-range-container">
+              <div className="layout-tools-content">
+                <label htmlFor="width">Width</label>
+                <input
+                  type="number"
+                  value={layoutBody.width}
+                  name="width"
+                  min={100}
+                  max={layoutBody.maxWidth}
+                  onChange={handleChange}
+                />
+              </div>
+
               <input
-                type="number"
-                value={layoutBody.width}
+                type="range"
+                className="range"
                 name="width"
+                onChange={handleChange}
+                value={layoutBody?.width}
+                min={10}
                 max={layoutBody.maxWidth}
-                min={100}
-                onChange={handleChange}
               />
             </div>
 
-            <div className="layout-tools-content">
-              <label htmlFor="height">height</label>
+            <div className="layout-input-range-container">
+              <div className="layout-tools-content">
+                <label htmlFor="height">height</label>
+                <input
+                  type="number"
+                  value={layoutBody.height}
+                  name="height"
+                  onChange={handleChange}
+                  min={100}
+                  max={layoutBody.maxHeight}
+                />
+              </div>
+
               <input
-                type="number"
+                type="range"
+                className="range"
                 name="height"
-                value={layoutBody.height}
+                onChange={handleChange}
+                value={layoutBody?.height}
+                min={10}
                 max={layoutBody.maxHeight}
-                min={100}
-                onChange={handleChange}
-              />
-            </div>
-          </div>
-
-          <div className="layout-tools-content-container">
-            <div className="layout-tools-content">
-              <label htmlFor="borderSize">Border</label>
-              <input
-                type="number"
-                name="borderSize"
-                value={layoutBody.borderSize}
-                min={0}
-                onChange={handleChange}
               />
             </div>
 
-            <div className="layout-tools-content">
-              <label htmlFor="borderRadius">Radius</label>
+            <div className="layout-background-input-container">
               <input
-                type="number"
-                name="borderRadius"
-                value={layoutBody.borderRadius}
-                min={0}
-                onChange={handleChange}
-              />
-            </div>
-          </div>
-
-          <div className="layout-tools-content-container">
-            <div className="layout-tools-content">
-              <label htmlFor="x">X</label>
-              <input
-                type="number"
-                name="x"
-                value={layoutBody.x}
-                onChange={handleChange}
-              />
-            </div>
-
-            <div className="layout-tools-content">
-              <label htmlFor="y">Y</label>
-              <input
-                type="number"
-                name="y"
-                value={layoutBody.y}
+                type="color"
+                className="layout-background-input"
+                value={layoutBody.backgroundColor}
+                name="backgroundColor"
+                defaultValue="trans"
                 onChange={handleChange}
               />
             </div>
@@ -192,7 +220,13 @@ const LayoutTools = ({ children }) => {
         {children}
       </form>
 
-      <div className={floorPlan || layoutBody.layoutType ? "hide" : "select-floorplan-container"}>
+      <div
+        className={
+          floorPlan || layoutBody.layoutType
+            ? "hide"
+            : "select-floorplan-container"
+        }
+      >
         <h1 className="floorplan-title">Select A Floor Plan</h1>
 
         <div className="floorplan-shapes-container">

@@ -4,7 +4,7 @@ import axios from "axios";
 export const createVenue = async (venueData) => {
   try {
     const response = await axios.post(`${API_URL}/venue/create`, venueData);
-    console.log("response.data", response.data);
+    // console.log("response.data", response.data);
     return response.data;
   } catch (error) {
     console.log("Line 10 - Error:", error);
@@ -15,7 +15,7 @@ export const createVenue = async (venueData) => {
 export const getAllVenues = async () => {
   try {
     const response = await axios.get(`${API_URL}/venue/findAll`);
-    console.log("response.data", response.data);
+    // console.log("response.data", response.data);
     return response.data;
   } catch (error) {
     console.log("Line 23 - Error:", error);
@@ -24,14 +24,14 @@ export const getAllVenues = async () => {
 };
 
 export const editVenue = async (venueId, venueEditedValues) => {
-  console.log("venueId", venueId);
+  // console.log("venueId", venueId);
 
   try {
     const response = await axios.put(
       `${API_URL}/venue/${venueId}/edit`,
       venueEditedValues
     );
-    console.log("response.data", response.data);
+    // console.log("response.data", response.data);
     return response.data;
   } catch (error) {
     console.log("Line 32 - Error:", error);
@@ -54,7 +54,7 @@ export const getOneVenue = async (venueId) => {
 export const deleteOneVenue = async (venueId) => {
   try {
     const response = await axios.delete(`${API_URL}/venue/${venueId}/delete`);
-    console.log("response:", response.data);
+    // console.log("response:", response.data);
     return response.data;
   } catch (error) {
     console.log("error", error);

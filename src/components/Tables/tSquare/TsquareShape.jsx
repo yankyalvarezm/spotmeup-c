@@ -250,7 +250,7 @@ const TsquareShape = ({ tSquare }) => {
   };
 
   // console.log("tSquare:", tSquare);
-  console.log("tableId:", tableId);
+  // console.log("tableId:", tableId);
   return (
     <Draggable
       bounds="parent"

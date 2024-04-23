@@ -13,6 +13,7 @@ const StyledDiv = styled.div`
   border-radius: ${(props) => props.layoutBody?.borderRadius}%;
   left: ${(props) => props.layoutBody?.x}%;
   top: ${(props) => props.layoutBody?.y}%;
+  background-color: ${(prop) => prop.layoutBody?.backgroundColor};
   overflow: hidden;
   ${(props) => (props.resize ? "resize: both; overflow: hidden;" : "")}
 `;
@@ -94,7 +95,9 @@ const LayoutContent = ({ children }) => {
       {" "}
       <div
         className={
-          floorPlan || layoutBody.layoutType ? `layout-${layoutBody.layoutType}` : "transparent"
+          floorPlan || layoutBody.layoutType
+            ? `layout-${layoutBody.layoutType}`
+            : "transparent"
         }
       >
         {children}
