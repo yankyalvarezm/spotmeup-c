@@ -50,8 +50,8 @@ const TableTools = () => {
 
   const deleteTheShape = async (tableId) => {
     try {
-      const response = await deleteTable(param.layoutIdParam, tableId);
-      console.log("Block Deleted:", response);
+      const response = await deleteTable(tableId);
+      console.log("Table Deleted:", response);
       setTCircles((prev) => {
         return prev.filter((tCircle) => tCircle._id !== tableId);
       });

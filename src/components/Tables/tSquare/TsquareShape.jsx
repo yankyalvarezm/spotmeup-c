@@ -5,6 +5,8 @@ import { TableContext } from "../../../context/table.context";
 import { editTable } from "../../../services/table.service";
 import { LayoutContext } from "../../../context/layout.context";
 import { BlockContext } from "../../../context/block.context";
+import { deleteTable } from "../../../services/table.service";
+import { useNavigate, useParams } from "react-router-dom";
 
 const TsquareShape = ({ tSquare }) => {
   //*! -------  Contexts --------------
@@ -19,11 +21,14 @@ const TsquareShape = ({ tSquare }) => {
     tShapeForm,
     setTableId,
     tableId,
+    toggleTShapeForm,
   } = useContext(TableContext);
   const { currentBlock } = useContext(BlockContext);
 
   // ? -- LayoutContext ---------------
   const { layoutBody } = useContext(LayoutContext);
+  const navigate = useNavigate();
+  const param = useParams();
 
   //*! -------  Local States --------------
   const [hasMoved, setHasMoved] = useState(false);
@@ -199,18 +204,18 @@ const TsquareShape = ({ tSquare }) => {
   ]);
 
   useEffect(() => {
-    console.log("--------------------------------");
-    console.log("tableWidth:", tableWidth);
-    console.log("colGap:", colGap);
-    console.log("rowGap:", rowGap);
-    console.log("newRow:", newRow);
-    console.log("newCol:", newCol);
-    console.log("positionSubCol:", positionSubCol);
-    console.log("positionSubRow:", positionSubRow);
-    // console.log("gridX:", gridX);
-    // console.log("gridY:", gridY);
-    console.log("tSquare Object:", tSquare);
-    console.log("--------------------------------");
+    // console.log("--------------------------------");
+    // console.log("tableWidth:", tableWidth);
+    // console.log("colGap:", colGap);
+    // console.log("rowGap:", rowGap);
+    // console.log("newRow:", newRow);
+    // console.log("newCol:", newCol);
+    // console.log("positionSubCol:", positionSubCol);
+    // console.log("positionSubRow:", positionSubRow);
+    // // console.log("gridX:", gridX);
+    // // console.log("gridY:", gridY);
+    // console.log("tSquare Object:", tSquare);
+    // console.log("--------------------------------");
   }, [
     currentBlock,
     tSquare._id,
@@ -225,7 +230,27 @@ const TsquareShape = ({ tSquare }) => {
     positionSubRow,
   ]);
 
+  const deleteTheShape = async (tableId) => {
+    try {
+      const response = await deleteTable(tableId);
+      console.log("Table Deleted:", response);
+      // setTCircles((prev) => {
+      //   return prev.filter((tCircle) => tCircle._id !== tableId);
+      // });
+      setTSquares((prev) => {
+        return prev.filter((tSquare) => tSquare._id !== tableId);
+      });
+      setTableId(null);
+      navigate(`/admin/designpage/${param.layoutIdParam}`);
+      // debugger;
+      toggleTShapeForm();
+    } catch (error) {
+      console.log("error:", error.response);
+    }
+  };
+
   // console.log("tSquare:", tSquare);
+  console.log("tableId:", tableId);
   return (
     <Draggable
       bounds="parent"
@@ -247,10 +272,11 @@ const TsquareShape = ({ tSquare }) => {
         container?.offsetWidth / currentBlock?.maxCol,
         container?.offsetHeight / currentBlock?.maxRow,
       ]}
-    >
+      >
       <StyledTSquare
         ref={tSquareRef}
         tabIndex={1}
+        onMouseEnter={() => setTableId(tSquare._id)}
         onClick={() => {
           handleShowToggleForm(tSquare._id);
         }}
@@ -262,7 +288,12 @@ const TsquareShape = ({ tSquare }) => {
           style={handleStyle}
           onDoubleClick={() => {}}
         >
-          <h1 className="delete-tables-before">X</h1>
+          <h1
+            className="delete-tables-before"
+            onClick={() => deleteTheShape(tableId)}
+          >
+            X
+          </h1>
           <h1>{tSquare.number}</h1>
         </div>
       </StyledTSquare>
