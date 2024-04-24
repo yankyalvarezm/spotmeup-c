@@ -44,7 +44,7 @@ function TableProvider({ children }) {
     body.number = tCircles.filter(tCircle => tCircle.block == blockId).length + 1 || 1;
     try {
       const response = await createTable(blockId, body);
-      console.log("response circle table:", response);
+      // console.log("response circle table:", response);
       if (response.success) {
         setTCircles((prev) => [...prev, response.table]);
         setTShapeAdded(true);
@@ -59,7 +59,7 @@ function TableProvider({ children }) {
     body.number = tSquares.filter(tSquare => tSquare.block == blockId).length + 1 || 1;
     try {
       const response = await createTable(blockId, body);
-      console.log("response square table:", response);
+      // console.log("response square table:", response);
       if (response.success) {
         setTSquares((prev) => [...prev, response.table]);
         setTShapeAdded(true);
@@ -74,7 +74,7 @@ function TableProvider({ children }) {
     setShowTShapeForm((prev) => !prev);
   };
 
-  console.log("Table Circle Added:", tCircles);
+  // console.log("Table Circle Added:", tCircles);
 
   function debounce(fn, delay) {
     let timeoutID = null;
