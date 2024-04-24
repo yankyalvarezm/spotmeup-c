@@ -11,6 +11,9 @@ const BsquareShape = ({ children, bSquare }) => {
   const navigate = useNavigate();
   const param = useParams();
 
+  const blockSquareRef = useRef(null)
+  // console.log("blockSquareRef:", blockSquareRef?.current?.offsetWidth)
+
   //*! -------  UseRefs ---------------
 
   const nameRef = useRef(null);
@@ -28,7 +31,7 @@ const BsquareShape = ({ children, bSquare }) => {
     bSquareRef,
     bCircleRef,
   } = useContext(BlockContext);
-
+  
   // ? -- LayoutContext ---------------
   const { layoutBody, layoutDetails } = useContext(LayoutContext);
 
@@ -85,16 +88,18 @@ const BsquareShape = ({ children, bSquare }) => {
       }
     });
 
-    if (bSquareRef.current) {
-      resizeObserver.observe(bSquareRef.current);
+    if (blockSquareRef.current) {
+      resizeObserver.observe(blockSquareRef.current);
     }
 
     return () => {
-      if (bSquareRef.current) {
-        resizeObserver.unobserve(bSquareRef.current);
+      if (blockSquareRef.current) {
+        resizeObserver.unobserve(blockSquareRef.current);
       }
     };
   }, []);
+
+  // console.log("Block Object:", bSquare)
 
   //*! ------- Draggable Area Styles ---------------------------
 
@@ -410,7 +415,7 @@ const BsquareShape = ({ children, bSquare }) => {
     >
       
       <StyledbSquare
-        ref={bSquareRef}
+        ref={blockSquareRef}
         tabIndex={1}
         onClick={() => {
           handleShowToggleForm(bSquare._id);

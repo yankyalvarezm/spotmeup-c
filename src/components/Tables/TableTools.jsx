@@ -138,15 +138,21 @@ const TableTools = () => {
   // *! ---- Resize Adjustments (Width & Height - Remover) --------
 
   useEffect(() => {
+    console.log("currentTShape:", currentTShape);
     if (currentTShape?.tableType.toLowerCase() === "circle") {
       let remove = document.getElementsByClassName("circle-shape");
 
+      console.log("remove:", remove);
+      
       for (let i = 0; i < tCircles.length; i++) {
+        
         remove[i].style.removeProperty("height");
         remove[i].style.removeProperty("width");
       }
     } else if (currentTShape?.tableType.toLowerCase() === "square") {
       let remove = document.getElementsByClassName("square-shape");
+
+      console.log("remove:", remove);
 
       for (let i = 0; i < tSquares.length; i++) {
         remove[i].style.removeProperty("height");

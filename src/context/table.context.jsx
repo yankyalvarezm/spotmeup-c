@@ -8,6 +8,7 @@ function TableProvider({ children }) {
   const tShapeForm = useRef();
   const tSquareRef = useRef(null);
   const tCircleRef = useRef(null);
+  const containerRef = useRef(null);
   const [tCircles, setTCircles] = useState([]);
   const [tSquares, setTSquares] = useState([]);
   const [tShapeAdded, setTShapeAdded] = useState(false);
@@ -40,10 +41,10 @@ function TableProvider({ children }) {
 
   const addTableCircleManual = async (blockId, body) => {
     body.tableType = "Circle";
-    body.number = tCircles.length + 1;
+    body.number = tCircles.filter(tCircle => tCircle.block == blockId).length + 1 || 1;
     try {
       const response = await createTable(blockId, body);
-      console.log("response circle table:", response);
+      // console.log("response circle table:", response);
       if (response.success) {
         setTCircles((prev) => [...prev, response.table]);
         setTShapeAdded(true);
@@ -55,10 +56,10 @@ function TableProvider({ children }) {
 
   const addTableSquareManual = async (blockId, body) => {
     body.tableType = "Square";
-    body.number = tSquares?.length + 1 || 1;
+    body.number = tSquares.filter(tSquare => tSquare.block == blockId).length + 1 || 1;
     try {
       const response = await createTable(blockId, body);
-      console.log("response square table:", response);
+      // console.log("response square table:", response);
       if (response.success) {
         setTSquares((prev) => [...prev, response.table]);
         setTShapeAdded(true);
@@ -73,7 +74,7 @@ function TableProvider({ children }) {
     setShowTShapeForm((prev) => !prev);
   };
 
-  // console.log("Table Square Added:", tSquares);
+  // console.log("Table Circle Added:", tCircles);
 
   function debounce(fn, delay) {
     let timeoutID = null;
@@ -114,7 +115,8 @@ function TableProvider({ children }) {
         tSquareRef,
         lockGrid,
         setLockGrid,
-        toggleTShapeForm
+        toggleTShapeForm,
+        containerRef
       }}
     >
       {children}

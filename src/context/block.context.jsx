@@ -84,7 +84,7 @@ function BlockProvider({ children }) {
 
   const updateBShape = debounce((shapeId, body) => {
     editBlock(shapeId, body);
-    // console.log("Tools debounce working");
+    // console.log("updateBSHape")
   }, 500);
 
   return (
