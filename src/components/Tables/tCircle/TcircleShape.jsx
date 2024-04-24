@@ -5,10 +5,18 @@ import { TableContext } from "../../../context/table.context";
 import { editTable } from "../../../services/table.service";
 import { LayoutContext } from "../../../context/layout.context";
 import { BlockContext } from "../../../context/block.context";
-
-const TcircleShape = ({ tCircle, currentBlock }) => {
+import { deleteTable } from "../../../services/table.service";
+import { useNavigate, useParams } from "react-router-dom";
+import { findBlock } from "../../../services/block.service";
+const TcircleShape = ({
+  tCircle,
+  currentBlock,
+  containerWidth,
+  containerHeight,
+}) => {
   //*! -------  Contexts --------------
   // ? -- BlockContext ----------------
+  const { blockId } = useContext(BlockContext);
   const {
     setTCircles,
     updateTShape,
@@ -19,12 +27,14 @@ const TcircleShape = ({ tCircle, currentBlock }) => {
     tShapeForm,
     setTableId,
     tableId,
+    toggleTShapeForm,
   } = useContext(TableContext);
-  // const { currentBlock } = useContext(BlockContext);
+  const [actualBlock, setActualBlock] = useState(null);
 
   // ? -- LayoutContext ---------------
   const { layoutBody } = useContext(LayoutContext);
-
+  const navigate = useNavigate();
+  const param = useParams();
   //*! -------  Local States --------------
   const [hasMoved, setHasMoved] = useState(false);
   const [tSquareName, setTSquareName] = useState(tCircle?.name);
@@ -35,28 +45,40 @@ const TcircleShape = ({ tCircle, currentBlock }) => {
   const container = document.querySelector(".display-tables-container");
 
   const tableWidth =
-    ((container?.offsetWidth + tCircle.borderSize) * 0.95) /
-    currentBlock?.maxCol;
+    ((containerWidth + tCircle.borderSize) * 0.95) / actualBlock?.maxCol;
   const tableHeigth =
-    ((container?.offsetHeight + tCircle.borderSize) * 0.95) /
-    currentBlock?.maxRow;
+    ((containerHeight + tCircle.borderSize) * 0.95) / actualBlock?.maxRow;
 
   const positionSubRow = tCircle.row < 1 ? 0 : 1;
   const positionSubCol = tCircle.col < 1 ? 0 : 1;
-
-  // console.log("tCircle.row:", tCircle.row);
-  // console.log("tCircle.col:", tCircle.col);
-  // console.log("positionSubRow:", positionSubRow);
-  // console.log("positionSubCol:", positionSubCol);
-
   const rowGap = tCircle.col > 1 ? tableWidth * 0.065 : 0;
   const colGap = tCircle.row > 1 ? tableWidth * 0.065 : 0;
 
   const newRow =
     Math.round(tCircle.y / (tableHeigth + colGap)) + positionSubCol;
   const newCol = Math.round(tCircle.x / (tableWidth + rowGap)) + positionSubRow;
+  // --------- Find Block ------------ //
 
-  // Grid Movement
+  const getTheActualBlock = async (blockId) => {
+    try {
+      const response = await findBlock(blockId);
+      // console.log("getTheActualBlock:", response);
+      if (response.success) {
+        if (tCircle.block === blockId) {
+          setActualBlock(response.block);
+        }
+      }
+    } catch (error) {
+      console.log("error:", error);
+    }
+  };
+
+  useEffect(() => {
+    if (blockId) {
+      getTheActualBlock(blockId);
+      // console.log("HITTT");
+    }
+  }, [blockId]);
 
   //*! ---------- Resize Observer for Width & Height -------------
   useEffect(() => {
@@ -66,15 +88,16 @@ const TcircleShape = ({ tCircle, currentBlock }) => {
         const { height } = entry.contentRect;
         if (width && height) {
           updateTShape(tCircle._id, { width, height });
-
-          setTCircles((prevTCircles) => {
-            return prevTCircles.map((tCr) => {
-              if (tCr._id === tCircle._id) {
-                return { ...tCr, width, height };
-              }
-              return tCr;
+          if (tCircle.block === actualBlock?._id) {
+            setTCircles((prevTCircles) => {
+              return prevTCircles.map((tCr) => {
+                if (tCr._id === tCircle._id) {
+                  return { ...tCr, width, height };
+                }
+                return tCr;
+              });
             });
-          });
+          }
         }
       }
     });
@@ -133,6 +156,7 @@ const TcircleShape = ({ tCircle, currentBlock }) => {
   useEffect(() => {
     const handleClickOutside = (event) => {
       const isClickInside = event.target.closest(".tables-shapes");
+
       const isClickInsideCircle = event.target.closest(".tables-shapes");
 
       if (
@@ -143,9 +167,6 @@ const TcircleShape = ({ tCircle, currentBlock }) => {
       ) {
         setShowTShapeForm(false);
         setTableId(null);
-        // setCurrentBlock(null);
-        // saveName();
-        // console.log("Square - Clicked Outside:");
       }
     };
     document.addEventListener("mousedown", handleClickOutside);
@@ -185,7 +206,12 @@ const TcircleShape = ({ tCircle, currentBlock }) => {
     const rowsGap = newCol > 1 ? tableWidth * 0.065 : 0;
     const columnGap = newRow > 1 ? tableWidth * 0.065 : 0;
 
-    if (container && currentBlock) {
+    if (
+      containerWidth &&
+      containerHeight &&
+      actualBlock &&
+      tCircle.block === actualBlock._id
+    ) {
       setTCircles((prevCircles) =>
         prevCircles.map((tCr) =>
           tCr._id === tCircle._id
@@ -193,7 +219,6 @@ const TcircleShape = ({ tCircle, currentBlock }) => {
                 ...tCr,
                 width: tableWidth,
                 height: tableHeigth,
-
                 x: (tableWidth + rowsGap) * (tCircle.col - positionSubRow),
                 y: (tableHeigth + columnGap) * (tCircle.row - positionSubCol),
                 name: tCircle.number,
@@ -204,12 +229,36 @@ const TcircleShape = ({ tCircle, currentBlock }) => {
       // }
     }
   }, [
-    currentBlock,
+    blockId,
     tCircle._id,
     tableId,
-    container?.offsetWidth,
-    container?.offsetHeight,
+    containerWidth,
+    containerHeight,
+    actualBlock,
   ]);
+
+  console.log("tCircles:", tCircles);
+
+  const deleteTheShape = async (tableId) => {
+    try {
+      const response = await deleteTable(tableId);
+      console.log("Table Deleted:", response);
+      // setTCircles((prev) => {
+      //   return prev.filter((tCircle) => tCircle._id !== tableId);
+      // });
+      setTCircles((prev) => {
+        return prev.filter((tCircle) => tCircle._id !== tableId);
+      });
+      setTableId(null);
+      navigate(`/admin/designpage/${param.layoutIdParam}`);
+      // debugger;
+      toggleTShapeForm();
+    } catch (error) {
+      console.log("error:", error.response);
+    }
+  };
+
+  // console.log(tCircleRef.current);
 
   // *! ------------------- DOM ----------------------------
   // *! ------------------- DOM ----------------------------
@@ -233,19 +282,17 @@ const TcircleShape = ({ tCircle, currentBlock }) => {
         }
       }}
       grid={[
-        container?.offsetWidth / currentBlock?.maxCol,
-        container?.offsetHeight / currentBlock?.maxRow,
+        containerWidth / actualBlock?.maxCol,
+        containerHeight / actualBlock?.maxCol,
       ]}
     >
       <StyledTCircle
         ref={tCircleRef}
         tabIndex={1}
+        onMouseEnter={() => setTableId(tCircle._id)}
         onClick={() => {
           handleShowToggleForm(tCircle._id);
         }}
-        // onMouseEnter={() => {
-        //   setTableId(tCircle._id);
-        // }}
         tCircle={tCircle}
         className="circle-shape tables-shapes"
       >
@@ -255,7 +302,12 @@ const TcircleShape = ({ tCircle, currentBlock }) => {
           onDoubleClick={() => {}}
         >
           <h1>{tCircle.number}</h1>
-          <h1 className="delete-tables-before">X</h1>
+          <h1
+            className="delete-tables-before"
+            onClick={() => deleteTheShape(tableId)}
+          >
+            X
+          </h1>
         </div>
       </StyledTCircle>
     </Draggable>

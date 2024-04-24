@@ -12,7 +12,7 @@ const BsquareShape = ({ children, bSquare }) => {
   const param = useParams();
 
   const blockSquareRef = useRef(null)
-  console.log("blockSquareRef:", blockSquareRef?.current?.offsetWidth)
+  // console.log("blockSquareRef:", blockSquareRef?.current?.offsetWidth)
 
   //*! -------  UseRefs ---------------
 

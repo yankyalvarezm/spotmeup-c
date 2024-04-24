@@ -17,7 +17,7 @@ const TsquareShape = ({
 }) => {
   //*! -------  Contexts --------------
   // ? -- BlockContext ----------------
-  const { bSquareRef, blockId } = useContext(BlockContext);
+  const {  blockId } = useContext(BlockContext);
   const {
     setTSquares,
     updateTShape,
@@ -29,13 +29,9 @@ const TsquareShape = ({
     setTableId,
     tableId,
     toggleTShapeForm,
-    containerRef,
   } = useContext(TableContext);
   const [actualBlock, setActualBlock] = useState(null);
 
-  // console.log("tSquareRef",tSquareRef?.current?.offsetWidth)
-
-  // console.log("bSquareRef",bSquareRef?.current)
   // ? -- LayoutContext ---------------
   const { layoutBody } = useContext(LayoutContext);
   const navigate = useNavigate();
@@ -86,11 +82,10 @@ const TsquareShape = ({
     // console.log("actualBlock:", actualBlock)
   }, [blockId]);
 
-  useEffect(() => {
-    console.log("blockId:", blockId);
-    console.log("actualBlock:", actualBlock);
-  }, [actualBlock]);
-  // console.log("tSquare:", tSquare)
+  // useEffect(() => {
+  //   // console.log("blockId:", blockId);
+  //   // console.log("actualBlock:", actualBlock);
+  // }, [actualBlock]);
 
   //*! ---------- Resize Observer for Width & Height -------------
   useEffect(() => {
@@ -101,9 +96,7 @@ const TsquareShape = ({
         if (width && height) {
           updateTShape(tSquare._id, { width, height });
 
-          if(tSquare.block === actualBlock?._id){
-
-            
+          if (tSquare.block === actualBlock?._id) {
             setTSquares((prevTSquares) => {
               return prevTSquares.map((tSq) => {
                 if (tSq._id === tSquare._id) {
@@ -112,9 +105,7 @@ const TsquareShape = ({
                 return tSq;
               });
             });
-            
           }
-
         }
       }
     });
@@ -149,9 +140,7 @@ const TsquareShape = ({
     try {
       const response = await editTable(tableId, body);
 
-      if(tSquare.block === actualBlock._id){
-
-        
+      if (tSquare.block === actualBlock._id) {
         setTSquares((prev) => {
           return prev.map((tSquare) => {
             if (tSquare._id === tableId) {
@@ -164,10 +153,8 @@ const TsquareShape = ({
               return tSquare;
             }
           });
-      });
-      
-    }
-
+        });
+      }
     } catch (error) {
       console.log("error", error);
     }
@@ -188,10 +175,6 @@ const TsquareShape = ({
       ) {
         setShowTShapeForm(false);
         setTableId(null);
-        // setActualBlock(null)
-
-        // saveName();
-        // console.log("Square - Clicked Outside:");
       }
     };
     document.addEventListener("mousedown", handleClickOutside);
@@ -259,33 +242,6 @@ const TsquareShape = ({
     containerWidth,
     containerHeight,
     actualBlock,
-  ]);
-
-  useEffect(() => {
-    // console.log("--------------------------------");
-    // console.log("tableWidth:", tableWidth);
-    // console.log("colGap:", colGap);
-    // console.log("rowGap:", rowGap);
-    // console.log("newRow:", newRow);
-    // console.log("newCol:", newCol);
-    // console.log("positionSubCol:", positionSubCol);
-    // console.log("positionSubRow:", positionSubRow);
-    // // console.log("gridX:", gridX);
-    // // console.log("gridY:", gridY);
-    // console.log("tSquare Object:", tSquare);
-    // console.log("--------------------------------");
-  }, [
-    currentBlock,
-    tSquare._id,
-    tableId,
-    container?.offsetWidth,
-    container?.offsetHeight,
-    newCol,
-    newRow,
-    colGap,
-    rowGap,
-    positionSubCol,
-    positionSubRow,
   ]);
 
   const deleteTheShape = async (tableId) => {
