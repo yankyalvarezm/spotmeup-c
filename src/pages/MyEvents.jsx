@@ -30,7 +30,7 @@ const MyEvents = () => {
   const defaultPosition = { x: 0, y: 0 };
 
   // console.log("position:", position);
-  console.log("position2:", position4);
+  // console.log("position2:", position4);
   // console.log("leftValue:", leftValue);
 
   const onDragCont = (e, data) => {

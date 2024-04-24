@@ -1657,10 +1657,7 @@ button:hover {
   cursor: auto;
 }
 
-.layout-tools-title {
-  color: var(--black);
-  text-align: center;
-}
+
 
 .icons-editing-modal {
   margin-left: 1rem;
@@ -1866,7 +1863,8 @@ button:hover {
 
 .layout-tools-content {
   display: flex;
-  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
   width: 100%;
 }
 
@@ -1876,13 +1874,18 @@ button:hover {
 }
 
 .layout-tools-content > input {
-  width: 70%;
+  width: 20%;
+  text-align: center;
+  background-color: transparent;
+  border: none;
+  padding: 0rem;
 }
 
 .layout-tools-content > label {
   font-family: var(--primary--font);
   font-size: 15px;
   white-space: nowrap;
+  margin-left: 1rem;
 }
 
 #layout-styled-div {
@@ -1919,6 +1922,7 @@ button:hover {
 .layout-tools-spacing {
   background-color: var(--yellow);
   padding-bottom: 1rem;
+  padding-top: 1rem;
   border-radius: 10px;
   margin: 1rem;
 }
@@ -1926,7 +1930,7 @@ button:hover {
 .layout-tools-title {
   margin: 0.5rem 0rem;
   text-align: center;
-  color: var(--red);
+  color: white;
   font-size: 20px;
 }
 
@@ -1980,7 +1984,7 @@ button:hover {
 .shape-tools-title {
   margin: 0.5rem 0rem;
   text-align: center;
-  color: var(--red);
+  color: black;
   font-size: 20px;
 }
 
@@ -2023,10 +2027,10 @@ button:hover {
   display: flex;
   flex-direction: column;
   align-items: center;
-
   background-color: var(--yellow);
   border-radius: 10px;
   margin: 1rem;
+  margin-bottom: 0rem;
 }
 
 .shape-discard {
@@ -2495,6 +2499,7 @@ input[type="number"] {
   min-height: 1000px;
   max-height: 1000px;
   width: 100%;
+  overflow: auto;
 }
 
 .layout-tools-container {
@@ -3096,7 +3101,7 @@ input[type="color"]::-webkit-color-swatch {
 .add-block-title {
   margin: 0.5rem 0rem;
   text-align: center;
-  color: var(--red);
+  color: black;
   font-size: 20px;
 }
 
@@ -3854,4 +3859,92 @@ input[type="color"]::-webkit-color-swatch {
     display: flex;
     cursor: pointer;
   }
+}
+
+/* ---- Layout Tools ------ */
+
+.table-range {
+  width: 90%;
+  -webkit-appearance: none;
+  color: var(--green);
+  background-color: transparent;
+  border-radius: 20px;
+  border: none;
+}
+
+.layout-input-range-container > input[type="range"]::-webkit-slider-thumb {
+  appearance: none;
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  background: var(--green);
+  cursor: grab;
+  margin-top: -7px;
+}
+
+.layout-input-range-container > input[type="range"]::-moz-range-thumb {
+  width: 15px;
+  height: 15px;
+  background: var(--green);
+  border-radius: 50%;
+  border: none;
+  cursor: grab;
+}
+
+.layout-input-range-container > [type="range"]::-webkit-slider-runnable-track {
+  height: 2px;
+  background: black;
+  box-shadow: 0 1px 0 0 black, 0 -1px 0 0 black;
+  border-radius: 15px;
+}
+
+.layout-input-range-container > [type="range"]::-moz-range-track {
+  height: 2px;
+  background: black;
+  box-shadow: 0 1px 0 0 black, 0 -1px 0 0 black;
+  border-radius: 15px;
+}
+
+.layout-text-input-title {
+  color: var(--black);
+  font-size: 20px;
+  white-space: nowrap;
+  /* margin-bottom: 1rem; */
+  margin-left: 1rem;
+}
+
+.layout-tools-spacing > .dropdown-container > .up-arrow {
+  width: 0;
+  height: 0;
+  border-left: 10px solid transparent;
+  border-right: 10px solid transparent;
+  border-bottom: 10px solid black;
+  cursor: pointer;
+  margin-right: 0.5rem;
+}
+
+.layout-tools-spacing > .dropdown-container > .down-arrow {
+  width: 0;
+  height: 0;
+  border-left: 10px solid transparent;
+  border-right: 10px solid transparent;
+  border-top: 10px solid black;
+  cursor: pointer;
+  margin-right: 0.5rem;
+}
+
+.layout-background-input {
+  width: 90%;
+}
+
+.layout-background-input-container {
+  display: flex;
+  justify-content: center;
+}
+
+.hr-layout-tools {
+  height: 5px;
+  width: 85%;
+  background-color: white;
+  border: none;
 }

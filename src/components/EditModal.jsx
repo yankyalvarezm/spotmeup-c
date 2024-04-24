@@ -80,6 +80,7 @@ const EditModal = () => {
             }
           >
             <LayoutTools>
+              <hr className="hr-layout-tools"/>
               <AddShape />
               <AddBlock />
             </LayoutTools>
