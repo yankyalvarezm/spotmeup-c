@@ -30,7 +30,20 @@ export const findTable = async (tableId) => {
     throw error;
   }
 };
-export const getAllTables = async (blockId) => {
+export const getAllTables = async (layoutId) => {
+  try {
+    const response = await axios.get(`${API_URL}/layout/${layoutId}/find`);
+    if(response.data.success){
+      return {success:response.data.success, tables: response.data.layout.blocks.map(block => block.tables).flat()}
+    }
+    else{
+      return {success:response.data.success, tables:[]}
+    };
+  } catch (error) {
+    throw error;
+  }
+};
+export const getAllTablesOnBlock = async (blockId) => {
   try {
     const response = await axios.get(`${API_URL}/tables/b/${blockId}/findAll`);
     return response.data;

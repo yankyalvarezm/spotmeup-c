@@ -72,7 +72,7 @@ const AddTables = ({ block }) => {
   const handleTableAdd = async (row, col) => {
     if (currentBlock?.blockTableType.toLowerCase() === "circle") {
       try {
-        await addTableCircleManual(block._id, tableBody);
+        await addTableCircleManual(block._id, {...tableBody, row, col});
 
         // console.log("addTableCircleManual - response:", tCircles);
       } catch (error) {
@@ -82,7 +82,7 @@ const AddTables = ({ block }) => {
 
     if (currentBlock?.blockTableType.toLowerCase() === "square") {
       try {
-        await addTableSquareManual(block._id, tableBody);
+        await addTableSquareManual(block._id, {...tableBody, row, col});
         // debugger
         // setExactPosition({ row: row, col: col });
         console.log("addTableSquareManual - Response:", tSquares);

@@ -6,7 +6,7 @@ import { editTable } from "../../../services/table.service";
 import { LayoutContext } from "../../../context/layout.context";
 import { BlockContext } from "../../../context/block.context";
 
-const TcircleShape = ({ tCircle }) => {
+const TcircleShape = ({ tCircle, currentBlock }) => {
   //*! -------  Contexts --------------
   // ? -- BlockContext ----------------
   const {
@@ -20,7 +20,7 @@ const TcircleShape = ({ tCircle }) => {
     setTableId,
     tableId,
   } = useContext(TableContext);
-  const { currentBlock } = useContext(BlockContext);
+  // const { currentBlock } = useContext(BlockContext);
 
   // ? -- LayoutContext ---------------
   const { layoutBody } = useContext(LayoutContext);

@@ -7,10 +7,17 @@ import { LayoutContext } from "../../../context/layout.context";
 import { BlockContext } from "../../../context/block.context";
 import { deleteTable } from "../../../services/table.service";
 import { useNavigate, useParams } from "react-router-dom";
+import { findBlock } from "../../../services/block.service";
 
-const TsquareShape = ({ tSquare }) => {
+const TsquareShape = ({
+  tSquare,
+  currentBlock,
+  containerWidth,
+  containerHeight,
+}) => {
   //*! -------  Contexts --------------
   // ? -- BlockContext ----------------
+  const { bSquareRef, blockId } = useContext(BlockContext);
   const {
     setTSquares,
     updateTShape,
@@ -22,9 +29,13 @@ const TsquareShape = ({ tSquare }) => {
     setTableId,
     tableId,
     toggleTShapeForm,
+    containerRef,
   } = useContext(TableContext);
-  const { currentBlock } = useContext(BlockContext);
+  const [actualBlock, setActualBlock] = useState(null);
 
+  // console.log("tSquareRef",tSquareRef?.current?.offsetWidth)
+
+  // console.log("bSquareRef",bSquareRef?.current)
   // ? -- LayoutContext ---------------
   const { layoutBody } = useContext(LayoutContext);
   const navigate = useNavigate();
@@ -40,11 +51,9 @@ const TsquareShape = ({ tSquare }) => {
   const container = document.querySelector(".display-tables-container");
 
   const tableWidth =
-    ((container?.offsetWidth + tSquare.borderSize) * 0.95) /
-    currentBlock?.maxCol;
+    ((containerWidth + tSquare.borderSize) * 0.95) / actualBlock?.maxCol;
   const tableHeigth =
-    ((container?.offsetHeight + tSquare.borderSize) * 0.95) /
-    currentBlock?.maxRow;
+    ((containerHeight + tSquare.borderSize) * 0.95) / actualBlock?.maxRow;
   const positionSubRow = tSquare.row < 1 ? 0 : 1;
   const positionSubCol = tSquare.col < 1 ? 0 : 1;
   const rowGap = tSquare.col > 1 ? tableWidth * 0.065 : 0;
@@ -52,6 +61,36 @@ const TsquareShape = ({ tSquare }) => {
   const newRow =
     Math.round(tSquare.y / (tableHeigth + colGap)) + positionSubCol;
   const newCol = Math.round(tSquare.x / (tableWidth + rowGap)) + positionSubRow;
+
+  // --------- Find Block ------------ //
+
+  const getTheActualBlock = async (blockId) => {
+    try {
+      const response = await findBlock(blockId);
+      console.log("getTheActualBlock:", response);
+      if (response.success) {
+        if (tSquare.block === blockId) {
+          setActualBlock(response.block);
+        }
+      }
+    } catch (error) {
+      console.log("error:", error);
+    }
+  };
+
+  useEffect(() => {
+    if (blockId) {
+      getTheActualBlock(blockId);
+      console.log("HITTT");
+    }
+    // console.log("actualBlock:", actualBlock)
+  }, [blockId]);
+
+  useEffect(() => {
+    console.log("blockId:", blockId);
+    console.log("actualBlock:", actualBlock);
+  }, [actualBlock]);
+  // console.log("tSquare:", tSquare)
 
   //*! ---------- Resize Observer for Width & Height -------------
   useEffect(() => {
@@ -62,14 +101,20 @@ const TsquareShape = ({ tSquare }) => {
         if (width && height) {
           updateTShape(tSquare._id, { width, height });
 
-          setTSquares((prevTSquares) => {
-            return prevTSquares.map((tSq) => {
-              if (tSq._id === tSquare._id) {
-                return { ...tSq, width, height };
-              }
-              return tSq;
+          if(tSquare.block === actualBlock?._id){
+
+            
+            setTSquares((prevTSquares) => {
+              return prevTSquares.map((tSq) => {
+                if (tSq._id === tSquare._id) {
+                  return { ...tSq, width, height };
+                }
+                return tSq;
+              });
             });
-          });
+            
+          }
+
         }
       }
     });
@@ -104,19 +149,25 @@ const TsquareShape = ({ tSquare }) => {
     try {
       const response = await editTable(tableId, body);
 
-      setTSquares((prev) => {
-        return prev.map((tSquare) => {
-          if (tSquare._id === tableId) {
-            return {
-              ...response.table,
-              row: newRow,
-              col: newCol,
-            };
-          } else {
-            return tSquare;
-          }
-        });
+      if(tSquare.block === actualBlock._id){
+
+        
+        setTSquares((prev) => {
+          return prev.map((tSquare) => {
+            if (tSquare._id === tableId) {
+              return {
+                ...response.table,
+                row: newRow,
+                col: newCol,
+              };
+            } else {
+              return tSquare;
+            }
+          });
       });
+      
+    }
+
     } catch (error) {
       console.log("error", error);
     }
@@ -137,7 +188,8 @@ const TsquareShape = ({ tSquare }) => {
       ) {
         setShowTShapeForm(false);
         setTableId(null);
-        // setCurrentBlock(null);
+        // setActualBlock(null)
+
         // saveName();
         // console.log("Square - Clicked Outside:");
       }
@@ -178,7 +230,12 @@ const TsquareShape = ({ tSquare }) => {
   useEffect(() => {
     const rowsGap = newCol > 1 ? tableWidth * 0.065 : 0;
     const columnGap = newRow > 1 ? tableWidth * 0.065 : 0;
-    if (container && currentBlock) {
+    if (
+      containerWidth &&
+      containerHeight &&
+      actualBlock &&
+      tSquare.block === actualBlock._id
+    ) {
       setTSquares((prevSquares) =>
         prevSquares.map((tSqr) =>
           tSqr._id === tSquare._id
@@ -196,11 +253,12 @@ const TsquareShape = ({ tSquare }) => {
       // }
     }
   }, [
-    currentBlock,
+    blockId,
     tSquare._id,
     tableId,
-    container?.offsetWidth,
-    container?.offsetHeight,
+    containerWidth,
+    containerHeight,
+    actualBlock,
   ]);
 
   useEffect(() => {
@@ -250,7 +308,7 @@ const TsquareShape = ({ tSquare }) => {
   };
 
   // console.log("tSquare:", tSquare);
-  console.log("tableId:", tableId);
+  // console.log("tableId:", tableId);
   return (
     <Draggable
       bounds="parent"
@@ -269,10 +327,10 @@ const TsquareShape = ({ tSquare }) => {
         }
       }}
       grid={[
-        container?.offsetWidth / currentBlock?.maxCol,
-        container?.offsetHeight / currentBlock?.maxRow,
+        containerWidth / actualBlock?.maxCol,
+        containerHeight / actualBlock?.maxRow,
       ]}
-      >
+    >
       <StyledTSquare
         ref={tSquareRef}
         tabIndex={1}
