@@ -31,7 +31,7 @@ function LayoutProvider({ children }) {
       try {
         const response = await getOneLayout(layoutId);
         setLayoutDetails(response.layout);
-        console.log("Line 24 - Response:", response);
+        // console.log("Line 24 - Response:", response);
       } catch (error) {
         console.log("error:", error);
       }

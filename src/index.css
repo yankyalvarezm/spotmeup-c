@@ -1657,8 +1657,6 @@ button:hover {
   cursor: auto;
 }
 
-
-
 .icons-editing-modal {
   margin-left: 1rem;
   margin-right: 1rem;
@@ -2151,7 +2149,7 @@ button:hover {
   max-width: 20%;
   width: auto;
   font-family: var(--primary--font);
-  color: white;
+  color: black;
   background-color: transparent;
   text-align: center;
   padding: 0rem;
@@ -3947,4 +3945,137 @@ input[type="color"]::-webkit-color-swatch {
   width: 85%;
   background-color: white;
   border: none;
+}
+
+.load-goback:hover {
+  cursor: not-allowed;
+  box-shadow: 2px 4px 0px black;
+  color: black;
+  /* pointer-events: none; */
+}
+
+.load-goback {
+  width: 6rem;
+  white-space: nowrap;
+  margin-left: 1rem;
+  margin-top: 1rem;
+  background-color: grey;
+  cursor: not-allowed !important;
+  /* pointer-events: none; */
+  background: linear-gradient(
+      #0000 calc(1 * 100% / 6),
+      #fff 0 calc(3 * 100% / 6),
+      #0000 0
+    ),
+    linear-gradient(
+      #0000 calc(2 * 100% / 6),
+      #fff 0 calc(4 * 100% / 6),
+      #0000 0
+    ),
+    linear-gradient(
+      #0000 calc(3 * 100% / 6),
+      #fff 0 calc(5 * 100% / 6),
+      #0000 0
+    );
+  background-size: 10px 400%;
+  background-repeat: no-repeat;
+  animation: matrix 1s infinite linear;
+}
+
+@keyframes matrix {
+  0% {
+    background-position: 0% 100%, 50% 100%, 100% 100%;
+  }
+
+  100% {
+    background-position: 0% 0%, 50% 0%, 100% 0%;
+  }
+}
+
+/* ---- Hierrarchy ----  */
+
+.hierarchy-container {
+  background-color: var(--black);
+}
+
+.hierarchy-title {
+  color: white;
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+  margin-top: 2rem;
+  font-size: 25px;
+  margin-left: 0.5rem;
+}
+
+.hierarchy-hr {
+  background-color: white;
+  color: white;
+}
+
+.hierarchy-layout-name {
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+  margin-left: 1.5rem;
+  font-weight: 500;
+  font-size: 18px;
+}
+
+.hierarchy-blocks-name {
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+  /* margin-left: 3rem; */
+  font-weight: 300;
+  font-size: 15px;
+  margin-top: 0.4rem;
+  margin-left: 0.3rem;
+  position: absolute;
+  transform: translate(-50%, -50%);
+  top: 14px;
+  left: 34px;
+}
+
+.hierarchy-blocks-container {
+  display: flex;
+  align-items: center;
+}
+
+.hierarchy-border-effect {
+  width: 2.5px;
+  height: 2px;
+  background-color: white;
+  margin-right: 0.15rem;
+  margin-top: 0.3rem;
+  border-radius: 50%;
+}
+
+.hierarchy-border-container {
+  display: flex;
+}
+
+.hierarchy-all-effects-container {
+  display: flex;
+  margin-left: 3rem;
+  position: relative;
+}
+
+.hierarchy-vertical-blocks-container {
+  display: flex;
+  align-items: flex-end;
+}
+
+.hierarchy-vertical-border-container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  /* margin-bottom: 1rem; */
+}
+
+.hierarchy-vertical-border-effect {
+  width: 2.5px;
+  height: 2px;
+  background-color: white;
+  margin-top: 0.15rem;
+  margin-right: 0.1rem;
+  border-radius: 50%;
+}
+
+.hierarchy-vertical-border-effect:last-of-type {
+  /* display: none; */
 }

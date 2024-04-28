@@ -20,7 +20,7 @@ function BlockProvider({ children }) {
     try {
       const response = await getAllBlocks(layoutId);
 
-      console.log("blockResponse:", response)
+      // console.log("blockResponse:", response)
 
       if (response.success) {
         const blockCircleFilter = response.blocks.filter(

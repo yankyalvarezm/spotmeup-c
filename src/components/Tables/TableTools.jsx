@@ -138,11 +138,11 @@ const TableTools = () => {
   // *! ---- Resize Adjustments (Width & Height - Remover) --------
 
   useEffect(() => {
-    console.log("currentTShape:", currentTShape);
+    // console.log("currentTShape:", currentTShape);
     if (currentTShape?.tableType.toLowerCase() === "circle") {
       let remove = document.getElementsByClassName("circle-shape");
 
-      console.log("remove:", remove);
+      // console.log("remove:", remove);
       
       for (let i = 0; i < tCircles.length; i++) {
         
@@ -152,7 +152,7 @@ const TableTools = () => {
     } else if (currentTShape?.tableType.toLowerCase() === "square") {
       let remove = document.getElementsByClassName("square-shape");
 
-      console.log("remove:", remove);
+      // console.log("remove:", remove);
 
       for (let i = 0; i < tSquares.length; i++) {
         remove[i].style.removeProperty("height");
@@ -188,7 +188,7 @@ const TableTools = () => {
                     activeDropDown === 1 ? "show-dropdown" : "hide-dropdown"
                   }
                 >
-                  {/* <div className="shape-label-input-container">
+                  <div className="shape-label-input-container">
                     {!isCircle && (
                       <>
                         <div className="shape-label-input">
@@ -211,9 +211,9 @@ const TableTools = () => {
                         />
                       </>
                     )}
-                  </div> */}
+                  </div>
 
-                  {/* <div className="shape-label-input-container">
+                  <div className="shape-label-input-container">
                     <div className="shape-label-input">
                       <label htmlFor="width">
                         {isCircle ? "Size" : "Width"}
@@ -234,9 +234,9 @@ const TableTools = () => {
                       min={10}
                       max={1000}
                     />
-                  </div> */}
+                  </div>
 
-                  {/* <div className="shape-label-input-container">
+                  <div className="shape-label-input-container">
                     <div className="shape-label-input">
                       <label htmlFor="x">X-Axis</label>
                       <input
@@ -255,9 +255,9 @@ const TableTools = () => {
                       min={10}
                       max={1000}
                     />
-                  </div> */}
+                  </div>
 
-                  {/* <div className="shape-label-input-container">
+                  <div className="shape-label-input-container">
                     <div className="shape-label-input">
                       <label htmlFor="y">Y-Axis</label>
                       <input
@@ -276,7 +276,7 @@ const TableTools = () => {
                       min={10}
                       max={1000}
                     />
-                  </div> */}
+                  </div>
 
                   <div>
                     <input

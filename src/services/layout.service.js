@@ -17,7 +17,7 @@ export const createLayout = async (venueId, name) => {
     const response = await axios.post(`${API_URL}/layout/${venueId}/create`, {
       name,
     });
-    console.log("response:", response.data);
+    // console.log("response:", response.data);
     return response.data;
   } catch (error) {
     console.log("error:", error);
@@ -42,7 +42,7 @@ export const editLayoutName = async (layoutId, name) => {
 export const getOneLayout = async (layoutId) => {
   try {
     const response = await axios.get(`${API_URL}/layout/${layoutId}/find`);
-    console.log("response", response.data);
+    // console.log("response", response.data);
     return response.data;
   } catch (error) {
     console.log("error:", error);

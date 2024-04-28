@@ -30,12 +30,16 @@ const EditModal = () => {
 
   const { showBShapeForm } = useContext(BlockContext);
   const { showShapeForm } = useContext(ShapeContext);
-  const { showTShapeForm } = useContext(TableContext);
+  const { showTShapeForm, editingTables, setEditingTables } =
+    useContext(TableContext);
 
   const goBack = () => {
-    navigate(-1);
+    if(!editingTables){
+      navigate(`/admin/venuedetails/${layoutDetails.venue}`);
+    }
   };
 
+  // console.log("layoutDetails:", layoutDetails);
   useEffect(() => {
     if (param.layoutIdParam) {
       setLayoutId(param.layoutIdParam);
@@ -46,7 +50,10 @@ const EditModal = () => {
 
   return (
     <div className="design-big-container">
-      <button onClick={goBack} className="goback-btn-design">
+      <button
+        onClick={goBack}
+        className={!editingTables ? "goback-btn-design" : "load-goback"}
+      >
         Go Back
       </button>
       <div className="tools-title">
@@ -70,7 +77,7 @@ const EditModal = () => {
         <BlockTools>
           <BlockGridSetUp />
         </BlockTools>
-        <TableTools  />
+        <TableTools />
         {!showShapeForm && !showBShapeForm && !showTShapeForm && (
           <div
             className={
@@ -80,7 +87,7 @@ const EditModal = () => {
             }
           >
             <LayoutTools>
-              <hr className="hr-layout-tools"/>
+              <hr className="hr-layout-tools" />
               <AddShape />
               <AddBlock />
             </LayoutTools>

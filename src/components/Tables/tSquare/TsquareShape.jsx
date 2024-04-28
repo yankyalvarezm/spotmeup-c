@@ -17,7 +17,7 @@ const TsquareShape = ({
 }) => {
   //*! -------  Contexts --------------
   // ? -- BlockContext ----------------
-  const {  blockId } = useContext(BlockContext);
+  const { blockId } = useContext(BlockContext);
   const {
     setTSquares,
     updateTShape,
@@ -29,6 +29,8 @@ const TsquareShape = ({
     setTableId,
     tableId,
     toggleTShapeForm,
+    editingTables,
+    setEditingTables,
   } = useContext(TableContext);
   const [actualBlock, setActualBlock] = useState(null);
 
@@ -36,6 +38,10 @@ const TsquareShape = ({
   const { layoutBody } = useContext(LayoutContext);
   const navigate = useNavigate();
   const param = useParams();
+
+  // console.log("containerWidht:", containerWidth);
+  // console.log("containerHeight:", containerHeight);
+  // console.log("tSquares:", tSquares);
 
   //*! -------  Local States --------------
   const [hasMoved, setHasMoved] = useState(false);
@@ -63,7 +69,7 @@ const TsquareShape = ({
   const getTheActualBlock = async (blockId) => {
     try {
       const response = await findBlock(blockId);
-      console.log("getTheActualBlock:", response);
+      // console.log("getTheActualBlock:", response);
       if (response.success) {
         if (tSquare.block === blockId) {
           setActualBlock(response.block);
@@ -77,15 +83,10 @@ const TsquareShape = ({
   useEffect(() => {
     if (blockId) {
       getTheActualBlock(blockId);
-      console.log("HITTT");
     }
+    // console.log("BlockId", blockId);
     // console.log("actualBlock:", actualBlock)
   }, [blockId]);
-
-  // useEffect(() => {
-  //   // console.log("blockId:", blockId);
-  //   // console.log("actualBlock:", actualBlock);
-  // }, [actualBlock]);
 
   //*! ---------- Resize Observer for Width & Height -------------
   useEffect(() => {
@@ -213,28 +214,56 @@ const TsquareShape = ({
   useEffect(() => {
     const rowsGap = newCol > 1 ? tableWidth * 0.065 : 0;
     const columnGap = newRow > 1 ? tableWidth * 0.065 : 0;
-    if (
-      containerWidth &&
-      containerHeight &&
-      actualBlock &&
-      tSquare.block === actualBlock._id
-    ) {
-      setTSquares((prevSquares) =>
-        prevSquares.map((tSqr) =>
-          tSqr._id === tSquare._id
-            ? {
-                ...tSqr,
-                width: tableWidth,
-                height: tableHeigth,
-                x: (tableWidth + rowsGap) * (tSquare.col - positionSubRow),
-                y: (tableHeigth + columnGap) * (tSquare.row - positionSubCol),
-                name: tSquare.number,
-              }
-            : tSqr
-        )
-      );
-      // }
-    }
+
+    const updateTableDetails = async () => {
+      if (
+        containerWidth &&
+        containerHeight &&
+        actualBlock &&
+        tSquare.block === actualBlock._id &&
+        tSquare._id
+      ) {
+        // Primero actualizamos el estado local
+        setTSquares((prevSquares) =>
+          prevSquares.map((tSqr) =>
+            tSqr._id === tSquare._id
+              ? {
+                  ...tSqr,
+                  width: tableWidth,
+                  height: tableHeigth,
+                  x: (tableWidth + rowsGap) * (tSquare.col - positionSubRow),
+                  y: (tableHeigth + columnGap) * (tSquare.row - positionSubCol),
+                  name: tSquare.number,
+                  containerWidth: containerWidth / actualBlock?.maxCol,
+                  containerHeight: containerHeight / actualBlock?.maxRow,
+                }
+              : tSqr
+          )
+        );
+
+        try {
+          setEditingTables(true);
+          const response = await editTable(tSquare._id, {
+            width: tableWidth,
+            height: tableHeigth,
+            x: (tableWidth + rowsGap) * (tSquare.col - positionSubRow),
+            y: (tableHeigth + columnGap) * (tSquare.row - positionSubCol),
+            containerWidth: containerWidth / actualBlock?.maxCol,
+            containerHeight: containerHeight / actualBlock?.maxRow,
+          });
+
+          if (response.success) {
+            setTimeout(() => {
+              setEditingTables(false);
+            }, 10000);
+          }
+        } catch (error) {
+          console.error("Failed to update table:", error);
+        }
+      }
+    };
+
+    updateTableDetails();
   }, [
     blockId,
     tSquare._id,
@@ -243,6 +272,10 @@ const TsquareShape = ({
     containerHeight,
     actualBlock,
   ]);
+
+  useEffect(() => {
+    // console.log('Lista de tSquares:', tSquares);
+  }, [tSquares]);
 
   const deleteTheShape = async (tableId) => {
     try {
@@ -263,7 +296,7 @@ const TsquareShape = ({
     }
   };
 
-  // console.log("tSquare:", tSquare);
+  // console.log("tSquares:", tSquares);
   // console.log("tableId:", tableId);
   return (
     <Draggable
@@ -282,15 +315,12 @@ const TsquareShape = ({
           setHasMoved(false);
         }
       }}
-      grid={[
-        containerWidth / actualBlock?.maxCol,
-        containerHeight / actualBlock?.maxRow,
-      ]}
+      grid={[tSquare.containerWidth, tSquare.containerHeight]}
     >
       <StyledTSquare
         ref={tSquareRef}
         tabIndex={1}
-        onMouseEnter={() => setTableId(tSquare._id)}
+        // onMouseEnter={() => setTableId(tSquare._id)}
         onClick={() => {
           handleShowToggleForm(tSquare._id);
         }}

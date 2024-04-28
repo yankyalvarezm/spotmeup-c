@@ -6,13 +6,23 @@ import TsquareShape from "./tSquare/TsquareShape";
 import { useParams, useNavigate } from "react-router-dom";
 import TcircleShape from "./tCircle/TcircleShape";
 
-const DisplayTables = ({blockId}) => {
+const DisplayTables = ({ blockId }) => {
   const param = useParams();
   const navigate = useNavigate();
 
   // const { blockId, setBlockId } = useContext(BlockContext);
   const { layoutId, setLayoutId } = useContext(LayoutContext);
-  const { tSquares, fetchTables, tableId, tCircles, containerRef } = useContext(TableContext);
+  const {
+    tSquares,
+    fetchTables,
+    tableId,
+    tCircles,
+    containerRef,
+    tShapeAdded,
+    setTShapeAdded,
+    tShapeEdited,
+    setTShapeEdited,
+  } = useContext(TableContext);
   const { currentBlock } = useContext(BlockContext);
 
   useEffect(() => {
@@ -24,11 +34,12 @@ const DisplayTables = ({blockId}) => {
     // }
   }, [param.layoutIdParam, param.blockIdParam]);
 
-  const displayTablesRef = useRef(null)
+  const displayTablesRef = useRef(null);
 
   useEffect(() => {
-      fetchTables(param.layoutIdParam);
+    fetchTables(param.layoutIdParam);
   }, []);
+
   // console.log("blockIdParam:", param.blockIdParam);
   // console.log("tCircles from Display Tables:", tCircles);
 
@@ -44,35 +55,39 @@ const DisplayTables = ({blockId}) => {
     <div className="display-tables-container" ref={displayTablesRef}>
       {tSquares &&
         tSquares.map((tSquare) => {
-          if(tSquare.block == blockId){
-            return (<TsquareShape 
-              tSquare={tSquare} 
-              key={tSquare._id} 
-              currentBlock={tSquare.block === currentBlock?._id ? currentBlock : null}
-              containerWidth={displayTablesRef?.current?.offsetWidth}
-              containerHeight={displayTablesRef?.current?.offsetHeight}
-              blockId={blockId}
-              ></TsquareShape>)
+          if (tSquare.block == blockId) {
+            return (
+              <TsquareShape
+                tSquare={tSquare}
+                key={tSquare._id}
+                currentBlock={
+                  tSquare.block === currentBlock?._id ? currentBlock : null
+                }
+                containerWidth={displayTablesRef?.current?.offsetWidth}
+                containerHeight={displayTablesRef?.current?.offsetHeight}
+                blockId={blockId}
+              ></TsquareShape>
+            );
           }
-      })
-        }
+        })}
 
       {tCircles &&
-        tCircles.map((tCircle) => 
-        {
-          if(tCircle.block == blockId){
-            
-            return(<TcircleShape 
-              tCircle={tCircle} 
-              key={tCircle._id}
-              currentBlock={tCircle.block === currentBlock?._id ? currentBlock : null}
-              containerWidth={displayTablesRef?.current?.offsetWidth}
-              containerHeight={displayTablesRef?.current?.offsetHeight}
-              blockId={blockId}
-              ></TcircleShape>)
+        tCircles.map((tCircle) => {
+          if (tCircle.block == blockId) {
+            return (
+              <TcircleShape
+                tCircle={tCircle}
+                key={tCircle._id}
+                currentBlock={
+                  tCircle.block === currentBlock?._id ? currentBlock : null
+                }
+                containerWidth={displayTablesRef?.current?.offsetWidth}
+                containerHeight={displayTablesRef?.current?.offsetHeight}
+                blockId={blockId}
+              ></TcircleShape>
+            );
           }
-      }
-        )}
+        })}
     </div>
   );
 };

@@ -24,6 +24,7 @@ const BlockTools = ({ children }) => {
   // console.log("bshapeForm - blockTools:", bShapeForm)
   // *! ----- Param -------------------------------------------
   const param = useParams();
+  // console.log("param:", param);
   const navigate = useNavigate();
 
   // *! ----- Local States ------------------------------------
@@ -55,7 +56,7 @@ const BlockTools = ({ children }) => {
 
   const deleteTheShape = async (blockId) => {
     try {
-      const response = await deleteBlock(blockId);
+      const response = await deleteBlock(param.blockIdParam);
       console.log("Block Deleted:", response);
       setBCircles((prev) => {
         return prev.filter((bCircle) => bCircle._id !== blockId);

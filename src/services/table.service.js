@@ -3,7 +3,7 @@ import axios from "axios";
 
 export const createTable = async (blockId, body) => {
   try {
-    console.log("On Table Service",body);
+    console.log("On Table Service", body);
     const response = await axios.post(
       `${API_URL}/tables/b/${blockId}/create`,
       body
@@ -15,8 +15,15 @@ export const createTable = async (blockId, body) => {
   }
 };
 export const editTable = async (tableId, body) => {
+  
+
   try {
-    const response = await axios.put(`${API_URL}/tables/b/${tableId}/edit`, body);
+    const response = await axios.put(
+      `${API_URL}/tables/b/${tableId}/edit`,
+      body
+    );
+
+    // console.log("updateTShape:", response.data);
     return response.data;
   } catch (error) {
     throw error;
@@ -33,12 +40,14 @@ export const findTable = async (tableId) => {
 export const getAllTables = async (layoutId) => {
   try {
     const response = await axios.get(`${API_URL}/layout/${layoutId}/find`);
-    if(response.data.success){
-      return {success:response.data.success, tables: response.data.layout.blocks.map(block => block.tables).flat()}
+    if (response.data.success) {
+      return {
+        success: response.data.success,
+        tables: response.data.layout.blocks.map((block) => block.tables).flat(),
+      };
+    } else {
+      return { success: response.data.success, tables: [] };
     }
-    else{
-      return {success:response.data.success, tables:[]}
-    };
   } catch (error) {
     throw error;
   }

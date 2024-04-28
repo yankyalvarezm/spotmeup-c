@@ -2,7 +2,7 @@ import styled from "styled-components";
 
 export const StyledTCircle = styled.div`
   width: ${(prop) => prop.tCircle?.width}px;
-  height: ${(prop) => prop.tCircle?.width}px;
+  height: ${(prop) => prop.tCircle?.height}px;
   border-radius: ${(prop) => prop.tCircle?.borderRadius || 50}%;
   background-color: ${(prop) => prop.tCircle?.backgroundColor};
   // border: ${(prop) => prop.tCircle?.borderSize}px solid

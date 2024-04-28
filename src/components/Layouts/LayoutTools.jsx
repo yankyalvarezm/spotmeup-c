@@ -21,8 +21,8 @@ const LayoutTools = ({ children }) => {
 
   const designContainer = document.querySelector(".design-container");
 
-  console.log("designContainer - width:", designContainer?.offsetWidth);
-  console.log("designContainer - height:", designContainer?.offsetHeight);
+  // console.log("designContainer - width:", designContainer?.offsetWidth);
+  // console.log("designContainer - height:", designContainer?.offsetHeight);
 
   useEffect(() => {
     setLayoutBody({
@@ -51,7 +51,7 @@ const LayoutTools = ({ children }) => {
     }
   }, [layoutBody.height, layoutBody.width]);
 
-  console.log("layoutBody:", layoutBody);
+  // console.log("layoutBody:", layoutBody);
   const handleFloorPlanSelect = async (floorPlanType) => {
     // debugger;
     setLayoutBody((prevLayoutBody) => ({

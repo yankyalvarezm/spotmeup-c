@@ -28,6 +28,7 @@ const TcircleShape = ({
     setTableId,
     tableId,
     toggleTShapeForm,
+    setEditingTables,
   } = useContext(TableContext);
   const [actualBlock, setActualBlock] = useState(null);
 
@@ -137,15 +138,17 @@ const TcircleShape = ({
     try {
       const response = await editTable(tableId, body);
 
-      setTCircles((prev) => {
-        return prev.map((tCircle) => {
-          if (tCircle._id === tableId) {
-            return { ...response.table, row: newRow, col: newCol };
-          } else {
-            return tCircle;
-          }
+      if (tCircle.block === actualBlock._id) {
+        setTCircles((prev) => {
+          return prev.map((tCircle) => {
+            if (tCircle._id === tableId) {
+              return { ...response.table, row: newRow, col: newCol };
+            } else {
+              return tCircle;
+            }
+          });
         });
-      });
+      }
     } catch (error) {
       console.log("error", error);
     }
@@ -206,28 +209,55 @@ const TcircleShape = ({
     const rowsGap = newCol > 1 ? tableWidth * 0.065 : 0;
     const columnGap = newRow > 1 ? tableWidth * 0.065 : 0;
 
-    if (
-      containerWidth &&
-      containerHeight &&
-      actualBlock &&
-      tCircle.block === actualBlock._id
-    ) {
-      setTCircles((prevCircles) =>
-        prevCircles.map((tCr) =>
-          tCr._id === tCircle._id
-            ? {
-                ...tCr,
-                width: tableWidth,
-                height: tableHeigth,
-                x: (tableWidth + rowsGap) * (tCircle.col - positionSubRow),
-                y: (tableHeigth + columnGap) * (tCircle.row - positionSubCol),
-                name: tCircle.number,
-              }
-            : tCr
-        )
-      );
-      // }
-    }
+    const updateTableDetails = async () => {
+      if (
+        containerWidth &&
+        containerHeight &&
+        actualBlock &&
+        tCircle.block === actualBlock._id &&
+        tCircle._id
+      ) {
+        // Primero actualizamos el estado local
+        setTCircles((prevCircles) =>
+          prevCircles.map((Crq) =>
+            Crq._id === tCircle._id
+              ? {
+                  ...Crq,
+                  width: tableWidth,
+                  height: tableHeigth,
+                  x: (tableWidth + rowsGap) * (tCircle.col - positionSubRow),
+                  y: (tableHeigth + columnGap) * (tCircle.row - positionSubCol),
+                  name: tCircle.number,
+                  containerWidth: containerWidth / actualBlock?.maxCol,
+                  containerHeight: containerHeight / actualBlock?.maxRow,
+                }
+              : Crq
+          )
+        );
+
+        try {
+          setEditingTables(true);
+          const response = await editTable(tCircle._id, {
+            width: tableWidth,
+            height: tableHeigth,
+            x: (tableWidth + rowsGap) * (tCircle.col - positionSubRow),
+            y: (tableHeigth + columnGap) * (tCircle.row - positionSubCol),
+            containerWidth: containerWidth / actualBlock?.maxCol,
+            containerHeight: containerHeight / actualBlock?.maxRow,
+          });
+
+          if (response.success) {
+            setTimeout(() => {
+              setEditingTables(false);
+            }, 10000);
+          }
+        } catch (error) {
+          console.error("Failed to update table:", error);
+        }
+      }
+    };
+
+    updateTableDetails();
   }, [
     blockId,
     tCircle._id,
@@ -237,7 +267,7 @@ const TcircleShape = ({
     actualBlock,
   ]);
 
-  console.log("tCircles:", tCircles);
+  // console.log("tCircles:", tCircles);
 
   const deleteTheShape = async (tableId) => {
     try {
