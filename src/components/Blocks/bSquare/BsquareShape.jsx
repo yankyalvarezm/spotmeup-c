@@ -6,12 +6,13 @@ import { editBlock } from "../../../services/block.service";
 import { LayoutContext } from "../../../context/layout.context";
 import { useNavigate, useParams } from "react-router-dom";
 import LockIcon from "../../ToolsC/LockIcon";
+import { TableContext } from "../../../context/table.context";
 
 const BsquareShape = ({ children, bSquare }) => {
   const navigate = useNavigate();
   const param = useParams();
 
-  const blockSquareRef = useRef(null)
+  const blockSquareRef = useRef(null);
   // console.log("blockSquareRef:", blockSquareRef?.current?.offsetWidth)
 
   //*! -------  UseRefs ---------------
@@ -30,8 +31,10 @@ const BsquareShape = ({ children, bSquare }) => {
     setCurrentBlock,
     bSquareRef,
     bCircleRef,
+    showBShapeForm,
   } = useContext(BlockContext);
-  
+  const { showTShapeForm } = useContext(TableContext);
+
   // ? -- LayoutContext ---------------
   const { layoutBody, layoutDetails } = useContext(LayoutContext);
 
@@ -413,7 +416,6 @@ const BsquareShape = ({ children, bSquare }) => {
       }}
       grid={[5, 5]}
     >
-      
       <StyledbSquare
         ref={blockSquareRef}
         tabIndex={1}
@@ -422,7 +424,11 @@ const BsquareShape = ({ children, bSquare }) => {
           updateUrl(param.layoutIdParam, bSquare._id);
         }}
         bSquare={bSquare}
-        className="square-shape block-square-shape"
+        className={
+          blockId === bSquare._id && showBShapeForm && !showTShapeForm
+            ? "square-shape block-square-shape focus-block"
+            : "square-shape block-square-shape"
+        }
         resize={blockId === bSquare._id}
       >
         <div

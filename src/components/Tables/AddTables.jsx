@@ -10,6 +10,8 @@ const AddTables = ({ block }) => {
     tSquares,
     tCircles,
     lockGrid,
+    tShapeAdded,
+    setTShapeAdded,
   } = useContext(TableContext);
 
   const container = document.querySelector(".display-tables-container");
@@ -72,8 +74,8 @@ const AddTables = ({ block }) => {
   const handleTableAdd = async (row, col) => {
     if (currentBlock?.blockTableType.toLowerCase() === "circle") {
       try {
-        await addTableCircleManual(block._id, {...tableBody, row, col});
-
+        await addTableCircleManual(block._id, { ...tableBody, row, col });
+        setTShapeAdded(true);
         // console.log("addTableCircleManual - response:", tCircles);
       } catch (error) {
         console.error("addTableCircleManual - Error:", error.response);
@@ -82,8 +84,9 @@ const AddTables = ({ block }) => {
 
     if (currentBlock?.blockTableType.toLowerCase() === "square") {
       try {
-        await addTableSquareManual(block._id, {...tableBody, row, col});
+        await addTableSquareManual(block._id, { ...tableBody, row, col });
         // debugger
+        setTShapeAdded(true);
         // setExactPosition({ row: row, col: col });
         console.log("addTableSquareManual - Response:", tSquares);
       } catch (error) {
@@ -105,7 +108,9 @@ const AddTables = ({ block }) => {
           <div
             key={`${row}-${col}`}
             className={
-              currentBlock?._id === block._id && !lockGrid ? "grid-item" : "hide"
+              currentBlock?._id === block._id && !lockGrid
+                ? "grid-item"
+                : "hide"
             }
             style={{
               backgroundColor: `${block?.backgroundColor}`,

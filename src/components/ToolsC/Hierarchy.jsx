@@ -1,10 +1,21 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { useParams } from "react-router-dom";
 import { getOneLayout } from "../../services/layout.service";
+import { BlockContext } from "../../context/block.context";
+import { TableContext } from "../../context/table.context";
 
 const Hierarchy = () => {
   const param = useParams();
   const [layoutObject, setLayoutObject] = useState({});
+  const {
+    setShowBShapeForm,
+    bShapeForm,
+    bSquareRef,
+    bCircleRef,
+    setBlockId,
+    bShapeAdded,
+  } = useContext(BlockContext);
+  const { setTShapeAdded, tShapeAdded } = useContext(TableContext);
 
   const getThisLayout = async () => {
     const response = await getOneLayout(param.layoutIdParam);
@@ -16,7 +27,41 @@ const Hierarchy = () => {
 
   useEffect(() => {
     getThisLayout();
-  }, []);
+    if (tShapeAdded) {
+      setTShapeAdded(false);
+    }
+  }, [bShapeAdded, tShapeAdded]);
+
+  const handleShowToggleForm = (bShapeId) => {
+    setShowBShapeForm(true);
+    setBlockId(bShapeId);
+    bSquareRef?.current?.focus();
+  };
+
+  console.log("bSquareRef:", bSquareRef);
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      const isClickInside = event.target.closest(".block-square-shape");
+      const isClickInsideCircle = event.target.closest(".block-circle-shape");
+
+      if (
+        !isClickInside &&
+        !isClickInsideCircle &&
+        bShapeForm.current &&
+        !bShapeForm.current.contains(event.target)
+      ) {
+        setShowBShapeForm(false);
+        setBlockId(null);
+        // console.log("Square - Clicked Outside:");
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [bSquareRef, bShapeForm, bCircleRef]);
 
   return (
     <div className="hierarchy-container">
@@ -44,7 +89,12 @@ const Hierarchy = () => {
               <div className="hierarchy-border-effect"></div>
             </div>
             <div className="hierarchy-tables-container">
-              <h1 className="hierarchy-blocks-name">{block.name}</h1>
+              <h1
+                className="hierarchy-blocks-name"
+                onClick={() => handleShowToggleForm(block._id)}
+              >
+                {block.name}
+              </h1>
 
               {block.tables.map((table) => (
                 <div className="hierarchy-all-tables-effects-container">

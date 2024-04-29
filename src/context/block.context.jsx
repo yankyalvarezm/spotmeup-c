@@ -14,6 +14,7 @@ function BlockProvider({ children }) {
   const [showBShapeForm, setShowBShapeForm] = useState(false);
   const [blockId, setBlockId] = useState(null);
   const [currentBlock, setCurrentBlock] = useState(null);
+  const [tShapeAdded, setTShapeAdded] = useState(false);
 
   const fetchBlocks = async (layoutId) => {
     console.log("Fetch Blocks");
