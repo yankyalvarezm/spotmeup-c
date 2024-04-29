@@ -35,7 +35,7 @@ const Hierarchy = () => {
               <div className="hierarchy-vertical-border-effect"></div>
               <div className="hierarchy-vertical-border-effect"></div>
             </div>
-            
+
             <div className="hierarchy-border-container">
               <div className="hierarchy-border-effect"></div>
               <div className="hierarchy-border-effect"></div>
@@ -43,7 +43,32 @@ const Hierarchy = () => {
               <div className="hierarchy-border-effect"></div>
               <div className="hierarchy-border-effect"></div>
             </div>
-            <h1 className="hierarchy-blocks-name">{block.name}</h1>
+            <div className="hierarchy-tables-container">
+              <h1 className="hierarchy-blocks-name">{block.name}</h1>
+
+              {block.tables.map((table) => (
+                <div className="hierarchy-all-tables-effects-container">
+                  <div className="hierarchy-vertical-blocks-container">
+                    <div className="hierarchy-vertical-border-container">
+                      <div className="hierarchy-vertical-table-border-effect"></div>
+                      <div className="hierarchy-vertical-table-border-effect"></div>
+                      <div className="hierarchy-vertical-table-border-effect"></div>
+                      <div className="hierarchy-vertical-table-border-effect"></div>
+                      <div className="hierarchy-vertical-table-border-effect"></div>
+                    </div>
+
+                    <div className="hierarchy-table-border-container">
+                      <div className="hierarchy-table-border-effect"></div>
+                      <div className="hierarchy-table-border-effect"></div>
+                      <div className="hierarchy-table-border-effect"></div>
+                      <div className="hierarchy-table-border-effect"></div>
+                      <div className="hierarchy-table-border-effect"></div>
+                    </div>
+                    <h1 className="hierarchy-table-name">{table?.number}</h1>
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       ))}

@@ -54,7 +54,7 @@ const EditModal = () => {
         onClick={goBack}
         className={!editingTables ? "goback-btn-design" : "load-goback"}
       >
-        Go Back
+        {!editingTables ? "Go Back" : "Saving..."} 
       </button>
       <div className="tools-title">
         <div className="design-container">
