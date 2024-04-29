@@ -1,5 +1,5 @@
 import React, { useContext, useState, useEffect, useRef } from "react";
-import { StyledTCircle } from "./StyledTCircle";
+import { StyledtCircle } from "./StyledtCircle";
 import Draggable from "react-draggable";
 import { TableContext } from "../../../context/table.context";
 import { editTable } from "../../../services/table.service";
@@ -316,7 +316,7 @@ const TcircleShape = ({
         containerHeight / actualBlock?.maxCol,
       ]}
     >
-      <StyledTCircle
+      <StyledtCircle
         ref={tCircleRef}
         tabIndex={1}
         onMouseEnter={() => setTableId(tCircle._id)}
@@ -339,7 +339,7 @@ const TcircleShape = ({
             X
           </h1>
         </div>
-      </StyledTCircle>
+      </StyledtCircle>
     </Draggable>
   );
 };
