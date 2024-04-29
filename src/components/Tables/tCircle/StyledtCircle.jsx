@@ -51,5 +51,4 @@ export const StyledTCircle = styled.div`
     ${(props) => props.tCircle?.x}px,
     ${(props) => props.tCircle?.y}px
   );
-  
 `;

@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import { BlockContext } from "../../../context/block.context";
 
 export const StyledTSquare = styled.div`
   position: absolute;

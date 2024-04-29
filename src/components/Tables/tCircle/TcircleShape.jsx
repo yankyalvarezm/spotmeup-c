@@ -1,5 +1,5 @@
 import React, { useContext, useState, useEffect, useRef } from "react";
-import { StyledTCircle } from "./StyledTCircle";
+import StyledTCircle from "./StyledTCircle";
 import Draggable from "react-draggable";
 import { TableContext } from "../../../context/table.context";
 import { editTable } from "../../../services/table.service";
