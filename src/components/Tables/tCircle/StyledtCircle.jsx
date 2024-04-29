@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-export const StyledTCircle = styled.div`
+export const StyledtCircle = styled.div`
   width: ${(prop) => prop.tCircle?.width}px;
   height: ${(prop) => prop.tCircle?.height}px;
   border-radius: ${(prop) => prop.tCircle?.borderRadius || 50}%;
