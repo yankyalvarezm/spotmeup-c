@@ -452,7 +452,34 @@ const TableTools = () => {
                   </div>
                 </div>
               </div>
-              {/* <hr /> */}
+              
+
+              <hr className="table-hr"/>
+              <div className="table-ticket-prices-container">
+                <h1 className="table-tickets-title">Tickets</h1>
+                <div className="block-subtitle-container">
+                  <label
+                    className="block-tickets-sub-title"
+                    htmlFor="isMatched"
+                  >
+                    This Table Includes Tickets?
+                  </label>
+                  <input type="checkbox" name="isMatched" />
+                  <div className="checkmark-two"></div>
+                </div>
+
+                <div className="block-tickets-container">
+                  {/* <div className="block-ticket-fields">
+                    <label htmlFor="tickets">Quantity</label>
+                    <input type="number" name="tickets" />
+                  </div> */}
+
+                  <div className="block-ticket-fields">
+                    <label htmlFor="price">Price</label>
+                    <input type="number" name="price" />
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
 

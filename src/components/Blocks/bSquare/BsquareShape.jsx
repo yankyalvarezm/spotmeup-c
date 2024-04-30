@@ -146,8 +146,12 @@ const BsquareShape = ({ children, bSquare }) => {
     const handleClickOutside = (event) => {
       const isClickInside = event.target.closest(".block-square-shape");
       const isClickInsideCircle = event.target.closest(".block-circle-shape");
+      const isClickInsideHierarchyPrice = event.target.closest(
+        ".hierarchy-blocks-price"
+      );
 
       if (
+        !isClickInsideHierarchyPrice &&
         !isClickInside &&
         !isClickInsideCircle &&
         bShapeForm.current &&

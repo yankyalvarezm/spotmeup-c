@@ -17,7 +17,7 @@ const TsquareShape = ({
 }) => {
   //*! -------  Contexts --------------
   // ? -- BlockContext ----------------
-  const { blockId } = useContext(BlockContext);
+  const { blockId, showBShapeForm } = useContext(BlockContext);
   const {
     setTSquares,
     updateTShape,
@@ -31,6 +31,7 @@ const TsquareShape = ({
     toggleTShapeForm,
     editingTables,
     setEditingTables,
+    showTShapeForm,
   } = useContext(TableContext);
   const [actualBlock, setActualBlock] = useState(null);
 
@@ -325,7 +326,11 @@ const TsquareShape = ({
           handleShowToggleForm(tSquare._id);
         }}
         tSquare={tSquare}
-        className="square-shape tables-shapes"
+        className={
+          tableId === tSquare._id && showTShapeForm && !showBShapeForm
+            ? "square-shape tables-shape focus-block"
+            : "square-shape tables-shape"
+        }
       >
         <div
           className="table-handle circle-name tables-one-shape"

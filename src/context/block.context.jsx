@@ -15,6 +15,7 @@ function BlockProvider({ children }) {
   const [blockId, setBlockId] = useState(null);
   const [currentBlock, setCurrentBlock] = useState(null);
   const [tShapeAdded, setTShapeAdded] = useState(false);
+  const [priceUpdated, setPriceUpdated] = useState(false);
 
   const fetchBlocks = async (layoutId) => {
     console.log("Fetch Blocks");
@@ -83,10 +84,22 @@ function BlockProvider({ children }) {
 
   // console.log("blockID Contect", blockId);
 
-  const updateBShape = debounce((shapeId, body) => {
-    editBlock(shapeId, body);
+  const updateBShape = debounce(async (shapeId, body) => {
+    try {
+      const response = await editBlock(shapeId, body);
+      // console.log("context - response:", response);
+      if (response.success) {
+        setPriceUpdated(true);
+      }
+      return response;
+    } catch (error) {
+      console.log("error:", error);
+    }
+
     // console.log("updateBSHape")
   }, 500);
+
+  // console.log("priceUpdated", priceUpdated);
 
   return (
     <BlockContext.Provider
@@ -111,6 +124,8 @@ function BlockProvider({ children }) {
         setCurrentBlock,
         bSquareRef,
         bCircleRef,
+        priceUpdated,
+        setPriceUpdated,
       }}
     >
       {children}

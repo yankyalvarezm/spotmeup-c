@@ -17,6 +17,8 @@ const BlockTools = ({ children }) => {
     showBShapeForm,
     toggleBShapeForm,
     updateBShape,
+    priceUpdated,
+    setPriceUpdated,
   } = useContext(BlockContext);
 
   const { showTShapeForm } = useContext(TableContext);
@@ -75,8 +77,11 @@ const BlockTools = ({ children }) => {
 
   // *! ----- Handle Input Change ------------------------------
 
-  const handleInputChange = (e) => {
+  const handleInputChange = async (e) => {
     const { name, value } = e.target;
+    
+
+    console.log(`Name: ${name}, Value: ${value}`);
     const getSetter = (blockType) =>
       blockType.toLowerCase() === "circle" ? setBCircles : setBSquares;
 
@@ -118,6 +123,8 @@ const BlockTools = ({ children }) => {
         element.style.removeProperty("transform");
       }
     }
+
+    console.log("updatedBlock:", updatedBlock);
   };
 
   // *! ----- Text Position (Align Items & Justify Content) ------
@@ -160,6 +167,12 @@ const BlockTools = ({ children }) => {
       }
     }
   }, [currentBShape]);
+
+  // *! ---- Format Number --------
+  function formatNumberWithCommas(value) {
+    const number = value.replace(/\D/g, "");
+    return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  }
 
   // *! -------- DOM ELEMENTS -----------------------
   // *! -------- DOM ELEMENTS -----------------------
@@ -454,6 +467,44 @@ const BlockTools = ({ children }) => {
               </div>
               <hr />
               {children}
+              <hr />
+
+              {/* ------------- Price & Tickets ------------- */}
+              <div className="block-ticket-prices-container">
+                <h1 className="block-tickets-title">Tickets</h1>
+                <div className="block-subtitle-container">
+                  <label
+                    className="block-tickets-sub-title"
+                    htmlFor="isMatched"
+                  >
+                    Divide Price Within Tables?
+                  </label>
+                  <input type="checkbox" name="isMatched" />
+                  <div class="tooltip-container">
+                    <span class="hover-me">🤷🏻‍♂️</span>
+                    <div class="tooltip">
+                      <p>The price below will be divided among tables</p>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="block-tickets-container">
+                  <div className="block-ticket-fields">
+                    <label htmlFor="tickets">Quantity</label>
+                    <input type="number" name="tickets" />
+                  </div>
+
+                  <div className="block-ticket-fields">
+                    <label htmlFor="bprice">Price</label>
+                    <input
+                      type="number"
+                      name="bprice"
+                      onChange={handleInputChange}
+                      value={currentBShape.bprice}
+                    />
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
 
