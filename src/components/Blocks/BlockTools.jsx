@@ -19,9 +19,13 @@ const BlockTools = ({ children }) => {
     updateBShape,
     priceUpdated,
     setPriceUpdated,
+    layoutObject,
+    setLayoutObject,
+    hasBlockChanged,
+    setHasBlockChanged,
   } = useContext(BlockContext);
 
-  const { showTShapeForm } = useContext(TableContext);
+  const { showTShapeForm, tSquares, tCircles } = useContext(TableContext);
 
   // console.log("bshapeForm - blockTools:", bShapeForm)
   // *! ----- Param -------------------------------------------
@@ -32,11 +36,14 @@ const BlockTools = ({ children }) => {
   // *! ----- Local States ------------------------------------
   const [activeDropDown, setActiveDropDown] = useState(null);
   const [selectedBorder, setSelectedBorder] = useState("border");
+  const [tableCount, setTableCount] = useState(0);
 
   // *! ----- Current Shape -----------------------------------
   const currentBShape = [...bCircles, ...bSquares].find(
     (block) => block._id === blockId
   );
+
+  // console.log("currentBShape:", currentBShape);
 
   // *! ----- isCircle ----------------------------------------
   const isCircle = currentBShape?.blockType.toLowerCase() === "circle";
@@ -78,53 +85,60 @@ const BlockTools = ({ children }) => {
   // *! ----- Handle Input Change ------------------------------
 
   const handleInputChange = async (e) => {
-    const { name, value } = e.target;
-    
+    const { name, type, checked, value } = e.target;
+    const actualValue = type === "checkbox" ? checked : value;
 
-    console.log(`Name: ${name}, Value: ${value}`);
-    const getSetter = (blockType) =>
-      blockType.toLowerCase() === "circle" ? setBCircles : setBSquares;
+    console.log(`Name: ${name}, Value: ${actualValue}`);
 
-    let updatedBlock = { ...currentBShape, [name]: value };
+    let updatedBlock = { ...currentBShape, [name]: actualValue };
 
     if (name === "borderSize" || name === "borderColor") {
       const borderProps = ["Left", "Right", "Bottom", "Top"].reduce(
         (acc, direction) => {
           acc[`border${direction}Size`] =
             name === "borderSize"
-              ? value
+              ? actualValue
               : currentBShape[`border${direction}Size`];
           acc[`border${direction}Color`] =
             name === "borderColor"
-              ? value
+              ? actualValue
               : currentBShape[`border${direction}Color`];
           return acc;
         },
         {}
       );
-
       updatedBlock = { ...updatedBlock, ...borderProps };
     }
 
-    const setBlocks = getSetter(currentBShape.blockType);
+    const setBlocks =
+      currentBShape.blockType.toLowerCase() === "circle"
+        ? setBCircles
+        : setBSquares;
     setBlocks((prevBlocks) =>
       prevBlocks.map((block) => (block._id === blockId ? updatedBlock : block))
     );
+
+    setLayoutObject((prevLayout) => ({
+      ...prevLayout,
+      blocks: prevLayout.blocks.map((block) =>
+        block._id === blockId ? updatedBlock : block
+      ),
+    }));
 
     if (!["height", "width"].includes(name)) {
       updateBShape(blockId, updatedBlock);
     }
 
+    // if (name === "isMatched") {
+    //   setHasBlockChanged(true);
+    // }
+
     if (["circle", "square"].includes(currentBShape.blockType.toLowerCase())) {
       let className = `${currentBShape.blockType.toLowerCase()}-shape`;
-      let elements = document.getElementsByClassName(className);
-
-      for (let element of elements) {
+      document.querySelectorAll(`.${className}`).forEach((element) => {
         element.style.removeProperty("transform");
-      }
+      });
     }
-
-    console.log("updatedBlock:", updatedBlock);
   };
 
   // *! ----- Text Position (Align Items & Justify Content) ------
@@ -173,6 +187,9 @@ const BlockTools = ({ children }) => {
     const number = value.replace(/\D/g, "");
     return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   }
+
+  // console.log("layoutObject:", layoutObject?.blocks?.tables?.length);
+  // console.log("tableCount:", tableCount);
 
   // *! -------- DOM ELEMENTS -----------------------
   // *! -------- DOM ELEMENTS -----------------------
@@ -470,33 +487,54 @@ const BlockTools = ({ children }) => {
               <hr />
 
               {/* ------------- Price & Tickets ------------- */}
+
               <div className="block-ticket-prices-container">
                 <h1 className="block-tickets-title">Tickets</h1>
-                <div className="block-subtitle-container">
-                  <label
-                    className="block-tickets-sub-title"
-                    htmlFor="isMatched"
-                  >
-                    Divide Price Within Tables?
-                  </label>
-                  <input type="checkbox" name="isMatched" />
-                  <div class="tooltip-container">
-                    <span class="hover-me">🤷🏻‍♂️</span>
-                    <div class="tooltip">
-                      <p>The price below will be divided among tables</p>
+                {currentBShape.tables?.length > 0 && (
+                  <div className="block-subtitle-container">
+                    <label
+                      className="block-tickets-sub-title"
+                      htmlFor="isMatched"
+                    >
+                      Divide Price Within Tables?
+                    </label>
+                    <input
+                      type="checkbox"
+                      name="isMatched"
+                      onChange={handleInputChange}
+                      checked={currentBShape.isMatched}
+                    />
+                    <div class="tooltip-container">
+                      <span class="hover-me">🤷🏻‍♂️</span>
+                      <div class="tooltip">
+                        <p>The price below will be divided among tables</p>
+                      </div>
                     </div>
                   </div>
-                </div>
+                )}
 
                 <div className="block-tickets-container">
-                  <div className="block-ticket-fields">
-                    <label htmlFor="tickets">Quantity</label>
-                    <input type="number" name="tickets" />
-                  </div>
+                  {!currentBShape.tables?.length && (
+                    <div className="block-ticket-fields">
+                      <label htmlFor="tickets">Tickets</label>
+                      <input type="number" name="tickets" />
+                    </div>
+                  )}
 
-                  <div className="block-ticket-fields">
-                    <label htmlFor="bprice">Price</label>
+                  <div
+                    className={
+                      !currentBShape.isMatched
+                        ? "bprice-false"
+                        : "block-ticket-fields"
+                    }
+                  >
+                    <label htmlFor="bprice" className="bprice">
+                      Price
+                    </label>
                     <input
+                      className={
+                        !currentBShape.isMatched ? "bprice-false" : "bprice"
+                      }
                       type="number"
                       name="bprice"
                       onChange={handleInputChange}

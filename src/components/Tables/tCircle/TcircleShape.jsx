@@ -281,6 +281,7 @@ const TcircleShape = ({
       });
       setTableId(null);
       navigate(`/admin/designpage/${param.layoutIdParam}`);
+      getThisBlock(tCircle.block);
       // debugger;
       toggleTShapeForm();
     } catch (error) {

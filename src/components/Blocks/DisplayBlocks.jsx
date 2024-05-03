@@ -4,6 +4,7 @@ import BsquareShape from "./bSquare/BsquareShape";
 import BcircleShape from "./bCircle/BcircleShape";
 import { useParams } from "react-router-dom";
 import AddTables from "../Tables/AddTables";
+import { TableContext } from "../../context/table.context";
 
 const DisplayBlocks = ({ children }) => {
   const {
@@ -13,7 +14,11 @@ const DisplayBlocks = ({ children }) => {
     bShapeAdded,
     fetchBlocks,
     currentBlock,
+    getThisBlock,
   } = useContext(BlockContext);
+
+  const { tSquares, tCircles } = useContext(TableContext);
+
   const param = useParams();
 
   useEffect(() => {
@@ -22,18 +27,23 @@ const DisplayBlocks = ({ children }) => {
     }
 
     fetchBlocks(param.layoutIdParam);
-  }, [param.layoutIdParam, bShapeAdded]);
+  }, [
+    param.layoutIdParam,
+    bShapeAdded,
+
+  ]);
 
   const separateChildren = (blockId) => {
     // console.log("CHILDREN",children);
-    return Children.map(children, child => {
+    return Children.map(children, (child) => {
       if (React.isValidElement(child)) {
         // console.log("CHILDREN",React.cloneElement(child, { blockId }));
-      return React.cloneElement(child, { key:blockId, blockId });
-    }
-    return child;
-  })
-  }
+        return React.cloneElement(child, { key: blockId, blockId });
+      }
+      return child;
+    });
+  };
+
   return (
     <div className="display-blocks-container">
       {bCircles &&
@@ -68,7 +78,6 @@ const DisplayBlocks = ({ children }) => {
               <AddTables block={bSquare} />
             </div>
             {separateChildren(bSquare._id)}
-
           </BsquareShape>
         ))}
     </div>

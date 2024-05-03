@@ -5,10 +5,11 @@ import { BlockContext } from "../../context/block.context";
 import { TableContext } from "../../context/table.context";
 import { responsivePropType } from "react-bootstrap/esm/createUtilityClasses";
 import { editBlock } from "../../services/block.service";
+import { editTable } from "../../services/table.service";
 
 const Hierarchy = () => {
   const param = useParams();
-  const [layoutObject, setLayoutObject] = useState({});
+
   const {
     setShowBShapeForm,
     showBShapeForm,
@@ -23,6 +24,10 @@ const Hierarchy = () => {
     updateBShape,
     bCircles,
     bSquares,
+    setBCircles,
+    setBSquares,
+    layoutObject,
+    setLayoutObject,
   } = useContext(BlockContext);
   const {
     setTShapeAdded,
@@ -34,6 +39,10 @@ const Hierarchy = () => {
     tCircleRef,
     setTableId,
     tSquareRef,
+    tCircles,
+    tSquares,
+    setTCircles,
+    setTSquares,
   } = useContext(TableContext);
 
   const getThisLayout = async () => {
@@ -53,7 +62,6 @@ const Hierarchy = () => {
 
     if (priceUpdated) {
       setPriceUpdated(false);
-      getThisLayout();
     }
 
     getThisLayout();
@@ -67,13 +75,11 @@ const Hierarchy = () => {
     setIsBlockFocus(true);
   };
 
-  const handleShowToggleTable = (tableId) => {
+  const handleShowToggleTable = (tShapeId) => {
     setShowBShapeForm(false);
     setShowTShapeForm(true);
-    setTableId(tableId);
+    setTableId(tShapeId);
   };
-
-  // console.log("bSquareRef:", bSquareRef);
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -133,28 +139,93 @@ const Hierarchy = () => {
     };
   }, [tSquareRef, tShapeForm, tCircleRef]);
 
-  const handleBlockInputChange = async (e, block) => {
-    const { name, value } = e.target;
+  // ! ---------- Handle Block Change ------------
 
-    let updatedBlock = { ...block, [name]: value };
-
-    try {
-      const response = await editBlock(block._id, updatedBlock);
-
-      if (response.success) {
-        getThisLayout();
-      }
-
-      console.log("editBlock:", response);
-    } catch (error) {
-      console.log("error", error);
-    }
-  };
-
-  // *! ----- Current Shape -----------------------------------
   const currentBShape = [...bCircles, ...bSquares].find(
     (block) => block._id === blockId
   );
+
+  // console.log("currentBShape:", currentBShape);
+
+  const handleBlockInputChange = (e) => {
+    const { name, value } = e.target;
+
+    const updatedBlocks = layoutObject?.blocks?.map((block) => {
+      if (block._id === blockId) {
+        const beforeUpdate = { ...block, [name]: value };
+        editBlock(blockId, beforeUpdate);
+        return beforeUpdate;
+      } else {
+        return block;
+      }
+    });
+
+    // console.log("updatedBlocks:", updatedBlocks);
+
+    setLayoutObject((prevLayoutObject) => ({
+      ...prevLayoutObject,
+      blocks: updatedBlocks,
+    }));
+
+    if (currentBShape?.blockType.toLowerCase() === "circle") {
+      setBCircles((prevCircles) =>
+        prevCircles.map((circle) =>
+          circle._id === blockId ? { ...circle, [name]: value } : circle
+        )
+      );
+    }
+
+    if (currentBShape?.blockType.toLowerCase() === "square") {
+      setBSquares((prevCircles) =>
+        prevCircles.map((square) =>
+          square._id === blockId ? { ...square, [name]: value } : square
+        )
+      );
+    }
+  };
+
+  const currentTShape = [...tCircles, ...tSquares].find(
+    (table) => table._id === tableId
+  );
+
+  // console.log("layoutObject Hierarchy:", layoutObject);
+
+  // ! ------------ Handle Table Change ----------------
+
+  const handleTableInputChange = (e) => {
+    const { name, value } = e.target;
+
+    setLayoutObject((prevLayout) => {
+      return {
+        ...prevLayout,
+        blocks: prevLayout.blocks.map((block) => {
+          const updatedTables = block.tables.map((table) => {
+            if (table._id === tableId) {
+              return { ...table, [name]: value };
+            }
+            return table;
+          });
+          return { ...block, tables: updatedTables };
+        }),
+      };
+    });
+
+    if (currentTShape?.tableType.toLowerCase() === "circle") {
+      setTCircles((prevCircles) =>
+        prevCircles.map((circle) =>
+          circle._id === tableId ? { ...circle, [name]: value } : circle
+        )
+      );
+    }
+
+    if (currentTShape?.tableType.toLowerCase() === "square") {
+      setTSquares((prevCircles) =>
+        prevCircles.map((square) =>
+          square._id === tableId ? { ...square, [name]: value } : square
+        )
+      );
+    }
+  };
 
   return (
     <div className="hierarchy-container">
@@ -186,33 +257,38 @@ const Hierarchy = () => {
               </div>
               <div
                 className={
-                  block._id === blockId && showBShapeForm && isBlockFocus
+                  block?._id === blockId && showBShapeForm && isBlockFocus
                     ? "hierarchy-tables-container hierarchy-highlight"
                     : "hierarchy-tables-container "
                 }
               >
                 <h1
                   className={
-                    block._id === blockId && showBShapeForm && isBlockFocus
+                    block?._id === blockId && showBShapeForm && isBlockFocus
                       ? "hierarchy-blocks-name hierarchy-highlight"
                       : "hierarchy-blocks-name "
                   }
-                  onClick={() => handleShowToggleForm(block._id)}
+                  onClick={() => handleShowToggleForm(block?._id)}
                 >
-                  {block.name}
+                  {block?.name}
                 </h1>
 
-                <h1 className="hierarchy-blocks-price">${block.bprice}</h1>
+                {/* <h1 className="hierarchy-blocks-price">${block.bprice}</h1> */}
 
-                <input
-                  className="hierarchy-blocks-price"
-                  type="number"
-                  name="bprice"
-                  value={block.bprice}
-                  onChange={(e) => handleBlockInputChange(e, block)}
-                />
+                {block.isMatched && <h1 className="dollar-sign">$</h1>}
 
-                {block.tables.map((table) => (
+                {block.isMatched && (
+                  <input
+                    className="hierarchy-blocks-price"
+                    type="number"
+                    name="bprice"
+                    value={block?.bprice}
+                    onClick={() => handleShowToggleForm(block?._id)}
+                    onChange={(e) => handleBlockInputChange(e)}
+                  />
+                )}
+
+                {block?.tables?.map((table) => (
                   <div className="hierarchy-all-tables-effects-container">
                     <div
                       className={
@@ -242,6 +318,27 @@ const Hierarchy = () => {
                       >
                         {table?.number}
                       </h1>
+                      <h1 className="dollar-sign-table">$</h1>
+                      {block?.isMatched && (
+                        <h1 className="lock-sign-table">🔓</h1>
+                      )}
+
+                      <input
+                        className={
+                          block?.isMatched
+                            ? "hierarchy-table-price none-events"
+                            : "hierarchy-table-price "
+                        }
+                        onClick={() => handleShowToggleTable(table._id)}
+                        onChange={(e) => handleTableInputChange(e)}
+                        type="number"
+                        name="tprice"
+                        value={
+                          block?.isMatched
+                            ? Math.ceil(block.bprice / block.tables.length)
+                            : table.tprice
+                        }
+                      />
                     </div>
                   </div>
                 ))}

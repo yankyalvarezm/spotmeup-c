@@ -1,6 +1,11 @@
 import React, { createContext, useState, useRef, useEffect } from "react";
 import { createTable } from "../services/table.service";
-import { editTable, getAllTables } from "../services/table.service";
+import {
+  editTable,
+  getAllTables,
+  getAllTablesOnBlock,
+} from "../services/table.service";
+import { findTable } from "../services/table.service";
 
 const TableContext = createContext();
 
@@ -19,9 +24,9 @@ function TableProvider({ children }) {
   const [editingTables, setEditingTables] = useState(false);
   // const [thisBlockId, setThisBlockId] = useState(null)
 
-  const fetchTables = async (blockId) => {
+  const fetchTables = async (layoutId) => {
     try {
-      const response = await getAllTables(blockId);
+      const response = await getAllTables(layoutId);
       // console.log("fetchTables:", response);
       if (response.success) {
         const circleFilter = response.tables.filter(
@@ -40,6 +45,29 @@ function TableProvider({ children }) {
       console.error(error);
     }
   };
+
+  const fetchTablesOnBlock = async (blockId) => {
+    try {
+      const response = await getAllTablesOnBlock(blockId);
+
+      console.log("fetchTablesOnBlock:", response);
+      if (response.success) {
+        const circleFilter = response.tables.filter(
+          (table) => table.tableType.toLowerCase() === "circle"
+        );
+        const squareFilter = response.tables.filter(
+          (table) => table.tableType.toLowerCase() === "square"
+        );
+        setTCircles(circleFilter);
+        setTSquares(squareFilter);
+
+        // debugger;
+      }
+    } catch (error) {
+      console.log("error:", error);
+    }
+  };
+
   // console.log("Context - tSquares:", tSquares);
 
   // debugger;
@@ -129,6 +157,7 @@ function TableProvider({ children }) {
         setTShapeEdited,
         editingTables,
         setEditingTables,
+        fetchTablesOnBlock,
       }}
     >
       {children}

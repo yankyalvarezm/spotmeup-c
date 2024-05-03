@@ -17,7 +17,8 @@ const TsquareShape = ({
 }) => {
   //*! -------  Contexts --------------
   // ? -- BlockContext ----------------
-  const { blockId, showBShapeForm } = useContext(BlockContext);
+  const { blockId, showBShapeForm, setPriceUpdated, getThisBlock } =
+    useContext(BlockContext);
   const {
     setTSquares,
     updateTShape,
@@ -292,6 +293,8 @@ const TsquareShape = ({
       navigate(`/admin/designpage/${param.layoutIdParam}`);
       // debugger;
       toggleTShapeForm();
+      setPriceUpdated(true);
+      getThisBlock(tSquare.block);
     } catch (error) {
       console.log("error:", error.response);
     }

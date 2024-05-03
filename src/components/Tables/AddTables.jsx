@@ -3,7 +3,15 @@ import { BlockContext } from "../../context/block.context";
 import { TableContext } from "../../context/table.context";
 
 const AddTables = ({ block }) => {
-  const { currentBlock } = useContext(BlockContext);
+  const {
+    currentBlock,
+    bCircles,
+    bSquares,
+    setBSquares,
+    setBCircles,
+    blockId,
+    getThisBlock,
+  } = useContext(BlockContext);
   const {
     addTableCircleManual,
     addTableSquareManual,
@@ -50,7 +58,7 @@ const AddTables = ({ block }) => {
       width: tableWidth,
       height: tableHeigth,
       status: "Available",
-      cprice: 0,
+      tprice: 0,
       tickets: 0,
       isIncluded: 0,
       row: exactPosition.row,
@@ -76,24 +84,31 @@ const AddTables = ({ block }) => {
       try {
         await addTableCircleManual(block._id, { ...tableBody, row, col });
         setTShapeAdded(true);
+        getThisBlock(block._id);
         // console.log("addTableCircleManual - response:", tCircles);
       } catch (error) {
         console.error("addTableCircleManual - Error:", error.response);
       }
     }
 
+    console.log("bCircles:", bCircles);
+    console.log("bSquares:", bSquares);
+
     if (currentBlock?.blockTableType.toLowerCase() === "square") {
       try {
         await addTableSquareManual(block._id, { ...tableBody, row, col });
         // debugger
         setTShapeAdded(true);
-        // setExactPosition({ row: row, col: col });
+        getThisBlock(block._id);
         console.log("addTableSquareManual - Response:", tSquares);
       } catch (error) {
         console.error("addTableSquareManual - Error:", error);
       }
     }
   };
+
+  // console.log("bSquares:", bSquares);
+  // console.log("bCircles:", bCircles);
 
   // console.log("Exact Position:", exactPosition);
 

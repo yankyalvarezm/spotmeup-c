@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { TableContext } from "../../context/table.context";
 import { deleteTable } from "../../services/table.service";
 import { useParams, useNavigate } from "react-router-dom";
+import { BlockContext } from "../../context/block.context";
 
 const TableTools = () => {
   // *! ----- Context ---------------------------------------
@@ -17,6 +18,14 @@ const TableTools = () => {
     toggleTShapeForm,
     updateTShape,
   } = useContext(TableContext);
+
+  const {
+    setPriceUpdated,
+    setLayoutObject,
+    blockId,
+    layoutObject,
+    getThisBlock,
+  } = useContext(BlockContext);
 
   // *! ----- Param -------------------------------------------
   const param = useParams();
@@ -62,6 +71,11 @@ const TableTools = () => {
       navigate(`/admin/designpage/${param.layoutIdParam}`);
       // debugger;
       toggleTShapeForm();
+      getThisBlock(currentTShape.block);
+
+      if (response.success) {
+        setPriceUpdated(true);
+      }
     } catch (error) {
       console.log("error:", error);
     }
@@ -70,22 +84,25 @@ const TableTools = () => {
   // *! ----- Handle Input Change ------------------------------
 
   const handleInputChange = (e) => {
-    const { name, value } = e.target;
+    const { name, value, type, checked } = e.target;
+
+    const actualValue = type === "checkbox" ? checked : value;
+
     const getSetter = (tableType) =>
       tableType.toLowerCase() === "circle" ? setTCircles : setTSquares;
 
-    let updatedTable = { ...currentTShape, [name]: value };
+    let updatedTable = { ...currentTShape, [name]: actualValue };
 
     if (name === "borderSize" || name === "borderColor") {
       const borderProps = ["Left", "Right", "Bottom", "Top"].reduce(
         (acc, direction) => {
           acc[`border${direction}Size`] =
             name === "borderSize"
-              ? value
+              ? actualValue
               : currentTShape[`border${direction}Size`];
           acc[`border${direction}Color`] =
             name === "borderColor"
-              ? value
+              ? actualValue
               : currentTShape[`border${direction}Color`];
           return acc;
         },
@@ -99,6 +116,21 @@ const TableTools = () => {
     setTables((prevTables) =>
       prevTables.map((table) => (table._id === tableId ? updatedTable : table))
     );
+
+    setLayoutObject((prevLayout) => {
+      return {
+        ...prevLayout,
+        blocks: prevLayout.blocks.map((block) => {
+          const updatedTables = block.tables.map((table) => {
+            if (table._id === tableId) {
+              return { ...table, [name]: actualValue };
+            }
+            return table;
+          });
+          return { ...block, tables: updatedTables };
+        }),
+      };
+    });
 
     if (!["height", "width"].includes(name)) {
       updateTShape(tableId, updatedTable);
@@ -143,9 +175,8 @@ const TableTools = () => {
       let remove = document.getElementsByClassName("circle-shape");
 
       // console.log("remove:", remove);
-      
+
       for (let i = 0; i < tCircles.length; i++) {
-        
         remove[i].style.removeProperty("height");
         remove[i].style.removeProperty("width");
       }
@@ -160,6 +191,8 @@ const TableTools = () => {
       }
     }
   }, [currentTShape]);
+
+  console.log("currentTShape:", currentTShape);
 
   // *! -------- DOM ELEMENTS -----------------------
   // *! -------- DOM ELEMENTS -----------------------
@@ -452,32 +485,103 @@ const TableTools = () => {
                   </div>
                 </div>
               </div>
-              
 
-              <hr className="table-hr"/>
+              {/* ---------- Tickets & Price ------------- */}
+
+              <hr className="table-hr" />
               <div className="table-ticket-prices-container">
                 <h1 className="table-tickets-title">Tickets</h1>
+
                 <div className="block-subtitle-container">
                   <label
                     className="block-tickets-sub-title"
-                    htmlFor="isMatched"
+                    htmlFor="isIncluded"
                   >
                     This Table Includes Tickets?
                   </label>
-                  <input type="checkbox" name="isMatched" />
+                  <input
+                    type="checkbox"
+                    name="isIncluded"
+                    onChange={handleInputChange}
+                    checked={currentTShape.isIncluded}
+                  />
+                  <div className="checkmark-two"></div>
+                </div>
+                <div className="block-subtitle-container">
+                  <label
+                    className="block-tickets-sub-title"
+                    htmlFor="minimumConsumptionAvailable"
+                  >
+                    Has Minimum Consumption?
+                  </label>
+                  <input
+                    type="checkbox"
+                    name="minimumConsumptionAvailable"
+                    onChange={handleInputChange}
+                    checked={currentTShape.minimumConsumptionAvailable}
+                  />
                   <div className="checkmark-two"></div>
                 </div>
 
                 <div className="block-tickets-container">
-                  {/* <div className="block-ticket-fields">
-                    <label htmlFor="tickets">Quantity</label>
-                    <input type="number" name="tickets" />
-                  </div> */}
-
                   <div className="block-ticket-fields">
-                    <label htmlFor="price">Price</label>
-                    <input type="number" name="price" />
+                    <label
+                      htmlFor="tprice"
+                      className={
+                        currentTShape?.isBlockMatched ? "tprice-false" : ""
+                      }
+                    >
+                      Price
+                    </label>
+                    <input
+                      className={
+                        currentTShape?.isBlockMatched ? "tprice-false" : ""
+                      }
+                      type="number"
+                      name="tprice"
+                      onChange={handleInputChange}
+                      value={currentTShape?.tprice}
+                    />
                   </div>
+                  <div className="block-ticket-fields quantity-container">
+                    <label htmlFor="maxCapacity">Max-Capacity</label>
+                    <input
+                      type="number"
+                      name="maxCapacity"
+                      className="quantity"
+                      value={currentTShape?.maxCapacity}
+                      onChange={handleInputChange}
+                      min={currentTShape?.ticketsIncluded}
+                    />
+                  </div>
+
+                  {currentTShape?.isIncluded && (
+                    <div className="block-ticket-fields quantity-container">
+                      <label htmlFor="ticketsIncluded">Tickets Included</label>
+                      <input
+                        type="number"
+                        name="ticketsIncluded"
+                        className="quantity"
+                        value={currentTShape?.ticketsIncluded}
+                        onChange={handleInputChange}
+                      />
+                    </div>
+                  )}
+
+                  {currentTShape?.minimumConsumptionAvailable && (
+                    <div className="block-ticket-fields quantity-container">
+                      <label htmlFor="minimumConsumption">
+                        Min-Consumption
+                      </label>
+                      <input
+                        type="number"
+                        name="minimumConsumption"
+                        className="quantity"
+                        value={currentTShape?.minimumConsumption}
+                        onChange={handleInputChange}
+                      />
+                    </div>
+                  )}
                 </div>
               </div>
             </div>

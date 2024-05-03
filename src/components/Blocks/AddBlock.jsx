@@ -35,6 +35,7 @@ const AddBlock = () => {
     x: layoutBody?.width / 2 - 50,
     y: layoutBody?.height / 2 - 50,
     fontSize: 15,
+    isMatched: false,
   });
 
   return (

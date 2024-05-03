@@ -4066,8 +4066,8 @@ input[type="color"]::-webkit-color-swatch {
   position: absolute;
   transform: translate(-50%, -50%);
   top: 14px;
-  left: 98px;
-  width: 11vh;
+  left: 68px;
+  width: 6vh;
 }
 
 .hierarchy-blocks-price {
@@ -4080,9 +4080,53 @@ input[type="color"]::-webkit-color-swatch {
   position: absolute;
   transform: translate(-50%, -50%);
   top: 14px;
-  left: 200px;
-  width: 11vh;
+  left: 165px;
+  width: 6vh;
   color: #3f7a34;
+  background-color: transparent;
+  border: none;
+}
+
+.dollar-sign {
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+  font-weight: 300;
+  position: absolute;
+  top: 11px;
+  left: 116px;
+  color: #3f7a34;
+}
+
+.dollar-sign-table {
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+  font-weight: 300;
+  position: absolute;
+  left: 140px;
+  color: #3f7a34;
+}
+
+.lock-sign-table {
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+  font-weight: 300;
+  position: absolute;
+  left: 200px;
+  color: #3f7a34;
+}
+
+.none-events {
+  pointer-events: none;
+}
+
+.hierarchy-table-price {
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+  font-weight: 300;
+  position: absolute;
+  left: 150px;
+  color: #3f7a34;
+  height: 10px;
+  padding: 0.19rem 0.1rem;
+  /* padding-bottom: 0.1rem; */
+  background-color: transparent;
+  border: none;
 }
 
 .hierarchy-table-name {
@@ -4120,11 +4164,13 @@ input[type="color"]::-webkit-color-swatch {
 .hierarchy-all-tables-effects-container:hover {
   background-color: #27517f;
   cursor: pointer;
+  width: 57.5%;
 }
 
 .hierarchy-vertical-blocks-container {
   display: flex;
   align-items: flex-end;
+  width: 60%;
 }
 
 .hierarchy-vertical-border-container {
@@ -4216,8 +4262,26 @@ input[type="color"]::-webkit-color-swatch {
   align-items: center;
 }
 
+.bprice {
+  font-family: var(--primary--font);
+  font-size: 20px;
+}
+
+.bprice-false {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  text-decoration: line-through;
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+.bprice-false > input {
+  width: 50px;
+}
+
 .block-ticket-fields > input {
-  width: 60px;
+  width: 50px;
 }
 
 .block-ticket-fields > label {
@@ -4376,4 +4440,14 @@ input[type="color"]::-webkit-color-swatch {
   flex-basis: auto;
   width: 12vw;
   min-width: 12vw;
+}
+
+.quantity-container {
+  margin: 1rem 0rem;
+}
+
+.tprice-false {
+  opacity: 0.5;
+  pointer-events: none;
+  text-decoration: line-through;
 }

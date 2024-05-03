@@ -22,8 +22,10 @@ const DisplayTables = ({ blockId }) => {
     setTShapeAdded,
     tShapeEdited,
     setTShapeEdited,
+    fetchTablesOnBlock,
   } = useContext(TableContext);
-  const { currentBlock } = useContext(BlockContext);
+  const { currentBlock, hasBlockChanged, setHasBlockChanged } =
+    useContext(BlockContext);
 
   useEffect(() => {
     if (param.layoutIdParam) {
@@ -40,16 +42,18 @@ const DisplayTables = ({ blockId }) => {
     fetchTables(param.layoutIdParam);
   }, []);
 
+  useEffect(() => {
+    if (hasBlockChanged) {
+      setHasBlockChanged(false);
+      fetchTablesOnBlock(blockId);
+    }
+
+  }, [hasBlockChanged]);
+
   // console.log("blockIdParam:", param.blockIdParam);
   // console.log("tCircles from Display Tables:", tCircles);
 
   // console.log("displayTablesRef:", displayTablesRef?.current?.offsetWidth)
-
-  // debugger;
-
-  useEffect(() => {
-    // debugger;
-  }, [tSquares]);
 
   return (
     <div className="display-tables-container" ref={displayTablesRef}>

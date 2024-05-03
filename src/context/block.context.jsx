@@ -1,6 +1,7 @@
 import React, { createContext, useState, useRef } from "react";
 import { createBlock, getAllBlocks } from "../services/block.service";
 import { editBlock } from "../services/block.service";
+import { findBlock } from "../services/block.service";
 
 const BlockContext = createContext();
 
@@ -16,9 +17,10 @@ function BlockProvider({ children }) {
   const [currentBlock, setCurrentBlock] = useState(null);
   const [tShapeAdded, setTShapeAdded] = useState(false);
   const [priceUpdated, setPriceUpdated] = useState(false);
+  const [layoutObject, setLayoutObject] = useState({});
+  const [hasBlockChanged, setHasBlockChanged] = useState(false);
 
   const fetchBlocks = async (layoutId) => {
-    console.log("Fetch Blocks");
     try {
       const response = await getAllBlocks(layoutId);
 
@@ -39,6 +41,28 @@ function BlockProvider({ children }) {
       console.log("error:", error);
     }
   };
+  const getThisBlock = async (blockId) => {
+    try {
+      const response = await findBlock(blockId);
+
+      console.log("blockResponse:", response);
+      if (response.block.blockType.toLowerCase() === "circle") {
+        setBCircles((prev) => {
+          return prev.map((block) =>
+            block._id === blockId ? response.block : block
+          );
+        });
+      } else if (response.block.blockType.toLowerCase() === "square") {
+        setBSquares((prev) => {
+          return prev.map((block) =>
+            block._id === blockId ? response.block : block
+          );
+        });
+      }
+    } catch (error) {
+      console.log("error:", error);
+    }
+  };
 
   const addBlockCircle = async (layoutId, body) => {
     body.blockType = "Circle";
@@ -47,7 +71,6 @@ function BlockProvider({ children }) {
       if (response.success) {
         setBCircles((prev) => [...prev, response.block]);
         setBShapeAdded(true);
-        console.log("Block Circle Added:", bCircles.length);
       }
     } catch (error) {
       console.error(error);
@@ -61,7 +84,6 @@ function BlockProvider({ children }) {
       if (response.success) {
         setBSquares((prev) => [...prev, response.block]);
         setBShapeAdded(true);
-        console.log("Block Square Added:", response.block);
       }
     } catch (error) {
       console.error(error);
@@ -89,7 +111,7 @@ function BlockProvider({ children }) {
       const response = await editBlock(shapeId, body);
       // console.log("context - response:", response);
       if (response.success) {
-        setPriceUpdated(true);
+        setHasBlockChanged(true);
       }
       return response;
     } catch (error) {
@@ -126,6 +148,11 @@ function BlockProvider({ children }) {
         bCircleRef,
         priceUpdated,
         setPriceUpdated,
+        layoutObject,
+        setLayoutObject,
+        getThisBlock,
+        hasBlockChanged,
+        setHasBlockChanged,
       }}
     >
       {children}
