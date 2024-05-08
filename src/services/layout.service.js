@@ -45,7 +45,7 @@ export const getOneLayout = async (layoutId) => {
     // console.log("response", response.data);
     return response.data;
   } catch (error) {
-    console.log("error:", error);
+    console.log("error:", error.response);
     throw error;
   }
 };

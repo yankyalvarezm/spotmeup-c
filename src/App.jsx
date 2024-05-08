@@ -8,6 +8,8 @@ import Profile from "./pages/Profile";
 import MyEvents from "./pages/MyEvents";
 import AdminVenueDetail from "./pages/AdminVenueDetail";
 import DesignPage from "./pages/DesignPage";
+import DesignBreakDown from "./pages/DesignBreakDown";
+import BDTickets from "./components/BreakDown/BDTickets";
 // import 'bootstrap/dist/css/bootstrap.min.css';
 
 function App() {
@@ -27,6 +29,10 @@ function App() {
       <Route
         path="/admin/designpage/:layoutIdParam/:blockIdParam"
         element={<DesignPage />}
+      />
+      <Route
+        path="/admin/designpage/:layoutIdParam/breakdown"
+        element={<DesignBreakDown />}
       />
     </Routes>
   );

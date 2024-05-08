@@ -28,9 +28,9 @@ const DisplayVenues = () => {
       try {
         const response = await getAllVenues();
 
-        setTimeout(() => {
-          setVenues(response.venues);
-        }, 3000);
+        setVenues(response.venues);
+        // setTimeout(() => {
+        // }, 3000);
       } catch (error) {
         console.log("Line 59 - Error:", error);
       }

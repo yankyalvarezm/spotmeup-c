@@ -34,9 +34,13 @@ const EditModal = () => {
     useContext(TableContext);
 
   const goBack = () => {
-    if(!editingTables){
+    if (!editingTables) {
       navigate(`/admin/venuedetails/${layoutDetails.venue}`);
     }
+  };
+
+  const moveToBreakDown = () => {
+    navigate(`/admin/designpage/${param.layoutIdParam}/breakdown`);
   };
 
   // console.log("layoutDetails:", layoutDetails);
@@ -50,12 +54,17 @@ const EditModal = () => {
 
   return (
     <div className="design-big-container">
-      <button
-        onClick={goBack}
-        className={!editingTables ? "goback-btn-design" : "load-goback"}
-      >
-        {!editingTables ? "Go Back" : "Saving..."} 
-      </button>
+      <div className="edit-modal-btns">
+        <button
+          onClick={goBack}
+          className={!editingTables ? "goback-btn-design" : "load-goback"}
+        >
+          {!editingTables ? "Go Back" : "Saving..."}
+        </button>
+        <button className="dashboard-btn" onClick={moveToBreakDown}>
+          Dasboard
+        </button>
+      </div>
       <div className="tools-title">
         <div className="design-container">
           <div className="design-header-container">

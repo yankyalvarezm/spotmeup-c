@@ -516,14 +516,19 @@ const BlockTools = ({ children }) => {
                 <div className="block-tickets-container">
                   {!currentBShape.tables?.length && (
                     <div className="block-ticket-fields">
-                      <label htmlFor="tickets">Tickets</label>
-                      <input type="number" name="tickets" />
+                      <label htmlFor="btickets">Tickets</label>
+                      <input
+                        type="number"
+                        name="btickets"
+                        onChange={handleInputChange}
+                        value={currentBShape?.btickets}
+                      />
                     </div>
                   )}
 
                   <div
                     className={
-                      !currentBShape.isMatched
+                      !currentBShape?.isMatched
                         ? "bprice-false"
                         : "block-ticket-fields"
                     }
@@ -533,12 +538,12 @@ const BlockTools = ({ children }) => {
                     </label>
                     <input
                       className={
-                        !currentBShape.isMatched ? "bprice-false" : "bprice"
+                        !currentBShape?.isMatched ? "bprice-false" : "bprice"
                       }
                       type="number"
                       name="bprice"
                       onChange={handleInputChange}
-                      value={currentBShape.bprice}
+                      value={currentBShape?.bprice}
                     />
                   </div>
                 </div>

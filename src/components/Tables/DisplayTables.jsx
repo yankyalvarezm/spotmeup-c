@@ -31,9 +31,7 @@ const DisplayTables = ({ blockId }) => {
     if (param.layoutIdParam) {
       setLayoutId(param.layoutIdParam);
     }
-    // if (param.blockIdParam) {
-    //   setBlockId(param.blockIdParam);
-    // }
+   
   }, [param.layoutIdParam, param.blockIdParam]);
 
   const displayTablesRef = useRef(null);
@@ -55,11 +53,16 @@ const DisplayTables = ({ blockId }) => {
 
   // console.log("displayTablesRef:", displayTablesRef?.current?.offsetWidth)
 
+
   return (
     <div className="display-tables-container" ref={displayTablesRef}>
       {tSquares &&
         tSquares.map((tSquare) => {
           if (tSquare.block == blockId) {
+
+            {
+              // console.log("tSquares From DisplayTables", tSquares);
+            }
             return (
               <TsquareShape
                 tSquare={tSquare}

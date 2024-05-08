@@ -27,11 +27,7 @@ const DisplayBlocks = ({ children }) => {
     }
 
     fetchBlocks(param.layoutIdParam);
-  }, [
-    param.layoutIdParam,
-    bShapeAdded,
-
-  ]);
+  }, [param.layoutIdParam, bShapeAdded]);
 
   const separateChildren = (blockId) => {
     // console.log("CHILDREN",children);

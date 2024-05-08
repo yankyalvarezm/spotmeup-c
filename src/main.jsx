@@ -11,6 +11,7 @@ import { LayoutProvider } from "./context/layout.context.jsx";
 import { ShapeProvider } from "./context/shape.context.jsx";
 import { BlockProvider } from "./context/block.context.jsx";
 import { TableProvider } from "./context/table.context.jsx";
+import { BreakDownProvider } from "./context/breakdown.context.jsx";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
@@ -20,13 +21,15 @@ ReactDOM.createRoot(document.getElementById("root")).render(
           <MyEventsProvider>
             <VenuesProvider>
               <LayoutProvider>
-                <ShapeProvider>
-                  <BlockProvider>
-                    <TableProvider>
-                      <App />
-                    </TableProvider>
-                  </BlockProvider>
-                </ShapeProvider>
+                <BreakDownProvider>
+                  <ShapeProvider>
+                    <BlockProvider>
+                      <TableProvider>
+                        <App />
+                      </TableProvider>
+                    </BlockProvider>
+                  </ShapeProvider>
+                </BreakDownProvider>
               </LayoutProvider>
             </VenuesProvider>
           </MyEventsProvider>

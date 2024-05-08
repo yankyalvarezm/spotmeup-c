@@ -38,7 +38,6 @@ function TableProvider({ children }) {
         setTCircles(circleFilter);
 
         setTSquares(squareFilter);
-
         // debugger;
       }
     } catch (error) {
@@ -50,7 +49,7 @@ function TableProvider({ children }) {
     try {
       const response = await getAllTablesOnBlock(blockId);
 
-      console.log("fetchTablesOnBlock:", response);
+      // console.log("fetchTablesOnBlock:", response);
       if (response.success) {
         const circleFilter = response.tables.filter(
           (table) => table.tableType.toLowerCase() === "circle"
@@ -58,8 +57,20 @@ function TableProvider({ children }) {
         const squareFilter = response.tables.filter(
           (table) => table.tableType.toLowerCase() === "square"
         );
-        setTCircles(circleFilter);
-        setTSquares(squareFilter);
+        setTCircles((prev) =>
+          prev.map((table) =>
+            circleFilter.find((t) => t._id === table._id)
+              ? circleFilter.find((t) => t._id === table._id)
+              : table
+          )
+        );
+        setTSquares((prev) =>
+          prev.map((table) =>
+            squareFilter.find((t) => t._id === table._id)
+              ? squareFilter.find((t) => t._id === table._id)
+              : table
+          )
+        );
 
         // debugger;
       }

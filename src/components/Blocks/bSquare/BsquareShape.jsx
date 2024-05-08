@@ -150,18 +150,18 @@ const BsquareShape = ({ children, bSquare }) => {
         ".hierarchy-blocks-price"
       );
 
-      if (
+      if (  
         !isClickInsideHierarchyPrice &&
         !isClickInside &&
         !isClickInsideCircle &&
         bShapeForm.current &&
         !bShapeForm.current.contains(event.target)
       ) {
+        navigate(`/admin/designpage/${param.layoutIdParam}`);
         setShowBShapeForm(false);
         setBlockId(null);
         setCurrentBlock(null);
         saveName();
-        navigate(`/admin/designpage/${param.layoutIdParam}`);
         // console.log("Square - Clicked Outside:");
       }
     };

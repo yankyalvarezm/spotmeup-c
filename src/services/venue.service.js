@@ -46,7 +46,7 @@ export const getOneVenue = async (venueId) => {
 
     return response.data;
   } catch (error) {
-    console.log(error);
+    console.log(error.response);
     throw error;
   }
 };

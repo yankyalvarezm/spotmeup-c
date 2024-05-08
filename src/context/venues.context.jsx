@@ -18,7 +18,7 @@ function VenuesProvider({ children }) {
         const venueDetails = await getOneVenue(venueId);
         setVenueDetail(venueDetails.venue);
       } catch (error) {
-        console.log(error);
+        console.log(error.response);
       }
     };
 

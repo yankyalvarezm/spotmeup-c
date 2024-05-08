@@ -231,12 +231,13 @@ const Hierarchy = () => {
     <div className="hierarchy-container">
       <div className="title-container-hierarchy">
         <h1 className="hierarchy-title">Layers</h1>
-        <h1 className="hierarchy-title-two">Dashboard</h1>
+        {/* <h1 className="hierarchy-title-two">Dashboard</h1> */}
       </div>
       <hr className="hierarchy-hr" />
 
       <h1 className="hierarchy-layout-name">{layoutObject.name}</h1>
       <div className="hierarchy-sub-container">
+        {/* --------------------- Block ---------------------- */}
         {layoutObject?.blocks?.map((block) => (
           <div className="hierarchy-all-effects-container">
             <div className="hierarchy-vertical-blocks-container">
@@ -273,11 +274,9 @@ const Hierarchy = () => {
                   {block?.name}
                 </h1>
 
-                {/* <h1 className="hierarchy-blocks-price">${block.bprice}</h1> */}
-
                 {block.isMatched && <h1 className="dollar-sign">$</h1>}
 
-                {block.isMatched && (
+                {block.isMatched && block.tables.length > 0 && (
                   <input
                     className="hierarchy-blocks-price"
                     type="number"
@@ -287,6 +286,75 @@ const Hierarchy = () => {
                     onChange={(e) => handleBlockInputChange(e)}
                   />
                 )}
+
+                {block.tables.length < 1 && (
+                  <input
+                    className="hierarchy-blocks-price none-events"
+                    type="number"
+                    name="bprice"
+                    value={block?.bprice * block.btickets}
+                    onClick={() => handleShowToggleForm(block?._id)}
+                    onChange={(e) => handleBlockInputChange(e)}
+                  />
+                )}
+
+                {/* --------------------- Block Tickets --------------------- */}
+                {block.tables.length < 1 && (
+                  <div className="hierarchy-all-tables-effects-container">
+                    <div
+                      className={
+                        blockId === block._id && showTShapeForm
+                          ? "hierarchy-vertical-blocks-container hierarchy-highlight"
+                          : "hierarchy-vertical-blocks-container"
+                      }
+                    >
+                      <div className="hierarchy-vertical-border-container">
+                        <div className="hierarchy-vertical-table-border-effect"></div>
+                        <div className="hierarchy-vertical-table-border-effect"></div>
+                        <div className="hierarchy-vertical-table-border-effect"></div>
+                        <div className="hierarchy-vertical-table-border-effect"></div>
+                        <div className="hierarchy-vertical-table-border-effect"></div>
+                      </div>
+
+                      <div className="hierarchy-table-border-container">
+                        <div className="hierarchy-table-border-effect"></div>
+                        <div className="hierarchy-table-border-effect"></div>
+                        <div className="hierarchy-table-border-effect"></div>
+                        <div className="hierarchy-table-border-effect"></div>
+                        <div className="hierarchy-table-border-effect"></div>
+                      </div>
+                      <div>
+                        <h1
+                          className="hierarchy-table-name hierarchy-tickets-position"
+                          onClick={() => handleShowToggleForm(block._id)}
+                        >
+                          Tickets
+                        </h1>
+                      </div>
+                      <div className="hierarchy-tickets">
+                        <h1 className="hierarchy-tickets-name">
+                          {block.btickets}
+                        </h1>
+                      </div>
+
+                      <h1 className="dollar-sign-table">#</h1>
+                      {block?.isMatched && (
+                        <h1 className="lock-sign-table">🔓</h1>
+                      )}
+
+                      <input
+                        className="hierarchy-ticket-price-position"
+                        onClick={() => handleShowToggleForm(block?._id)}
+                        onChange={(e) => handleBlockInputChange(e)}
+                        type="number"
+                        name="bprice"
+                        value={block?.bprice}
+                      />
+                    </div>
+                  </div>
+                )}
+
+                {/* --------------------- Tables ---------------------------- */}
 
                 {block?.tables?.map((table) => (
                   <div className="hierarchy-all-tables-effects-container">

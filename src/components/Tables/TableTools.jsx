@@ -192,7 +192,7 @@ const TableTools = () => {
     }
   }, [currentTShape]);
 
-  console.log("currentTShape:", currentTShape);
+  // console.log("currentTShape:", currentTShape);
 
   // *! -------- DOM ELEMENTS -----------------------
   // *! -------- DOM ELEMENTS -----------------------

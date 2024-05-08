@@ -2895,6 +2895,7 @@ input[type="color"]::-webkit-color-swatch {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  min-width: 249px;
 }
 
 #onhold-layout {
@@ -4031,20 +4032,20 @@ input[type="color"]::-webkit-color-swatch {
   box-shadow: 0px 0px 8px var(--white);
 }
 
-.hierarchy-hr {
+/* .hierarchy-hr {
   background-color: white;
   color: white;
   border: 1px solid transparent;
   margin-top: 0rem;
-}
+} */
 
 .title-container-hierarchy {
   display: flex;
   width: 20vw;
-  justify-content: space-around;
+  /* justify-content: space-around; */
   align-items: center;
   background-color: var(--black);
-  padding-bottom: 1rem;
+  /* padding-bottom: 1rem; */
   position: fixed;
   z-index: 15;
 }
@@ -4081,6 +4082,23 @@ input[type="color"]::-webkit-color-swatch {
   transform: translate(-50%, -50%);
   top: 14px;
   left: 165px;
+  width: 6vh;
+  color: #3f7a34;
+  background-color: transparent;
+  border: none;
+}
+
+.hierarchy-ticket-price-position {
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+  /* margin-left: 3rem; */
+  font-weight: 300;
+  font-size: 15px;
+  margin-top: 0.4rem;
+  margin-left: 0.3rem;
+  position: absolute;
+  transform: translate(-50%, -50%);
+  top: 39px;
+  left: 188px;
   width: 6vh;
   color: #3f7a34;
   background-color: transparent;
@@ -4150,7 +4168,7 @@ input[type="color"]::-webkit-color-swatch {
   /* margin-top: 3rem; */
 }
 .hierarchy-sub-container {
-  margin-top: 4rem;
+  margin-top: 2rem;
   padding-bottom: 4rem;
   z-index: 5;
 }
@@ -4247,7 +4265,9 @@ input[type="color"]::-webkit-color-swatch {
 }
 
 .focus-block {
-  box-shadow: 0px 0px 15px #27517f;
+  outline: 2px solid #27517f;
+  z-index: 999;
+  /* box-shadow: 0px 0px 15px #27517f; */
 }
 
 .block-ticket-prices-container {
@@ -4265,6 +4285,35 @@ input[type="color"]::-webkit-color-swatch {
 .bprice {
   font-family: var(--primary--font);
   font-size: 20px;
+}
+.hierarchy-tickets {
+  width: auto;
+  height: auto;
+  padding: 0.1rem;
+  padding-right: 0.1rem;
+  background-color: var(--white);
+  border-radius: 8px;
+  position: absolute;
+  left: 40px;
+  top: 28px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0rem;
+}
+
+.hierarchy-tickets-name {
+  color: var(--black);
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+  font-weight: bold;
+  font-size: 12px;
+}
+
+.hierarchy-tickets-position {
+  font-size: 15px;
+  margin: 0rem;
+  position: absolute;
+  top: 40px;
 }
 
 .bprice-false {
@@ -4450,4 +4499,188 @@ input[type="color"]::-webkit-color-swatch {
   opacity: 0.5;
   pointer-events: none;
   text-decoration: line-through;
+}
+
+/* ---- Edit Modal */
+
+.edit-modal-btns {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.dashboard-btn {
+  height: 40px;
+  margin-top: 0.5rem;
+  margin-right: 1rem;
+  width: 27.5%;
+  min-width: 249px;
+}
+
+/* ------ BreakDown  ----- */
+
+.design-breakdown-page {
+  display: grid;
+  grid-template-columns: 2fr 8fr;
+}
+
+.bd-container {
+  display: flex;
+  flex-direction: column;
+  background-color: var(--black);
+  height: 100vh;
+  align-items: flex-end;
+  padding-top: 2rem;
+  position: relative;
+}
+
+.bd-container > button {
+  border-top-right-radius: 0px;
+  border-bottom-right-radius: 0px;
+  box-shadow: none;
+  border: none;
+  margin-bottom: 0.5rem;
+  margin-left: 0.5rem;
+  width: 98%;
+  background-color: var(--white);
+  text-align: left;
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+  font-weight: 400;
+  font-size: 20px;
+}
+
+.BD-tickets-container {
+  width: 100%;
+  height: 100vh;
+  background-color: var(--white);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.breakdown-bg {
+  position: absolute;
+  width: 70%;
+  height: 96%;
+  background-color: white;
+  z-index: 1;
+  top: 2%;
+}
+
+.bd-excel-titles {
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+  font-weight: 200;
+  color: white;
+  text-align: center;
+  font-size: 20px;
+  width: 100%;
+}
+.tickets-expectation {
+  display: flex;
+  width: 81%;
+  justify-content: space-between;
+  font-family: var(--primary--font);
+  margin-top: 2rem;
+  z-index: 2;
+  gap: 1rem;
+  margin-left: 1rem;
+}
+
+.ticket-expectation-item {
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+  font-weight: 400;
+  background-color: var(--white);
+  padding: 1rem;
+  border-radius: 10px;
+  width: 100%;
+}
+
+.bd-excel-container {
+  z-index: 2;
+  width: 80%;
+}
+
+.bd-excel-titles-container {
+  margin-top: 1rem;
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+  background-color: var(--black);
+  padding: 0.5rem;
+  border-top-right-radius: 10px;
+  border-top-left-radius: 10px;
+  margin-bottom: 0.3rem;
+}
+
+.bd-deactivated {
+  background-color: transparent !important;
+  color: white;
+}
+
+.BD-block-name {
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+  font-weight: 400;
+  font-size: 20px;
+  color: var(--black);
+  text-align: center;
+  
+}
+
+.bd-div {
+  width: 100% ;
+  text-align: center;
+  /* background-color: red !important; */
+}
+
+.BD-block-mapping-container {
+  display: flex;
+  width: 100%;
+  justify-content: space-around;
+  background-color: var(--white);
+  margin-bottom: 0.3rem;
+  padding: 0.5rem;
+}
+
+.BD-Mapping-bigcontainer {
+  position: relative;
+  cursor: pointer;
+}
+
+.BD-Mapping-bigcontainer:hover {
+  .BD-block-mapping-container {
+    background-color: rgb(229, 226, 226);
+  }
+  .arrow {
+    display: block;
+  }
+}
+.dropdown-triangle-table {
+  display: none;
+  font-size: 20px;
+  position: absolute;
+  top: 42%;
+  right: 0%;
+}
+
+.arrow {
+  border: solid black;
+  border-width: 0 2px 2px 0;
+  /* display: inline-block; */
+  display: none;
+  padding: 3px;
+  position: absolute;
+  top: 42%;
+  right: 0%;
+}
+
+.up {
+  transform: rotate(-135deg);
+  -webkit-transform: rotate(-135deg);
+}
+
+
+.down {
+  transform: rotate(45deg);
+  -webkit-transform: rotate(45deg);
 }
