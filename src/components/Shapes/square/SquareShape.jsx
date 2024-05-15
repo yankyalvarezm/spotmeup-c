@@ -58,11 +58,44 @@ const SquareShape = ({ children, square }) => {
     };
   }, [editingName, saveName]);
 
+  const element = document.querySelector(".display-shapes-container");
+
+  useEffect(() => {
+    if (element) {
+      const elementWidth = element.offsetWidth;
+      // console.log("🚀 ~ SquareShape ~ elementWidth:", elementWidth);
+    }
+  }, [element]);
+
+  // console.log("square.maxWidth:", square.maxWidth / 100);
+
+  let squareDinamicWidth = square.maxWidth / 100;
+  const elementWidth = element.offsetWidth;
+  let resizeWidth = squareDinamicWidth * elementWidth;
+  // console.log("🚀 ~ SquareShape ~ squareDinamicWidth:", squareDinamicWidth);
+
+  const squareShape = document.querySelector(".square-shape");
+  const thisSquareWidth = squareShape?.offsetWidth;
+
+  console.log("🚀 ~ SquareShape ~ thisSquareWidth:", thisSquareWidth);
+  console.log("🚀 ~ SquareShape ~ elementWidth:", elementWidth);
+
+  console.log("thisSquareWidth / elementWidth", thisSquareWidth / elementWidth);
+  console.log(
+    "(thisSquareWidth / elementWidth) * 100",
+    (thisSquareWidth / elementWidth) * 100
+  );
+
+  console.log("SquareRef.current.width:", squareRef?.current?.offsetWidth / 100);
+
   useEffect(() => {
     const resizeObserver = new ResizeObserver((entries) => {
       for (let entry of entries) {
-        const { width } = entry.contentRect;
         const { height } = entry.contentRect;
+        // const width = entry.contentRect.width;
+        const width = resizeWidth;
+        // console.log("🚀 ~ resizeObserver #2 ~ width:", width);
+
         if (width && height) {
           updateShape(square._id, { width, height });
 
@@ -87,7 +120,41 @@ const SquareShape = ({ children, square }) => {
         resizeObserver.unobserve(squareRef.current);
       }
     };
-  }, []);
+  }, [elementWidth]);
+
+  // useEffect(() => {
+  //   const resizeObserver = new ResizeObserver((entries) => {
+  //     for (let entry of entries) {
+
+  //       const { height } = entry.contentRect;
+  //       const { width } = entry.contentRect;
+  //       console.log("🚀 ~ resizeObserver ~ width:", width);
+
+  //       if (width && height) {
+  //         updateShape(square._id, { width, height });
+
+  //         setSquares((prevSquares) => {
+  //           return prevSquares.map((sq) => {
+  //             if (sq._id === square._id) {
+  //               return { ...sq, width, height };
+  //             }
+  //             return sq;
+  //           });
+  //         });
+  //       }
+  //     }
+  //   });
+
+  //   if (squareRef.current) {
+  //     resizeObserver.observe(squareRef.current);
+  //   }
+
+  //   return () => {
+  //     if (squareRef.current) {
+  //       resizeObserver.unobserve(squareRef.current);
+  //     }
+  //   };
+  // }, []);
 
   const handleStyle = {
     width: "100%",
@@ -132,7 +199,6 @@ const SquareShape = ({ children, square }) => {
       !shapeForm.current.contains(e.target)
     ) {
       setShowShapeForm(false);
-
       setShapeId(null);
     }
   };
@@ -160,7 +226,7 @@ const SquareShape = ({ children, square }) => {
       y: ui.y,
     };
 
-    setHasMoved(true)
+    setHasMoved(true);
     setNewPositionSquare(newPosition);
     setSquares((prevSquares) =>
       prevSquares.map((s) =>

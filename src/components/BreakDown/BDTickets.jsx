@@ -1,9 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { getOneLayout } from "../../services/layout.service";
 import { useParams } from "react-router-dom";
+import { TableContext } from "../../context/table.context";
 
 const BDTickets = () => {
   // ! --- Local States ---------------------
+  const { tShapeEdited } = useContext(TableContext);
   const [layoutObject, setLayoutObject] = useState({});
   const [isOpen, setIsOpen] = useState(0);
   const [containTables, setContainTables] = useState(false);
@@ -17,14 +19,15 @@ const BDTickets = () => {
     if (response.success) {
       setLayoutObject(response.layout);
     }
-
+    // debugger;
     console.log("getTheLayout:", response);
-    console.log("layoutObject:", layoutObject);
   };
+  console.log("layoutObject:", layoutObject);
 
   useEffect(() => {
     getTheLayout();
-  }, [param.layoutIdParam]);
+    // debugger;
+  }, []);
 
   useEffect(() => {
     if (layoutObject) {
@@ -32,8 +35,8 @@ const BDTickets = () => {
         layoutObject?.blocks?.some((block) => block.tables.length)
       );
     }
-  }, [layoutObject]);
-
+  }, [layoutObject, tShapeEdited]);
+  
   return (
     <div className="BD-tickets-container">
       <div className="tickets-expectation">

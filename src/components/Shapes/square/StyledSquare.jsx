@@ -51,4 +51,5 @@ export const StyledSquare = styled.div`
     ${(props) => props.square?.x}px,
     ${(props) => props.square?.y}px
   );
+
 `;

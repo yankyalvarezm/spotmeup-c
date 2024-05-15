@@ -1850,6 +1850,21 @@ button:hover {
   align-items: center;
 }
 
+@media (max-width: 900px) {
+  #layout-styled-div {
+    display: none !important;
+  }
+
+  .design-main-content::before {
+    content: "Display is too small";
+    font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS",
+      sans-serif;
+    font-style: italic;
+    font-size: 30px;
+    color: var(--red);
+  }
+}
+
 .design-header-container {
   display: flex;
   gap: 1rem;
@@ -1858,6 +1873,7 @@ button:hover {
 #design-layout-title {
   font-size: 45px;
   color: var(--black);
+  white-space: nowrap;
 }
 
 .layout-tools-content {
@@ -4002,6 +4018,8 @@ input[type="color"]::-webkit-color-swatch {
   background-color: var(--black);
   max-height: 100vh;
   overflow-y: scroll;
+  min-width: 280px;
+  max-width: 280px;
 }
 
 .hierarchy-highlight {
@@ -4048,6 +4066,7 @@ input[type="color"]::-webkit-color-swatch {
   /* padding-bottom: 1rem; */
   position: fixed;
   z-index: 15;
+  max-width: 280px;
 }
 
 .hierarchy-layout-name {
@@ -4168,7 +4187,7 @@ input[type="color"]::-webkit-color-swatch {
   /* margin-top: 3rem; */
 }
 .hierarchy-sub-container {
-  margin-top: 2rem;
+  margin-top: 3rem;
   padding-bottom: 4rem;
   z-index: 5;
 }
@@ -4624,11 +4643,10 @@ input[type="color"]::-webkit-color-swatch {
   font-size: 20px;
   color: var(--black);
   text-align: center;
-  
 }
 
 .bd-div {
-  width: 100% ;
+  width: 100%;
   text-align: center;
   /* background-color: red !important; */
 }
@@ -4679,8 +4697,15 @@ input[type="color"]::-webkit-color-swatch {
   -webkit-transform: rotate(-135deg);
 }
 
-
 .down {
   transform: rotate(45deg);
   -webkit-transform: rotate(45deg);
+}
+
+.maxWidth-percentage {
+  position: absolute;
+  transform: translateX(-50%);
+  left: 96%;
+  font-family: 'Courier New', Courier, monospace;
+  color: black;
 }

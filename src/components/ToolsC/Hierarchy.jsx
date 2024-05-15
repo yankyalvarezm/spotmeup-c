@@ -43,14 +43,16 @@ const Hierarchy = () => {
     tSquares,
     setTCircles,
     setTSquares,
+    updateTShape,
   } = useContext(TableContext);
+  // console.log("🚀 ~ Hierarchy ~ tableId:", tableId);
 
   const getThisLayout = async () => {
     const response = await getOneLayout(param.layoutIdParam);
     if (response.success) {
       setLayoutObject(response.layout);
     }
-
+    
     // console.log("getThisLayout:", response);
   };
 
@@ -201,6 +203,9 @@ const Hierarchy = () => {
         blocks: prevLayout.blocks.map((block) => {
           const updatedTables = block.tables.map((table) => {
             if (table._id === tableId) {
+              console.log("🚀 ~ updatedTables ~ tableId:", tableId);
+              const beforeUpdate = { ...table, [name]: value };
+              editTable(tableId, beforeUpdate);
               return { ...table, [name]: value };
             }
             return table;
@@ -233,7 +238,7 @@ const Hierarchy = () => {
         <h1 className="hierarchy-title">Layers</h1>
         {/* <h1 className="hierarchy-title-two">Dashboard</h1> */}
       </div>
-      <hr className="hierarchy-hr" />
+      {/* <hr className="hierarchy-hr" /> */}
 
       <h1 className="hierarchy-layout-name">{layoutObject.name}</h1>
       <div className="hierarchy-sub-container">

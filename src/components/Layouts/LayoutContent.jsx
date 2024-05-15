@@ -5,9 +5,11 @@ import { useParams } from "react-router-dom";
 import { ShapeContext } from "../../context/shape.context";
 
 const StyledDiv = styled.div`
-  width: ${(props) => props.layoutBody?.width}px;
+  // width: ${(props) => props.layoutBody?.width}px;
+  width: 100%;
   max-width: ${(props) => props.layoutBody?.maxWidth}px;
-  height: ${(props) => props.layoutBody?.height}px;
+  // height: ${(props) => props.layoutBody?.height}px;
+  height: 100%;
   max-height: ${(props) => props.layoutBody?.maxHeight}px;
   border: ${(props) => props.layoutBody?.borderSize}px solid #000000;
   border-radius: ${(props) => props.layoutBody?.borderRadius}%;
