@@ -30,6 +30,9 @@ const DisplayLayouts = () => {
     setLayoutGoBack,
     setLayoutDetails,
   } = useContext(LayoutContext);
+    
+
+  
   const { setCircles, setSquares } = useContext(ShapeContext);
   const [layouts, setLayouts] = useState(null);
   const [confirmDelete, setConfirmDelete] = useState(null);

@@ -11,6 +11,13 @@ const AddShape = () => {
 
   // console.log("layoutBody:", layoutBody);
 
+  const layoutWidth = document.querySelector(".display-shapes-container");
+
+  const layoutWidthTwo = layoutWidth?.offsetWidth;
+  // console.log("🚀 ~ AddShape ~ layoutWidthTwo:", layoutWidthTwo)
+
+  
+
   const toggleShowShapes = () => {
     setShowShapes((prev) => !prev);
   };
@@ -39,6 +46,7 @@ const AddShape = () => {
     x: layoutBody.width / 2 - 50,
     y: layoutBody.height / 2 - 50,
     fontSize: 15,
+    containerWidth: layoutWidthTwo,
   });
 
   return (

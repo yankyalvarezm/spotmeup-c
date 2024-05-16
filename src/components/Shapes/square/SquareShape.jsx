@@ -8,7 +8,7 @@ import { LayoutContext } from "../../../context/layout.context";
 const SquareShape = ({ children, square }) => {
   const squareRef = useRef(null);
   const nameRef = useRef(null);
-  const { layoutBody, floorplan } = useContext(LayoutContext);
+  const { layoutBody, floorplan, layoutDetails } = useContext(LayoutContext);
   const {
     shapeForm,
     setShapeId,
@@ -60,54 +60,68 @@ const SquareShape = ({ children, square }) => {
 
   const element = document.querySelector(".display-shapes-container");
 
-  useEffect(() => {
-    if (element) {
-      const elementWidth = element.offsetWidth;
-      // console.log("🚀 ~ SquareShape ~ elementWidth:", elementWidth);
-    }
-  }, [element]);
-
-  // console.log("square.maxWidth:", square.maxWidth / 100);
-
   let squareDinamicWidth = square.maxWidth / 100;
   const elementWidth = element.offsetWidth;
   let resizeWidth = squareDinamicWidth * elementWidth;
-  // console.log("🚀 ~ SquareShape ~ squareDinamicWidth:", squareDinamicWidth);
 
-  const squareShape = document.querySelector(".square-shape");
-  const thisSquareWidth = squareShape?.offsetWidth;
+  // const squareShape = document.querySelector(".square-shape");
+  // const thisSquareWidth = squareShape?.offsetWidth;
+  // console.log("containerWidth", element.offsetWidth);
+  // console.log("squareWidth", squareRef?.current?.offsetWidth);
+  // console.log(
+  //   "% width of container:",
+  //   Math.ceil((squareRef?.current?.offsetWidth / element.offsetWidth) * 100)
+  // );
+  // console.log("maxWith", square.maxWidth);
 
-  console.log("🚀 ~ SquareShape ~ thisSquareWidth:", thisSquareWidth);
-  console.log("🚀 ~ SquareShape ~ elementWidth:", elementWidth);
+  const [containerChange, setContainerChange] = useState(false);
 
-  console.log("thisSquareWidth / elementWidth", thisSquareWidth / elementWidth);
-  console.log(
-    "(thisSquareWidth / elementWidth) * 100",
-    (thisSquareWidth / elementWidth) * 100
-  );
+  useEffect(() => {
+    if (!containerChange) {
+      setContainerChange(true);
+    }
+    // console.log("🚀 ~ useEffect ~ setContainerChange:", containerChange);
+  }, [elementWidth]);
 
-  console.log("SquareRef.current.width:", squareRef?.current?.offsetWidth / 100);
-
+  // console.log("square:", square);
   useEffect(() => {
     const resizeObserver = new ResizeObserver((entries) => {
       for (let entry of entries) {
         const { height } = entry.contentRect;
-        // const width = entry.contentRect.width;
-        const width = resizeWidth;
+        // const width = maxWidth * elementWidth;
+        const resize = resizeWidth;
+        const width = entry.contentRect.width;
+        const maxWidth = Math.ceil((width / elementWidth) * 100);
         // console.log("🚀 ~ resizeObserver #2 ~ width:", width);
+        // console.log("🚀 ~ resizeObserver ~ maxWidth:", maxWidth);
 
         if (width && height) {
-          updateShape(square._id, { width, height });
+          updateShape(square._id, { width, height, maxWidth });
 
           setSquares((prevSquares) => {
             return prevSquares.map((sq) => {
               if (sq._id === square._id) {
-                return { ...sq, width, height };
+                return { ...sq, width, height, maxWidth };
               }
               return sq;
             });
           });
         }
+
+        // if (containerChange) {
+        //   updateShape(square._id, { width: resize, height, maxWidth });
+
+        //   setSquares((prevSquares) => {
+        //     return prevSquares.map((sq) => {
+        //       if (sq._id === square._id) {
+        //         return { ...sq, width: resize, height, maxWidth };
+        //       }
+        //       return sq;
+        //     });
+        //   });
+
+        // }
+        // setContainerChange(false);
       }
     });
 
@@ -427,10 +441,12 @@ const SquareShape = ({ children, square }) => {
   // console.log("Bounds:", bounds);
   // console.log("floorplan:", layoutBody.layoutType);
 
+  const layoutStyledDiv = document.getElementById("layout-styled-div");
+
   return (
     <Draggable
-      // bounds="parent"
-      bounds={bounds}
+      bounds={layoutStyledDiv}
+      // bounds={bounds}
       handle=".handle"
       onDrag={(e, ui) => {
         handleDrag(e, ui);
@@ -445,9 +461,9 @@ const SquareShape = ({ children, square }) => {
           setHasMoved(false);
         }
       }}
-      grid={[5, 5]}
+      // grid={[5, 5]}
+      scale={layoutDetails?.displayScale}
       // offsetParent={parent}
-      // scale={1}
     >
       <StyledSquare
         ref={squareRef}

@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState, useRef } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { LayoutContext } from "../context/layout.context";
 import { ShapeContext } from "../context/shape.context";
@@ -15,6 +15,7 @@ import BlockGridSetUp from "./Blocks/BlockGridSetUp";
 import DisplayTables from "./Tables/DisplayTables";
 import { TableContext } from "../context/table.context";
 import TableTools from "./Tables/TableTools";
+import { editLayout } from "../services/layout.service";
 
 const EditModal = () => {
   const navigate = useNavigate();
@@ -26,7 +27,9 @@ const EditModal = () => {
     floorPlan,
     toggleFloorPlan,
     layoutBody,
+    setLayoutDetails,
   } = useContext(LayoutContext);
+  // console.log("🚀 ~ EditModal ~ layoutDetails:", layoutDetails);
 
   const { showBShapeForm } = useContext(BlockContext);
   const { showShapeForm } = useContext(ShapeContext);
@@ -42,16 +45,149 @@ const EditModal = () => {
   const moveToBreakDown = () => {
     navigate(`/admin/designpage/${param.layoutIdParam}/breakdown`);
   };
+  const [zoomLevel, setZoomLevel] = useState(null);
+
+  const [isCursorOver, setIsCursorOver] = useState(false);
+
+  const isCursorOverRef = useRef(isCursorOver);
+  // console.log("🚀 ~ EditModal ~ isCursorOverRef:", isCursorOverRef.current);
 
   // console.log("layoutDetails:", layoutDetails);
+
   useEffect(() => {
     if (param.layoutIdParam) {
       setLayoutId(param.layoutIdParam);
     }
   }, [layoutId]);
 
-  useEffect(() => {}, [showBShapeForm]);
+  useEffect(() => {
+    if (zoomLevel == null && layoutDetails?.displayScale) {
+      setZoomLevel(layoutDetails?.displayScale);
+    }
+  }, [layoutDetails, zoomLevel]);
 
+  const handleZoomIncrease = async () => {
+    try {
+      const newZoomLevel = +(zoomLevel + 0.05).toFixed(2);
+
+      setZoomLevel(newZoomLevel);
+
+      const response = await editLayout(param.layoutIdParam, {
+        displayScale: newZoomLevel,
+      });
+      setLayoutDetails((prev) => {
+        return { ...prev, displayScale: newZoomLevel };
+      });
+      // console.log("🚀 ~ handleZoomIncrease ~ response:", response);
+    } catch (error) {
+      console.log("ZoomIncrease - Error:", error.response);
+    }
+  };
+
+  const handleZoomDecrease = async () => {
+    try {
+      const newZoomLevel = +(zoomLevel - 0.05).toFixed(2);
+
+      setZoomLevel(newZoomLevel);
+
+      const response = await editLayout(param.layoutIdParam, {
+        displayScale: newZoomLevel,
+      });
+      setLayoutDetails((prev) => {
+        return { ...prev, displayScale: newZoomLevel };
+      });
+      // console.log("🚀 ~ handleZoomDecrease ~ response:", response);
+      // console.log("layoutDetails:", layoutDetails);
+    } catch (error) {
+      console.log("ZoomIncrease - Error:", error.response);
+    }
+  };
+
+  // console.log("🚀 ~ EditModal ~ isCursorOver:", isCursorOver);
+
+  useEffect(() => {
+    const layoutStyledDiv = document.getElementById("layout-styled-div");
+    const squareShapes = document.querySelectorAll(".square-shape");
+
+    if (layoutStyledDiv) {
+      const handleMouseEnterLayout = () => {
+        setIsCursorOver(true);
+        isCursorOverRef.current = true;
+      };
+      const handleMouseLeaveLayout = () => {
+        setIsCursorOver(false);
+        isCursorOverRef.current = false;
+      };
+      const handleMouseEnterSquare = () => {
+        setIsCursorOver(false);
+        isCursorOverRef.current = false;
+      };
+      const handleMouseLeaveSquare = () => {
+        setIsCursorOver(true);
+        isCursorOverRef.current = true;
+      };
+
+      layoutStyledDiv.addEventListener("mouseenter", handleMouseEnterLayout);
+      layoutStyledDiv.addEventListener("mouseleave", handleMouseLeaveLayout);
+
+      squareShapes.forEach((squareShape) => {
+        squareShape.addEventListener("mouseenter", handleMouseEnterSquare);
+        squareShape.addEventListener("mouseleave", handleMouseLeaveSquare);
+      });
+
+      const handleWheel = async (e) => {
+        e.preventDefault();
+
+        let newZoomLevel = zoomLevel + e.deltaY * -0.01;
+        newZoomLevel = Math.min(Math.max(0.125, newZoomLevel), 4);
+
+        if (isCursorOver) {
+          e.preventDefault();
+
+          setZoomLevel(newZoomLevel);
+          const shapesContainer = document.querySelector(
+            ".display-shapes-container"
+          );
+          shapesContainer.style.transform = `scale(${newZoomLevel})`;
+        }
+
+        try {
+          const response = await editLayout(param.layoutIdParam, {
+            displayScale: newZoomLevel,
+          });
+          setLayoutDetails((prev) => ({
+            ...prev,
+            displayScale: newZoomLevel,
+          }));
+        } catch (error) {
+          console.log("error - wheel:", error.response);
+        }
+
+        console.log("handleWheel-e:", e);
+        console.log("deltaY", e.deltaY);
+      };
+
+      layoutStyledDiv.addEventListener("wheel", handleWheel);
+
+      return () => {
+        layoutStyledDiv.removeEventListener(
+          "mouseenter",
+          handleMouseEnterLayout
+        );
+        layoutStyledDiv.removeEventListener(
+          "mouseleave",
+          handleMouseLeaveLayout
+        );
+
+        squareShapes.forEach((squareShape) => {
+          squareShape.removeEventListener("mouseenter", handleMouseEnterSquare);
+          squareShape.removeEventListener("mouseleave", handleMouseLeaveSquare);
+        });
+
+        layoutStyledDiv.removeEventListener("wheel", handleWheel);
+      };
+    }
+  }, [zoomLevel, isCursorOver]);
   return (
     <div className="design-big-container">
       <div className="edit-modal-btns">
@@ -71,6 +207,14 @@ const EditModal = () => {
             <h1 id="design-layout-title">
               {layoutDetails && layoutDetails.name}
             </h1>
+            <div className="zoom-controls">
+              <h1 className="scale-display">
+                Scale: {Math.ceil(layoutDetails?.displayScale * 100)}%
+              </h1>
+              <button onClick={handleZoomIncrease}>+</button>
+              <button>Zoom</button>
+              <button onClick={handleZoomDecrease}>-</button>
+            </div>
           </div>
 
           <div className="design-main-content">

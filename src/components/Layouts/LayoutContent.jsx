@@ -101,6 +101,10 @@ const LayoutContent = ({ children }) => {
             ? `layout-${layoutBody.layoutType}`
             : "transparent"
         }
+        style={{
+          // transform: `scale(0.9)`,
+          border: `2px solid black`
+        }}
       >
         {children}
       </div>

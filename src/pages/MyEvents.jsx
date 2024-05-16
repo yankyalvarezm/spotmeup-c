@@ -312,6 +312,10 @@ const MyEvents = () => {
           </div>
         )}
       </div>
+
+      <canvas>
+        <h1>Hiii</h1>
+      </canvas>
     </div>
   );
 };

@@ -3,6 +3,7 @@ import { ShapeContext } from "../../context/shape.context";
 import CircleShape from "./circle/CircleShape";
 import SquareShape from "./square/SquareShape";
 import { useParams } from "react-router-dom";
+import { LayoutContext } from "../../context/layout.context";
 
 const DisplayShapes = () => {
   const {
@@ -16,6 +17,8 @@ const DisplayShapes = () => {
     shapeAdded,
     setShapeAdded,
   } = useContext(ShapeContext);
+
+  const { layoutDetails } = useContext(LayoutContext);
 
   const param = useParams();
 
@@ -33,7 +36,10 @@ const DisplayShapes = () => {
   }, [param.layoutIdParam, shapeDeleted, shapeEdited, shapeAdded]);
 
   return (
-    <div className="display-shapes-container">
+    <div
+      className="display-shapes-container"
+      style={{ scale: `${layoutDetails?.displayScale}` }}
+    >
       {circles &&
         circles.map((circle) => (
           <CircleShape circle={circle} key={circle._id}></CircleShape>
