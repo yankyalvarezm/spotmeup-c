@@ -16,6 +16,7 @@ import DisplayTables from "./Tables/DisplayTables";
 import { TableContext } from "../context/table.context";
 import TableTools from "./Tables/TableTools";
 import { editLayout } from "../services/layout.service";
+import { useGesture } from "react-use-gesture";
 
 const EditModal = () => {
   const navigate = useNavigate();
@@ -66,9 +67,9 @@ const EditModal = () => {
     }
   }, [layoutDetails, zoomLevel]);
 
-  const handleZoomIncrease = async () => {
+  const handleZoomIncrease = async (level) => {
     try {
-      const newZoomLevel = +(zoomLevel + 0.05).toFixed(2);
+      const newZoomLevel = +(zoomLevel + level).toFixed(3);
 
       setZoomLevel(newZoomLevel);
 
@@ -84,110 +85,179 @@ const EditModal = () => {
     }
   };
 
-  const handleZoomDecrease = async () => {
+  const handleZoomDecrease = async (level) => {
     try {
-      const newZoomLevel = +(zoomLevel - 0.05).toFixed(2);
+      const newZoomLevel = +(zoomLevel - level).toFixed(3);
 
       setZoomLevel(newZoomLevel);
-
       const response = await editLayout(param.layoutIdParam, {
         displayScale: newZoomLevel,
       });
       setLayoutDetails((prev) => {
         return { ...prev, displayScale: newZoomLevel };
       });
-      // console.log("🚀 ~ handleZoomDecrease ~ response:", response);
-      // console.log("layoutDetails:", layoutDetails);
     } catch (error) {
       console.log("ZoomIncrease - Error:", error.response);
     }
   };
 
-  // console.log("🚀 ~ EditModal ~ isCursorOver:", isCursorOver);
+  const handlePinch = async (e) => {
+    // console.log(e.delta[0]);
+    // console.log("layoutDetalis.displayScale:", layoutDetails?.displayScale);
+    const delta = e.delta[0];
+
+    // try {
+    //   if (delta > 0) {
+    //     // handleZoomIncrease(0.001);
+    //     const newZoomLevel = +(zoomLevel - 0.001).toFixed(2);
+    //     setZoomLevel(newZoomLevel);
+    //     const response = await editLayout(param.layoutIdParam, {
+    //       displayScale: newZoomLevel,
+    //     });
+    //     setLayoutDetails((prev) => {
+    //       return { ...prev, displayScale: newZoomLevel };
+    //     });
+    //   }
+
+    //   if (delta < 0) {
+    //     console.log("Decreasing");
+    //     // handleZoomDecrease(0.001);
+    //     const newZoomLevel = +(zoomLevel + 0.001).toFixed(2);
+    //     setZoomLevel(newZoomLevel);
+    //     const response = await editLayout(param.layoutIdParam, {
+    //       displayScale: newZoomLevel,
+    //     });
+    //     setLayoutDetails((prev) => {
+    //       return { ...prev, displayScale: newZoomLevel };
+    //     });
+    //   }
+    // } catch (error) {
+    //   console.log("ZoomIncrease - Error:", error);
+    // }
+
+    if (delta > 0) {
+      const number = 0.01 / 2;
+
+      handleZoomIncrease(0.008);
+    }
+
+    if (delta < 0) {
+      handleZoomDecrease(0.008);
+    }
+
+    console.log("Increasing");
+  };
+
+  const pinch = useGesture(
+    {
+      onPinch: (e) => {
+        handlePinch(e);
+        console.log("pinching");
+      },
+    },
+    {
+      domTarget: document.getElementById("layout-styled-div"),
+      eventOptions: { passive: false },
+    }
+  );
 
   useEffect(() => {
-    const layoutStyledDiv = document.getElementById("layout-styled-div");
-    const squareShapes = document.querySelectorAll(".square-shape");
+    if (pinch) pinch();
+  }, [pinch]);
+  // console.log("🚀 ~ EditModal ~ isCursorOver:", isCursorOver);
 
-    if (layoutStyledDiv) {
-      const handleMouseEnterLayout = () => {
-        setIsCursorOver(true);
-        isCursorOverRef.current = true;
-      };
-      const handleMouseLeaveLayout = () => {
-        setIsCursorOver(false);
-        isCursorOverRef.current = false;
-      };
-      const handleMouseEnterSquare = () => {
-        setIsCursorOver(false);
-        isCursorOverRef.current = false;
-      };
-      const handleMouseLeaveSquare = () => {
-        setIsCursorOver(true);
-        isCursorOverRef.current = true;
-      };
+  // useEffect(() => {
+  //   const layoutStyledDiv = document.getElementById("layout-styled-div");
+  //   const squareShapes = document.querySelectorAll(".square-shape");
 
-      layoutStyledDiv.addEventListener("mouseenter", handleMouseEnterLayout);
-      layoutStyledDiv.addEventListener("mouseleave", handleMouseLeaveLayout);
+  //   if (layoutStyledDiv) {
+  //     const handleMouseEnterLayout = () => {
+  //       setIsCursorOver(true);
+  //       isCursorOverRef.current = true;
+  //     };
+  //     const handleMouseLeaveLayout = () => {
+  //       setIsCursorOver(false);
+  //       isCursorOverRef.current = false;
+  //     };
+  //     const handleMouseEnterSquare = () => {
+  //       setIsCursorOver(false);
+  //       isCursorOverRef.current = false;
+  //     };
+  //     const handleMouseLeaveSquare = () => {
+  //       setIsCursorOver(true);
+  //       isCursorOverRef.current = true;
+  //     };
 
-      squareShapes.forEach((squareShape) => {
-        squareShape.addEventListener("mouseenter", handleMouseEnterSquare);
-        squareShape.addEventListener("mouseleave", handleMouseLeaveSquare);
-      });
+  //     layoutStyledDiv.addEventListener("mouseenter", handleMouseEnterLayout);
+  //     layoutStyledDiv.addEventListener("mouseleave", handleMouseLeaveLayout);
 
-      const handleWheel = async (e) => {
-        e.preventDefault();
+  //     squareShapes.forEach((squareShape) => {
+  //       squareShape.addEventListener("mouseenter", handleMouseEnterSquare);
+  //       squareShape.addEventListener("mouseleave", handleMouseLeaveSquare);
+  //     });
 
-        let newZoomLevel = zoomLevel + e.deltaY * -0.01;
-        newZoomLevel = Math.min(Math.max(0.125, newZoomLevel), 4);
+  //     const handleTouch = (e) => {
+  //       console.log("🚀 ~ handleTouch ~ e.touches.length:", e.touches.length);
+  //     };
 
-        if (isCursorOver) {
-          e.preventDefault();
+  //     const layoutStyledDiv3 = document.getElementById("layout-styled-div");
+  //     if (layoutStyledDiv3) {
+  //       layoutStyledDiv3.addEventListener("touchstart", handleTouch);
+  //     }
 
-          setZoomLevel(newZoomLevel);
-          const shapesContainer = document.querySelector(
-            ".display-shapes-container"
-          );
-          shapesContainer.style.transform = `scale(${newZoomLevel})`;
-        }
+  //     const handleWheel = async (e) => {
+  //       const isMovingUpAndDown =
+  //       (e.deltaY > 0 && e.deltaX < 0) || (e.deltaY < 0 && e.deltaX > 0);
+  //       console.log(e);
+  //       if (isCursorOverRef.current) {
+  //         e.preventDefault();
+  //         console.log("e:", e);
 
-        try {
-          const response = await editLayout(param.layoutIdParam, {
-            displayScale: newZoomLevel,
-          });
-          setLayoutDetails((prev) => ({
-            ...prev,
-            displayScale: newZoomLevel,
-          }));
-        } catch (error) {
-          console.log("error - wheel:", error.response);
-        }
+  //         let newZoomLevel = zoomLevel + e.deltaY * -0.01;
+  //         newZoomLevel = Math.min(Math.max(0.125, newZoomLevel), 4);
 
-        console.log("handleWheel-e:", e);
-        console.log("deltaY", e.deltaY);
-      };
+  //         setZoomLevel(newZoomLevel);
+  //         const shapesContainer = document.querySelector(
+  //           ".display-shapes-container"
+  //         );
+  //         shapesContainer.style.transform = `scale(${newZoomLevel})`;
 
-      layoutStyledDiv.addEventListener("wheel", handleWheel);
+  //         try {
+  //           const response = await editLayout(param.layoutIdParam, {
+  //             displayScale: newZoomLevel,
+  //           });
+  //           setLayoutDetails((prev) => ({
+  //             ...prev,
+  //             displayScale: newZoomLevel,
+  //           }));
+  //         } catch (error) {
+  //           console.log("Zoom Update - Error:", error.response);
+  //         }
+  //       }
+  //     };
 
-      return () => {
-        layoutStyledDiv.removeEventListener(
-          "mouseenter",
-          handleMouseEnterLayout
-        );
-        layoutStyledDiv.removeEventListener(
-          "mouseleave",
-          handleMouseLeaveLayout
-        );
+  //     layoutStyledDiv.addEventListener("wheel", handleWheel);
 
-        squareShapes.forEach((squareShape) => {
-          squareShape.removeEventListener("mouseenter", handleMouseEnterSquare);
-          squareShape.removeEventListener("mouseleave", handleMouseLeaveSquare);
-        });
+  //     return () => {
+  //       layoutStyledDiv.removeEventListener(
+  //         "mouseenter",
+  //         handleMouseEnterLayout
+  //       );
+  //       layoutStyledDiv.removeEventListener(
+  //         "mouseleave",
+  //         handleMouseLeaveLayout
+  //       );
 
-        layoutStyledDiv.removeEventListener("wheel", handleWheel);
-      };
-    }
-  }, [zoomLevel, isCursorOver]);
+  //       squareShapes.forEach((squareShape) => {
+  //         squareShape.removeEventListener("mouseenter", handleMouseEnterSquare);
+  //         squareShape.removeEventListener("mouseleave", handleMouseLeaveSquare);
+  //       });
+
+  //       layoutStyledDiv.removeEventListener("wheel", handleWheel);
+  //     };
+  //   }
+  // }, [zoomLevel, isCursorOver]);
+
   return (
     <div className="design-big-container">
       <div className="edit-modal-btns">
@@ -211,15 +281,16 @@ const EditModal = () => {
               <h1 className="scale-display">
                 Scale: {Math.ceil(layoutDetails?.displayScale * 100)}%
               </h1>
-              <button onClick={handleZoomIncrease}>+</button>
+              <button onClick={() => handleZoomIncrease(0.05)}>+</button>
               <button>Zoom</button>
-              <button onClick={handleZoomDecrease}>-</button>
+              <button onClick={() => handleZoomDecrease(0.05)}>-</button>
             </div>
           </div>
 
           <div className="design-main-content">
             <LayoutContent>
               <DisplayShapes />
+
               <DisplayBlocks>
                 <DisplayTables />
               </DisplayBlocks>
