@@ -30,8 +30,9 @@ const LayoutContent = ({ children }) => {
     layoutId,
     isSelected,
     setIsSelected,
+    layoutRef,
   } = useContext(LayoutContext);
-  const layoutRef = useRef(null);
+
   const param = useParams();
   const { showShapeForm } = useContext(ShapeContext);
   // console.log("param:", param);
@@ -103,7 +104,7 @@ const LayoutContent = ({ children }) => {
         }
         style={{
           // transform: `scale(0.9)`,
-          border: `2px solid black`
+          border: `2px solid black`,
         }}
       >
         {children}

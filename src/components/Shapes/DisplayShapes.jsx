@@ -38,7 +38,13 @@ const DisplayShapes = () => {
   return (
     <div
       className="display-shapes-container"
-      style={{ scale: `${layoutDetails?.displayScale}` }}
+      style={{
+        transform:  `scale( ${layoutDetails?.displayScale})`,
+        bottom: `${layoutDetails?.offSet?.y}px`,
+        right: `${layoutDetails?.offSet?.x}px`,
+        // transition: "transform 0.1s ease-out",
+        
+      }}
     >
       {circles &&
         circles.map((circle) => (

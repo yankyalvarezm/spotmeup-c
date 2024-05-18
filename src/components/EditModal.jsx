@@ -29,7 +29,9 @@ const EditModal = () => {
     toggleFloorPlan,
     layoutBody,
     setLayoutDetails,
+    layoutRef,
   } = useContext(LayoutContext);
+
   // console.log("🚀 ~ EditModal ~ layoutDetails:", layoutDetails);
 
   const { showBShapeForm } = useContext(BlockContext);
@@ -47,13 +49,10 @@ const EditModal = () => {
     navigate(`/admin/designpage/${param.layoutIdParam}/breakdown`);
   };
   const [zoomLevel, setZoomLevel] = useState(null);
-
   const [isCursorOver, setIsCursorOver] = useState(false);
-
-  const isCursorOverRef = useRef(isCursorOver);
-  // console.log("🚀 ~ EditModal ~ isCursorOverRef:", isCursorOverRef.current);
-
-  // console.log("layoutDetails:", layoutDetails);
+  const [offSet, setOffSet] = useState({ x: 0, y: 0 });
+  const timerId = useRef(null);
+  const offSetTimer = useRef(null);
 
   useEffect(() => {
     if (param.layoutIdParam) {
@@ -67,15 +66,20 @@ const EditModal = () => {
     }
   }, [layoutDetails, zoomLevel]);
 
-  const handleZoomIncrease = async (level) => {
+  const handleZoomIncrease = async (level, e) => {
+    console.log(e);
+
     try {
       const newZoomLevel = +(zoomLevel + level).toFixed(3);
 
       setZoomLevel(newZoomLevel);
 
-      const response = await editLayout(param.layoutIdParam, {
-        displayScale: newZoomLevel,
-      });
+      if (!e.pinching) {
+        const response = await editLayout(param.layoutIdParam, {
+          displayScale: newZoomLevel,
+        });
+      }
+
       setLayoutDetails((prev) => {
         return { ...prev, displayScale: newZoomLevel };
       });
@@ -85,14 +89,17 @@ const EditModal = () => {
     }
   };
 
-  const handleZoomDecrease = async (level) => {
+  const handleZoomDecrease = async (level, e) => {
     try {
       const newZoomLevel = +(zoomLevel - level).toFixed(3);
 
       setZoomLevel(newZoomLevel);
-      const response = await editLayout(param.layoutIdParam, {
-        displayScale: newZoomLevel,
-      });
+
+      if (!e.pinching) {
+        const response = await editLayout(param.layoutIdParam, {
+          displayScale: newZoomLevel,
+        });
+      }
       setLayoutDetails((prev) => {
         return { ...prev, displayScale: newZoomLevel };
       });
@@ -102,161 +109,136 @@ const EditModal = () => {
   };
 
   const handlePinch = async (e) => {
-    // console.log(e.delta[0]);
-    // console.log("layoutDetalis.displayScale:", layoutDetails?.displayScale);
     const delta = e.delta[0];
+    const level = 0.03;
 
-    // try {
-    //   if (delta > 0) {
-    //     // handleZoomIncrease(0.001);
-    //     const newZoomLevel = +(zoomLevel - 0.001).toFixed(2);
-    //     setZoomLevel(newZoomLevel);
-    //     const response = await editLayout(param.layoutIdParam, {
-    //       displayScale: newZoomLevel,
-    //     });
-    //     setLayoutDetails((prev) => {
-    //       return { ...prev, displayScale: newZoomLevel };
-    //     });
-    //   }
-
-    //   if (delta < 0) {
-    //     console.log("Decreasing");
-    //     // handleZoomDecrease(0.001);
-    //     const newZoomLevel = +(zoomLevel + 0.001).toFixed(2);
-    //     setZoomLevel(newZoomLevel);
-    //     const response = await editLayout(param.layoutIdParam, {
-    //       displayScale: newZoomLevel,
-    //     });
-    //     setLayoutDetails((prev) => {
-    //       return { ...prev, displayScale: newZoomLevel };
-    //     });
-    //   }
-    // } catch (error) {
-    //   console.log("ZoomIncrease - Error:", error);
-    // }
-
-    if (delta > 0) {
-      const number = 0.01 / 2;
-
-      handleZoomIncrease(0.008);
+    if (e.first && timerId.current) {
+      clearTimeout(timerId.current);
+      timerId.current = null;
     }
 
-    if (delta < 0) {
-      handleZoomDecrease(0.008);
+    if (delta !== 0) {
+      const adjustment = delta > 0 ? level : -level;
+      const newZoomLevel = +(zoomLevel + adjustment).toFixed(3);
+      setZoomLevel(newZoomLevel);
+      setLayoutDetails((prev) => ({ ...prev, displayScale: newZoomLevel }));
     }
 
-    console.log("Increasing");
+    if (e.last) {
+      timerId.current = setTimeout(async () => {
+        try {
+          const response = await editLayout(param.layoutIdParam, {
+            displayScale: zoomLevel,
+          });
+          console.log("API Response:", response);
+          setLayoutDetails((prev) => ({ ...prev, displayScale: zoomLevel }));
+        } catch (error) {
+          console.log("API Call Error:", error.response);
+        }
+        timerId.current = null;
+      }, 1000);
+    }
   };
+
+  const handleOffSet = async (e) => {
+    const { offset, axis, last } = e;
+    const valueForAxis = axis === "x" ? offset[0] : offset[1];
+    e.event.preventDefault();
+
+    if (e.first && offSetTimer.current) {
+      clearTimeout(offSetTimer.current);
+      offSetTimer.current = null;
+    }
+
+    setLayoutDetails((prev) => ({
+      ...prev,
+      offSet: {
+        ...prev.offSet,
+        [axis]: valueForAxis,
+      },
+    }));
+
+    if (last) {
+      const currentOffsetX = offset[0];
+      const currentOffsetY = offset[1];
+
+      offSetTimer.current = setTimeout(async () => {
+        try {
+          const response = await editLayout(param.layoutIdParam, {
+            offSet: { x: currentOffsetX, y: currentOffsetY },
+          });
+          console.log("API OffSet:", response.layout);
+        } catch (error) {
+          console.log("API Call Error:", error.response);
+        }
+        offSetTimer.current = null;
+      }, 1000);
+    }
+
+    console.log("offSet:", offset);
+    // console.log("layoutDetails:", layoutDetails);
+  };
+
+  useEffect(() => {
+    return () => {
+      if (timerId.current) {
+        clearTimeout(timerId.current);
+      }
+    };
+  }, []);
+
+  useEffect(() => {
+    return () => {
+      if (offSetTimer.current) {
+        clearTimeout(offSetTimer.current);
+      }
+    };
+  }, []);
 
   const pinch = useGesture(
     {
       onPinch: (e) => {
         handlePinch(e);
-        console.log("pinching");
+        // console.log("e:", e);
+      },
+      onWheel: (e) => {
+        handleOffSet(e);
+        console.log("scroll-e:", e);
       },
     },
+
     {
-      domTarget: document.getElementById("layout-styled-div"),
+      domTarget: layoutRef,
       eventOptions: { passive: false },
+      touchAction: "none",
+      pointer: {
+        touch: true,
+      },
     }
   );
 
   useEffect(() => {
     if (pinch) pinch();
-  }, [pinch]);
-  // console.log("🚀 ~ EditModal ~ isCursorOver:", isCursorOver);
 
-  // useEffect(() => {
-  //   const layoutStyledDiv = document.getElementById("layout-styled-div");
-  //   const squareShapes = document.querySelectorAll(".square-shape");
+    // console.log("🚀 ~ EditModal ~ isCursorOver:", isCursorOver);
+  }, [pinch, isCursorOver]);
 
-  //   if (layoutStyledDiv) {
-  //     const handleMouseEnterLayout = () => {
-  //       setIsCursorOver(true);
-  //       isCursorOverRef.current = true;
-  //     };
-  //     const handleMouseLeaveLayout = () => {
-  //       setIsCursorOver(false);
-  //       isCursorOverRef.current = false;
-  //     };
-  //     const handleMouseEnterSquare = () => {
-  //       setIsCursorOver(false);
-  //       isCursorOverRef.current = false;
-  //     };
-  //     const handleMouseLeaveSquare = () => {
-  //       setIsCursorOver(true);
-  //       isCursorOverRef.current = true;
-  //     };
+  useEffect((e) => {
+    const target = layoutRef?.current || null;
 
-  //     layoutStyledDiv.addEventListener("mouseenter", handleMouseEnterLayout);
-  //     layoutStyledDiv.addEventListener("mouseleave", handleMouseLeaveLayout);
+    const handleMouseEnter = () => setIsCursorOver(true);
+    const handleMouseLeave = () => setIsCursorOver(false);
 
-  //     squareShapes.forEach((squareShape) => {
-  //       squareShape.addEventListener("mouseenter", handleMouseEnterSquare);
-  //       squareShape.addEventListener("mouseleave", handleMouseLeaveSquare);
-  //     });
+    if (target) {
+      target.addEventListener("mouseenter", handleMouseEnter);
+      target.addEventListener("mouseleave", handleMouseLeave);
 
-  //     const handleTouch = (e) => {
-  //       console.log("🚀 ~ handleTouch ~ e.touches.length:", e.touches.length);
-  //     };
-
-  //     const layoutStyledDiv3 = document.getElementById("layout-styled-div");
-  //     if (layoutStyledDiv3) {
-  //       layoutStyledDiv3.addEventListener("touchstart", handleTouch);
-  //     }
-
-  //     const handleWheel = async (e) => {
-  //       const isMovingUpAndDown =
-  //       (e.deltaY > 0 && e.deltaX < 0) || (e.deltaY < 0 && e.deltaX > 0);
-  //       console.log(e);
-  //       if (isCursorOverRef.current) {
-  //         e.preventDefault();
-  //         console.log("e:", e);
-
-  //         let newZoomLevel = zoomLevel + e.deltaY * -0.01;
-  //         newZoomLevel = Math.min(Math.max(0.125, newZoomLevel), 4);
-
-  //         setZoomLevel(newZoomLevel);
-  //         const shapesContainer = document.querySelector(
-  //           ".display-shapes-container"
-  //         );
-  //         shapesContainer.style.transform = `scale(${newZoomLevel})`;
-
-  //         try {
-  //           const response = await editLayout(param.layoutIdParam, {
-  //             displayScale: newZoomLevel,
-  //           });
-  //           setLayoutDetails((prev) => ({
-  //             ...prev,
-  //             displayScale: newZoomLevel,
-  //           }));
-  //         } catch (error) {
-  //           console.log("Zoom Update - Error:", error.response);
-  //         }
-  //       }
-  //     };
-
-  //     layoutStyledDiv.addEventListener("wheel", handleWheel);
-
-  //     return () => {
-  //       layoutStyledDiv.removeEventListener(
-  //         "mouseenter",
-  //         handleMouseEnterLayout
-  //       );
-  //       layoutStyledDiv.removeEventListener(
-  //         "mouseleave",
-  //         handleMouseLeaveLayout
-  //       );
-
-  //       squareShapes.forEach((squareShape) => {
-  //         squareShape.removeEventListener("mouseenter", handleMouseEnterSquare);
-  //         squareShape.removeEventListener("mouseleave", handleMouseLeaveSquare);
-  //       });
-
-  //       layoutStyledDiv.removeEventListener("wheel", handleWheel);
-  //     };
-  //   }
-  // }, [zoomLevel, isCursorOver]);
+      return () => {
+        target.removeEventListener("mouseenter", handleMouseEnter);
+        target.removeEventListener("mouseleave", handleMouseLeave);
+      };
+    }
+  }, []);
 
   return (
     <div className="design-big-container">
@@ -281,9 +263,9 @@ const EditModal = () => {
               <h1 className="scale-display">
                 Scale: {Math.ceil(layoutDetails?.displayScale * 100)}%
               </h1>
-              <button onClick={() => handleZoomIncrease(0.05)}>+</button>
+              <button onClick={(e) => handleZoomIncrease(0.05, e)}>+</button>
               <button>Zoom</button>
-              <button onClick={() => handleZoomDecrease(0.05)}>-</button>
+              <button onClick={(e) => handleZoomDecrease(0.05, e)}>-</button>
             </div>
           </div>
 
