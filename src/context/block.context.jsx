@@ -19,6 +19,7 @@ function BlockProvider({ children }) {
   const [priceUpdated, setPriceUpdated] = useState(false);
   const [layoutObject, setLayoutObject] = useState({});
   const [hasBlockChanged, setHasBlockChanged] = useState(false);
+  const [blockDeleted, setBlockDeleted] = useState(false);
 
   const fetchBlocks = async (layoutId) => {
     try {
@@ -153,6 +154,8 @@ function BlockProvider({ children }) {
         getThisBlock,
         hasBlockChanged,
         setHasBlockChanged,
+        blockDeleted,
+        setBlockDeleted,
       }}
     >
       {children}

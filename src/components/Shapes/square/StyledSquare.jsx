@@ -1,7 +1,9 @@
 import styled from "styled-components";
+import { useContext } from "react";
+import { LayoutContext } from "../../../context/layout.context";
 
 export const StyledSquare = styled.div`
-  position: absolute;
+  position: fixed;
   width: ${(props) => props.square?.width}px;
   height: ${(props) => props.square?.height}px;
   background-color: ${(props) => props.square?.backgroundColor};
@@ -51,5 +53,7 @@ export const StyledSquare = styled.div`
     ${(props) => props.square?.x}px,
     ${(props) => props.square?.y}px
   );
+  top: 0%;
+  left: 0%;
 
 `;

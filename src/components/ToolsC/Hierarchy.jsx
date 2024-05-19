@@ -28,6 +28,8 @@ const Hierarchy = () => {
     setBSquares,
     layoutObject,
     setLayoutObject,
+    blockDeleted,
+    setBlockDeleted,
   } = useContext(BlockContext);
   const {
     setTShapeAdded,
@@ -52,7 +54,7 @@ const Hierarchy = () => {
     if (response.success) {
       setLayoutObject(response.layout);
     }
-    
+
     // console.log("getThisLayout:", response);
   };
 
@@ -66,8 +68,12 @@ const Hierarchy = () => {
       setPriceUpdated(false);
     }
 
+    if (blockDeleted) {
+      setBlockDeleted(false);
+    }
+
     getThisLayout();
-  }, [bShapeAdded, tShapeAdded, priceUpdated]);
+  }, [bShapeAdded, tShapeAdded, priceUpdated, blockDeleted]);
 
   const [isBlockFocus, setIsBlockFocus] = useState(false);
 

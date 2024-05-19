@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { ShapeContext } from "../../context/shape.context";
 import CircleShape from "./circle/CircleShape";
 import SquareShape from "./square/SquareShape";
@@ -39,11 +39,10 @@ const DisplayShapes = () => {
     <div
       className="display-shapes-container"
       style={{
-        transform:  `scale( ${layoutDetails?.displayScale})`,
+        transform: `scale( ${layoutDetails?.displayScale})`,
         bottom: `${layoutDetails?.offSet?.y}px`,
         right: `${layoutDetails?.offSet?.x}px`,
         // transition: "transform 0.1s ease-out",
-        
       }}
     >
       {circles &&

@@ -67,7 +67,7 @@ const EditModal = () => {
   }, [layoutDetails, zoomLevel]);
 
   const handleZoomIncrease = async (level, e) => {
-    console.log(e);
+    // console.log(e);
 
     try {
       const newZoomLevel = +(zoomLevel + level).toFixed(3);
@@ -130,7 +130,7 @@ const EditModal = () => {
           const response = await editLayout(param.layoutIdParam, {
             displayScale: zoomLevel,
           });
-          console.log("API Response:", response);
+          // console.log("API Response:", response);
           setLayoutDetails((prev) => ({ ...prev, displayScale: zoomLevel }));
         } catch (error) {
           console.log("API Call Error:", error.response);
@@ -153,8 +153,8 @@ const EditModal = () => {
     setLayoutDetails((prev) => ({
       ...prev,
       offSet: {
-        ...prev.offSet,
-        [axis]: valueForAxis,
+        x: offset[0],
+        y: offset[1],
       },
     }));
 
@@ -167,17 +167,34 @@ const EditModal = () => {
           const response = await editLayout(param.layoutIdParam, {
             offSet: { x: currentOffsetX, y: currentOffsetY },
           });
-          console.log("API OffSet:", response.layout);
         } catch (error) {
           console.log("API Call Error:", error.response);
         }
         offSetTimer.current = null;
       }, 1000);
     }
-
-    console.log("offSet:", offset);
-    // console.log("layoutDetails:", layoutDetails);
   };
+
+  const pinch = useGesture(
+    {
+      onPinch: (e) => {
+        handlePinch(e);
+      },
+      onWheel: (e) => {
+        handleOffSet(e);
+        // console.log("scroll-e:", e);
+      },
+    },
+
+    {
+      domTarget: layoutRef,
+      eventOptions: { passive: false },
+      touchAction: "none",
+      pointer: {
+        touch: true,
+      },
+    }
+  );
 
   useEffect(() => {
     return () => {
@@ -195,33 +212,57 @@ const EditModal = () => {
     };
   }, []);
 
-  const pinch = useGesture(
-    {
-      onPinch: (e) => {
-        handlePinch(e);
-        // console.log("e:", e);
-      },
-      onWheel: (e) => {
-        handleOffSet(e);
-        console.log("scroll-e:", e);
-      },
-    },
-
-    {
-      domTarget: layoutRef,
-      eventOptions: { passive: false },
-      touchAction: "none",
-      pointer: {
-        touch: true,
-      },
-    }
-  );
-
   useEffect(() => {
     if (pinch) pinch();
-
-    // console.log("🚀 ~ EditModal ~ isCursorOver:", isCursorOver);
   }, [pinch, isCursorOver]);
+
+  const adjustDisplayScale = () => {
+    if (!layoutRef.current) return;
+
+    const newWidth = layoutRef.current.offsetWidth;
+
+    let newZoomLevel = newWidth / 800;
+    let newZoomLevel2 = newWidth / 800;
+
+    newZoomLevel = Math.min(Math.max(newZoomLevel, 0.5), 1);
+    newZoomLevel2 = Math.min(Math.max(newZoomLevel, 0.5), 1);
+
+    setLayoutDetails((prev) => ({ ...prev, containerScale: newZoomLevel }));
+    setLayoutDetails((prev) => ({ ...prev, displayScale: newZoomLevel }));
+
+    clearTimeout(timerId.current);
+    timerId.current = setTimeout(async () => {
+      try {
+        const response = await editLayout(param.layoutIdParam, {
+          containerScale: newZoomLevel,
+        });
+        setZoomLevel(newZoomLevel);
+        console.log("Auto Scale:", response);
+      } catch (error) {
+        console.log("API Call Error:", error.response);
+      }
+      timerId.current = null;
+    }, 300);
+  };
+
+  useEffect(() => {
+    const resizeObserver = new ResizeObserver(() => {
+      adjustDisplayScale();
+    });
+
+    if (layoutRef.current) {
+      resizeObserver.observe(layoutRef.current);
+    }
+
+    return () => {
+      if (layoutRef.current) {
+        resizeObserver.unobserve(layoutRef.current);
+      }
+      if (timerId.current) {
+        clearTimeout(timerId.current);
+      }
+    };
+  }, []);
 
   useEffect((e) => {
     const target = layoutRef?.current || null;

@@ -32,6 +32,7 @@ const LayoutTools = ({ children }) => {
       maxHeight: designContainer?.offsetHeight * 0.93,
       borderRadius: layoutDetails?.borderRadius,
       borderSize: layoutDetails?.borderSize,
+      containerScale: layoutDetails?.containerScale,
       x: layoutDetails?.x,
       y: layoutDetails?.y,
       layoutType: layoutDetails?.layoutType,
@@ -87,7 +88,7 @@ const LayoutTools = ({ children }) => {
       const response = await editLayout(param.layoutIdParam, layoutBody);
       if (response.success) {
         setSuccessMessage(response.message);
-        // console.log("layout updated:", response);
+        console.log("layout updated:", response);
       }
 
       setTimeout(() => {

@@ -8,7 +8,8 @@ import { LayoutContext } from "../../../context/layout.context";
 const SquareShape = ({ children, square }) => {
   const squareRef = useRef(null);
   const nameRef = useRef(null);
-  const { layoutBody, floorplan, layoutDetails } = useContext(LayoutContext);
+  const { layoutBody, floorplan, layoutDetails, layoutRef } =
+    useContext(LayoutContext);
   const {
     shapeForm,
     setShapeId,
@@ -184,27 +185,6 @@ const SquareShape = ({ children, square }) => {
   // console.log("squareX:", newPositionSquare.x)
   // console.log("squareY:", newPositionSquare.y)
 
-  const handleEditShape = async (shapeId, body) => {
-    try {
-      const response = await editShapes(shapeId, body);
-      // console.log("Edited Shape:", response);
-      // console.log("Line 59 - Body:", body);
-      // setShapeEdited(true);
-      // debugger
-      setSquares((prev) => {
-        return prev.map((square) => {
-          if (square._id === shapeId) {
-            return response.shape;
-          } else {
-            return square;
-          }
-        });
-      });
-    } catch (error) {
-      console.log("error", error);
-    }
-  };
-
   const handleClickOutside = (e) => {
     if (
       squareRef.current &&
@@ -234,6 +214,27 @@ const SquareShape = ({ children, square }) => {
     }
   };
 
+  const handleEditShape = async (shapeId, body) => {
+    try {
+      const response = await editShapes(shapeId, body);
+      // console.log("Edited Shape:", response);
+      // console.log("Line 59 - Body:", body);
+      // setShapeEdited(true);
+      // debugger
+      setSquares((prev) => {
+        return prev.map((square) => {
+          if (square._id === shapeId) {
+            return response.shape;
+          } else {
+            return square;
+          }
+        });
+      });
+    } catch (error) {
+      console.log("error", error);
+    }
+  };
+
   const handleDrag = (e, ui) => {
     const newPosition = {
       x: ui.x,
@@ -249,203 +250,12 @@ const SquareShape = ({ children, square }) => {
     );
   };
 
-  const layoutWidth = layoutBody.width;
-  const layoutHeight = layoutBody.height;
-  const squareWidth = square.width;
-  const squareHeight = square.height;
+ 
 
-  const [bounds, setBounds] = useState({});
-
-  useEffect(() => {
-    let newBounds = {
-      left: 0,
-      top: 0,
-      right: layoutWidth - squareWidth,
-      bottom: layoutHeight - squareHeight,
-    };
-
-    if (layoutBody.layoutType === "poligon-1") {
-      // console.log("poligon-1");
-      if (
-        square.y >= (layoutHeight * 37) / 100 &&
-        square.y <= (layoutHeight * 63) / 100 &&
-        square.x >= layoutWidth * 0.79 - square.width
-      ) {
-        newBounds = {
-          left: layoutWidth * 0.02,
-          top: layoutHeight * 0.37,
-          right: layoutWidth * 0.98 - squareWidth,
-          bottom: layoutHeight * 0.63 - squareHeight,
-        };
-      } else {
-        newBounds = {
-          left: layoutWidth * 0.02,
-          top: layoutHeight * 0.02,
-          right: layoutWidth * 0.79 - squareWidth,
-          bottom: layoutHeight * 0.98 - squareHeight,
-        };
-        // console.log("poligon-1");
-      }
-      setBounds(newBounds);
-    } else if (layoutBody.layoutType === "triangle") {
-      // B = Intersection
-      // Y = Vertical Axis
-      // X = Horizontal Axis
-      // R = R-Slope
-      // L = L-Slope
-
-      const x1 = 0.5;
-      const x2 = 0.02;
-      const x3 = 0.98;
-      const y1 = 0.02;
-      const y2 = 0.99;
-
-      const absX1 = layoutWidth * x1;
-      const absX2 = layoutWidth * x2;
-      const absX3 = layoutWidth * x3;
-      const absY1 = layoutHeight * y1;
-      const absY2 = layoutHeight * y2;
-
-      const lSlope = (absY2 - absY1) / (absX2 - absX1);
-      const rSlope = (absY2 - absY1) / (absX3 - absX1);
-
-      const leftLimit = (square.y - absY1) / lSlope + absX1;
-      const rightLimit = (square.y - absY1) / rSlope + absX1;
-
-      newBounds = {
-        left: leftLimit,
-        top: squareHeight,
-        right: rightLimit - squareWidth,
-        bottom: layoutHeight - squareHeight,
-      };
-
-      setBounds(newBounds);
-    } else if (layoutBody.layoutType === "circle") {
-      // radius = 50%
-
-      const radius = layoutWidth / 2;
-
-      function calculateXLimit(y) {
-        const xDistance = Math.sqrt(radius ** 2 - (y - radius) ** 2);
-        const leftLimit = radius - xDistance;
-        const rightLimit = radius + xDistance - squareWidth;
-
-        return { leftLimit, rightLimit };
-      }
-
-      let { leftLimit, rightLimit } = calculateXLimit(square.y);
-
-      // console.log("layoutWidht:", layoutWidth);
-      // console.log("layoutHeight:", layoutHeight);
-      // console.log("radius:", radius);
-
-      newBounds = {
-        left: leftLimit,
-        top: 0,
-        right: rightLimit,
-        bottom: layoutHeight - squareHeight,
-      };
-
-      setBounds(newBounds);
-    } else if (layoutBody.layoutType === "ellipse") {
-      const a = layoutWidth * 0.48;
-      const b = layoutHeight * 0.24;
-
-      function calculateXLimit(y) {
-        const yRelativeToCenter = y - layoutHeight / 2;
-
-        const xDistance = a * Math.sqrt(1 - yRelativeToCenter ** 2 / b ** 2);
-
-        const centerX = layoutWidth / 2;
-        const leftLimit = centerX - xDistance;
-        const rightLimit = centerX + xDistance - squareWidth;
-
-        return { leftLimit, rightLimit };
-      }
-
-      let { leftLimit, rightLimit } = calculateXLimit(square.y);
-      newBounds = {
-        left: leftLimit,
-        top: a - squareHeight,
-        right: rightLimit,
-        bottom: layoutHeight - squareHeight,
-      };
-      setBounds(newBounds);
-    } else if (layoutBody.layoutType === "poligon-2") {
-      // console.log("squareY:", square.y);
-      // console.log("squareY:", square.y + squareHeight);
-      // console.log("condition-2", 0.83 * layoutWidth);
-      if (square.y + squareHeight <= 0.17 * layoutHeight + squareHeight) {
-        newBounds = {
-          left: 0.17 * layoutWidth,
-          top: 0.02 * layoutHeight,
-          right: 0.83 * layoutWidth - squareWidth,
-          bottom: 0.83 * layoutHeight - squareHeight,
-        };
-
-        // console.log("condition - 1 checked");
-      } else if (
-        square.x >= 0.2 * layoutWidth &&
-        square.x + squareWidth <= 0.5 * layoutWidth &&
-        square.y + squareHeight >= 0.83 * layoutWidth
-      ) {
-        newBounds = {
-          left: 0.2 * layoutWidth,
-          top: 0.02 * layoutHeight,
-          right: 0.5 * layoutWidth - squareWidth,
-          bottom: 0.98 * layoutHeight - squareHeight,
-        };
-
-        // console.log("condition - 2 checked");
-      } else if (square.x < 0.18 * layoutWidth) {
-        newBounds = {
-          left: 0.02 * layoutWidth,
-          top: 0.1701 * layoutHeight,
-          right: layoutWidth - squareWidth,
-          bottom: 0.83 * layoutHeight - squareHeight,
-        };
-      } else if (
-        square.x + squareWidth >= 0.5 * layoutWidth &&
-        square.x + squareWidth <= 0.83 * layoutWidth
-      ) {
-        newBounds = {
-          left: 0.02 * layoutWidth,
-          top: 0,
-          right: layoutWidth - squareWidth,
-          bottom: 0.83 * layoutHeight - squareHeight,
-        };
-      } else if (square.x + squareWidth >= 0.83 * layoutWidth) {
-        newBounds = {
-          left: 0.02 * layoutWidth,
-          top: 0.1701 * layoutHeight,
-          right: layoutWidth - squareWidth,
-          bottom: 0.83 * layoutHeight - squareHeight,
-        };
-      }
-      // console.log("2%", 0.02 * layoutWidth);
-
-      setBounds(newBounds);
-    } else {
-      setBounds(newBounds);
-    }
-  }, [
-    square.x,
-    square.y,
-    layoutWidth,
-    layoutHeight,
-    squareWidth,
-    squareHeight,
-    layoutBody.layoutType,
-  ]);
-
-  // console.log("Bounds:", bounds);
-  // console.log("floorplan:", layoutBody.layoutType);
-
-  const layoutStyledDiv = document.getElementById("layout-styled-div");
 
   return (
     <Draggable
-      bounds={layoutStyledDiv}
+      bounds={layoutRef}
       // bounds={bounds}
       handle=".handle"
       onDrag={(e, ui) => {
@@ -463,6 +273,7 @@ const SquareShape = ({ children, square }) => {
       }}
       // grid={[5, 5]}
       scale={layoutDetails?.displayScale}
+      // offsetParent={layoutRef}
       // offsetParent={parent}
     >
       <StyledSquare

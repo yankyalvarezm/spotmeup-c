@@ -17,6 +17,11 @@ const StyledDiv = styled.div`
   top: ${(props) => props.layoutBody?.y}%;
   background-color: ${(prop) => prop.layoutBody?.backgroundColor};
   overflow: hidden;
+  position: fixed;
+  top: 98%;
+  left: 101%;
+  transform: translate(-50%, -50%)
+    scale(${(props) => props.layoutBody.containerScale});
   ${(props) => (props.resize ? "resize: both; overflow: hidden;" : "")}
 `;
 
