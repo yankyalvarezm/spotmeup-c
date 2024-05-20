@@ -250,8 +250,11 @@ const SquareShape = ({ children, square }) => {
     );
   };
 
+  console.log("containerScale:",  layoutDetails?.containerScale);
+  console.log("squareWidth:",  square.width);
  
-
+  const autoWidth = layoutDetails?.containerScale * square?.width;
+  console.log("🚀 ~ SquareShape ~ autoWidth:", autoWidth)
 
   return (
     <Draggable
@@ -285,6 +288,7 @@ const SquareShape = ({ children, square }) => {
         square={square}
         className="square-shape"
         resize={showShapeForm}
+        dinamicWidth={autoWidth}
       >
         <div
           className="handle circle-name"

@@ -9,8 +9,8 @@ const StyledDiv = styled.div`
   width: 100%;
   max-width: ${(props) => props.layoutBody?.maxWidth}px;
   // height: ${(props) => props.layoutBody?.height}px;
-  height: 100%;
-  max-height: ${(props) => props.layoutBody?.maxHeight}px;
+  height: ${(props) => props.layoutDetails?.containerScale * 100}%;
+  max-height: 100%;
   border: ${(props) => props.layoutBody?.borderSize}px solid #000000;
   border-radius: ${(props) => props.layoutBody?.borderRadius}%;
   left: ${(props) => props.layoutBody?.x}%;
@@ -21,7 +21,7 @@ const StyledDiv = styled.div`
   top: 98%;
   left: 101%;
   transform: translate(-50%, -50%)
-    scale(${(props) => props.layoutBody.containerScale});
+    scale(${(props) => props.layoutDetails?.containerScale});
   ${(props) => (props.resize ? "resize: both; overflow: hidden;" : "")}
 `;
 
@@ -36,6 +36,7 @@ const LayoutContent = ({ children }) => {
     isSelected,
     setIsSelected,
     layoutRef,
+    layoutDetails,
   } = useContext(LayoutContext);
 
   const param = useParams();
@@ -99,6 +100,7 @@ const LayoutContent = ({ children }) => {
       ref={layoutRef}
       resize={!showShapeForm && isSelected && floorPlan}
       onClick={trueIsSelected}
+      layoutDetails = {layoutDetails}
     >
       {" "}
       <div
