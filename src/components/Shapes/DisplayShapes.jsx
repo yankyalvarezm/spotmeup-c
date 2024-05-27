@@ -35,13 +35,13 @@ const DisplayShapes = () => {
     fetchShapes(param.layoutIdParam);
   }, [param.layoutIdParam, shapeDeleted, shapeEdited, shapeAdded]);
 
+  // console.log("displayScale:", layoutDetails?.displayScale);
+
   return (
     <div
       className="display-shapes-container"
       style={{
-        transform: `scale( ${layoutDetails?.displayScale})`,
-        bottom: `${layoutDetails?.offSet?.y}px`,
-        right: `${layoutDetails?.offSet?.x}px`,
+        // transform: `scale(${layoutDetails?.displayScale})`,
         // transition: "transform 0.1s ease-out",
       }}
     >

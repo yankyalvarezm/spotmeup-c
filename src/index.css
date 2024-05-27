@@ -1842,22 +1842,154 @@ button:hover {
 }
 
 .design-main-content {
-  /* display: flex; */
-  /* justify-content: space-between; */
-  /* flex-grow: 1; */
-  /* position: relative; */
-  /* justify-content: center; */
-  /* align-items: center; */
-
-  width: 95%;
+  width: 100%;
   height: 100%;
-  position: relative;
-  top: 2%;
-  left: 2%;
-  transform: translate(-50%, -50%);
 }
 
-@media (max-width: 900px) {
+@media (max-width: 700px) {
+  .design-big-container {
+    display: none !important;
+  }
+}
+
+@media (max-width: 425px) {
+  #layout-styled-div {
+    background-color: black;
+  }
+
+  #layout-styled-div::before {
+    content: "Bigger Screen Needed";
+    color: white;
+    position: absolute;
+    transform: translate(-50%, -50%);
+    white-space: nowrap;
+    font-size: 40px;
+    left: 50%;
+    top: 50%;
+    font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS",
+      sans-serif;
+    font-weight: 300;
+    font-style: italic;
+  }
+}
+
+/* @media (min-width: 480px) {
+  #layout-styled-div {
+    transform: scale(0.5);
+  }
+
+}
+
+@media (min-width: 600px) {
+  #layout-styled-div {
+    transform: scale(0.55);
+  }
+
+}
+
+@media (min-width: 768px) {
+  #layout-styled-div {
+    transform: scale(0.6);
+
+  }
+
+}
+
+@media (min-width: 992px) {
+  #layout-styled-div {
+    transform: scale(0.75);
+
+  }
+  .tools-title {
+    grid-template-columns: 3fr 9fr !important;
+  }
+}
+
+@media (min-width: 1024px) {
+  #layout-styled-div {
+    transform: scale(0.6);
+ 
+    left: -75%;
+  }
+}
+
+@media (min-width: 1100px) {
+  #layout-styled-div {
+    transform: scale(0.5);
+ 
+    left: -75%;
+  }
+}
+
+@media (min-width: 1200px) {
+  #layout-styled-div {
+    transform: scale(0.65);
+    left: -60%;
+
+  }
+}
+
+@media (min-width: 1265px) {
+  #layout-styled-div {
+    transform: scale(0.65);
+    left: -26%;
+   
+  }
+}
+
+@media (min-width: 1310px) {
+  #layout-styled-div {
+    transform: scale(0.7);
+    left: -26%;
+
+  }
+}
+
+@media (min-width: 1360px) {
+  #layout-styled-div {
+    transform: scale(0.8);
+
+
+  }
+}
+
+@media (min-width: 1400px) {
+  #layout-styled-div {
+    transform: scale(0.85);
+    left: -18%;
+ 
+  }
+}
+
+@media (min-width: 1440px) {
+  #layout-styled-div {
+    transform: scale(0.85);
+  
+  }
+}
+
+@media (min-width: 1600px) {
+  #layout-styled-div {
+    transform: scale(0.9);
+ 
+  }
+}
+
+@media (min-width: 1800px) {
+  #layout-styled-div {
+    transform: scale(0.95);
+  
+  }
+}
+
+@media (min-width: 1920px) {
+  #layout-styled-div {
+    transform: scale(1);
+  
+  }
+} */
+
+/* @media (max-width: 900px) {
   #layout-styled-div {
     display: none !important;
   }
@@ -1870,14 +2002,7 @@ button:hover {
     font-size: 30px;
     color: var(--red);
   }
-}
-
-.design-header-container {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 1rem;
-}
+} */
 
 .zoom-controls {
   display: flex;
@@ -2098,13 +2223,15 @@ button:hover {
 .shape-form-container {
   background-color: var(--black);
   color: white;
-  height: 100%;
-  min-width: 100%;
+  height: 90%;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   margin-right: 0.5rem;
   border: 1px solid var(--red);
+  min-width: 249px;
+  position: absolute;
+  right: 0.5%;
 }
 
 .delete-shape-form-button {
@@ -2522,16 +2649,14 @@ input[type="number"] {
 .design-big-container {
   /* display: flex; */
   height: 100%;
+  width: 100%;
 }
 
 .design-container {
   display: flex;
   flex-direction: column;
-  /* min-height: 1000px; */
-  /* max-height: 1000px; */
   width: 100%;
   height: 100%;
-  overflow: hidden;
 }
 
 .layout-tools-container {
@@ -2723,13 +2848,15 @@ input[type="color"]::-webkit-color-swatch {
 }
 
 .input-name-name {
-  max-width: 200px;
-  padding: 0rem;
+  /* max-width: 200px; */
+  width: 50% !important;
+  border-radius: 10px !important;
+  /* padding: 0rem; */
   border-radius: 0;
   border: none;
-  background-color: transparent;
-  border-right: 3px solid var(--black);
-  animation: blink-caret 1s steps(5, start) infinite;
+  color: black !important;
+  /* border-right: 3px solid var(--black); */
+  /* animation: blink-caret 1s steps(5, start) infinite; */
 }
 
 .input-name-cirle {
@@ -2922,12 +3049,15 @@ input[type="color"]::-webkit-color-swatch {
 }
 
 .active-tools {
-  height: 100%;
+  height: 90%;
   background-color: var(--black);
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   min-width: 249px;
+  max-width: 249px;
+  position: absolute;
+  right: 1%;
 }
 
 #onhold-layout {
@@ -3120,14 +3250,12 @@ input[type="color"]::-webkit-color-swatch {
 }
 
 .display-shapes-container {
-  position: fixed;
+  position: absolute;
   width: 100%;
   height: 100%;
   pointer-events: none;
   z-index: 99;
 }
-
-
 
 /* --------- Add Block ---------- */
 
@@ -3237,13 +3365,15 @@ input[type="color"]::-webkit-color-swatch {
 .block-form-container {
   background-color: white;
   color: white;
-  height: 100%;
-  min-width: 100%;
+  height: 90%;
+  min-width: 245px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   margin-right: 0.5rem;
   border: 1px solid black;
+  position: absolute;
+  right: 0.5%;
 }
 
 .delete-block-form-button {
@@ -3778,13 +3908,15 @@ input[type="color"]::-webkit-color-swatch {
 .table-form-container {
   background-color: var(--green);
   color: var(--green);
-  height: 100%;
-  min-width: 100%;
+  height: 90%;
+  min-width: 249px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   margin-right: 0.5rem;
   border: 1px solid black;
+  position: absolute;
+  right: 0.5%;
 }
 
 .table-dropdown-fields {
@@ -4122,21 +4254,44 @@ input[type="color"]::-webkit-color-swatch {
   border: none;
 }
 
+.ticket-icon {
+  background-image: url(/tickets-icon.png);
+  width: 28px;
+  height: 28px;
+  left: -45%;
+  top: -12px;
+  background-size: 100%;
+  background-repeat: no-repeat;
+  position: absolute;
+  left: 1px;
+  top: -2px;
+}
+
+
 .hierarchy-ticket-price-position {
   font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
   /* margin-left: 3rem; */
   font-weight: 300;
-  font-size: 15px;
-  margin-top: 0.4rem;
+  font-size: 18px;
+  margin-top: 0.6rem;
   margin-left: 0.3rem;
   position: absolute;
   transform: translate(-50%, -50%);
   top: 39px;
-  left: 188px;
+  left: 220px;
   width: 6vh;
   color: #3f7a34;
   background-color: transparent;
   border: none;
+}
+
+.dollar-sign-table-two {
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+  font-weight: 300;
+  position: absolute;
+  top: 40px;
+  left: 175px;
+  color: #3f7a34;
 }
 
 .dollar-sign {
@@ -4325,11 +4480,10 @@ input[type="color"]::-webkit-color-swatch {
   height: auto;
   padding: 0.1rem;
   padding-right: 0.1rem;
-  background-color: var(--white);
   border-radius: 8px;
   position: absolute;
-  left: 40px;
-  top: 28px;
+  left: 100px;
+  top: 38px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -4337,10 +4491,11 @@ input[type="color"]::-webkit-color-swatch {
 }
 
 .hierarchy-tickets-name {
-  color: var(--black);
+  color: white;
   font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
   font-weight: bold;
-  font-size: 12px;
+  font-size: 17px;
+  font-weight: 200;
 }
 
 .hierarchy-tickets-position {
@@ -4559,6 +4714,15 @@ input[type="color"]::-webkit-color-swatch {
   grid-template-columns: 2fr 8fr;
 }
 
+.design-header-container {
+  display: flex;
+  align-items: center;
+  /* justify-content: space-between; */
+  height: 35px;
+  width: 100%;
+  gap: 2rem;
+}
+
 .bd-container {
   display: flex;
   flex-direction: column;
@@ -4719,8 +4883,8 @@ input[type="color"]::-webkit-color-swatch {
 
 .maxWidth-percentage {
   position: absolute;
-  transform: translateX(-50%);
   left: 96%;
+  transform: translateX(-50%);
   font-family: "Courier New", Courier, monospace;
   color: blak;
 }

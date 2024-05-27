@@ -49,7 +49,7 @@ function TableProvider({ children }) {
     try {
       const response = await getAllTablesOnBlock(blockId);
 
-      // console.log("fetchTablesOnBlock:", response);
+      
       if (response.success) {
         const circleFilter = response.tables.filter(
           (table) => table.tableType.toLowerCase() === "circle"
@@ -90,7 +90,7 @@ function TableProvider({ children }) {
       tCircles.filter((tCircle) => tCircle.block == blockId).length + 1 || 1;
     try {
       const response = await createTable(blockId, body);
-      // console.log("response circle table:", response);
+      
       if (response.success) {
         setTCircles((prev) => [...prev, response.table]);
         setTShapeAdded(true);
@@ -106,11 +106,11 @@ function TableProvider({ children }) {
       tSquares.filter((tSquare) => tSquare.block == blockId).length + 1 || 1;
     try {
       const response = await createTable(blockId, body);
-      // console.log("response square table:", response);
+      
       if (response.success) {
         setTSquares((prev) => [...prev, response.table]);
         setTShapeAdded(true);
-        // console.log("Table Square Added:", tSquares);
+        
       }
     } catch (error) {
       console.error(error);

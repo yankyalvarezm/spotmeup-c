@@ -1,4 +1,10 @@
-import React, { useContext, useEffect, useState, useRef } from "react";
+import React, {
+  useContext,
+  useEffect,
+  useState,
+  useRef,
+  useLayoutEffect,
+} from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { LayoutContext } from "../context/layout.context";
 import { ShapeContext } from "../context/shape.context";
@@ -38,6 +44,7 @@ const EditModal = () => {
   const { showShapeForm } = useContext(ShapeContext);
   const { showTShapeForm, editingTables, setEditingTables } =
     useContext(TableContext);
+  const designRef = useRef(null);
 
   const goBack = () => {
     if (!editingTables) {
@@ -60,17 +67,13 @@ const EditModal = () => {
     }
   }, [layoutId]);
 
-  useEffect(() => {
-    if (zoomLevel == null && layoutDetails?.displayScale) {
-      setZoomLevel(layoutDetails?.displayScale);
-    }
-  }, [layoutDetails, zoomLevel]);
-
   const handleZoomIncrease = async (level, e) => {
     // console.log(e);
 
     try {
-      const newZoomLevel = +(zoomLevel + level).toFixed(3);
+      let newZoomLevel = +(zoomLevel + level).toFixed(3);
+
+      newZoomLevel = Math.min(newZoomLevel, 1.0);
 
       setZoomLevel(newZoomLevel);
 
@@ -85,13 +88,15 @@ const EditModal = () => {
       });
       // console.log("🚀 ~ handleZoomIncrease ~ response:", response);
     } catch (error) {
-      console.log("ZoomIncrease - Error:", error.response);
+      console.log("ZoomIncrease - Error:", error);
     }
   };
 
   const handleZoomDecrease = async (level, e) => {
     try {
-      const newZoomLevel = +(zoomLevel - level).toFixed(3);
+      let newZoomLevel = +(zoomLevel - level).toFixed(3);
+
+      newZoomLevel = Math.max(newZoomLevel, 0.5);
 
       setZoomLevel(newZoomLevel);
 
@@ -175,10 +180,30 @@ const EditModal = () => {
     }
   };
 
+  // useEffect(() => {
+  //   if (!zoomLevel) {
+  //     console.log("Verifying line 66", layoutDetails);
+  //     if (layoutDetails) {
+  //       setZoomLevel(layoutDetails?.displayScale);
+  //       console.log(
+  //         "Line 70 - layoutDetails?.displayScale",
+  //         layoutDetails?.displayScale
+  //       );
+  //     }
+  //   }
+  // }, [layoutDetails]);
+
+  useLayoutEffect(() => {
+    if (layoutDetails) {
+      // console.log("layoutDetails:", layoutDetails);
+      setZoomLevel(layoutDetails?.displayScale);
+    }
+  }, [layoutDetails]);
+
   const pinch = useGesture(
     {
       onPinch: (e) => {
-        handlePinch(e);
+        // handlePinch(e);
       },
       onWheel: (e) => {
         handleOffSet(e);
@@ -216,54 +241,6 @@ const EditModal = () => {
     if (pinch) pinch();
   }, [pinch, isCursorOver]);
 
-  const adjustDisplayScale = () => {
-    if (!layoutRef.current) return;
-
-    const newWidth = layoutRef.current.offsetWidth;
-
-    let newZoomLevel = newWidth / 800;
-    let newZoomLevel2 = newWidth / 800;
-
-    newZoomLevel = Math.min(Math.max(newZoomLevel, 0.5), 1);
-    newZoomLevel2 = Math.min(Math.max(newZoomLevel, 0.5), 1);
-
-    setLayoutDetails((prev) => ({ ...prev, containerScale: newZoomLevel }));
-    setLayoutDetails((prev) => ({ ...prev, displayScale: newZoomLevel }));
-
-    clearTimeout(timerId.current);
-    timerId.current = setTimeout(async () => {
-      try {
-        const response = await editLayout(param.layoutIdParam, {
-          containerScale: newZoomLevel,
-        });
-        setZoomLevel(newZoomLevel);
-        console.log("Auto Scale:", response);
-      } catch (error) {
-        console.log("API Call Error:", error.response);
-      }
-      timerId.current = null;
-    }, 300);
-  };
-
-  useEffect(() => {
-    const resizeObserver = new ResizeObserver(() => {
-      adjustDisplayScale();
-    });
-
-    if (layoutRef.current) {
-      resizeObserver.observe(layoutRef.current);
-    }
-
-    return () => {
-      if (layoutRef.current) {
-        resizeObserver.unobserve(layoutRef.current);
-      }
-      if (timerId.current) {
-        clearTimeout(timerId.current);
-      }
-    };
-  }, []);
-
   useEffect((e) => {
     const target = layoutRef?.current || null;
 
@@ -281,8 +258,51 @@ const EditModal = () => {
     }
   }, []);
 
+  const [lastWindowSize, setLastWindowSize] = useState({
+    width: window.innerWidth,
+    height: window.innerHeight,
+  });
+
+  const adjustDisplayScale = () => {
+    const designPage = document.querySelector(".design-page-container");
+    const designPageWidth = designPage?.offsetWidth;
+
+    const newWidth = designPageWidth;
+
+    let newZoomLevel = newWidth / 1800;
+    setZoomLevel(newZoomLevel);
+
+    console.log("adjustDisplayScale");
+
+    newZoomLevel = Math.min(Math.max(newZoomLevel, 0.5), 1);
+
+    setLayoutDetails((prev) => ({ ...prev, displayScale: newZoomLevel }));
+  };
+
+  useEffect(() => {
+    window.addEventListener("resize", adjustDisplayScale);
+
+    return () => {
+      window.removeEventListener("resize", adjustDisplayScale);
+    };
+  }, [lastWindowSize]);
+
+
+
+  const [hasResize, setHasResize] = useState(true);
+
+  const handleResizeOnce = () => {
+    adjustDisplayScale();
+    setHasResize(false);
+  };
+
   return (
-    <div className="design-big-container">
+    <div
+      className="design-big-container"
+      ref={designRef}
+      onPointerMoveCapture={() => hasResize && handleResizeOnce()}
+      // onMouseEnter={adjustDisplayScale}
+    >
       <div className="edit-modal-btns">
         <button
           onClick={goBack}
@@ -310,7 +330,12 @@ const EditModal = () => {
             </div>
           </div>
 
-          <div className="design-main-content">
+          <div
+            className="design-main-content"
+            style={{
+              transform: `scale(${layoutDetails?.displayScale})`,
+            }}
+          >
             <LayoutContent>
               <DisplayShapes />
 

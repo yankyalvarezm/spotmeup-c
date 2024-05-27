@@ -3,10 +3,10 @@ import { useContext } from "react";
 import { LayoutContext } from "../../../context/layout.context";
 
 export const StyledSquare = styled.div`
-  position: fixed;
+  position: absolute;
   width: ${(props) => props.square?.width}px;
   /* width: ${(props) => props.dinamicWidth}px; */
-  ${(props)=> console.log('props:', props)}
+  
 
   height: ${(props) => props.square?.height}px;
   background-color: ${(props) => props.square?.backgroundColor};

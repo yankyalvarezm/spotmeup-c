@@ -85,10 +85,10 @@ const LayoutTools = ({ children }) => {
 
   const handleSaveLayout = async () => {
     try {
-      const response = await editLayout(param.layoutIdParam, layoutBody);
+      const response = await editLayout(param.layoutIdParam, layoutDetails);
       if (response.success) {
         setSuccessMessage(response.message);
-        console.log("layout updated:", response);
+        // console.log("layout updated:", response);
       }
 
       setTimeout(() => {
@@ -116,6 +116,7 @@ const LayoutTools = ({ children }) => {
       ...prevLayoutBody,
       [name]: value,
     }));
+
     setHasChanged(true);
   };
 

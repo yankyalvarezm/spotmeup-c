@@ -285,7 +285,11 @@ const Hierarchy = () => {
                   {block?.name}
                 </h1>
 
-                {block.isMatched && <h1 className="dollar-sign">$</h1>}
+                {block.isMatched && block.btickets < 1 && (
+                  <h1 className="dollar-sign">$</h1>
+                )}
+
+                
 
                 {block.isMatched && block.tables.length > 0 && (
                   <input
@@ -298,7 +302,7 @@ const Hierarchy = () => {
                   />
                 )}
 
-                {block.tables.length < 1 && (
+                {block.tables.length < 1 && block.btickets < 1 && (
                   <input
                     className="hierarchy-blocks-price none-events"
                     type="number"
@@ -339,7 +343,7 @@ const Hierarchy = () => {
                           className="hierarchy-table-name hierarchy-tickets-position"
                           onClick={() => handleShowToggleForm(block._id)}
                         >
-                          Tickets
+                          <div className="ticket-icon"></div>
                         </h1>
                       </div>
                       <div className="hierarchy-tickets">
@@ -348,10 +352,10 @@ const Hierarchy = () => {
                         </h1>
                       </div>
 
-                      <h1 className="dollar-sign-table">#</h1>
-                      {block?.isMatched && (
+                      <h1 className="dollar-sign-table-two">$</h1>
+                      {/* {block?.isMatched && (
                         <h1 className="lock-sign-table">🔓</h1>
-                      )}
+                      )} */}
 
                       <input
                         className="hierarchy-ticket-price-position"
@@ -359,7 +363,7 @@ const Hierarchy = () => {
                         onChange={(e) => handleBlockInputChange(e)}
                         type="number"
                         name="bprice"
-                        value={block?.bprice}
+                        value={block?.bprice * block?.btickets}
                       />
                     </div>
                   </div>

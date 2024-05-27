@@ -250,11 +250,11 @@ const SquareShape = ({ children, square }) => {
     );
   };
 
-  console.log("containerScale:",  layoutDetails?.containerScale);
-  console.log("squareWidth:",  square.width);
+  // console.log("containerScale:",  layoutDetails?.containerScale);
+  // console.log("squareWidth:",  square.width);
  
   const autoWidth = layoutDetails?.containerScale * square?.width;
-  console.log("🚀 ~ SquareShape ~ autoWidth:", autoWidth)
+  // console.log("🚀 ~ SquareShape ~ autoWidth:", autoWidth)
 
   return (
     <Draggable
