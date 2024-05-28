@@ -272,7 +272,7 @@ const EditModal = () => {
     let newZoomLevel = newWidth / 1800;
     setZoomLevel(newZoomLevel);
 
-    console.log("adjustDisplayScale");
+    // console.log("adjustDisplayScale");
 
     newZoomLevel = Math.min(Math.max(newZoomLevel, 0.5), 1);
 
@@ -287,22 +287,22 @@ const EditModal = () => {
     };
   }, [lastWindowSize]);
 
-
-
   const [hasResize, setHasResize] = useState(true);
 
   const handleResizeOnce = () => {
+    // console.log("handleResizeOnce");
     adjustDisplayScale();
     setHasResize(false);
   };
 
+  useEffect(() => {
+    setTimeout(() => {
+      handleResizeOnce();
+    }, 500);
+  }, []);
+
   return (
-    <div
-      className="design-big-container"
-      ref={designRef}
-      onPointerMoveCapture={() => hasResize && handleResizeOnce()}
-      // onMouseEnter={adjustDisplayScale}
-    >
+    <div className="design-big-container" ref={designRef}>
       <div className="edit-modal-btns">
         <button
           onClick={goBack}

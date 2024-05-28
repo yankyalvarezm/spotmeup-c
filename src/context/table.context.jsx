@@ -79,10 +79,6 @@ function TableProvider({ children }) {
     }
   };
 
-  // console.log("Context - tSquares:", tSquares);
-
-  // debugger;
-  // console.log("tSquares - Context:", tSquares);
 
   const addTableCircleManual = async (blockId, body) => {
     body.tableType = "Circle";
