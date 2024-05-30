@@ -19,12 +19,13 @@ function BlockProvider({ children }) {
   const [priceUpdated, setPriceUpdated] = useState(false);
   const [layoutObject, setLayoutObject] = useState({});
   const [hasBlockChanged, setHasBlockChanged] = useState(false);
+  const [blockDeleted, setBlockDeleted] = useState(false);
 
   const fetchBlocks = async (layoutId) => {
     try {
       const response = await getAllBlocks(layoutId);
 
-      console.log("blockResponse:", response)
+      // console.log("blockResponse:", response)
 
       if (response.success) {
         const blockCircleFilter = response.blocks.filter(
@@ -153,6 +154,8 @@ function BlockProvider({ children }) {
         getThisBlock,
         hasBlockChanged,
         setHasBlockChanged,
+        blockDeleted,
+        setBlockDeleted,
       }}
     >
       {children}

@@ -23,6 +23,8 @@ const BlockTools = ({ children }) => {
     setLayoutObject,
     hasBlockChanged,
     setHasBlockChanged,
+    blockDeleted,
+    setBlockDeleted,
   } = useContext(BlockContext);
 
   const { showTShapeForm, tSquares, tCircles } = useContext(TableContext);
@@ -66,7 +68,7 @@ const BlockTools = ({ children }) => {
   const deleteTheShape = async (blockId) => {
     try {
       const response = await deleteBlock(param.blockIdParam);
-      console.log("Block Deleted:", response);
+      setBlockDeleted(true);
       setBCircles((prev) => {
         return prev.filter((bCircle) => bCircle._id !== blockId);
       });

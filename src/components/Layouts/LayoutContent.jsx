@@ -5,17 +5,20 @@ import { useParams } from "react-router-dom";
 import { ShapeContext } from "../../context/shape.context";
 
 const StyledDiv = styled.div`
+  max-width: 1000px;
+  max-height: 1000px;
+  position: relative;
+  left: ${props => Math.ceil((0.6 * props.layoutDetails?.displayScale - 0.1) * 100)}%;
+  top: 50%;
   width: ${(props) => props.layoutBody?.width}px;
-  max-width: ${(props) => props.layoutBody?.maxWidth}px;
   height: ${(props) => props.layoutBody?.height}px;
-  max-height: ${(props) => props.layoutBody?.maxHeight}px;
   border: ${(props) => props.layoutBody?.borderSize}px solid #000000;
   border-radius: ${(props) => props.layoutBody?.borderRadius}%;
-  left: ${(props) => props.layoutBody?.x}%;
-  top: ${(props) => props.layoutBody?.y}%;
   background-color: ${(prop) => prop.layoutBody?.backgroundColor};
   overflow: hidden;
-  ${(props) => (props.resize ? "resize: both; overflow: hidden;" : "")}
+  transform-origin: center;
+  transform: translate(-50%, -50%)
+    ${(props) => (props.resize ? "resize: both; overflow: hidden;" : "")};
 `;
 
 const LayoutContent = ({ children }) => {
@@ -28,11 +31,12 @@ const LayoutContent = ({ children }) => {
     layoutId,
     isSelected,
     setIsSelected,
+    layoutRef,
+    layoutDetails,
   } = useContext(LayoutContext);
-  const layoutRef = useRef(null);
+
   const param = useParams();
   const { showShapeForm } = useContext(ShapeContext);
-  // console.log("param:", param);
 
   let element = document.querySelector("#layout-styled-div");
   useEffect(() => {
@@ -91,6 +95,7 @@ const LayoutContent = ({ children }) => {
       ref={layoutRef}
       resize={!showShapeForm && isSelected && floorPlan}
       onClick={trueIsSelected}
+      layoutDetails={layoutDetails}
     >
       {" "}
       <div
@@ -99,6 +104,10 @@ const LayoutContent = ({ children }) => {
             ? `layout-${layoutBody.layoutType}`
             : "transparent"
         }
+        style={{
+          // transform: `scale(0.9)`,
+          border: `2px solid black`,
+        }}
       >
         {children}
       </div>

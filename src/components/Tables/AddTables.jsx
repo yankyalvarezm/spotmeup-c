@@ -20,11 +20,10 @@ const AddTables = ({ block }) => {
     lockGrid,
     tShapeAdded,
     setTShapeAdded,
+    setTSquares
   } = useContext(TableContext);
 
   const container = document.querySelector(".display-tables-container");
-
-  // console.log("container:", container)
 
   const [tableBody, setTableBody] = useState({});
   const [exactPosition, setExactPosition] = useState({
@@ -77,7 +76,7 @@ const AddTables = ({ block }) => {
     setExactPosition({ row, col });
   };
 
-  // console.log("tSquares:", tSquares)
+
 
   const handleTableAdd = async (row, col) => {
     if (currentBlock?.blockTableType.toLowerCase() === "circle") {
@@ -85,7 +84,7 @@ const AddTables = ({ block }) => {
         await addTableCircleManual(block._id, { ...tableBody, row, col });
         setTShapeAdded(true);
         getThisBlock(block._id);
-        // console.log("addTableCircleManual - response:", tCircles);
+       
       } catch (error) {
         console.error("addTableCircleManual - Error:", error.response);
       }
@@ -96,6 +95,7 @@ const AddTables = ({ block }) => {
 
     if (currentBlock?.blockTableType.toLowerCase() === "square") {
       try {
+        
         await addTableSquareManual(block._id, { ...tableBody, row, col });
         // debugger
         setTShapeAdded(true);
@@ -107,10 +107,7 @@ const AddTables = ({ block }) => {
     }
   };
 
-  // console.log("bSquares:", bSquares);
-  // console.log("bCircles:", bCircles);
-
-  // console.log("Exact Position:", exactPosition);
+ 
 
   const renderAdd = () => {
     let tables = [];

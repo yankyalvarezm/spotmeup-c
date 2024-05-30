@@ -32,6 +32,8 @@ const BsquareShape = ({ children, bSquare }) => {
     bSquareRef,
     bCircleRef,
     showBShapeForm,
+    blockDeleted,
+    setBlockDeleted,
   } = useContext(BlockContext);
   const { showTShapeForm } = useContext(TableContext);
 
@@ -150,7 +152,7 @@ const BsquareShape = ({ children, bSquare }) => {
         ".hierarchy-blocks-price"
       );
 
-      if (  
+      if (
         !isClickInsideHierarchyPrice &&
         !isClickInside &&
         !isClickInsideCircle &&

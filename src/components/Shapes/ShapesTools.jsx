@@ -26,6 +26,7 @@ const ShapesTools = () => {
   const currentShape = [...circles, ...squares].find(
     (shape) => shape._id === shapeId
   );
+  // console.log("🚀 ~ ShapesTools ~ currentShape:", currentShape);
 
   // *! ----- isCircle ----------------------------------------
   const isCircle = currentShape?.shapeType.toLowerCase() === "circle";
@@ -108,6 +109,13 @@ const ShapesTools = () => {
       }
     }
   };
+
+  const layoutContainer = document.querySelector(".display-shapes-container");
+
+  if (layoutContainer) {
+    const layoutWidth = layoutContainer.offsetWidth;
+    // console.log("🚀 ~ ShapesTools ~ layoutWidth:", layoutWidth);
+  }
 
   // *! ----- Text Position (Align Items & Justify Content) ------
 
@@ -222,6 +230,32 @@ const ShapesTools = () => {
                       value={currentShape?.width}
                       min={10}
                       max={1000}
+                    />
+                  </div>
+
+                  {/* -------------- Max-Width -------------- */}
+
+                  <div className="shape-label-input-container">
+                    <div className="shape-label-input">
+                      <label htmlFor="maxWidth">
+                        {isCircle ? "Size" : "Max-Width"}
+                      </label>
+                      <h1 className="maxWidth-percentage">%</h1>
+                      <input
+                        type="number"
+                        name="maxWidth"
+                        onChange={handleInputChange}
+                        value={currentShape?.maxWidth}
+                      />
+                    </div>
+                    <input
+                      type="range"
+                      className="range"
+                      name="maxWidth"
+                      onChange={handleInputChange}
+                      value={currentShape?.maxWidth}
+                      min={5}
+                      max={100}
                     />
                   </div>
 

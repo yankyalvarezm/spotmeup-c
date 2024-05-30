@@ -1,8 +1,13 @@
 import styled from "styled-components";
+import { useContext } from "react";
+import { LayoutContext } from "../../../context/layout.context";
 
 export const StyledSquare = styled.div`
   position: absolute;
   width: ${(props) => props.square?.width}px;
+  /* width: ${(props) => props.dinamicWidth}px; */
+  
+
   height: ${(props) => props.square?.height}px;
   background-color: ${(props) => props.square?.backgroundColor};
   /* border: ${(props) => props.square?.borderSize}px solid
@@ -43,12 +48,15 @@ export const StyledSquare = styled.div`
       props.square?.borderTopColor
         ? props.square?.borderTopColor
         : props.square?.borderColor};
-  max-width: 100%;
-  max-height: 100%;
+  /* max-width: 100%; */
+  /* max-height: 100%; */
   text-align: center;
   ${(props) => (props.resize ? "resize:both; overflow: hidden;" : "")}
   transform: translate(
     ${(props) => props.square?.x}px,
     ${(props) => props.square?.y}px
   );
+  top: 0%;
+  left: 0%;
+
 `;

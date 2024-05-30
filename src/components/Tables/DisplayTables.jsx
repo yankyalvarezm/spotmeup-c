@@ -48,6 +48,8 @@ const DisplayTables = ({ blockId }) => {
 
   }, [hasBlockChanged]);
 
+  
+
   // console.log("blockIdParam:", param.blockIdParam);
   // console.log("tCircles from Display Tables:", tCircles);
 

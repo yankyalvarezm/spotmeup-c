@@ -1,10 +1,11 @@
-import React, { createContext, useEffect, useState } from "react";
+import React, { createContext, useEffect, useState, useRef } from "react";
 import { getOneLayout } from "../services/layout.service";
 import { editLayout } from "../services/layout.service";
 
 const LayoutContext = createContext();
 
 function LayoutProvider({ children }) {
+  const layoutRef = useRef(null);
   const [showEditingModal, setShowEditingModal] = useState(null);
   const [showLayoutForm, setShowLayoutForm] = useState(null);
   const [layoutId, setLayoutId] = useState(null);
@@ -102,6 +103,7 @@ function LayoutProvider({ children }) {
         updateLayout,
         isSelected,
         setIsSelected,
+        layoutRef,
       }}
     >
       {children}

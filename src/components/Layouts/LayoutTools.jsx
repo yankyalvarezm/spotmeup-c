@@ -32,6 +32,7 @@ const LayoutTools = ({ children }) => {
       maxHeight: designContainer?.offsetHeight * 0.93,
       borderRadius: layoutDetails?.borderRadius,
       borderSize: layoutDetails?.borderSize,
+      containerScale: layoutDetails?.containerScale,
       x: layoutDetails?.x,
       y: layoutDetails?.y,
       layoutType: layoutDetails?.layoutType,
@@ -84,7 +85,7 @@ const LayoutTools = ({ children }) => {
 
   const handleSaveLayout = async () => {
     try {
-      const response = await editLayout(param.layoutIdParam, layoutBody);
+      const response = await editLayout(param.layoutIdParam, layoutDetails);
       if (response.success) {
         setSuccessMessage(response.message);
         // console.log("layout updated:", response);
@@ -115,6 +116,7 @@ const LayoutTools = ({ children }) => {
       ...prevLayoutBody,
       [name]: value,
     }));
+
     setHasChanged(true);
   };
 

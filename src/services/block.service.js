@@ -16,7 +16,7 @@ export const createBlock = async (layoutId, body) => {
 export const editBlock = async (blockId, body) => {
   try {
     const response = await axios.put(`${API_URL}/block/${blockId}/edit`, body);
-    console.log("edit block body:", body);
+    // console.log("edit block body:", body);
     return response.data;
   } catch (error) {
     throw error;
