@@ -4267,7 +4267,6 @@ input[type="color"]::-webkit-color-swatch {
   top: -2px;
 }
 
-
 .hierarchy-ticket-price-position {
   font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
   /* margin-left: 3rem; */
@@ -4844,14 +4843,14 @@ input[type="color"]::-webkit-color-swatch {
   cursor: pointer;
 }
 
-.BD-Mapping-bigcontainer:hover {
+/* .BD-Mapping-bigcontainer:hover {
   .BD-block-mapping-container {
     background-color: rgb(229, 226, 226);
   }
   .arrow {
     display: block;
   }
-}
+} */
 .dropdown-triangle-table {
   display: none;
   font-size: 20px;
@@ -4864,11 +4863,12 @@ input[type="color"]::-webkit-color-swatch {
   border: solid black;
   border-width: 0 2px 2px 0;
   /* display: inline-block; */
-  display: none;
+  /* display: none; */
   padding: 3px;
   position: absolute;
-  top: 42%;
+  top: 15%;
   right: 0%;
+  transform: translate(-50%, -50%);
 }
 
 .up {
@@ -4877,8 +4877,8 @@ input[type="color"]::-webkit-color-swatch {
 }
 
 .down {
-  transform: rotate(45deg);
-  -webkit-transform: rotate(45deg);
+  transform: rotate(45deg) translate(-50%, -50%);
+  /* -webkit-transform: rotate(45deg); */
 }
 
 .maxWidth-percentage {
@@ -4892,9 +4892,30 @@ input[type="color"]::-webkit-color-swatch {
 .scale-display {
   font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
   color: black;
-  position: absolute;
+  /* position: absolute; */
   transform: translate(-50%, -50%);
-  top: 4%;
-  left: 70%;
+  /* top: 4%; */
+  /* left: 70%; */
   font-weight: 500;
+}
+
+.breakdown-div {
+  width: 100%;
+  text-align: center;
+}
+.breakdown-table {
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+  font-weight: 200;
+  font-size: 20px;
+  color: black;
+  /* width: 100%; */
+  /* text-align: center; */
+}
+
+.breakdown-table-container {
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+  margin-bottom: 1rem;
+  padding: 0.5rem;
 }
