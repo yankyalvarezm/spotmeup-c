@@ -14,7 +14,7 @@ import { TableProvider } from "./context/table.context.jsx";
 import { BreakDownProvider } from "./context/breakdown.context.jsx";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
-  <React.StrictMode>
+  // <React.StrictMode>
     <BrowserRouter>
       <AuthProvider>
         <GoogleMapsProvider>
@@ -36,5 +36,5 @@ ReactDOM.createRoot(document.getElementById("root")).render(
         </GoogleMapsProvider>
       </AuthProvider>
     </BrowserRouter>
-  </React.StrictMode>
+  // </React.StrictMode>
 );
