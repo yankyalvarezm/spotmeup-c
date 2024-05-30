@@ -36,7 +36,7 @@ const BDTickets = () => {
       );
     }
   }, [layoutObject, tShapeEdited]);
-  
+
   return (
     <div className="BD-tickets-container">
       <div className="tickets-expectation">
@@ -64,7 +64,9 @@ const BDTickets = () => {
               </div>
               {containTables && (
                 <div className="bd-div">
-                  <h1 className="BD-block-name"></h1>
+                  <h1 className="BD-block-name">
+                    <h1 className="BD-block-name">{block.btickets}</h1>
+                  </h1>
                 </div>
               )}
               <div className="bd-div">
@@ -72,13 +74,34 @@ const BDTickets = () => {
               </div>
 
               <div className="bd-div">
-                <h1 className="BD-block-name">{block.btickets}</h1>
+                {/* <h1 className="BD-block-name">{block.btickets}</h1> */}
               </div>
               <div className="bd-div">
                 <h1 className="BD-block-name">{block.bprice}</h1>
+                <div className="arrow down"></div>
               </div>
             </div>
-            <div className="arrow down"></div>
+            {/* ------- Tables ------ */}
+
+            {block.tables.map((table, index) => (
+              <div className="breakdown-table-container">
+                <div className="breakdown-div">
+                  <h1 className="breakdown-table">Table #{table.number}</h1>
+                </div>
+                <div className="breakdown-div">
+                  <h1 className="breakdown-table">{table.ticketsIncluded}</h1>
+                </div>
+                <div className="breakdown-div">
+                  <h1 className="breakdown-table">{table.maxCapacity}</h1>
+                </div>
+                <div className="breakdown-div">
+                  <h1 className="breakdown-table">{table.tickets}</h1>
+                </div>
+                <div className="breakdown-div">
+                  <h1 className="breakdown-table">{table.tprice}</h1>
+                </div>
+              </div>
+            ))}
           </div>
         ))}
       </div>
