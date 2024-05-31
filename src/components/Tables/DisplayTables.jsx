@@ -32,7 +32,7 @@ const DisplayTables = ({ blockId }) => {
       setLayoutId(param.layoutIdParam);
     }
    
-  }, [param.layoutIdParam, param.blockIdParam]);
+  }, [param.layoutIdParam]);
 
   const displayTablesRef = useRef(null);
 
@@ -50,7 +50,7 @@ const DisplayTables = ({ blockId }) => {
 
   
 
-  // console.log("blockIdParam:", param.blockIdParam);
+  
   // console.log("tCircles from Display Tables:", tCircles);
 
   // console.log("displayTablesRef:", displayTablesRef?.current?.offsetWidth)

@@ -9,25 +9,27 @@ const BDTickets = () => {
   const [layoutObject, setLayoutObject] = useState({});
   const [isOpen, setIsOpen] = useState(0);
   const [containTables, setContainTables] = useState(false);
-  console.log("🚀 ~ BDTickets ~ containTables:", containTables);
+  // console.log("🚀 ~ BDTickets ~ containTables:", containTables);
 
   const param = useParams();
 
   const getTheLayout = async () => {
     const response = await getOneLayout(param.layoutIdParam);
+    console.log("------ Dashboard -------");
+    console.log("getTheLayout:", response);
 
     if (response.success) {
       setLayoutObject(response.layout);
     }
-    // debugger;
-    console.log("getTheLayout:", response);
   };
-  console.log("layoutObject:", layoutObject);
 
   useEffect(() => {
     getTheLayout();
-    // debugger;
   }, []);
+
+  useEffect(() => {
+    console.log("layoutObject:", layoutObject);
+  }, [layoutObject]);
 
   useEffect(() => {
     if (layoutObject) {
@@ -36,6 +38,7 @@ const BDTickets = () => {
       );
     }
   }, [layoutObject, tShapeEdited]);
+  // console.log("🚀 ~ BDTickets ~ layoutObject:", layoutObject);
 
   return (
     <div className="BD-tickets-container">
@@ -57,7 +60,7 @@ const BDTickets = () => {
 
         {/* ----- Block Mapping ------ */}
         {layoutObject?.blocks?.map((block, index) => (
-          <div className="BD-Mapping-bigcontainer">
+          <div className="BD-Mapping-bigcontainer" key={index}>
             <div className="BD-block-mapping-container">
               <div className="bd-div">
                 <h1 className="BD-block-name">{block.name}</h1>
@@ -84,7 +87,7 @@ const BDTickets = () => {
             {/* ------- Tables ------ */}
 
             {block.tables.map((table, index) => (
-              <div className="breakdown-table-container">
+              <div className="breakdown-table-container" key={index}>
                 <div className="breakdown-div">
                   <h1 className="breakdown-table">Table #{table.number}</h1>
                 </div>

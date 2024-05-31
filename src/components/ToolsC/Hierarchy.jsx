@@ -53,6 +53,7 @@ const Hierarchy = () => {
     const response = await getOneLayout(param.layoutIdParam);
     if (response.success) {
       setLayoutObject(response.layout);
+      console.log("response.layout:", response.layout);
     }
 
     // console.log("getThisLayout:", response);
@@ -288,8 +289,6 @@ const Hierarchy = () => {
                 {block.isMatched && block.btickets < 1 && (
                   <h1 className="dollar-sign">$</h1>
                 )}
-
-                
 
                 {block.isMatched && block.tables.length > 0 && (
                   <input

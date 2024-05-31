@@ -83,9 +83,15 @@ const LayoutTools = ({ children }) => {
     };
   }
 
+
+
   const handleSaveLayout = async () => {
+    let layoutBodyEdited = layoutDetails;
+
+    delete layoutBodyEdited?.blocks;
+
     try {
-      const response = await editLayout(param.layoutIdParam, layoutDetails);
+      const response = await editLayout(param.layoutIdParam, layoutBodyEdited);
       if (response.success) {
         setSuccessMessage(response.message);
         // console.log("layout updated:", response);
@@ -97,7 +103,7 @@ const LayoutTools = ({ children }) => {
 
       setHasChanged(false);
     } catch (error) {
-      console.log("The error:", error);
+      console.log("The error:", error.response);
       setNotSuccessMessage(error.response.message);
       setTimeout(() => {
         setNotSuccessMessage(null);

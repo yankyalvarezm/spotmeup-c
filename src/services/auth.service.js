@@ -18,7 +18,7 @@ export const authenticateUser = () => {
         return { user: response.data.user, isLoggedIn: true, isLoading: false };
       })
       .catch((error) => {
-        console.log("Line 21 - Error:", error);
+        console.log("Verify - Error:", error.response);
         return { user: null, isLoggedIn: false, isLoading: false };
       });
   } else {

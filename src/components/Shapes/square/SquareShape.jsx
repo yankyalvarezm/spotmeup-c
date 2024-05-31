@@ -59,70 +59,25 @@ const SquareShape = ({ children, square }) => {
     };
   }, [editingName, saveName]);
 
-  const element = document.querySelector(".display-shapes-container");
-
-  let squareDinamicWidth = square.maxWidth / 100;
-  const elementWidth = element.offsetWidth;
-  let resizeWidth = squareDinamicWidth * elementWidth;
-
-  // const squareShape = document.querySelector(".square-shape");
-  // const thisSquareWidth = squareShape?.offsetWidth;
-  // console.log("containerWidth", element.offsetWidth);
-  // console.log("squareWidth", squareRef?.current?.offsetWidth);
-  // console.log(
-  //   "% width of container:",
-  //   Math.ceil((squareRef?.current?.offsetWidth / element.offsetWidth) * 100)
-  // );
-  // console.log("maxWith", square.maxWidth);
-
-  const [containerChange, setContainerChange] = useState(false);
-
-  useEffect(() => {
-    if (!containerChange) {
-      setContainerChange(true);
-    }
-    // console.log("🚀 ~ useEffect ~ setContainerChange:", containerChange);
-  }, [elementWidth]);
-
-  // console.log("square:", square);
   useEffect(() => {
     const resizeObserver = new ResizeObserver((entries) => {
       for (let entry of entries) {
         const { height } = entry.contentRect;
-        // const width = maxWidth * elementWidth;
-        const resize = resizeWidth;
+
         const width = entry.contentRect.width;
-        const maxWidth = Math.ceil((width / elementWidth) * 100);
-        // console.log("🚀 ~ resizeObserver #2 ~ width:", width);
-        // console.log("🚀 ~ resizeObserver ~ maxWidth:", maxWidth);
 
         if (width && height) {
-          updateShape(square._id, { width, height, maxWidth });
+          updateShape(square._id, { width, height });
 
           setSquares((prevSquares) => {
             return prevSquares.map((sq) => {
               if (sq._id === square._id) {
-                return { ...sq, width, height, maxWidth };
+                return { ...sq, width, height };
               }
               return sq;
             });
           });
         }
-
-        // if (containerChange) {
-        //   updateShape(square._id, { width: resize, height, maxWidth });
-
-        //   setSquares((prevSquares) => {
-        //     return prevSquares.map((sq) => {
-        //       if (sq._id === square._id) {
-        //         return { ...sq, width: resize, height, maxWidth };
-        //       }
-        //       return sq;
-        //     });
-        //   });
-
-        // }
-        // setContainerChange(false);
       }
     });
 
@@ -135,41 +90,7 @@ const SquareShape = ({ children, square }) => {
         resizeObserver.unobserve(squareRef.current);
       }
     };
-  }, [elementWidth]);
-
-  // useEffect(() => {
-  //   const resizeObserver = new ResizeObserver((entries) => {
-  //     for (let entry of entries) {
-
-  //       const { height } = entry.contentRect;
-  //       const { width } = entry.contentRect;
-  //       console.log("🚀 ~ resizeObserver ~ width:", width);
-
-  //       if (width && height) {
-  //         updateShape(square._id, { width, height });
-
-  //         setSquares((prevSquares) => {
-  //           return prevSquares.map((sq) => {
-  //             if (sq._id === square._id) {
-  //               return { ...sq, width, height };
-  //             }
-  //             return sq;
-  //           });
-  //         });
-  //       }
-  //     }
-  //   });
-
-  //   if (squareRef.current) {
-  //     resizeObserver.observe(squareRef.current);
-  //   }
-
-  //   return () => {
-  //     if (squareRef.current) {
-  //       resizeObserver.unobserve(squareRef.current);
-  //     }
-  //   };
-  // }, []);
+  }, []);
 
   const handleStyle = {
     width: "100%",
@@ -181,9 +102,6 @@ const SquareShape = ({ children, square }) => {
     alignItems: square.alignItems,
     fontSize: `${square.fontSize}px`,
   };
-
-  // console.log("squareX:", newPositionSquare.x)
-  // console.log("squareY:", newPositionSquare.y)
 
   const handleClickOutside = (e) => {
     if (
@@ -252,7 +170,7 @@ const SquareShape = ({ children, square }) => {
 
   // console.log("containerScale:",  layoutDetails?.containerScale);
   // console.log("squareWidth:",  square.width);
- 
+
   const autoWidth = layoutDetails?.containerScale * square?.width;
   // console.log("🚀 ~ SquareShape ~ autoWidth:", autoWidth)
 

@@ -26,7 +26,9 @@ const DisplayBlocks = ({ children }) => {
       setBShapeAdded(false);
     }
 
-    fetchBlocks(param.layoutIdParam);
+    if (param.layoutIdParam) {
+      fetchBlocks(param.layoutIdParam);
+    }
   }, [param.layoutIdParam, bShapeAdded]);
 
   const separateChildren = (blockId) => {

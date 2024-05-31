@@ -24,8 +24,8 @@ function BlockProvider({ children }) {
   const fetchBlocks = async (layoutId) => {
     try {
       const response = await getAllBlocks(layoutId);
-
-      // console.log("blockResponse:", response)
+      console.log("-------- Design Page ----------")
+      console.log("blockResponse:", response)
 
       if (response.success) {
         const blockCircleFilter = response.blocks.filter(

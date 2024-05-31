@@ -37,6 +37,8 @@ const BsquareShape = ({ children, bSquare }) => {
   } = useContext(BlockContext);
   const { showTShapeForm } = useContext(TableContext);
 
+  // console.log("bSquare:", bSquare);
+
   // ? -- LayoutContext ---------------
   const { layoutBody, layoutDetails } = useContext(LayoutContext);
 
