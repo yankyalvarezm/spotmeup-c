@@ -53,7 +53,7 @@ const Hierarchy = () => {
     const response = await getOneLayout(param.layoutIdParam);
     if (response.success) {
       setLayoutObject(response.layout);
-      console.log("response.layout:", response.layout);
+      // console.log("response.layout:", response.layout);
     }
 
     // console.log("getThisLayout:", response);
@@ -156,20 +156,25 @@ const Hierarchy = () => {
 
   // console.log("currentBShape:", currentBShape);
 
-  const handleBlockInputChange = (e) => {
+  const handleBlockInputChange = async (e) => {
     const { name, value } = e.target;
 
-    const updatedBlocks = layoutObject?.blocks?.map((block) => {
-      if (block._id === blockId) {
-        const beforeUpdate = { ...block, [name]: value };
-        editBlock(blockId, beforeUpdate);
-        return beforeUpdate;
-      } else {
-        return block;
-      }
-    });
+    const updatedBlocks = await Promise.all(
+      layoutObject?.blocks?.map((block) => {
+        if (block._id === blockId) {
+          const updatedValue = Number(value);
+          // console.log("Number(value):", updatedValue);
+          const beforeUpdate = { ...block, [name]: updatedValue };
 
-    // console.log("updatedBlocks:", updatedBlocks);
+          editBlock(blockId, beforeUpdate, "Edit Block Hierarchy");
+          // console.log("Edit Block - Hierarchy:", response);
+
+          return beforeUpdate;
+        } else {
+          return block;
+        }
+      })
+    );
 
     setLayoutObject((prevLayoutObject) => ({
       ...prevLayoutObject,
@@ -179,7 +184,7 @@ const Hierarchy = () => {
     if (currentBShape?.blockType.toLowerCase() === "circle") {
       setBCircles((prevCircles) =>
         prevCircles.map((circle) =>
-          circle._id === blockId ? { ...circle, [name]: value } : circle
+          circle._id === blockId ? { ...circle, [name]: Number(value) } : circle
         )
       );
     }
@@ -187,7 +192,7 @@ const Hierarchy = () => {
     if (currentBShape?.blockType.toLowerCase() === "square") {
       setBSquares((prevCircles) =>
         prevCircles.map((square) =>
-          square._id === blockId ? { ...square, [name]: value } : square
+          square._id === blockId ? { ...square, [name]: Number(value) } : square
         )
       );
     }
@@ -286,11 +291,11 @@ const Hierarchy = () => {
                   {block?.name}
                 </h1>
 
-                {block.isMatched && block.btickets < 1 && (
+                {block?.isMatched && block?.btickets < 1 && (
                   <h1 className="dollar-sign">$</h1>
                 )}
 
-                {block.isMatched && block.tables.length > 0 && (
+                {block?.isMatched && block?.tables?.length > 0 && (
                   <input
                     className="hierarchy-blocks-price"
                     type="number"
@@ -301,19 +306,19 @@ const Hierarchy = () => {
                   />
                 )}
 
-                {block.tables.length < 1 && block.btickets < 1 && (
+                {block?.tables?.length < 1 && block?.btickets < 1 && (
                   <input
                     className="hierarchy-blocks-price none-events"
                     type="number"
                     name="bprice"
-                    value={block?.bprice * block.btickets}
+                    value={block?.bprice * block?.btickets}
                     onClick={() => handleShowToggleForm(block?._id)}
                     onChange={(e) => handleBlockInputChange(e)}
                   />
                 )}
 
                 {/* --------------------- Block Tickets --------------------- */}
-                {block.tables.length < 1 && (
+                {block?.tables?.length < 1 && (
                   <div className="hierarchy-all-tables-effects-container">
                     <div
                       className={
@@ -347,7 +352,7 @@ const Hierarchy = () => {
                       </div>
                       <div className="hierarchy-tickets">
                         <h1 className="hierarchy-tickets-name">
-                          {block.btickets}
+                          {block?.btickets}
                         </h1>
                       </div>
 
@@ -358,11 +363,11 @@ const Hierarchy = () => {
 
                       <input
                         className="hierarchy-ticket-price-position"
-                        onClick={() => handleShowToggleForm(block?._id)}
-                        onChange={(e) => handleBlockInputChange(e)}
                         type="number"
                         name="bprice"
-                        value={block?.bprice * block?.btickets}
+                        value={block?.bprice}
+                        onClick={() => handleShowToggleForm(block?._id)}
+                        onChange={(e) => handleBlockInputChange(e)}
                       />
                     </div>
                   </div>
@@ -417,7 +422,7 @@ const Hierarchy = () => {
                         name="tprice"
                         value={
                           block?.isMatched
-                            ? Math.ceil(block.bprice / block.tables.length)
+                            ? Math.ceil(block.bprice / block?.tables.length)
                             : table.tprice
                         }
                       />

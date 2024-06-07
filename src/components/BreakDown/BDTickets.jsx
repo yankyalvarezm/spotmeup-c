@@ -63,24 +63,24 @@ const BDTickets = () => {
           <div className="BD-Mapping-bigcontainer" key={index}>
             <div className="BD-block-mapping-container">
               <div className="bd-div">
-                <h1 className="BD-block-name">{block.name}</h1>
+                <h1 className="BD-block-name">{block?.name}</h1>
               </div>
               {containTables && (
                 <div className="bd-div">
                   <h1 className="BD-block-name">
-                    <h1 className="BD-block-name">{block.btickets}</h1>
+                    <h1 className="BD-block-name">{block?.btickets}</h1>
                   </h1>
                 </div>
               )}
               <div className="bd-div">
-                <h1 className="BD-block-name">{block.maxCapacity}</h1>
+                <h1 className="BD-block-name">{block?.maxCapacity}</h1>
               </div>
 
               <div className="bd-div">
                 {/* <h1 className="BD-block-name">{block.btickets}</h1> */}
               </div>
               <div className="bd-div">
-                <h1 className="BD-block-name">{block.bprice}</h1>
+                <h1 className="BD-block-name">{block?.bprice}</h1>
                 <div className="arrow down"></div>
               </div>
             </div>

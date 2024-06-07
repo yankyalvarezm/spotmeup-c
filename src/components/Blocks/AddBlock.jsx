@@ -14,7 +14,7 @@ const AddBlock = () => {
     blockType: "",
     status: "",
     capacity: 0,
-    bprice: 0,
+    // bprice: 0,
     maxSection: 0,
     width: 100,
     height: 100,

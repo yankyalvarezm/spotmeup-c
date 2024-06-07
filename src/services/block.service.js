@@ -13,10 +13,19 @@ export const createBlock = async (layoutId, body) => {
   }
 };
 
-export const editBlock = async (blockId, body) => {
+export const editBlock = async (blockId, body, message = null) => {
   try {
     const response = await axios.put(`${API_URL}/block/${blockId}/edit`, body);
     // console.log("edit block body:", body);
+
+    console.log("response.data:", response.data.block.bprice);
+
+    // debugger;
+   
+
+    if (message) {
+      console.log(message, response.data);
+    }
     return response.data;
   } catch (error) {
     throw error;

@@ -24,8 +24,8 @@ function BlockProvider({ children }) {
   const fetchBlocks = async (layoutId) => {
     try {
       const response = await getAllBlocks(layoutId);
-      console.log("-------- Design Page ----------")
-      console.log("blockResponse:", response)
+      // console.log("-------- Design Page ----------")
+      // console.log("blockResponse:", response)
 
       if (response.success) {
         const blockCircleFilter = response.blocks.filter(
@@ -46,7 +46,7 @@ function BlockProvider({ children }) {
     try {
       const response = await findBlock(blockId);
 
-      console.log("blockResponse:", response);
+      // console.log("blockResponse:", response);
       if (response.block.blockType.toLowerCase() === "circle") {
         setBCircles((prev) => {
           return prev.map((block) =>
@@ -110,7 +110,7 @@ function BlockProvider({ children }) {
   const updateBShape = debounce(async (shapeId, body) => {
     try {
       const response = await editBlock(shapeId, body);
-      // console.log("context - response:", response);
+      console.log("Edit Block - Context:", response);
       if (response.success) {
         setHasBlockChanged(true);
       }

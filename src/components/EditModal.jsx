@@ -311,7 +311,7 @@ const EditModal = () => {
           {!editingTables ? "Go Back" : "Saving..."}
         </button>
         <button className="dashboard-btn" onClick={moveToBreakDown}>
-          Dasboard
+          Dashboard
         </button>
       </div>
       <div className="tools-title">
