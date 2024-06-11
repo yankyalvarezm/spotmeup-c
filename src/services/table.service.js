@@ -26,7 +26,7 @@ export const editTable = async (tableId, body) => {
     // console.log("updateTShape:", response.data);
     return response.data;
   } catch (error) {
-    throw error;
+    throw error.response;
   }
 };
 export const findTable = async (tableId) => {

@@ -38,13 +38,31 @@ const BDTickets = () => {
       );
     }
   }, [layoutObject, tShapeEdited]);
+
+  const [dropDownNumber, setDropDownNumber] = useState(0);
+
+  console.log("dropdownNumber:", dropDownNumber);
+
+  const handleDropDown = (number) => {
+    setDropDownNumber((dropDownNumber) => {
+      return dropDownNumber === number ? null : number;
+    });
+  };
+
+  function formatNumberWithCommas(number) {
+    return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  }
+
   // console.log("🚀 ~ BDTickets ~ layoutObject:", layoutObject);
 
   return (
     <div className="BD-tickets-container">
       <div className="tickets-expectation">
         <div className="ticket-expectation-item">Total Tickets</div>
-        <div className="ticket-expectation-item">Expected Return</div>
+        <div className="ticket-expectation-item">
+          <h1 className="ticket-expected-return">Expected Return:</h1>
+          <h1 className="ticket-expected-return-h1"> $5000</h1>
+        </div>
       </div>
 
       <div className="bd-excel-container">
@@ -56,55 +74,78 @@ const BDTickets = () => {
           <h1 className="bd-excel-titles">Max Capacity</h1>
           <h1 className="bd-excel-titles">Tickets</h1>
           <h1 className="bd-excel-titles">Price</h1>
+          <h1 className="bd-excel-titles arrow-container"></h1>
         </div>
 
         {/* ----- Block Mapping ------ */}
         {layoutObject?.blocks?.map((block, index) => (
           <div className="BD-Mapping-bigcontainer" key={index}>
-            <div className="BD-block-mapping-container">
+            <div
+              className="BD-block-mapping-container"
+              onClick={() => handleDropDown(index)}
+            >
               <div className="bd-div">
                 <h1 className="BD-block-name">{block?.name}</h1>
               </div>
-              {containTables && (
-                <div className="bd-div">
+
+              <div className="bd-div">
+                <h1 className="BD-block-name">
                   <h1 className="BD-block-name">
-                    <h1 className="BD-block-name">{block?.btickets}</h1>
+                    {block.tables.length ? block?.totalTicketsIncluded : "-"}
                   </h1>
-                </div>
-              )}
+                </h1>
+              </div>
+
               <div className="bd-div">
                 <h1 className="BD-block-name">{block?.maxCapacity}</h1>
               </div>
 
               <div className="bd-div">
-                {/* <h1 className="BD-block-name">{block.btickets}</h1> */}
+                <h1 className="BD-block-name">{block?.btickets}</h1>
               </div>
               <div className="bd-div">
-                <h1 className="BD-block-name">{block?.bprice}</h1>
-                <div className="arrow down"></div>
+                <h1 className="BD-block-name">${formatNumberWithCommas(block.bprice)}</h1>
+              </div>
+
+              <div className="bd-div arrow-container">
+                <div
+                  className={block.tables.length ? "arrow down" : "hide"}
+                ></div>
               </div>
             </div>
             {/* ------- Tables ------ */}
-
-            {block.tables.map((table, index) => (
-              <div className="breakdown-table-container" key={index}>
-                <div className="breakdown-div">
-                  <h1 className="breakdown-table">Table #{table.number}</h1>
+            <div
+              className={
+                dropDownNumber === index
+                  ? "animation"
+                  : "hide-dropdown animation"
+              }
+            >
+              {block.tables.map((table, index) => (
+                <div className="breakdown-table-container" key={index}>
+                  <div className="breakdown-div">
+                    <h1 className="breakdown-table">Table #{table.number}</h1>
+                  </div>
+                  <div className="breakdown-div">
+                    <h1 className="breakdown-table">{table.ticketsIncluded}</h1>
+                  </div>
+                  <div className="breakdown-div">
+                    <h1 className="breakdown-table">{table.maxCapacity}</h1>
+                  </div>
+                  <div className="breakdown-div">
+                    <h1 className="breakdown-table">{table.tickets}</h1>
+                  </div>
+                  <div className="breakdown-div">
+                    <h1 className="breakdown-table">
+                      ${formatNumberWithCommas(table.tprice)}
+                    </h1>
+                  </div>
+                  <div className="breakdown-div arrow-container">
+                    {/* <h1 className="breakdown-table">{table.tprice}</h1> */}
+                  </div>
                 </div>
-                <div className="breakdown-div">
-                  <h1 className="breakdown-table">{table.ticketsIncluded}</h1>
-                </div>
-                <div className="breakdown-div">
-                  <h1 className="breakdown-table">{table.maxCapacity}</h1>
-                </div>
-                <div className="breakdown-div">
-                  <h1 className="breakdown-table">{table.tickets}</h1>
-                </div>
-                <div className="breakdown-div">
-                  <h1 className="breakdown-table">{table.tprice}</h1>
-                </div>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
         ))}
       </div>

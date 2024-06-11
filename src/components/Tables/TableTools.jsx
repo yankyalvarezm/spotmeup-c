@@ -136,14 +136,14 @@ const TableTools = () => {
       updateTShape(tableId, updatedTable);
     }
 
-    if (["circle", "square"].includes(currentTShape.tableType.toLowerCase())) {
-      let className = `${currentTShape.tableType.toLowerCase()}-shape`;
-      let elements = document.getElementsByClassName(className);
+    // if (["circle", "square"].includes(currentTShape.tableType.toLowerCase())) {
+    //   let className = `${currentTShape.tableType.toLowerCase()}-shape`;
+    //   let elements = document.getElementsByClassName(className);
 
-      for (let element of elements) {
-        element.style.removeProperty("transform");
-      }
-    }
+    //   for (let element of elements) {
+    //     element.style.removeProperty("transform");
+    //   }
+    // }
   };
 
   // *! ----- Text Position (Align Items & Justify Content) ------

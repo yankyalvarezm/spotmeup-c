@@ -7,19 +7,19 @@ const AddTables = ({ block }) => {
     currentBlock,
     bCircles,
     bSquares,
+    getThisBlock,
     setBSquares,
     setBCircles,
     blockId,
-    getThisBlock,
   } = useContext(BlockContext);
   const {
     addTableCircleManual,
     addTableSquareManual,
     tSquares,
-    tCircles,
     lockGrid,
-    tShapeAdded,
     setTShapeAdded,
+    tCircles,
+    tShapeAdded,
     setTSquares
   } = useContext(TableContext);
 
@@ -86,12 +86,12 @@ const AddTables = ({ block }) => {
         getThisBlock(block._id);
        
       } catch (error) {
-        console.error("addTableCircleManual - Error:", error.response);
+        // console.error("addTableCircleManual - Error:", error.response);
       }
     }
 
-    console.log("bCircles:", bCircles);
-    console.log("bSquares:", bSquares);
+    // console.log("bCircles:", bCircles);
+    // console.log("bSquares:", bSquares);
 
     if (currentBlock?.blockTableType.toLowerCase() === "square") {
       try {
@@ -100,9 +100,9 @@ const AddTables = ({ block }) => {
         // debugger
         setTShapeAdded(true);
         getThisBlock(block._id);
-        console.log("addTableSquareManual - Response:", tSquares);
+        // console.log("addTableSquareManual - Response:", tSquares);
       } catch (error) {
-        console.error("addTableSquareManual - Error:", error);
+        // console.error("addTableSquareManual - Error:", error);
       }
     }
   };

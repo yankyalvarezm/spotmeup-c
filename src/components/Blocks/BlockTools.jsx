@@ -90,7 +90,7 @@ const BlockTools = ({ children }) => {
     const { name, type, checked, value } = e.target;
     const actualValue = type === "checkbox" ? checked : value;
 
-    console.log(`Name: ${name}, Value: ${actualValue}`);
+    // console.log(`Name: ${name}, Value: ${actualValue}`);
 
     let updatedBlock = { ...currentBShape, [name]: actualValue };
 
@@ -135,12 +135,12 @@ const BlockTools = ({ children }) => {
     //   setHasBlockChanged(true);
     // }
 
-    if (["circle", "square"].includes(currentBShape.blockType.toLowerCase())) {
-      let className = `${currentBShape.blockType.toLowerCase()}-shape`;
-      document.querySelectorAll(`.${className}`).forEach((element) => {
-        element.style.removeProperty("transform");
-      });
-    }
+    // if (["circle", "square"].includes(currentBShape.blockType.toLowerCase())) {
+    //   let className = `${currentBShape.blockType.toLowerCase()}-shape`;
+    //   document.querySelectorAll(`.${className}`).forEach((element) => {
+    //     element.style.removeProperty("transform");
+    //   });
+    // }
   };
 
   // *! ----- Text Position (Align Items & Justify Content) ------
