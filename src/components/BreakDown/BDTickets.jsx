@@ -2,30 +2,20 @@ import React, { useContext, useEffect, useState } from "react";
 import { getOneLayout } from "../../services/layout.service";
 import { useParams } from "react-router-dom";
 import { TableContext } from "../../context/table.context";
+import { BlockContext } from "../../context/block.context";
 
 const BDTickets = () => {
   // ! --- Local States ---------------------
   const { tShapeEdited } = useContext(TableContext);
-  const [layoutObject, setLayoutObject] = useState({});
+  // const [layoutObject, setLayoutObject] = useState({});
+  const { layoutObject, setLayoutObject } = useContext(BlockContext);
   const [isOpen, setIsOpen] = useState(0);
   const [containTables, setContainTables] = useState(false);
   // console.log("🚀 ~ BDTickets ~ containTables:", containTables);
 
-  const param = useParams();
 
-  const getTheLayout = async () => {
-    const response = await getOneLayout(param.layoutIdParam);
-    console.log("------ Dashboard -------");
-    console.log("getTheLayout:", response);
 
-    if (response.success) {
-      setLayoutObject(response.layout);
-    }
-  };
 
-  useEffect(() => {
-    getTheLayout();
-  }, []);
 
   useEffect(() => {
     console.log("layoutObject:", layoutObject);
@@ -104,7 +94,9 @@ const BDTickets = () => {
                 <h1 className="BD-block-name">{block?.btickets}</h1>
               </div>
               <div className="bd-div">
-                <h1 className="BD-block-name">${formatNumberWithCommas(block.bprice)}</h1>
+                <h1 className="BD-block-name">
+                  ${formatNumberWithCommas(block.bprice)}
+                </h1>
               </div>
 
               <div className="bd-div arrow-container">

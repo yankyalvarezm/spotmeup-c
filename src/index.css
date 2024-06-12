@@ -20,7 +20,7 @@
 }
 
 body {
-  background-color: var(--green);
+  background-color: var(--white);
   margin: 0;
   padding: 0;
 }
@@ -4954,4 +4954,203 @@ input[type="color"]::-webkit-color-swatch {
   font-weight: bold;
   color: var(--green);
   margin-right: 0.5rem;
+}
+
+.dashboard-container {
+  background-color: var(--white);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2rem;
+  height: 100vh;
+  width: 100%;
+  margin: 1rem 0rem;
+}
+
+.dashboard-ticket-sales {
+  display: flex;
+  justify-content: space-between;
+  width: 90%;
+  height: 100%;
+  gap: 1rem;
+}
+
+.dashboard-layout {
+  width: 90%;
+  height: 90%;
+  background-color: white;
+}
+
+.dasboard-box {
+  background-color: white;
+  width: 100%;
+  height: 90%;
+  max-height: 530px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.dashboard-box-title {
+  display: flex;
+  justify-content: space-between;
+  margin: 0.5rem 1rem;
+  position: relative;
+}
+
+.dashboard-title-h1 {
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  font-weight: 200;
+  color: black;
+  font-size: 20px;
+  opacity: 0.6;
+}
+
+.dashboard-title-more {
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  font-weight: 200;
+  color: black;
+  text-decoration: underline;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.dasboard-layout-title {
+  margin: 0.5rem 1rem;
+}
+
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  row-gap: 1rem;
+  width: 100%;
+  /* height: 80%; */
+  min-height: 50%;
+  max-height: 80%;
+  justify-items: center;
+  overflow-y: scroll;
+}
+
+.dashboard-grid-item {
+  background-color: var(--white);
+  width: 90%;
+  height: 130px;
+  /* max-height: 130px; */
+  border-radius: 10px;
+  cursor: pointer;
+  
+}
+
+.dashboard-box-footer {
+  display: flex;
+  gap: 1rem;
+  /* padding-bottom: 2rem; */
+  margin-bottom: 1rem;
+}
+
+.dashboard-box-footer-two {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.dashboard-footer-text {
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  font-weight: 300;
+  font-size: 20px;
+  color: black;
+
+  margin-left: 0.8rem;
+}
+
+.red-span {
+color: var(--red);
+}
+
+.green-span {
+  color: var(--green);
+}
+
+.dashboard-block-name {
+  color: black;
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  font-weight: 400;
+  margin-left: 0.5rem;
+  margin-top: 0.5rem;
+  display: flex;
+  align-items: center;
+}
+
+.dashboard-table-quantity {
+  color: black;
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  font-weight: 200;
+  opacity: 0.6;
+  margin-left: 0.5rem;
+}
+
+.dashboard-table-name {
+  color: black;
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  font-weight: 200;
+}
+
+.dashboard-square {
+  width: 25px;
+  height: 25px;
+  background-size: 100%;
+  background-image: url(/table-icon.png);
+  background-repeat: no-repeat;
+  margin-right: 0.25rem;
+}
+
+.dashboard-circle {
+  width: 25px;
+  height: 25px;
+  background-size: 100%;
+  background-image: url(/tickets-icon.png);
+  background-repeat: no-repeat;
+  margin-right: 0.5rem;
+  filter: invert(1);
+}
+.dashboard-separator {
+  height: 95%;
+}
+
+.dashboard-item-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 77%;
+  margin-left: 0.1rem;
+}
+
+.dashboard-total {
+  font-weight: 400;
+  
+}
+
+.dashboard-total-green {
+  color: var(--green);
+  opacity: 1;
+}
+
+.dashboard-price {
+  margin-left: 2.7rem;
+}
+
+.dashboard-nomargin {
+  /* margin: 0; */
+}
+
+.dashboard-total-container {
+  color: black;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-weight: 400;
+    /* margin-left: 0.5rem; */
+    margin-right: 0.5rem;
+    margin-top: 0.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
 }
