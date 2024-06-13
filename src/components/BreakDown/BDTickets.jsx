@@ -13,10 +13,6 @@ const BDTickets = () => {
   const [containTables, setContainTables] = useState(false);
   // console.log("🚀 ~ BDTickets ~ containTables:", containTables);
 
-
-
-
-
   useEffect(() => {
     console.log("layoutObject:", layoutObject);
   }, [layoutObject]);

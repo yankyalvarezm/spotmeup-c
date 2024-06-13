@@ -4,6 +4,31 @@ import { BlockContext } from "../../context/block.context";
 const BDDashboard = () => {
   const { layoutObject } = useContext(BlockContext);
 
+  const totalBprice = layoutObject.blocks.reduce((acc, block) => {
+    // console.log(block.bprice);
+    return acc + block.totalBprice;
+  }, 0);
+
+  const totalTables = layoutObject.blocks.reduce(
+    (acc, block) => acc + block.tables.length,
+    0
+  );
+
+  const ticketsIncluded = layoutObject.blocks.reduce(
+    (acc, block) =>
+      acc + block.tables.reduce((acc, table) => acc + table.ticketsIncluded, 0),
+    0
+  );
+
+  console.log("ticketsIncluded:", ticketsIncluded);
+
+  const totalTickets = layoutObject.blocks.reduce((acc, block) => {
+    console.log("totalTickets:", block.btickets);
+    return acc + block.btickets;
+  }, 0);
+
+  console.log("totalBprice:", totalBprice);
+
   console.log("From BDDashborad:", layoutObject);
 
   function formatNumberWithCommas(number) {
@@ -60,7 +85,7 @@ const BDDashboard = () => {
                           </h1>
                         </div>
                         <div className="dashboard-block-name dashboard-price">
-                          <span className=""></span>{" "}
+                          <span className="dashboard-price-icon"></span>{" "}
                           <h1 className="dashboard-table-name">Price:</h1>
                           <h1 className="dashboard-table-quantity ">
                             ${block.bprice}
@@ -75,7 +100,7 @@ const BDDashboard = () => {
                         <h1 className="dashboard-table-quantity dashboard-total dashboard-total-green">
                           $
                           {formatNumberWithCommas(
-                            block.btickets * block.btickets
+                            block.bprice * block.btickets
                           )}
                         </h1>
                       </div>
@@ -95,10 +120,53 @@ const BDDashboard = () => {
             </h1>
           </div>
         </div>
-        <div className="dasboard-box">
+        <div className="dashboard-box-two">
           <div className="dashboard-box-title">
             <h1 className="dashboard-title-h1">Sales</h1>
             <h1 className="dashboard-title-more">More</h1>
+          </div>
+          <div className="dashboard-sales-container">
+            {/* ----------- Bubble 1 -------- */}
+            <div className="dasboard-circle">
+              <h1 className="dasboard-sales">
+                {formatNumberWithCommas(totalBprice)}
+              </h1>
+              <h1 className="dasboard-sales-subtitle">
+                Possible <br />
+                Earnings
+              </h1>
+            </div>
+            {/* ----------- Bubble 2 -------- */}
+
+            <div className="dasboard-circle">
+              <h1 className="dasboard-sales">
+                {formatNumberWithCommas(totalTables)}
+              </h1>
+              <h1 className="dasboard-sales-subtitle">
+                Total <br />
+                Tables
+              </h1>
+            </div>
+            {/* ----------- Bubble 3 -------- */}
+            <div className="dasboard-circle">
+              <h1 className="dasboard-sales">
+                {formatNumberWithCommas(totalTickets)}
+              </h1>
+              <h1 className="dasboard-sales-subtitle">
+                Total <br />
+                Tickets
+              </h1>
+            </div>
+            {/* ----------- Bubble 4 -------- */}
+            <div className="dasboard-circle">
+              <h1 className="dasboard-sales">
+                {formatNumberWithCommas(ticketsIncluded)}
+              </h1>
+              <h1 className="dasboard-sales-subtitle">
+                Tickets <br />
+                Included
+              </h1>
+            </div>
           </div>
 
           <div className="dashboard-box-footer-two">

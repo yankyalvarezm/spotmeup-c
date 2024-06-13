@@ -5092,14 +5092,14 @@ color: var(--red);
 .dashboard-table-name {
   color: black;
   font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-  font-weight: 200;
+  font-weight: 400;
 }
 
 .dashboard-square {
   width: 25px;
   height: 25px;
   background-size: 100%;
-  background-image: url(/table-icon.png);
+  background-image: url(/drinking-icon.png);
   background-repeat: no-repeat;
   margin-right: 0.25rem;
 }
@@ -5127,16 +5127,16 @@ color: var(--red);
 
 .dashboard-total {
   font-weight: 400;
-  
 }
 
 .dashboard-total-green {
   color: var(--green);
   opacity: 1;
+  margin-right: 0.5rem;
 }
 
 .dashboard-price {
-  margin-left: 2.7rem;
+  margin-left: 0.8rem;
 }
 
 .dashboard-nomargin {
@@ -5148,9 +5148,64 @@ color: var(--red);
     font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
     font-weight: 400;
     /* margin-left: 0.5rem; */
-    margin-right: 0.5rem;
+    margin-right: 0.5remrem;
     margin-top: 0.5rem;
     display: flex;
     align-items: center;
     justify-content: flex-end;
+}
+
+.dashboard-price-icon {
+  width: 18px;
+  height: 18px;
+  background-size: 100%;
+  background-image: url(/dollar-icon.png);
+  background-repeat: no-repeat;
+  margin-right: 0.7rem;
+}
+.dasboard-sales {
+  color: white;
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  font-weight: 700;
+  font-size: 32px;
+
+}
+
+.dasboard-circle {
+  /* background-color: #329E00; */
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(to top, #329E00 30%, white);
+}
+
+.dasboard-sales-subtitle {
+  color: white;
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  font-weight: 400;
+  font-size: 18px;
+  text-align: center;
+}
+
+.dashboard-box-two {
+  background-color: white;
+  width: 100%;
+  height: 90%;
+  max-height: 530px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.dashboard-sales-container {
+  margin-left: 1rem;
+  height: 100%;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+  margin-right: 1rem;
 }
