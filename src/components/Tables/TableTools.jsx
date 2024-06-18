@@ -551,7 +551,7 @@ const TableTools = () => {
                       className="quantity"
                       value={currentTShape?.maxCapacity}
                       onChange={handleInputChange}
-                      min={currentTShape?.ticketsIncluded}
+                      min={currentTShape?.ticketsIncluded || 0}
                     />
                   </div>
 
@@ -564,6 +564,7 @@ const TableTools = () => {
                         className="quantity"
                         value={currentTShape?.ticketsIncluded}
                         onChange={handleInputChange}
+                        max={currentTShape?.maxCapacity}
                       />
                     </div>
                   )}

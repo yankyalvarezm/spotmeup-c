@@ -39,6 +39,103 @@ const BDDashboard = () => {
     <div className="dashboard-container">
       <div className="dashboard-layout ">
         <h1 className="dashboard-title-h1 dasboard-layout-title">Layout</h1>
+        {/* {layoutObject.blocks.map((block) => ( */}
+        <div className="dashboard-layout-parent">
+          <div
+            style={{
+              transform: `scale(0.55)`,
+              border: "2px solid black",
+              width: `${layoutObject.width}px`,
+              height: `${layoutObject.height}px`,
+              position: "relative",
+            }}
+          >
+            {layoutObject.shapes.map((shape, index) => (
+              <div
+                style={{
+                  position: "absolute",
+                  width: `${shape.width}px`,
+                  height: `${shape.height}px`,
+                  backgroundColor: `${shape.backgroundColor}`,
+                  left: `${shape.x}px`,
+                  top: `${shape.y}px`,
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: `center`,
+                  color: `${shape.color}`,
+                }}
+                key={index}
+              >
+                <h1
+                  className="dashboard-table-number-child "
+                  style={{
+                    fontSize: `${shape.fontSize}px`,
+                  }}
+                >
+                  {shape.name}
+                </h1>
+              </div>
+            ))}
+
+            {layoutObject.blocks.map((block, index) => (
+              <div
+                style={{
+                  position: "absolute",
+                  width: `${block.width}px`,
+                  height: `${block.height}px`,
+                  backgroundColor: `${block.backgroundColor}`,
+                  left: `${block.x}px`,
+                  top: `${block.y}px`,
+                  justifyContent: `${block.justifyContent}`,
+                  alignItems: `${block.alignItems}`,
+                  color: `${block.color}`,
+                  border: `${block.borderSize}px solid ${block.borderColor}`,
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: `center`,
+                  cursor: 'pointer'
+                }}
+                key={index}
+                className="dasboard-table-hover"
+              >
+                <h1
+                  className="dashboard-table-number-child dashboard-block-name-display"
+                  style={{ fontSize: `${block.fontSize}px` }}
+                >
+                  {block.name}
+                </h1>
+                <div className="dashboard-table-grid">
+                  {block.tables.map((table, index) => (
+                    <div
+                      key={index}
+                      style={{
+                        position: "absolute",
+                        width: `${table.width}px`,
+                        height: `${table.height}px`,
+                        backgroundColor: `${table.backgroundColor}`,
+                        left: `${table.x}px`,
+                        top: `${table.y}px`,
+                        justifyContent: `${table.justifyContent}`,
+                        alignItems: `${table.alignItems}`,
+                        color: `${table.color}`,
+                        border: `${table.borderSize}px solid ${table.borderColor}`,
+                        borderRadius: `${
+                          table.tableType === "Square" ? 0 : 50
+                        }%`,
+                      }}
+                      className="dashboard-table-number-parent"
+                    >
+                      <h1 className="dashboard-table-number-parent">
+                        {table.number}
+                      </h1>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+        {/* ))} */}
       </div>
       <div className="dashboard-ticket-sales">
         <div className="dasboard-box">
@@ -63,11 +160,28 @@ const BDDashboard = () => {
                           {block.tables.length}
                         </h1>
                       </h1>
+                      <h1 className="dashboard-block-name dashboard-nomargin">
+                        <span className="dashboard-circle dashboard-tickets-label"></span>{" "}
+                        <h1 className="dashboard-table-name ">Tickets:</h1>
+                        <h1 className="dashboard-table-quantity">
+                          {block.btickets}
+                        </h1>
+                      </h1>
 
-                      <h1 className="dashboard-total-container">
+                      <h1 className="dashboard-block-name dashboard-nomargin">
+                        <span className="dashboard-circle dashboard-tickets-label"></span>{" "}
+                        <h1 className="dashboard-table-name dashboard-included">
+                          Included:
+                        </h1>
+                        <h1 className="dashboard-table-quantity ">
+                          {block.totalTicketsIncluded}
+                        </h1>
+                      </h1>
+
+                      <h1 className="dashboard-total-container dashboard-nomargin">
                         {/* <span className="dashboard-square"></span>{" "} */}
                         {/* <h1 className="dashboard-table-name dashboard-total">Total:</h1> */}
-                        <h1 className="dashboard-table-quantity dashboard-total-green dashboard-total">
+                        <h1 className="dashboard-table-quantity dashboard-total-green dashboard-total ">
                           ${formatNumberWithCommas(block.bprice)}
                         </h1>
                       </h1>
@@ -158,7 +272,7 @@ const BDDashboard = () => {
               </h1>
             </div>
             {/* ----------- Bubble 4 -------- */}
-            <div className="dasboard-circle">
+            <div className="dasboard-circle-red">
               <h1 className="dasboard-sales">
                 {formatNumberWithCommas(ticketsIncluded)}
               </h1>
@@ -175,7 +289,7 @@ const BDDashboard = () => {
             </h1>
             <h1 className="dashboard-footer-text">
               {" "}
-              <span className="green-span">$</span>Purchasable
+              <span className="green-span">$</span> Purchasable
             </h1>
           </div>
         </div>

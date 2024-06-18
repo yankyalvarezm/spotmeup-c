@@ -4879,7 +4879,7 @@ input[type="color"]::-webkit-color-swatch {
 }
 
 .down {
-  transform: rotate(45deg) ;
+  transform: rotate(45deg);
   /* -webkit-transform: rotate(45deg); */
 }
 
@@ -4943,14 +4943,13 @@ input[type="color"]::-webkit-color-swatch {
 }
 
 .ticket-expected-return {
-  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
   font-weight: 500;
   color: black;
 }
 
-
 .ticket-expected-return-h1 {
-  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
   font-weight: bold;
   color: var(--green);
   margin-right: 0.5rem;
@@ -4977,7 +4976,7 @@ input[type="color"]::-webkit-color-swatch {
 
 .dashboard-layout {
   width: 90%;
-  height: 90%;
+  height: 55%;
   background-color: white;
 }
 
@@ -4999,7 +4998,7 @@ input[type="color"]::-webkit-color-swatch {
 }
 
 .dashboard-title-h1 {
-  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
   font-weight: 200;
   color: black;
   font-size: 20px;
@@ -5007,7 +5006,7 @@ input[type="color"]::-webkit-color-swatch {
 }
 
 .dashboard-title-more {
-  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
   font-weight: 200;
   color: black;
   text-decoration: underline;
@@ -5038,7 +5037,6 @@ input[type="color"]::-webkit-color-swatch {
   /* max-height: 130px; */
   border-radius: 10px;
   cursor: pointer;
-  
 }
 
 .dashboard-box-footer {
@@ -5055,7 +5053,7 @@ input[type="color"]::-webkit-color-swatch {
 }
 
 .dashboard-footer-text {
-  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
   font-weight: 300;
   font-size: 20px;
   color: black;
@@ -5064,7 +5062,7 @@ input[type="color"]::-webkit-color-swatch {
 }
 
 .red-span {
-color: var(--red);
+  color: var(--red);
 }
 
 .green-span {
@@ -5073,7 +5071,7 @@ color: var(--red);
 
 .dashboard-block-name {
   color: black;
-  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
   font-weight: 400;
   margin-left: 0.5rem;
   margin-top: 0.5rem;
@@ -5083,7 +5081,7 @@ color: var(--red);
 
 .dashboard-table-quantity {
   color: black;
-  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
   font-weight: 200;
   opacity: 0.6;
   margin-left: 0.5rem;
@@ -5091,7 +5089,7 @@ color: var(--red);
 
 .dashboard-table-name {
   color: black;
-  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
   font-weight: 400;
 }
 
@@ -5145,14 +5143,14 @@ color: var(--red);
 
 .dashboard-total-container {
   color: black;
-    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-    font-weight: 400;
-    /* margin-left: 0.5rem; */
-    margin-right: 0.5remrem;
-    margin-top: 0.5rem;
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+  font-weight: 400;
+  /* margin-left: 0.5rem; */
+  margin-right: 0.5remrem;
+  margin-top: 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
 }
 
 .dashboard-price-icon {
@@ -5165,10 +5163,9 @@ color: var(--red);
 }
 .dasboard-sales {
   color: white;
-  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
   font-weight: 700;
   font-size: 32px;
-
 }
 
 .dasboard-circle {
@@ -5180,12 +5177,25 @@ color: var(--red);
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background: linear-gradient(to top, #329E00 30%, white);
+  background: linear-gradient(to top, #329e00 30%, white);
+}
+
+.dasboard-circle-red {
+  /* background-color: #329E00; */
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  display: flex;
+  flex-direction: column;
+
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(to top, var(--red) 30%, white);
 }
 
 .dasboard-sales-subtitle {
   color: white;
-  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
   font-weight: 400;
   font-size: 18px;
   text-align: center;
@@ -5208,4 +5218,58 @@ color: var(--red);
   grid-template-columns: repeat(2, 1fr);
   gap: 1rem;
   margin-right: 1rem;
+}
+
+.dashboard-tickets-label {
+  margin-right: 0.35rem !important;
+}
+
+.dashboard-nomargin {
+  margin-top: 0rem;
+}
+
+.dashboard-included {
+  color: var(--red);
+}
+
+.dashboard-layout-parent {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.dashboard-table-grid {
+  width: 100%;
+  height: 100%;
+  /* display: flex; */
+  justify-content: center;
+  position: relative;
+  /* transform: translate(50%, 50%); */
+  /* align-items: center; */
+  /* margin-left: 2rem; */
+  /* margin-top: 1rem; */
+
+  transform: translate(9%, 9%);
+}
+
+.dashboard-table-number-parent {
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif !important;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.dashboard-table-number-parent > h1 {
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+}
+
+.dashboard-table-number-child {
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+  font-weight: 200;
+}
+
+.dashboard-block-name-display {
+  position: absolute;
 }

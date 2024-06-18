@@ -100,14 +100,14 @@ const ShapesTools = () => {
       updateShape(shapeId, updatedShape);
     }
 
-    if (["circle", "square"].includes(currentShape.shapeType.toLowerCase())) {
-      let className = `${currentShape.shapeType.toLowerCase()}-shape`;
-      let elements = document.getElementsByClassName(className);
+    // if (["circle", "square"].includes(currentShape.shapeType.toLowerCase())) {
+    //   let className = `${currentShape.shapeType.toLowerCase()}-shape`;
+    //   let elements = document.getElementsByClassName(className);
 
-      for (let element of elements) {
-        element.style.removeProperty("transform");
-      }
-    }
+    //   // for (let element of elements) {
+    //   //   element.style.removeProperty("transform");
+    //   // }
+    // }
   };
 
   const layoutContainer = document.querySelector(".display-shapes-container");
