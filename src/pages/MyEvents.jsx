@@ -13,7 +13,7 @@ import { Form, FloatingLabel } from "react-bootstrap";
 import Draggable from "react-draggable";
 
 const MyEvents = () => {
-  const { showEvents, showVenues, showVenuesForm } =
+  const { showEvents, showVenues, showVenuesForm, isModalOpen } =
     useContext(MyEventsContext);
 
   const [column, setColumn] = useState(3);
@@ -138,7 +138,13 @@ const MyEvents = () => {
       <div>
         <NavBar />
       </div>
-      <div className="myeventstab-container">
+      <div
+        className={
+          isModalOpen
+            ? "myeventstab-container addblur"
+            : "myeventstab-container"
+        }
+      >
         <SubNavbar />
         {showVenues && !showVenuesForm && (
           <>
@@ -162,7 +168,7 @@ const MyEvents = () => {
               <AddNewEvent />
             </div>
 
-            <Draggable
+            {/* <Draggable
               bounds={{
                 left: -190,
                 top: -350,
@@ -308,14 +314,10 @@ const MyEvents = () => {
                   </div>
                 </Draggable>
               </div>
-            </Draggable>
+            </Draggable> */}
           </div>
         )}
       </div>
-
-      <canvas>
-        <h1>Hiii</h1>
-      </canvas>
     </div>
   );
 };

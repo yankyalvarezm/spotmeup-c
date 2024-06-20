@@ -7,6 +7,7 @@ function MyEventsProvider({ children }) {
   const [showVenues, setShowVenues] = useState(false);
   const [showVenuesForm, setShowVenuesForm] = useState(false);
   const [showEventsForm, setShowEventsForm] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const displayEvents = () => {
     setShowEvents(true);
@@ -36,7 +37,6 @@ function MyEventsProvider({ children }) {
     setShowEventsForm(false);
   };
 
-  
   return (
     <MyEventsContext.Provider
       value={{
@@ -44,12 +44,14 @@ function MyEventsProvider({ children }) {
         showEventsForm,
         showVenues,
         showVenuesForm,
+        isModalOpen,
         displayEvents,
         displayEventsForm,
         displayVenues,
         displayVenuesForm,
         toggleVenuesForm,
         toggleEventsForm,
+        setIsModalOpen,
       }}
     >
       {children}

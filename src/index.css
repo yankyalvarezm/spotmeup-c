@@ -1005,7 +1005,15 @@ button:hover {
 .myeventstab-container {
   background-color: var(--white);
   overflow-x: auto;
+  /* filter: blur(8px); */
+  /* -webkit-filter: blur(8px); */
 }
+
+/* .addblur {
+  position: relative;
+  filter: blur(3px);
+  z-index: 10;
+} */
 
 .search-add-venues {
   display: flex;
@@ -1625,19 +1633,6 @@ button:hover {
 }
 
 /* Edit Modal */
-
-.modal-overlay {
-  position: fixed;
-  top: 0;
-  left: 20%;
-  right: 0;
-  bottom: 0;
-  background-color: rgba(0, 0, 0, 0.7);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 1000;
-}
 
 .modal-content {
   padding: 20px;
@@ -5272,4 +5267,163 @@ input[type="color"]::-webkit-color-swatch {
 
 .dashboard-block-name-display {
   position: absolute;
+}
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 20%;
+  right: 0;
+  bottom: 0;
+  /* background-color: rgba(0, 0, 0, 0.5); */
+  filter: none !important;
+  /* -webkit-filter: blur(8px); */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 100;
+  backdrop-filter: blur(5px);
+}
+
+.event-create-modal {
+  width: 60%;
+  height: 80%;
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+  font-size: 30px;
+  text-align: center;
+  color: white;
+  background-color: rgb(211, 205, 205);
+  position: absolute;
+  left: 60%;
+  top: 53%;
+  transform: translate(-50%, -50%);
+  z-index: 200;
+  border-radius: 10px;
+  border: 2px solid black;
+  /* backdrop-filter: none !important; */
+}
+
+.event-close-navbar {
+  display: flex;
+  justify-content: flex-end;
+}
+.event-close-button {
+  margin-right: 1rem;
+  margin-top: 1rem;
+  box-shadow: none;
+  border-radius: 50%;
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+  padding: 0.2rem 0.5rem;
+  font-size: 20px;
+  background-color: var(--white);
+}
+
+.event-form-title > h1 {
+  color: black;
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+  font-weight: 500;
+  font-size: 3vw;
+}
+
+.event-form-title > h2 {
+  color: black;
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+  font-weight: 300;
+  font-size: 1.8vw;
+}
+
+.event-form {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.event-form-input-label {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  align-items: center;
+}
+
+.event-form-input-label > input {
+  width: 90%;
+  margin-bottom: 1rem;
+}
+
+.event-form-input-label > label {
+  width: 92%;
+  text-align: left;
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+  color: black;
+  font-weight: 300;
+}
+
+.event-type-select {
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+  padding: 0.5rem;
+  color: var(--black);
+  border: 2px solid var(--black);
+  border-radius: 5px;
+  font-size: 20px;
+  outline: none;
+  width: 92%;
+  background-color: white;
+  margin-bottom: 1rem;
+}
+
+.event-input-time {
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif !important;
+  font-weight: 400;
+}
+.event-textarea {
+  width: 92%;
+  height: 20vh;
+  resize: none;
+  margin-bottom: 2rem;
+}
+
+.regular-font {
+  color: black;
+  font-size: 20px;
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+  font-weight: 500;
+}
+
+.first-prompt {
+  display: flex;
+  flex-direction: column;
+  background-color: var(--white);
+  width: 90%;
+  text-align: center;
+  margin: 0 auto;
+  padding: 1rem;
+  border: 1px solid black;
+  border-radius: 10px;
+}
+
+.first-prompt-flex {
+  display: flex;
+  gap: 2rem;
+  justify-content: center;
+  margin-top: 0.5rem;
+}
+
+.first-prompt-btn {
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+}
+
+.event-submit-form-one {
+  box-shadow: none;
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+  background-color: #7e7e7e;
+  color: white;
+  width: 30%;
+  border: none;
+}
+
+.event-submit-form-one:hover {
+  box-shadow: none;
+  color: white;
+  opacity: 0.7;
 }
