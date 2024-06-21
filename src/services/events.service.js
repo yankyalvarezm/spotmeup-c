@@ -17,7 +17,7 @@ export const createEvent = async (body) => {
     const response = await axios.post(`${API_URL}/event/create`, body, headers);
     return response.data;
   } catch (error) {
-    throw error;
+    throw error.response.data;
   }
 };
 
@@ -41,7 +41,7 @@ export const findEvent = async (eventId) => {
 
 export const findAllEvents = async () => {
   try {
-    const response = await axios.get(`${API_URL}/event/create`);
+    const response = await axios.get(`${API_URL}/event/findAll`);
     return response.data;
   } catch (error) {
     throw error;

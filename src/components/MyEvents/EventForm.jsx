@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useContext, useState } from "react";
 import { GoogleMapsContext } from "../../context/GoogleMapsContext";
+import { createEvent } from "../../services/events.service";
 
 const EventForm = () => {
   const autocompleteInputRef = useRef(null);
@@ -43,22 +44,51 @@ const EventForm = () => {
     }
   }, [isApiLoaded]);
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-  };
-
   const [event, setEvent] = useState({
     name: "",
-    images: "",
+    // images: "",
     eventType: "",
-    status: "",
+    // status: "",
     description: "",
     date: "",
     time: "",
     address: "",
-    venue: "",
-    host: "",
+    // venue: "",
   });
+  const [message, setMessage] = useState(null);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    for (const key in event) {
+      if (event[key] === "") {
+        // alert(`Please Fill in the ${key} field.`);
+        // return;
+      }
+    }
+
+    try {
+      const response = await createEvent(event);
+      console.log("create event:", response);
+      if (response.success) {
+        setMessage(response.message);
+        setTimeout(() => {
+          setMessage(null);
+        }, 2000);
+      } else {
+        setMessage(error.response.data.message);
+        setTimeout(() => {
+          setMessage(null);
+        }, 2000);
+      }
+    } catch (error) {
+      setMessage(error.message);
+      setTimeout(() => {
+        setMessage(null);
+      }, 5000);
+      console.log("createEvent:", error);
+    }
+  };
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -69,12 +99,19 @@ const EventForm = () => {
     }));
   };
 
+  console.log("event:", event);
+
   return (
-    <form className="event-form">
+    <form className="event-form" onSubmit={handleSubmit}>
       <div className="event-form-input-label">
-        <label htmlFor="EventType">Event Type</label>
-        <select id="EventType" className="event-type-select">
-          <option value="">--select--</option>
+        <label htmlFor="eventType">Event Type</label>
+        <select
+          name="eventType"
+          className="event-type-select"
+          value={event.eventType}
+          onChange={handleInputChange}
+        >
+          <option value="">-------</option>
           <option value="concert">Concert</option>
           <option value="conference">Conference</option>
           <option value="meetup">Meetup</option>
@@ -85,32 +122,58 @@ const EventForm = () => {
         </select>
       </div>
       <div className="event-form-input-label">
-        <label htmlFor="EventName">Event Name</label>
-        <input type="text" value={event.name} />
-      </div>
-      <div className="event-form-input-label">
-        <label htmlFor="Address">Address</label>
-        <input type="text" ref={autocompleteInputRef} value={event.address} />
-      </div>
-      <div className="event-form-input-label">
-        <label htmlFor="Date">Date</label>
-        <input type="date" value={event.date} />
-      </div>
-      <div className="event-form-input-label">
-        <label htmlFor="Time">Time</label>
+        <label htmlFor="name">Event Name</label>
         <input
+          name="name"
+          type="text"
+          value={event.name}
+          onChange={handleInputChange}
+        />
+      </div>
+      <div className="event-form-input-label">
+        <label htmlFor="address">Address</label>
+        <input
+          name="address"
+          type="text"
+          ref={autocompleteInputRef}
+          value={event.address}
+          onChange={handleInputChange}
+        />
+      </div>
+      <div className="event-form-input-label">
+        <label htmlFor="date">Date</label>
+        <input
+          name="date"
+          type="date"
+          value={event.date}
+          onChange={handleInputChange}
+        />
+      </div>
+      <div className="event-form-input-label">
+        <label htmlFor="time">Time</label>
+        <input
+          name="time"
           type="time"
           className="event-input-time"
           minuteStep={10}
           value={event.time}
+          onChange={handleInputChange}
         />
       </div>
       <div className="event-form-input-label">
-        <label htmlFor="About" className="event-input-time">
+        <label htmlFor="description" className="event-input-time">
           About
         </label>
-        <textarea type="textarea" className="event-textarea" />
+        <textarea
+          name="description"
+          type="textarea"
+          className="event-textarea"
+          onChange={handleInputChange}
+          value={event.description}
+        />
       </div>
+
+      <h1 className="event-prompt-message">{message && message}</h1>
 
       <button
         type="submit"

@@ -11,6 +11,7 @@ import BackVenueSearch from "../components/Venues/BackVenueSearch";
 import DisplayVenues from "../components/Venues/DisplayVenues";
 import { Form, FloatingLabel } from "react-bootstrap";
 import Draggable from "react-draggable";
+import DisplayEvents from "../components/MyEvents/DisplayEvents";
 
 const MyEvents = () => {
   const { showEvents, showVenues, showVenuesForm, isModalOpen } =
@@ -167,6 +168,8 @@ const MyEvents = () => {
               <h1 className="or">or</h1>
               <AddNewEvent />
             </div>
+
+            <DisplayEvents />
 
             {/* <Draggable
               bounds={{

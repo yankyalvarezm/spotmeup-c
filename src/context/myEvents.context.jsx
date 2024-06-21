@@ -8,6 +8,7 @@ function MyEventsProvider({ children }) {
   const [showVenuesForm, setShowVenuesForm] = useState(false);
   const [showEventsForm, setShowEventsForm] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [eventId, setEventId] = useState(null);
 
   const displayEvents = () => {
     setShowEvents(true);
@@ -45,6 +46,7 @@ function MyEventsProvider({ children }) {
         showVenues,
         showVenuesForm,
         isModalOpen,
+        eventId,
         displayEvents,
         displayEventsForm,
         displayVenues,
@@ -52,6 +54,7 @@ function MyEventsProvider({ children }) {
         toggleVenuesForm,
         toggleEventsForm,
         setIsModalOpen,
+        setEventId,
       }}
     >
       {children}
