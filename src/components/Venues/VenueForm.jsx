@@ -139,7 +139,7 @@ const VenueForm = () => {
               onChange={handleChange}
               value={venue.address.street}
             />
-          </div>
+          </div>  
 
           <div className="venueform-label-input">
             <label htmlFor="name">Name</label>

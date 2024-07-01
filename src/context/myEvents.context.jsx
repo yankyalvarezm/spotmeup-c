@@ -9,6 +9,11 @@ function MyEventsProvider({ children }) {
   const [showEventsForm, setShowEventsForm] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [eventId, setEventId] = useState(null);
+  const [eventFormActive, setEventFormActive] = useState(false);
+  const [ticketFormActive, setTicketFormActive] = useState(false);
+  const [tuneFormActive, setTuneFormActive] = useState(false);
+  const [hasVenue, setHasVenue] = useState(null);
+  const [venuesEvents, setVenuesEvents] = useState(null);
 
   const displayEvents = () => {
     setShowEvents(true);
@@ -47,6 +52,12 @@ function MyEventsProvider({ children }) {
         showVenuesForm,
         isModalOpen,
         eventId,
+        eventFormActive,
+        ticketFormActive,
+        tuneFormActive,
+        hasVenue,
+        venuesEvents,
+        setVenuesEvents,
         displayEvents,
         displayEventsForm,
         displayVenues,
@@ -55,6 +66,10 @@ function MyEventsProvider({ children }) {
         toggleEventsForm,
         setIsModalOpen,
         setEventId,
+        setEventFormActive,
+        setTicketFormActive,
+        setTuneFormActive,
+        setHasVenue,
       }}
     >
       {children}

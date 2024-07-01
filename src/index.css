@@ -3688,9 +3688,21 @@ input[type="color"]::-webkit-color-swatch {
   padding-top: 2.5rem;
   z-index: 1;
   display: block;
+  padding-bottom: 1rem;
+}
+
+.swiper-wrapper {
+  padding-bottom: 1.5rem;
 }
 
 .swiper-pagination-bullet-active-next {
+  background-color: black !important;
+  height: 20px;
+  width: 20px;
+  opacity: 1;
+}
+
+.swiper-pagination-bullet-active {
   background-color: black !important;
   height: 20px;
   width: 20px;
@@ -3701,14 +3713,14 @@ input[type="color"]::-webkit-color-swatch {
   /* height: auto; */
   /* width: 20px; */
   transform: translateY(-50%);
-  top: 96% !important;
+  top: 94% !important;
   background-color: transparent;
 }
 
 .swiper-pagination-bullet {
   background-color: black;
-  width: 15px;
-  height: 15px;
+  width: 10px !important;
+  height: 10px !important;
 }
 
 .swiper-button-disabled {
@@ -5241,11 +5253,6 @@ input[type="color"]::-webkit-color-swatch {
   /* display: flex; */
   justify-content: center;
   position: relative;
-  /* transform: translate(50%, 50%); */
-  /* align-items: center; */
-  /* margin-left: 2rem; */
-  /* margin-top: 1rem; */
-
   transform: translate(9%, 9%);
 }
 
@@ -5275,24 +5282,26 @@ input[type="color"]::-webkit-color-swatch {
   left: 20%;
   right: 0;
   bottom: 0;
-  /* background-color: rgba(0, 0, 0, 0.5); */
+  background-color: rgba(0, 0, 0, 0.25);
   filter: none !important;
   /* -webkit-filter: blur(8px); */
   display: flex;
   justify-content: center;
   align-items: center;
   z-index: 100;
-  backdrop-filter: blur(5px);
+  /* backdrop-filter: blur(5px); */
+  /* opacity: 0.5px; */
 }
 
 .event-create-modal {
   width: 60%;
-  height: 80%;
+  height: 85%;
   font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
   font-size: 30px;
   text-align: center;
   color: white;
-  background-color: rgb(211, 205, 205);
+  /* background-color: rgb(211, 205, 205); */
+  background-color: var(--white);
   position: absolute;
   left: 60%;
   top: 53%;
@@ -5316,6 +5325,7 @@ input[type="color"]::-webkit-color-swatch {
   padding: 0.2rem 0.5rem;
   font-size: 20px;
   background-color: var(--white);
+  /* background-color: white; */
 }
 
 .event-form-title > h1 {
@@ -5378,7 +5388,7 @@ input[type="color"]::-webkit-color-swatch {
 }
 .event-textarea {
   width: 92%;
-  height: 20vh;
+  height: 14vh;
   resize: none;
   margin-bottom: 2rem;
 }
@@ -5434,4 +5444,302 @@ input[type="color"]::-webkit-color-swatch {
   font-weight: 300;
   font-size: 30px;
   margin-bottom: 0.5rem;
+}
+
+.event-progress-bar {
+  margin-top: 1.5rem;
+  display: flex;
+  gap: 1%;
+  justify-content: center;
+}
+
+.event-progressbar-title {
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+  font-weight: 300;
+  color: black;
+  font-size: 20px;
+  margin: 0rem 2rem;
+}
+
+.event-progressbar-hr {
+  border: 3px solid black;
+  border-radius: 10px;
+}
+
+.progressbar-active {
+  border-color: var(--green);
+}
+
+.event-select-venue {
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+  color: var(--black);
+  font-weight: 400;
+  font-size: 25px;
+}
+
+.event-venue-container {
+  width: 90%;
+  height: 90%;
+  background-color: white;
+  border: 1px solid black;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.events-venue-field {
+  color: black;
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+  font-weight: 300;
+}
+
+.event-venue-container-parent {
+  display: flex;
+  justify-content: center;
+}
+
+.events-venue-border {
+  border: 1px solid black;
+  border-radius: 10px;
+  margin: 0.5rem;
+  background-color: var(--white);
+  cursor: pointer;
+  display: flex;
+  justify-content: space-around;
+  width: 94%;
+  padding: 1rem;
+}
+
+.events-venue-border:hover {
+  opacity: 0.7;
+}
+
+.events-venue-title {
+  color: black;
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+  font-weight: 500;
+}
+
+.event-clear-selection {
+  background-color: var(--white);
+  box-shadow: none;
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+  color: var(--red);
+}
+
+.event-venue-layouts {
+  /* background-color: red; */
+  /* width: 90%; */
+  /* height: 90%; */
+  overflow-y: scroll;
+  max-height: 800px;
+  height: 100%;
+  text-align: start;
+  border-radius: 10px;
+}
+
+.events-venue-layout-container {
+  width: 94%;
+  margin-bottom: 1rem;
+}
+
+.event-layout-name {
+  background-color: var(--white);
+  color: black;
+  font-weight: 200;
+  font-size: 20px;
+  cursor: pointer;
+  padding: 1rem;
+}
+
+.event-layout-name:hover {
+  opacity: 0.7;
+}
+
+.event-venue-next {
+  background-color: var(--green);
+  color: white;
+  box-shadow: none;
+  width: 50%;
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+}
+
+.event-layout-selected {
+  opacity: 0.5;
+}
+
+.event-form-flex {
+  display: flex;
+  justify-content: space-between;
+  width: 94%;
+}
+
+.event-name-input {
+  height: 100%;
+}
+
+.tickets-form-title {
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+  font-weight: 400;
+  color: black;
+  font-size: 30px;
+}
+
+.tickets-input-title {
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+  font-weight: 400;
+  color: black;
+  font-size: 18px;
+  text-align: left;
+  font-style: italic;
+  margin-bottom: 0.5rem;
+}
+
+.tickets-input-container {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  align-items: center;
+}
+
+.tickets-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  height: 70%;
+}
+
+.tickets-input {
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+  width: 14vw;
+  margin-bottom: 1rem;
+}
+
+.ticket-maxQuantity {
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+  font-weight: 400;
+  color: black;
+  font-size: 18px;
+  /* text-align: left; */
+  font-style: italic;
+  background-color: white;
+  padding: 0.5rem;
+  width: 14vw;
+  border: 2px solid black;
+  border-radius: 10px;
+}
+
+.max-ticket-input {
+  /* margin-top: 0.5rem; */
+  padding: 0.5rem;
+  padding-bottom: 0.7rem;
+  border-radius: 10px;
+  margin-bottom: 0rem;
+}
+
+.tickets-hr {
+  border: 2px solid black;
+  border-radius: 10px;
+}
+
+.ticket-symbol {
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+  font-weight: 300;
+  font-size: 30px;
+  border: 2px solid white;
+  width: fit-content;
+  margin: 0 auto;
+  padding: 0rem 0.5rem;
+  border-radius: 50%;
+}
+
+.ticket-fine-tune {
+  margin-top: 2rem;
+  background-color: var(--black);
+  box-shadow: none;
+  width: 100%;
+}
+
+.ticket-fine-tune:hover {
+  opacity: 0.7;
+  box-shadow: none;
+}
+
+.ticket-guide-tune {
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+  font-weight: 300;
+}
+
+.event-fine-tune {
+  display: flex;
+  flex-direction: column;
+  height: 70%;
+  justify-content: space-between;
+}
+
+.event-fine-button {
+  background-color: #3f7a34;
+  box-shadow: none;
+  width: 20%;
+  margin: 0 auto;
+  color: white;
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+  border: none;
+}
+
+.event-fine-button:hover {
+  color: white;
+  box-shadow: none;
+  opacity: 0.7;
+}
+
+.event-fine-tune-title {
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+  font-weight: 300;
+  font-size: 18px;
+  color: black;
+  font-style: italic;
+  margin-bottom: 1rem;
+}
+
+.tune-options-container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  /* justify-content: center; */
+  align-items: center;
+}
+
+.tune-option {
+  width: 50%;
+  background-color: white;
+  margin-bottom: 1rem;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  border-radius: 10px;
+}
+
+.tune-option:hover {
+  opacity: 0.7;
+  cursor: pointer;
+}
+
+.tune-option > h1 {
+  padding: 0.5rem;
+  color: black;
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+  font-weight: 300;
+  font-size: 20px;
+}
+
+.check-mark-img {
+  background-image: url(/check-mark-icon.png);
+  background-size: 120%;
+  background-repeat: no-repeat;
+  width: 40px;
+  height: 40px;
+  justify-self: end;
+  margin-right: 0.5rem;
 }
