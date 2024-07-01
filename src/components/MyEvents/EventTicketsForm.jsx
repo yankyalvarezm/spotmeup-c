@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import { MyEventsContext } from "../../context/myEvents.context";
 import { createEvent } from "../../services/events.service";
+import { handleInputChange } from './../../services/tools.service';
 const EventTicketsForm = ({ setEvent, selectedVenue, event, hasVenue }) => {
   const { setTicketFormActive, tuneFormActive, setTuneFormActive } =
     useContext(MyEventsContext);
@@ -53,6 +54,16 @@ const EventTicketsForm = ({ setEvent, selectedVenue, event, hasVenue }) => {
   //     }));
   //   }
   // }, [hasVenue]);
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+
+    setEvent((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+
+  }
 
   return (
     <form className="tickets-form" onSubmit={handleSubmit}>
