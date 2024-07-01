@@ -1,13 +1,31 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { MyEventsContext } from "../../context/myEvents.context";
-
+import { createEvent } from "../../services/events.service";
 const EventTicketsForm = ({ setEvent, selectedVenue, event, hasVenue }) => {
   const { setTicketFormActive, tuneFormActive, setTuneFormActive } =
     useContext(MyEventsContext);
-  const createEvent = (e) => {
-    e.preventDefault();
-  };
 
+  const [message, setMessage] = useState(null);
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    try {
+      const response = createEvent(event);
+      if (response.success) {
+        console.log("Event Created");
+        setMessage("Event Created!");
+      }
+    } catch (error) {
+      console.log(error)
+      setMessage(error.response.message)
+    }
+  };
+  useEffect(() => {
+    if(message){
+      setTimeout(() => {
+      setMessage(null);
+    }, 2000);
+  }
+  }, [message]);
   const handleTune = (e) => {
     e.preventDefault();
     setTuneFormActive(true);
@@ -16,28 +34,28 @@ const EventTicketsForm = ({ setEvent, selectedVenue, event, hasVenue }) => {
 
   console.log("Event:", event);
 
-  useEffect(() => {
-    if (hasVenue) {
-      setEvent((prev) => ({
-        ...prev,
-        hasVenue,
-        // venue: selectedVenue._id,
-        // address: {
-        //   street: selectedVenue.address.street,
-        //   city: selectedVenue.address.city,
-        //   zip: selectedVenue.address.zip,
-        //   state: selectedVenue.address.state,
-        // },
-        sales: {
-          date: selectedVenue.sales.date,
-          time: selectedVenue.sales.time,
-        },
-      }));
-    }
-  }, [hasVenue]);
+  // useEffect(() => {
+  //   if (hasVenue) {
+  //     setEvent((prev) => ({
+  //       ...prev,
+  //       hasVenue,
+  //       // venue: selectedVenue._id,
+  //       // address: {
+  //       //   street: selectedVenue.address.street,
+  //       //   city: selectedVenue.address.city,
+  //       //   zip: selectedVenue.address.zip,
+  //       //   state: selectedVenue.address.state,
+  //       // },
+  //       sales: {
+  //         date: selectedVenue.sales.date,
+  //         time: selectedVenue.sales.time,
+  //       },
+  //     }));
+  //   }
+  // }, [hasVenue]);
 
   return (
-    <form className="tickets-form">
+    <form className="tickets-form" onSubmit={handleSubmit}>
       <div>
         <div className="tickets-title-input-container">
           <h1 className="tickets-input-title">Tickets Sales Start </h1>
@@ -80,8 +98,8 @@ const EventTicketsForm = ({ setEvent, selectedVenue, event, hasVenue }) => {
           </h1>
         </button>
       </div>
-
-      <button className="event-submit-form-one" onClick={createEvent}>
+      {message && <h1 className="event-prompt-message">{message}</h1>}
+      <button type="submit" className="event-submit-form-one">
         Create Event
       </button>
     </form>

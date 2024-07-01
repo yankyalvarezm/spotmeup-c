@@ -124,7 +124,7 @@ const AddNewEvent = () => {
 
             {!fistPrompt && !secondPrompt && eventFormActive && (
               <EventForm
-                // hasVenue={hasVenue}
+                hasVenue={hasVenue}
                 selectedVenue={selectedVenue}
                 event={event}
                 setEvent={setEvent}

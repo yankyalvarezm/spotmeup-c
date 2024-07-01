@@ -1,6 +1,5 @@
 import React, { useEffect, useRef, useContext, useState } from "react";
 import { GoogleMapsContext } from "../../context/GoogleMapsContext";
-import { createEvent } from "../../services/events.service";
 import { MyEventsContext } from "../../context/myEvents.context";
 
 const EventForm = ({ hasVenue, selectedVenue, event, setEvent }) => {
@@ -31,7 +30,7 @@ const EventForm = ({ hasVenue, selectedVenue, event, setEvent }) => {
   const [message, setMessage] = useState(null);
   useEffect(() => {
     console.log("API Loaded:", isApiLoaded);
-    if (isApiLoaded && autocompleteInputRef.current) {
+    if (isApiLoaded && autocompleteInputRef.current && !hasVenue) {
       const autocomplete = new window.google.maps.places.Autocomplete(
         autocompleteInputRef.current,
         {
@@ -111,7 +110,7 @@ const EventForm = ({ hasVenue, selectedVenue, event, setEvent }) => {
         // return;
       }
     }
-    setMessage(response.message);
+    // setMessage(response.message);
     setEventFormActive(false);
     setTicketFormActive(true);
 
@@ -276,7 +275,6 @@ const EventForm = ({ hasVenue, selectedVenue, event, setEvent }) => {
       <button
         type="submit"
         className="event-submit-form-one"
-        onClick={handleSubmit}
       >
         Next
       </button>
