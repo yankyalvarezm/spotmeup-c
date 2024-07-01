@@ -71,8 +71,8 @@ const EventTicketsForm = ({ setEvent, selectedVenue, event, hasVenue }) => {
         <div className="tickets-title-input-container">
           <h1 className="tickets-input-title">Tickets Sales Start </h1>
           <div className="tickets-input-container">
-            <input type="date" className="tickets-input" />
-            <input type="time" className="tickets-input" />
+            <input type="date" name="saleStartDate" className="tickets-input" onChange={handleInputChange}/>
+            <input type="time" name="saleStartTime" className="tickets-input" onChange={handleInputChange} />
           </div>
         </div>
 
@@ -86,15 +86,16 @@ const EventTicketsForm = ({ setEvent, selectedVenue, event, hasVenue }) => {
 
         <div className="tickets-title-input-container">
           <div className="tickets-input-container">
-            <label htmlFor="maxQuantity" className="ticket-maxQuantity">
+            <label htmlFor="purchaseLimit" className="ticket-maxQuantity">
               Max Quantity Per User
             </label>
             <input
-              name="maxQuantity"
+              name="purchaseLimit"
               type="number"
               className="tickets-input max-ticket-input"
               // placeholder="1"
               defaultValue={2}
+              onChange={handleInputChange}
               min={2}
               max={20}
             />
