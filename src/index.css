@@ -6183,7 +6183,7 @@ input[type="color"]::-webkit-color-swatch {
     margin: 1rem 1.8rem;
     overflow-y: scroll;
     height: 270px;
-    margin-bottom: 5rem;
+    margin-bottom: 10rem;
   }
 
   .upcoming-event-item {
@@ -6226,6 +6226,7 @@ input[type="color"]::-webkit-color-swatch {
     display: flex;
     justify-content: center;
     padding-top: 2rem;
+    z-index: 300;
   }
   .log-link {
     display: none;
@@ -6312,4 +6313,68 @@ input[type="color"]::-webkit-color-swatch {
     filter: blur(5px);
     z-index: 2;
   }
+
+  .logos-parent {
+  }
+  .logos-container {
+    position: absolute;
+    top: 109%;
+    left: -6%;
+  }
+}
+
+.logos-container {
+  display: flex;
+  /* justify-content: space-between; */
+  width: 90%;
+  gap: 1rem;
+  margin: 0rem 1rem;
+  margin-left: 4rem;
+}
+
+.logo-smp {
+  background-image: url(/SpotMeUp-03.png);
+  background-size: 100%;
+  width: 100px;
+  height: 100px;
+  background-repeat: no-repeat;
+}
+
+.logo-visa {
+  background-image: url(/visa-logo.png);
+  background-size: 100%;
+  width: 100px;
+  height: 100px;
+  background-repeat: no-repeat;
+}
+
+.logo-mastercard {
+  background-image: url(/master-card.png);
+  background-size: 100%;
+  width: 100px;
+  height: 100px;
+  background-repeat: no-repeat;
+}
+
+.powered-by {
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+  color: var(--black);
+  font-weight: 300;
+  font-style: italic;
+  text-align: start;
+  margin-left: 6rem;
+}
+
+.logos-hr {
+  width: 30%;
+  margin: 1rem 0rem;
+  margin-left: 6rem;
+  border: 1px solid black;
+  border-radius: 10px;
+}
+
+.logos-parent {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
 }

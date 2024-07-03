@@ -230,6 +230,7 @@ const EventDetails = () => {
                 soporte en soporte@spotmeup.com.
               </li>
             </ul>
+            <h2>Visa</h2>
           </div>
         </div>
       </div>

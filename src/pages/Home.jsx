@@ -29,7 +29,11 @@ const Home = () => {
       <h1 className="become-promoter">Become a promoter</h1>
       <NavBar />
       <div className="home-search-bar-container">
-        <input type="search" className="home-search-bar" placeholder="Search..." />
+        <input
+          type="search"
+          className="home-search-bar"
+          placeholder="Search..."
+        />
         <button class="button search-button">
           <span class="span">🔎</span>
         </button>
@@ -44,6 +48,15 @@ const Home = () => {
       <AllEvents events={events} /> */}
 
       {/* <Footer /> */}
+      <div className="logos-parent">
+        <hr className="logos-hr" />
+        <h1 className="powered-by">Powered By</h1>
+        <div className="logos-container">
+          <div className="logo-smp"></div>
+          <div className="logo-visa"></div>
+          <div className="logo-mastercard"></div>
+        </div>
+      </div>
     </div>
   );
 };
