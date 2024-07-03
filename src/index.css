@@ -6265,7 +6265,8 @@ input[type="color"]::-webkit-color-swatch {
     display: none;
   }
   .become-promoter {
-    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS",
+      sans-serif;
     text-decoration: underline;
     color: black;
     font-weight: 300;
@@ -6273,5 +6274,42 @@ input[type="color"]::-webkit-color-swatch {
     margin-right: 2rem;
     margin-top: 1rem;
     font-size: 18px;
+  }
+
+  .event-details-grid {
+    display: block;
+  }
+
+  .event-details-fields {
+    margin-top: 1rem;
+  }
+  .event-terms-conditions-container {
+    position: inherit;
+    margin-top: 1rem;
+    width: 60%;
+  }
+  .event-details-layout {
+    /* margin: 1rem; */
+    margin-bottom: 9rem;
+    margin-left: 13rem;
+    width: 0px;
+  }
+  .event-details-btn {
+    position: fixed;
+    width: 80%;
+    top: 88%;
+    left: 4%;
+    z-index: 5;
+  }
+
+  .event-details-btn-container {
+    background-color: #c2bebe;
+    position: fixed;
+    width: 100%;
+    height: 61px;
+    top: 87%;
+    left: 0%;
+    filter: blur(5px);
+    z-index: 2;
   }
 }

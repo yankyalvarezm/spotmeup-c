@@ -77,8 +77,8 @@ const EventDetails = () => {
             })`,
             backgroundSize: "cover",
             backgroundRepeat: "no-repeat",
-            width: "900px",
-            height: "1000px",
+            // width: "900px",
+            // height: "1000px",
           }}
           className="event-image"
         ></div>
@@ -171,6 +171,7 @@ const EventDetails = () => {
                 <h1 className="normalize-font">{event?.description}</h1>
               </div>
             </div>
+            <div className="event-details-btn-container"></div>
             <button
               className="event-details-btn"
               onClick={() => navigate(`/event-tickets/${event._id}`)}
@@ -178,6 +179,7 @@ const EventDetails = () => {
               Buy Tickets
             </button>
           </div>
+          <hr />
           <div className="event-terms-conditions-container">
             <h1 className="event-li-title">Política De Reembolso</h1>
             <ul>
@@ -233,7 +235,7 @@ const EventDetails = () => {
       </div>
       <h1 className="event-details-preview">Preview</h1>
       <div className="event-details-layout">
-        <DynamicLayout layoutId={event?.layout?._id} scale={0.7} edit={false} />
+        <DynamicLayout layoutId={event?.layout?._id} scale={0.6} edit={false} />
       </div>
     </div>
   );

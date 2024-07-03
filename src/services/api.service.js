@@ -3,7 +3,4 @@
 // const TEST_HOST = "http://localhost:5173";
 const API_URL = "https://spotmeup-s.adaptable.app"
 
-export {API_URL}
-
-
-
+export { API_URL };
