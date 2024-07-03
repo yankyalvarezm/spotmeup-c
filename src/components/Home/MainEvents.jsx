@@ -54,12 +54,15 @@ const MainEvents = ({ events }) => {
       breakpoints={{
         320: {
           slidesPerView: 1,
+          navigation: false,
         },
         640: {
           slidesPerView: 3,
+          navigation: true,
         },
         768: {
           slidesPerView: 4,
+          navigation: true,
         },
       }}
       className="thisweek-container"
@@ -67,7 +70,6 @@ const MainEvents = ({ events }) => {
         clickable: true,
         // dynamicBullets: false,
       }}
-      navigation
     >
       {events &&
         events
@@ -89,7 +91,7 @@ const MainEvents = ({ events }) => {
                   backgroundSize: "100%",
                   backgroundRepeat: "no-repeat",
                   width: "100%",
-                  height: "270px",
+                //   height: "270px",
                   borderRadius: "10px",
                 }}
                 className="event-image"

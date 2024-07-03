@@ -26,10 +26,11 @@ const Home = () => {
   }, []);
   return (
     <div className="homepage-container">
+      <h1 className="become-promoter">Become a promoter</h1>
       <NavBar />
       <div className="home-search-bar-container">
-        <input type="search" className="home-search-bar" />
-        <button class="button">
+        <input type="search" className="home-search-bar" placeholder="Search..." />
+        <button class="button search-button">
           <span class="span">🔎</span>
         </button>
       </div>

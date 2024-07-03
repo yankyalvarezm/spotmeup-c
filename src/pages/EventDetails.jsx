@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react";
 import NavBar from "../components/ToolsC/NavBar";
 import { findEvent } from "../services/events.service";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import DynamicLayout from "../components/ToolsC/DynamicLayout";
 
 const EventDetails = () => {
   const param = useParams();
+  const navigate = useNavigate();
   const [event, setEvent] = useState(null);
 
   const getThisEvent = async () => {
@@ -170,7 +171,63 @@ const EventDetails = () => {
                 <h1 className="normalize-font">{event?.description}</h1>
               </div>
             </div>
-            <button className="event-details-btn">Buy Tickets</button>
+            <button
+              className="event-details-btn"
+              onClick={() => navigate(`/event-tickets/${event._id}`)}
+            >
+              Buy Tickets
+            </button>
+          </div>
+          <div className="event-terms-conditions-container">
+            <h1 className="event-li-title">Política De Reembolso</h1>
+            <ul>
+              <li className="event-li-terms">
+                Los reembolsos estarán disponibles únicamente si el promotor
+                cancela el evento debido a causas mayores.
+              </li>
+              <li className="event-li-terms">
+                No se otorgarán reembolsos por cargos de servicio.
+              </li>
+              <li className="event-li-terms">
+                Para solicitar un reembolso en caso de cancelación por causas
+                mayores, envíe un correo electrónico a soporte@spotmeup.com con
+                el ID de la orden y los detalles del evento.
+              </li>
+            </ul>
+            <h1 className="event-li-title">Política De Devoluciones</h1>
+            <ul>
+              <li className="event-li-terms">
+                Las devoluciones se realizarán automáticamente dentro de los 5
+                días laborables una vez se haya determinado que la actividad
+                tiene un motivo válido para cancelar.
+              </li>
+              <li className="event-li-terms">
+                En caso de cancelación del evento por un motivo válido, los
+                tickets serán reembolsados automáticamente al método de pago
+                original.
+              </li>
+              <li className="event-li-terms">
+                Si un evento es reprogramado, los tickets serán válidos para la
+                nueva fecha. Si no puede asistir a la nueva fecha, puede
+                solicitar un reembolso dentro de los 14 días posteriores al
+                anuncio de la reprogramación.
+              </li>
+            </ul>
+            <h1 className="event-li-title">Política de Cancelación</h1>
+            <ul>
+              <li className="event-li-terms">
+                Una vez comprado el ticket, el usuario no puede cancelar su
+                compra.
+              </li>
+              <li className="event-li-terms">
+                Si el promotor cancela el evento por una razón válida, se le
+                reembolsará el dinero dentro de 5 días laborables.
+              </li>
+              <li className="event-li-terms">
+                Para más información o asistencia, contacte a nuestro equipo de
+                soporte en soporte@spotmeup.com.
+              </li>
+            </ul>
           </div>
         </div>
       </div>
