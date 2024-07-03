@@ -8,6 +8,7 @@ const EventDetails = () => {
   const param = useParams();
   const navigate = useNavigate();
   const [event, setEvent] = useState(null);
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 760);
 
   const getThisEvent = async () => {
     try {
@@ -171,13 +172,22 @@ const EventDetails = () => {
                 <h1 className="normalize-font">{event?.description}</h1>
               </div>
             </div>
-            <div className="event-details-btn-container"></div>
-            <button
-              className="event-details-btn"
-              onClick={() => navigate(`/event-tickets/${event._id}`)}
-            >
-              Buy Tickets
-            </button>
+            <div className="event-details-btn-container">
+                </div>
+              <button
+                className="event-details-btn"
+                onClick={() => navigate(`/event-tickets/${event._id}`)}
+              >
+                Buy Tickets
+              </button>
+            {!isMobile && (
+              <button
+                className="event-details-btn"
+                onClick={() => navigate(`/event-tickets/${event._id}`)}
+              >
+                Buy Tickets
+              </button>
+            )}
           </div>
           <hr />
           <div className="event-terms-conditions-container">
@@ -230,13 +240,12 @@ const EventDetails = () => {
                 soporte en soporte@spotmeup.com.
               </li>
             </ul>
-            <h2>Visa</h2>
           </div>
         </div>
       </div>
       <h1 className="event-details-preview">Preview</h1>
       <div className="event-details-layout">
-        <DynamicLayout layoutId={event?.layout?._id} scale={0.6} edit={false} />
+        <DynamicLayout layoutId={event?.layout?._id} scale={0.5} edit={false} />
       </div>
     </div>
   );
