@@ -32,7 +32,7 @@ export const editEvent = async (eventId, body) => {
 
 export const findEvent = async (eventId) => {
   try {
-    const response = await axios.get(`${API_URL}/${eventId}/find`);
+    const response = await axios.get(`${API_URL}/event/${eventId}/find`);
     return response.data;
   } catch (error) {
     throw error;

@@ -126,6 +126,7 @@ const AddNewEvent = () => {
               <EventForm
                 hasVenue={hasVenue}
                 selectedVenue={selectedVenue}
+                selectedLayout={selectedLayout}
                 event={event}
                 setEvent={setEvent}
               />
@@ -165,6 +166,7 @@ const AddNewEvent = () => {
                       handleFirstPrompt();
                       setHasVenue(false);
                       setSecondPrompt(false);
+                      setEventFormActive(true);
                     }}
                   >
                     No
@@ -285,6 +287,7 @@ const AddNewEvent = () => {
                           <h1 className="events-venue-field">
                             {venue.maxCapacity}
                           </h1>
+                         
                           <h1 className="events-venue-field">
                             {venue.description}
                           </h1>

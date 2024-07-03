@@ -9,15 +9,6 @@ const NavBar = () => {
   return (
     <nav className="navbar-container">
       <div className="navbar-subcontainer">
-        <div className="nav-img-container">
-          <Link to={isLoggedIn ? "/" : "/signup"} className="navlink-signup">
-            <div className="nav-user-img"></div>
-            <h1 className="login-signup-navtext">
-              {isLoggedIn ? "Log Out" : "Log In or Sign Up"}
-            </h1>
-          </Link>
-        </div>
-
         <div>
           <Link to="/" className="navlink">
             Home
@@ -25,31 +16,35 @@ const NavBar = () => {
         </div>
 
         <div>
-          <Link to="/profile" className="navlink">
-            Profile
-          </Link>
-        </div>
-
-        <div>
-          <Link to="/" className="navlink">
-            Places
-          </Link>
-        </div>
-
-        <div>
           <Link to="/myevents" className="navlink">
-            Promotors
+            Promoters
           </Link>
         </div>
-
         <div>
           <Link to="/about" className="navlink">
             About Us
           </Link>
         </div>
-      </div>
-      <div className="nav-spotmeupicon">
-        <SpotMeUpIcon />
+        <div>
+          <Link to="/profile" className="navlink">
+            Profile
+          </Link>
+        </div>
+
+        {/* <div>
+          <Link to="/" className="navlink">
+            Places
+          </Link>
+        </div> */}
+
+        <div className="nav-img-container">
+          <Link to={isLoggedIn ? "/" : "/signup"} className="navlink-signup">
+            {/* <div className="nav-user-img"></div> */}
+            <h1 className="login-signup-navtext">
+              {isLoggedIn ? "Log Out" : "Log In or Sign Up"}
+            </h1>
+          </Link>
+        </div>
       </div>
     </nav>
   );

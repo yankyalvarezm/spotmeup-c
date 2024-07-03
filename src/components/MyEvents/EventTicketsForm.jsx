@@ -1,31 +1,44 @@
 import React, { useContext, useEffect, useState } from "react";
 import { MyEventsContext } from "../../context/myEvents.context";
 import { createEvent } from "../../services/events.service";
-import { handleInputChange } from './../../services/tools.service';
+import { useNavigate } from "react-router-dom";
+
 const EventTicketsForm = ({ setEvent, selectedVenue, event, hasVenue }) => {
+  const navigate = useNavigate();
   const { setTicketFormActive, tuneFormActive, setTuneFormActive } =
     useContext(MyEventsContext);
 
   const [message, setMessage] = useState(null);
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = createEvent(event);
+      const formData = new FormData();
+      const eventArray = [Object.keys(event), Object.values(event)];
+      for (let i = 0; i < eventArray.length; i++) {
+        formData.append(eventArray[i][0], eventArray[i][1]);
+      }
+      const response = await createEvent(event);
       if (response.success) {
-        console.log("Event Created");
+        console.log("Event Created:", response);
         setMessage("Event Created!");
+        setTimeout(() => {
+          setTicketFormActive(false);
+          navigate(
+            `/admin/designpage/EventBreakDown/${response.event._id}/${response.event.layout._id}`
+          );
+        }, 1000);
       }
     } catch (error) {
-      console.log(error)
-      setMessage(error.response.message)
+      console.log(error);
+      setMessage(error.response.message);
     }
   };
   useEffect(() => {
-    if(message){
+    if (message) {
       setTimeout(() => {
-      setMessage(null);
-    }, 2000);
-  }
+        setMessage(null);
+      }, 2000);
+    }
   }, [message]);
   const handleTune = (e) => {
     e.preventDefault();
@@ -62,17 +75,29 @@ const EventTicketsForm = ({ setEvent, selectedVenue, event, hasVenue }) => {
       ...prev,
       [name]: value,
     }));
-
-  }
+  };
 
   return (
-    <form className="tickets-form" onSubmit={handleSubmit}>
+    <form
+      className="tickets-form"
+      // onSubmit={handleSubmit}
+    >
       <div>
         <div className="tickets-title-input-container">
           <h1 className="tickets-input-title">Tickets Sales Start </h1>
           <div className="tickets-input-container">
-            <input type="date" name="saleStartDate" className="tickets-input" onChange={handleInputChange}/>
-            <input type="time" name="saleStartTime" className="tickets-input" onChange={handleInputChange} />
+            <input
+              type="date"
+              name="saleStartDate"
+              className="tickets-input"
+              onChange={handleInputChange}
+            />
+            <input
+              type="time"
+              name="saleStartTime"
+              className="tickets-input"
+              onChange={handleInputChange}
+            />
           </div>
         </div>
 
@@ -111,7 +136,11 @@ const EventTicketsForm = ({ setEvent, selectedVenue, event, hasVenue }) => {
         </button>
       </div>
       {message && <h1 className="event-prompt-message">{message}</h1>}
-      <button type="submit" className="event-submit-form-one">
+      <button
+        type="submit"
+        className="event-submit-form-one"
+        onClick={handleSubmit}
+      >
         Create Event
       </button>
     </form>

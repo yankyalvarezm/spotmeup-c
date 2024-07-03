@@ -14,6 +14,7 @@ function MyEventsProvider({ children }) {
   const [tuneFormActive, setTuneFormActive] = useState(false);
   const [hasVenue, setHasVenue] = useState(null);
   const [venuesEvents, setVenuesEvents] = useState(null);
+  const [linkName, setLinkName] = useState("dashboard");
 
   const displayEvents = () => {
     setShowEvents(true);
@@ -57,6 +58,8 @@ function MyEventsProvider({ children }) {
         tuneFormActive,
         hasVenue,
         venuesEvents,
+        linkName,
+        setLinkName,
         setVenuesEvents,
         displayEvents,
         displayEventsForm,

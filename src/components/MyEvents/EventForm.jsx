@@ -2,7 +2,13 @@ import React, { useEffect, useRef, useContext, useState } from "react";
 import { GoogleMapsContext } from "../../context/GoogleMapsContext";
 import { MyEventsContext } from "../../context/myEvents.context";
 
-const EventForm = ({ hasVenue, selectedVenue, event, setEvent }) => {
+const EventForm = ({
+  hasVenue,
+  selectedVenue,
+  event,
+  setEvent,
+  selectedLayout,
+}) => {
   const autocompleteInputRef = useRef(null);
   const { isApiLoaded } = useContext(GoogleMapsContext);
   const {
@@ -27,7 +33,15 @@ const EventForm = ({ hasVenue, selectedVenue, event, setEvent }) => {
   //   },
   //   // venue: "",
   // });
+  const [images, setImages] = useState([]);
   const [message, setMessage] = useState(null);
+  const handleImageChange = (e) => {
+    if (e.target.files && e.target.files.length) {
+      setImages([...e.target.files]);
+    } else {
+      setImages([]);
+    }
+  };
   useEffect(() => {
     console.log("API Loaded:", isApiLoaded);
     if (isApiLoaded && autocompleteInputRef.current && !hasVenue) {
@@ -87,7 +101,8 @@ const EventForm = ({ hasVenue, selectedVenue, event, setEvent }) => {
       setEvent((prev) => ({
         ...prev,
         hasVenue,
-        venue: selectedVenue._id,
+        venue: selectedVenue,
+        layout: selectedLayout._id,
         address: {
           street: selectedVenue.address.street,
           city: selectedVenue.address.city,
@@ -106,35 +121,11 @@ const EventForm = ({ hasVenue, selectedVenue, event, setEvent }) => {
     for (const key in event) {
       if (event[key] === "") {
         setMessage(`Please Fill in the ${key} field.`);
-        // alert(`Please Fill in the ${key} field.`);
-        // return;
       }
     }
-    // setMessage(response.message);
+
     setEventFormActive(false);
     setTicketFormActive(true);
-
-    // try {
-    //   // const response = await createEvent(event);
-    //   console.log("create event:", response);
-    //   if (response.success) {
-    //     setTimeout(() => {
-    //       setMessage(null);
-    //     }, 2000);
-    //   } else {
-    //     // console.log("createEvent:", response);
-    //     setMessage(error.response.data.message);
-    //     setTimeout(() => {
-    //       setMessage(null);
-    //     }, 2000);
-    //   }
-    // } catch (error) {
-    //   setMessage(error.error.message);
-    //   setTimeout(() => {
-    //     setMessage(null);
-    //   }, 5000);
-    //   console.error("createEvent:", error);
-    // }
   };
 
   const handleInputChange = (e) => {
@@ -258,24 +249,33 @@ const EventForm = ({ hasVenue, selectedVenue, event, setEvent }) => {
           />
         </div>
       </div>
-      <div className="event-form-input-label">
-        <label htmlFor="description" className="event-input-time">
-          About
-        </label>
-        <textarea
-          name="description"
-          type="textarea"
-          className="event-textarea"
-          onChange={handleInputChange}
-          value={event.description}
-        />
+      <div className="event-venue-images-description">
+        <div className="event-form-input-label">
+          <label htmlFor="description" className="event-input-time">
+            About
+          </label>
+          <textarea
+            name="description"
+            type="textarea"
+            className="event-textarea"
+            onChange={handleInputChange}
+            value={event.description}
+          />
+        </div>
+
+        <div>
+          <h1 className="event-input-time">Images</h1>
+          <input
+            type="file"
+            onChange={handleImageChange}
+            multiple
+            accept="image/*"
+          />
+        </div>
       </div>
       {message && <h1 className="event-prompt-message">{message}</h1>}
 
-      <button
-        type="submit"
-        className="event-submit-form-one"
-      >
+      <button type="submit" className="event-submit-form-one">
         Next
       </button>
     </form>

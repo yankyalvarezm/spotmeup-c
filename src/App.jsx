@@ -1,6 +1,7 @@
 import "./App.css";
 import { Route, Routes, Outlet, Navigate } from "react-router-dom";
 import { lazy, Suspense } from "react";
+import EventDetails from "./pages/EventDetails.jsx";
 // import SignUp from "./pages/SignUp";
 // import LogIn from "./pages/LogIn";
 // import Home from "./pages/Home";
@@ -13,7 +14,6 @@ import { lazy, Suspense } from "react";
 // import BDTickets from "./components/BreakDown/BDTickets";
 // import 'bootstrap/dist/css/bootstrap.min.css';
 
-
 const SignUp = lazy(() => import("./pages/SignUp"));
 const LogIn = lazy(() => import("./pages/LogIn"));
 const Home = lazy(() => import("./pages/Home"));
@@ -24,6 +24,8 @@ const AdminVenueDetail = lazy(() => import("./pages/AdminVenueDetail"));
 const DesignPage = lazy(() => import("./pages/DesignPage"));
 const DesignBreakDown = lazy(() => import("./pages/DesignBreakDown"));
 const BDTickets = lazy(() => import("./components/BreakDown/BDTickets"));
+const EventBreakDown = lazy(() => import("./pages/EventBreakDown.jsx"));
+
 function App() {
   return (
     <Suspense fallback={<div>Loading...</div>}>
@@ -38,7 +40,10 @@ function App() {
           path="/admin/venuedetails/:venueIdParam"
           element={<AdminVenueDetail />}
         />
-        <Route path="/admin/designpage/:layoutIdParam" element={<DesignPage />} />
+        <Route
+          path="/admin/designpage/:layoutIdParam"
+          element={<DesignPage />}
+        />
         <Route
           path="/admin/designpage/:layoutIdParam/:blockIdParam"
           element={<DesignPage />}
@@ -47,6 +52,11 @@ function App() {
           path="/admin/designpage/:layoutIdParam/breakdown"
           element={<DesignBreakDown />}
         />
+        <Route
+          path="/admin/designpage/EventBreakDown/:eventIdParam/:layoutIdParam"
+          element={<EventBreakDown />}
+        />
+        <Route path="/event-details/:eventIdParam" element={<EventDetails />} />
       </Routes>
     </Suspense>
   );

@@ -9,16 +9,17 @@ import { useNavigate } from "react-router-dom";
 
 const DisplayEvents = () => {
   const [events, setEvents] = useState([]);
+  // const [eventLayout, setEventLayout] = useState(null);
   const { eventId, setEventId } = useContext(MyEventsContext);
   const navigate = useNavigate();
 
-  const changePage = (eventId) => {
-    // navigate(`/admin/venuedetails/${eventId}`);
+  const changePage = (eventId, eventLayout) => {
+    navigate(`/admin/designpage/EventBreakDown/${eventId}/${eventLayout}`);
   };
 
   const toggleChangePage = (eventId) => {
     setEventId(eventId);
-    // changePage(eventId);
+    changePage(eventId);
   };
 
   useEffect(() => {
@@ -80,12 +81,30 @@ const DisplayEvents = () => {
         .reverse()
         .map((event) => (
           <div key={event._id}>
-            <SwiperSlide key={event._id}>
-              <div
-                className="event-slide"
-                onClick={() => toggleChangePage(event._id)}
-              >
-                <img className="event-img-first" />
+            <SwiperSlide
+              key={event._id}
+              onClick={() => {
+                toggleChangePage(event._id, event?.layout?._id);
+                // setEventLayout(event?.layout?._id);
+                console.log("Display This Event:", event);
+              }}
+            >
+              <div className="event-slide">
+                {event.images.length && console.log("Image Event:", event)}
+                <div
+                  style={{
+                    backgroundImage: `url(${
+                      event.images && event.images.length > 0
+                        ? event.images[0]
+                        : "/no-image.jpg" // URL de la imagen de respaldo
+                    })`,
+                    backgroundSize: "100%",
+                    backgroundRepeat: "no-repeat",
+                    width: "100%",
+                    height: "350px",
+                  }}
+                  className="event-image"
+                ></div>
               </div>
               <div className="event-carousel-info">
                 {/* <h1 className="event-name">{event.name}</h1> */}
