@@ -6183,7 +6183,7 @@ input[type="color"]::-webkit-color-swatch {
     margin: 1rem 1.8rem;
     overflow-y: scroll;
     height: 270px;
-    margin-bottom: 10rem;
+    margin-bottom: 6rem;
   }
 
   .upcoming-event-item {
@@ -6317,9 +6317,11 @@ input[type="color"]::-webkit-color-swatch {
   .logos-parent {
   }
   .logos-container {
-    position: absolute;
+    /* position: absolute;
     top: 109%;
-    left: -6%;
+    left: -6%; */
+    margin-left: 1rem !important;
+    margin-top: -10rem !important;
   }
 }
 
