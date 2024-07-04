@@ -6173,6 +6173,12 @@ input[type="color"]::-webkit-color-swatch {
   font-style: italic;
 }
 
+.event-li-terms-red {
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+  font-style: italic;
+  color: red;
+}
+
 .event-li-title {
   font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
   font-weight: 600;
@@ -6313,7 +6319,7 @@ input[type="color"]::-webkit-color-swatch {
     position: fixed;
     width: 80%;
     top: 86%;
-    /* left: 4%; */
+    left: 10%;
     z-index: 5;
   }
 
@@ -6338,7 +6344,11 @@ input[type="color"]::-webkit-color-swatch {
     margin-top: -10rem !important;
   }
 
-  
+  .event-li-terms-red {
+    position: fixed;
+    top: 82%;
+    left: 16%;
+  }
 }
 
 .logos-container {
@@ -6399,8 +6409,10 @@ input[type="color"]::-webkit-color-swatch {
 
 .buy-tickets-container {
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  align-items: center;
   margin-top: 2rem;
+  /* position: relative; */
 }
 
 .buy-tickets-title {
@@ -6408,7 +6420,8 @@ input[type="color"]::-webkit-color-swatch {
   text-align: center;
   font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
   font-weight: 300;
-  font-size: 30px;
+  font-size: 28px;
+  white-space: nowrap;
 }
 .dashboard-tooltip {
   display: none;
@@ -6440,4 +6453,13 @@ input[type="color"]::-webkit-color-swatch {
     position: absolute;
     width: 100%;
   }
+}
+
+.buy-tickets-cart {
+  /* position: absolute; */
+  /* transform: translate(-50%, -50%); */
+  /* left: 67.5%; */
+  /* top: 2%; */
+  /* margin-right: 2rem; */
+  /* position: fixed; */
 }

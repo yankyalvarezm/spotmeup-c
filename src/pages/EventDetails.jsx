@@ -22,6 +22,27 @@ const EventDetails = () => {
     }
   };
 
+  const [acceppted, setAcceppted] = useState(false);
+
+  const handleAccept = async () => {
+    setAcceppted((prev) => !prev);
+  };
+
+  const [message, setMessage] = useState(null);
+
+  const moveToDetails = async (eventId) => {
+    if (acceppted) {
+      navigate(`/event-tickets/${eventId}`);
+    } else {
+      setMessage("Term & Conditions Must Be Accepted");
+      setTimeout(() => {
+        setMessage(null);
+      }, 30000);
+    }
+  };
+
+  console.log("Accepted:", acceppted);
+
   useEffect(() => {
     getThisEvent();
   }, [param.eventIdParam]);
@@ -173,10 +194,11 @@ const EventDetails = () => {
               </div>
             </div>
             <div className="event-details-btn-container"></div>
+            {message && <h1 className="event-li-terms-red">{message}</h1>}
             {isMobile && (
               <button
                 className="event-details-btn"
-                onClick={() => navigate(`/event-tickets/${event._id}`)}
+                onClick={() => moveToDetails(event._id)}
               >
                 Buy Tickets
               </button>
@@ -184,13 +206,13 @@ const EventDetails = () => {
             {!isMobile && (
               <button
                 className="event-details-btn"
-                onClick={() => navigate(`/event-tickets/${event._id}`)}
+                onClick={() => moveToDetails(event._id)}
               >
                 Buy Tickets
               </button>
             )}
           </div>
-          <hr className="term-conditions-hr"/>
+          <hr className="term-conditions-hr" />
           <div className="event-terms-conditions-container">
             <h1 className="event-li-title">Política De Reembolso</h1>
             <ul>
@@ -241,6 +263,10 @@ const EventDetails = () => {
                 soporte en soporte@spotmeup.com.
               </li>
             </ul>
+            <label htmlFor="checkbox" className="event-li-terms">
+              Acepto Los Terminos & Condiciones
+            </label>
+            <input type="checkbox" name="check" onClick={handleAccept} />
           </div>
         </div>
       </div>
