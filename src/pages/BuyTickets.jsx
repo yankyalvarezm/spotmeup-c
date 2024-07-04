@@ -45,7 +45,7 @@ const BuyTickets = () => {
       <div className="buy-tickets-container">
         <DynamicLayout
           layoutId={event?.layout?._id}
-          scale={0.8}
+          scale={isMobile ? 0.5 : 0.8}
           edit={false}
           tooltip={true}
           formatPrices={true}

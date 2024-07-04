@@ -63,6 +63,7 @@ const DynamicLayout = ({ layoutId, scale, edit, tooltip, formatPrices }) => {
               className="dashboard-table-number-child "
               style={{
                 fontSize: `${shape?.fontSize * scale}px`,
+                color: `${shape?.color}`,
               }}
             >
               {shape?.name}
@@ -95,6 +96,22 @@ const DynamicLayout = ({ layoutId, scale, edit, tooltip, formatPrices }) => {
               className="dashboard-table-number-child dashboard-block-name-display"
               style={{ fontSize: `${block?.fontSize * scale}px` }}
             >
+              {tooltip && !block.tables.length && (
+                <div
+                  className="dashboard-tooltip-block"
+                  style={{
+                    backgroundColor: `${block?.backgroundColor}`,
+                  }}
+                >
+                  <h2 className="dashboard-tooltip-size">
+                        <span className="dollar-span">$</span>
+                        {formatPrices
+                          ? formatNumber(block.bprice)
+                          : block.bprice}
+                      </h2>
+                </div>
+              )}
+
               {block?.name}
             </h1>
             <div className="dashboard-table-grid">

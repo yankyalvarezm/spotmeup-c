@@ -6220,6 +6220,8 @@ input[type="color"]::-webkit-color-swatch {
     display: none;
   }
 }
+
+/* --------- Mobile Version ---------- */
 @media (max-width: 760px) {
   .navbar-container {
     position: relative;
@@ -6335,6 +6337,8 @@ input[type="color"]::-webkit-color-swatch {
     margin-left: 1rem !important;
     margin-top: -10rem !important;
   }
+
+  
 }
 
 .logos-container {
@@ -6416,7 +6420,6 @@ input[type="color"]::-webkit-color-swatch {
     position: absolute;
     z-index: 999;
   }
-  
 }
 
 .dashboard-tooltip-size {
@@ -6425,4 +6428,16 @@ input[type="color"]::-webkit-color-swatch {
 
 .dollar-span {
   color: var(--green);
+}
+.dashboard-tooltip-block {
+  display: none;
+}
+
+.dasboard-table-hover:hover {
+  .dashboard-tooltip-block {
+    display: block;
+    color: white;
+    position: absolute;
+    width: 100%;
+  }
 }
