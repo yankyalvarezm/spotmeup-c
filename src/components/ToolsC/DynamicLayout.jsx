@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { getOneLayout } from "../../services/layout.service";
 
-const DynamicLayout = ({ layoutId, scale, edit }) => {
+const DynamicLayout = ({ layoutId, scale, edit, tooltip, formatPrices }) => {
   const [layoutObject, setlayoutObject] = useState({});
   const findOneLayout = async () => {
     try {
@@ -20,6 +20,16 @@ const DynamicLayout = ({ layoutId, scale, edit }) => {
       findOneLayout();
     }
   }, [layoutId]);
+
+  const formatNumber = (num) => {
+    if (num >= 1_000_000) {
+      return (num / 1_000_000).toFixed(2).replace(/\.00$/, "") + "M";
+    } else if (num >= 1_000) {
+      return (num / 1_000).toFixed(2).replace(/\.00$/, "") + "k";
+    } else {
+      return num.toString();
+    }
+  };
 
   return (
     <div className="e-dashboard-parent">
@@ -109,6 +119,24 @@ const DynamicLayout = ({ layoutId, scale, edit }) => {
                   <h1 className="dashboard-table-number-parent">
                     {table?.number}
                   </h1>
+                  {tooltip && (
+                    <div
+                      className="dashboard-tooltip"
+                      style={{
+                        backgroundColor: `${table?.backgroundColor}`,
+                        borderRadius: `${
+                          table?.tableType === "Square" ? 0 : 50
+                        }%`,
+                      }}
+                    >
+                      <h2 className="dashboard-tooltip-size">
+                        <span className="dollar-span">$</span>
+                        {formatPrices
+                          ? formatNumber(table.tprice)
+                          : table.tprice}
+                      </h2>
+                    </div>
+                  )}
                 </div>
               ))}
             </div>

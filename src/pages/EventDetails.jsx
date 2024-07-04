@@ -81,7 +81,7 @@ const EventDetails = () => {
             // width: "900px",
             // height: "1000px",
           }}
-          className="event-image"
+          className="event-image-details"
         ></div>
 
         <div className="event-details-fields">
@@ -172,14 +172,15 @@ const EventDetails = () => {
                 <h1 className="normalize-font">{event?.description}</h1>
               </div>
             </div>
-            <div className="event-details-btn-container">
-                </div>
+            <div className="event-details-btn-container"></div>
+            {isMobile && (
               <button
                 className="event-details-btn"
                 onClick={() => navigate(`/event-tickets/${event._id}`)}
               >
                 Buy Tickets
               </button>
+            )}
             {!isMobile && (
               <button
                 className="event-details-btn"
@@ -189,7 +190,7 @@ const EventDetails = () => {
               </button>
             )}
           </div>
-          <hr />
+          <hr className="term-conditions-hr"/>
           <div className="event-terms-conditions-container">
             <h1 className="event-li-title">Política De Reembolso</h1>
             <ul>

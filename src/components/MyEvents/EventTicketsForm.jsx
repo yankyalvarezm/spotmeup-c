@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import { MyEventsContext } from "../../context/myEvents.context";
-import { createEvent } from "../../services/events.service";
+import { createEvent, imageUploader } from "../../services/events.service";
 import { useNavigate } from "react-router-dom";
 
 const EventTicketsForm = ({ setEvent, selectedVenue, event, hasVenue }) => {
@@ -12,12 +12,23 @@ const EventTicketsForm = ({ setEvent, selectedVenue, event, hasVenue }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const formData = new FormData();
-      const eventArray = [Object.keys(event), Object.values(event)];
-      for (let i = 0; i < eventArray.length; i++) {
-        formData.append(eventArray[i][0], eventArray[i][1]);
+      const response = await createEvent({ ...event, images: [""] });
+      if (response.success) {
+        const formData = new FormData();
+        if (event.images.length) {
+          event.images.forEach((img) => {
+            formData.append("image", img);
+          });
+          const uploadResponse = await imageUploader(
+            response.event._id,
+            formData
+          );
+          console.log("uploadREsponse:", uploadResponse);
+          if (uploadResponse.success) {
+            console.log(uploadResponse.message);
+          }
+        }
       }
-      const response = await createEvent(event);
       if (response.success) {
         console.log("Event Created:", response);
         setMessage("Event Created!");
@@ -29,7 +40,6 @@ const EventTicketsForm = ({ setEvent, selectedVenue, event, hasVenue }) => {
         }, 1000);
       }
     } catch (error) {
-      console.log(error);
       setMessage(error.response.message);
     }
   };
@@ -40,6 +50,7 @@ const EventTicketsForm = ({ setEvent, selectedVenue, event, hasVenue }) => {
       }, 2000);
     }
   }, [message]);
+
   const handleTune = (e) => {
     e.preventDefault();
     setTuneFormActive(true);

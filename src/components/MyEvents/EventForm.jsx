@@ -37,9 +37,9 @@ const EventForm = ({
   const [message, setMessage] = useState(null);
   const handleImageChange = (e) => {
     if (e.target.files && e.target.files.length) {
-      setImages([...e.target.files]);
+      setEvent((prev) => ({ ...prev, images: [...e.target.files] }));
     } else {
-      setImages([]);
+      setEvent((prev) => ({ ...prev, images: [] }));
     }
   };
   useEffect(() => {
@@ -101,7 +101,7 @@ const EventForm = ({
       setEvent((prev) => ({
         ...prev,
         hasVenue,
-        venue: selectedVenue,
+        venue: selectedVenue._id,
         layout: selectedLayout._id,
         address: {
           street: selectedVenue.address.street,
@@ -270,6 +270,7 @@ const EventForm = ({
             onChange={handleImageChange}
             multiple
             accept="image/*"
+            name="images"
           />
         </div>
       </div>

@@ -64,3 +64,15 @@ export const deleteEvent = async (eventId) => {
     throw error;
   }
 };
+
+export const imageUploader = async (eventId, body) => {
+  try {
+    const response = await axios.post(
+      `${API_URL}/event/${eventId}/image/upload`,
+      body
+    );
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
