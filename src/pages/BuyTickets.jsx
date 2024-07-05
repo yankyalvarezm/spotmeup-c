@@ -4,10 +4,10 @@ import DynamicLayout from "../components/ToolsC/DynamicLayout";
 import { useParams } from "react-router-dom";
 import { findEvent } from "../services/events.service";
 import { TicketsContext } from "../context/tickets.context";
+import CryptoJS from "crypto-js";
 
 const BuyTickets = () => {
   const param = useParams();
-
   const [selected, setSelected] = useState({
     id: "",
     price: 0,
@@ -25,11 +25,9 @@ const BuyTickets = () => {
 
   function formatNumberWithCommas(value) {
     const number = parseFloat(value);
-
     if (isNaN(number)) {
       return value;
     }
-
     return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   }
 
@@ -47,15 +45,16 @@ const BuyTickets = () => {
   useEffect(() => {
     calculateTotal(ticketsCart);
     setCargoServicio(total * 0.1);
-  }, [ticketsCart]);
+  }, [ticketsCart, cargoServicio]);
 
+  console.log("🚀 ~ BuyTickets ~ total:", total);
+  console.log("🚀 ~ BuyTickets ~ cargoServicio:", cargoServicio);
   useEffect(() => {
     const handleResize = () => {
       setIsMobile(window.innerWidth < 760);
     };
 
     window.addEventListener("resize", handleResize);
-
     return () => {
       window.removeEventListener("resize", handleResize);
     };
@@ -81,7 +80,6 @@ const BuyTickets = () => {
     console.log("Adding to cart:", selected);
     setTicketsCart((prevTicketsCart) => [...prevTicketsCart, selected]);
     setSelected({ id: "", price: 0 });
-    // calculateTotal(ticketsCart);
   };
 
   const handleRemoveFromCart = (id) => {
@@ -91,17 +89,38 @@ const BuyTickets = () => {
     });
   };
 
-  console.log("----------------------------------");
-  console.log("Selected From Buy Tickets:", selected);
-  console.log("Cart:", ticketsCart);
-  console.log("----------------------------------");
+  const calculateAuthHash = () => {
+    const secretKey =
+      "asdhakjshdkjasdasmndajksdkjaskldga8odya9d8yoasyd98asdyaisdhoaisyd0a8sydoashd8oasydoiahdpiashd09ayusidhaos8dy0a8dya08syd0a8ssdsax";
+    const fields = [
+      "39038540035",
+      "Prueba AZUL",
+      "ECommerce",
+      "$",
+      "001",
+      (total + cargoServicio).toFixed(2).replace(".", ""),
+      "000",
+      "https://spotmeup.net/approved",
+      "https://google.com",
+      "https://google.com",
+      "0",
+      "",
+      "",
+      "0",
+      "",
+      "",
+      secretKey,
+    ];
+    const hashString = fields.join("");
+    const hash = CryptoJS.HmacSHA512(hashString, secretKey);
+    return hash.toString(CryptoJS.enc.Hex);
+  };
 
   return (
     <div>
       <NavBar />
       <div className={checkoutTab ? "checkout-tab" : ""}>
         <h1 className="buy-tickets-title">👇🏻 Select Where You Want To Go 👇🏻</h1>
-
         <div className="buy-tickets-container">
           <DynamicLayout
             layoutId={event?.layout?._id}
@@ -148,7 +167,6 @@ const BuyTickets = () => {
               )}
           </div>
         </div>
-
         {ticketsCart.length > 0 && (
           <div>
             <div className="buy-tickets-form">
@@ -172,7 +190,6 @@ const BuyTickets = () => {
                   </h1>
                 </div>
               ))}
-
               <div className="tickets-selected-container ticket-selected-cargo">
                 <h1>Cargo x Servicio:</h1>
                 <h1>${formatNumberWithCommas(total * 0.1)}</h1>
@@ -196,17 +213,125 @@ const BuyTickets = () => {
           </div>
         )}
       </div>
-
       <div className={checkoutTab ? "checkout-tab-page" : "checkout-tab"}>
         <h1 className="payment-method">Payment Method</h1>
         <div className="card-details">
-          <input type="text" placeholder="Name" />
-          <input type="text" placeholder="Card" />
+          <form
+            action="https://pruebas.azul.com.do/PaymentPage/"
+            method="post"
+            id="paymentForm"
+            name="paymentForm"
+            target="_blank"
+          >
+            <input
+              type="hidden"
+              id="MerchantId"
+              name="MerchantId"
+              value="39038540035"
+            />
+            <input type="hidden" id="TrxType" name="TrxType" value="Sale" />
+            <input
+              type="hidden"
+              id="MerchantName"
+              name="MerchantName"
+              value="Prueba AZUL"
+            />
+            <input
+              type="hidden"
+              id="MerchantType"
+              name="MerchantType"
+              value="ECommerce"
+            />
+            <input
+              type="hidden"
+              id="CurrencyCode"
+              name="CurrencyCode"
+              value="$"
+            />
+            <input
+              type="hidden"
+              id="OrderNumber"
+              name="OrderNumber"
+              value="001"
+            />
+            <input
+              type="hidden"
+              id="Amount"
+              name="Amount"
+              value={Math.round((total + cargoServicio) * 100)}
+            />
+            <input type="hidden" id="ITBIS" name="ITBIS" value="000" />
+            <input
+              type="hidden"
+              id="ApprovedUrl"
+              name="ApprovedUrl"
+              value="https://spotmeup.net/approved"
+            />
+            <input
+              type="hidden"
+              id="DeclinedUrl"
+              name="DeclinedUrl"
+              value="https://google.com"
+            />
+            <input
+              type="hidden"
+              id="CancelUrl"
+              name="CancelUrl"
+              value="https://google.com"
+            />
+            <input
+              type="hidden"
+              id="UseCustomField1"
+              name="UseCustomField1"
+              value="0"
+            />
+            <input
+              type="hidden"
+              id="CustomField1Label"
+              name="CustomField1Label"
+              value=""
+            />
+            <input
+              type="hidden"
+              id="CustomField1Value"
+              name="CustomField1Value"
+              value=""
+            />
+            <input
+              type="hidden"
+              id="UseCustomField2"
+              name="UseCustomField2"
+              value="0"
+            />
+            <input
+              type="hidden"
+              id="CustomField2Label"
+              name="CustomField2Label"
+              value=""
+            />
+            <input
+              type="hidden"
+              id="CustomField2Value"
+              name="CustomField2Value"
+              value=""
+            />
+            <input
+              type="hidden"
+              id="AuthHash"
+              name="AuthHash"
+              value={calculateAuthHash()}
+            />
+            <input
+              type="submit"
+              name="submit"
+              value="Continuar"
+              style={{ fontSize: "20px" }}
+            />
+          </form>
         </div>
         <div className="security-policy margin-top"></div>
         <div className="privacy-policy">
           <h1 className="payment-method margin-top">Política de Privacidad</h1>
-
           <p>
             En Spotmeup, nos comprometemos a proteger su privacidad y garantizar
             que su información personal esté segura. Esta Política de Privacidad
@@ -214,7 +339,6 @@ const BuyTickets = () => {
             información personal cuando utiliza nuestros servicios para comprar
             tickets y diseñar layouts para eventos.
           </p>
-
           <p>
             información personal como su nombre, dirección de correo
             electrónico, número de teléfono, y dirección física cuando se
@@ -226,7 +350,6 @@ const BuyTickets = () => {
             una compra, utilizamos Azul como nuestra plataforma de pago segura
             para procesar sus transacciones.
           </p>
-
           <p>
             Uso de la Información Utilizamos su información personal para
             procesar sus compras de tickets, gestionar su cuenta de usuario y
@@ -239,7 +362,6 @@ const BuyTickets = () => {
             información personal con terceros, excepto cuando sea necesario para
             procesar pagos a través de Azul o cumplir con requisitos legales.
           </p>
-
           <p>
             Seguridad de la Información En Spotmeup, implementamos medidas de
             seguridad robustas para proteger su información personal contra el
@@ -251,7 +373,6 @@ const BuyTickets = () => {
             personal, como mantener su contraseña segura y no compartirla con
             otros.
           </p>
-
           <p>
             Derechos del Usuario Usted tiene el derecho de acceder, rectificar o
             eliminar su información personal en cualquier momento. Si desea
@@ -261,7 +382,6 @@ const BuyTickets = () => {
             de manera oportuna y a proporcionarle la asistencia necesaria para
             gestionar su información personal.
           </p>
-
           <p>
             Cambios en la Política de Privacidad Nos reservamos el derecho de
             actualizar esta Política de Privacidad en cualquier momento.
@@ -271,7 +391,6 @@ const BuyTickets = () => {
             periódicamente esta política para estar informado sobre cómo
             protegemos su información.
           </p>
-
           <p>
             Contacto Si tiene alguna pregunta o inquietud sobre nuestra Política
             de Privacidad, no dude en ponerse en contacto con nosotros a través

@@ -3,6 +3,7 @@ import { Route, Routes, Outlet, Navigate } from "react-router-dom";
 import { lazy, Suspense } from "react";
 import EventDetails from "./pages/EventDetails.jsx";
 import BuyTickets from "./pages/BuyTickets.jsx";
+import Approved from "./pages/Approved.jsx";
 // import SignUp from "./pages/SignUp";
 // import LogIn from "./pages/LogIn";
 // import Home from "./pages/Home";
@@ -59,6 +60,8 @@ function App() {
         />
         <Route path="/event-details/:eventIdParam" element={<EventDetails />} />
         <Route path="/event-tickets/:eventIdParam" element={<BuyTickets />} />
+
+        <Route path="/generate-tickets" element={<Approved />} />
       </Routes>
     </Suspense>
   );
