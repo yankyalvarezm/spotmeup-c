@@ -37,7 +37,7 @@ const EventDetails = () => {
       setMessage("Term & Conditions Must Be Accepted");
       setTimeout(() => {
         setMessage(null);
-      }, 30000);
+      }, 3000);
     }
   };
 

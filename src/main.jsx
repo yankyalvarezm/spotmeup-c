@@ -12,6 +12,7 @@ import { ShapeProvider } from "./context/shape.context.jsx";
 import { BlockProvider } from "./context/block.context.jsx";
 import { TableProvider } from "./context/table.context.jsx";
 import { BreakDownProvider } from "./context/breakdown.context.jsx";
+import { TicketsProvider } from "./context/tickets.context.jsx";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
@@ -19,19 +20,21 @@ ReactDOM.createRoot(document.getElementById("root")).render(
       <AuthProvider>
         <GoogleMapsProvider>
           <MyEventsProvider>
-            <VenuesProvider>
-              <LayoutProvider>
-                <BreakDownProvider>
-                  <ShapeProvider>
-                    <BlockProvider>
-                      <TableProvider>
-                        <App />
-                      </TableProvider>
-                    </BlockProvider>
-                  </ShapeProvider>
-                </BreakDownProvider>
-              </LayoutProvider>
-            </VenuesProvider>
+            <TicketsProvider>
+              <VenuesProvider>
+                <LayoutProvider>
+                  <BreakDownProvider>
+                    <ShapeProvider>
+                      <BlockProvider>
+                        <TableProvider>
+                          <App />
+                        </TableProvider>
+                      </BlockProvider>
+                    </ShapeProvider>
+                  </BreakDownProvider>
+                </LayoutProvider>
+              </VenuesProvider>
+            </TicketsProvider>
           </MyEventsProvider>
         </GoogleMapsProvider>
       </AuthProvider>

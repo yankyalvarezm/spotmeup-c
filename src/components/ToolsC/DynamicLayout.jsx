@@ -1,8 +1,22 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef, useContext } from "react";
 import { getOneLayout } from "../../services/layout.service";
+import { TicketsContext } from "../../context/tickets.context";
 
-const DynamicLayout = ({ layoutId, scale, edit, tooltip, formatPrices }) => {
+const DynamicLayout = ({
+  layoutId,
+  scale,
+  edit,
+  tooltip,
+  formatPrices,
+  addToCart,
+  selected,
+  setSelected,
+}) => {
   const [layoutObject, setlayoutObject] = useState({});
+  const { ticketsCart } = useContext(TicketsContext);
+  const blockRef = useRef(null);
+  const tableRef = useRef(null);
+
   const findOneLayout = async () => {
     try {
       const response = await getOneLayout(layoutId);
@@ -30,6 +44,30 @@ const DynamicLayout = ({ layoutId, scale, edit, tooltip, formatPrices }) => {
       return num.toString();
     }
   };
+
+  const handleSelect = (tixId, tixPrice, tixTables, tixMax) => {
+    setSelected({
+      id: tixId,
+      price: tixPrice,
+      hasTables: tixTables,
+      maxTickets: tixMax,
+    });
+  };
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      const isClickInside = event.target.closest(".click-inside");
+
+      if (!isClickInside) {
+        setSelected(null);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [blockRef, tableRef]);
 
   return (
     <div className="e-dashboard-parent">
@@ -88,9 +126,21 @@ const DynamicLayout = ({ layoutId, scale, edit, tooltip, formatPrices }) => {
               justifyContent: "center",
               alignItems: `center`,
               cursor: "pointer",
+              opacity: selected?.id === `${block._id}` ? "0.5" : "1",
             }}
+            onClick={
+              !block.tables.length
+                ? () =>
+                    handleSelect(block._id, block.bprice, false, block.btickets)
+                : undefined
+            }
             key={index}
-            className="dasboard-table-hover"
+            className={`dasboard-table-hover click-inside ${
+              ticketsCart.some((ticket) => ticket.id === block._id)
+                ? "isInCart"
+                : ""
+            }`}
+            ref={blockRef}
           >
             <h1
               className="dashboard-table-number-child dashboard-block-name-display"
@@ -98,21 +148,22 @@ const DynamicLayout = ({ layoutId, scale, edit, tooltip, formatPrices }) => {
             >
               {tooltip && !block.tables.length && (
                 <div
-                  className="dashboard-tooltip-block"
+                  className={
+                    selected?.id === block._id
+                      ? "dashboard-tooltip-block-selected"
+                      : "dashboard-tooltip-block"
+                  }
                   style={{
                     backgroundColor: `${block?.backgroundColor}`,
                   }}
                 >
                   <h2 className="dashboard-tooltip-size">
-                        <span className="dollar-span">$</span>
-                        {formatPrices
-                          ? formatNumber(block.bprice)
-                          : block.bprice}
-                      </h2>
+                    <span className="dollar-span">$</span>
+                    {formatPrices ? formatNumber(block.bprice) : block.bprice}
+                  </h2>
                 </div>
               )}
-
-              {block?.name}
+              {!block.tables.length ? <>{block?.name}</> : ""}
             </h1>
             <div className="dashboard-table-grid">
               {block?.tables?.map((table, index) => (
@@ -130,15 +181,27 @@ const DynamicLayout = ({ layoutId, scale, edit, tooltip, formatPrices }) => {
                     color: `${table?.color}`,
                     border: `${table?.borderSize}px solid ${table?.borderColor}`,
                     borderRadius: `${table?.tableType === "Square" ? 0 : 50}%`,
+                    opacity: selected?.id === `${table._id}` ? "0.7" : "1",
                   }}
-                  className="dashboard-table-number-parent"
+                  className={`dashboard-table-number-parent click-inside ${
+                    ticketsCart.some((ticket) => ticket.id === table._id)
+                      ? "isInCart"
+                      : ""
+                  }`}
+                  ref={tableRef}
+                  onClick={() => handleSelect(table._id, table.tprice, true, 1)}
                 >
                   <h1 className="dashboard-table-number-parent">
                     {table?.number}
                   </h1>
+
                   {tooltip && (
                     <div
-                      className="dashboard-tooltip"
+                      className={
+                        selected?.id === table?._id
+                          ? "dashboard-tooltip-selected"
+                          : "dashboard-tooltip"
+                      }
                       style={{
                         backgroundColor: `${table?.backgroundColor}`,
                         borderRadius: `${

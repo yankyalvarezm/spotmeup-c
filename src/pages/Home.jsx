@@ -54,7 +54,9 @@ const Home = () => {
         <div className="logos-container">
           <div className="logo-smp"></div>
           <div className="logo-visa"></div>
+          <div className="logo-visa-secure"></div>
           <div className="logo-mastercard"></div>
+          <div className="logo-mastercard-secure"></div>
         </div>
       </div>
     </div>
