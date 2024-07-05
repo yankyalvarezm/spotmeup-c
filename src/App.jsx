@@ -61,7 +61,7 @@ function App() {
         <Route path="/event-details/:eventIdParam" element={<EventDetails />} />
         <Route path="/event-tickets/:eventIdParam" element={<BuyTickets />} />
 
-        <Route path="/generate-tickets" element={<Approved />} />
+        <Route path="/approved" element={<Approved />} />
       </Routes>
     </Suspense>
   );
