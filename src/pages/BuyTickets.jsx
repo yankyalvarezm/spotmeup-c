@@ -8,6 +8,7 @@ import CryptoJS from "crypto-js";
 
 const BuyTickets = () => {
   const param = useParams();
+  console.log("eventIdParam:", param.eventIdParam);
   const [selected, setSelected] = useState({
     id: "",
     price: 0,
@@ -100,7 +101,7 @@ const BuyTickets = () => {
       "001",
       (total + cargoServicio).toFixed(2).replace(".", ""),
       "000",
-      "https://spotmeup.net/approved",
+      `https://spotmeup.net/approved/${param.eventIdParam}`,
       "https://google.com",
       "https://google.com",
       "0",
@@ -265,7 +266,7 @@ const BuyTickets = () => {
               type="hidden"
               id="ApprovedUrl"
               name="ApprovedUrl"
-              value="https://spotmeup.net/approved"
+              value={`https://spotmeup.net/approved/${param.eventIdParam}`}
             />
             <input
               type="hidden"
