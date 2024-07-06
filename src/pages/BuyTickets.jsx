@@ -104,9 +104,9 @@ const BuyTickets = () => {
       `https://spotmeup.net/approved/${param.eventIdParam}`,
       "https://google.com",
       "https://google.com",
-      "0",
-      "",
-      "",
+      "1",
+      "ticketsAmount",
+      ticketsCart.length.toString(),
       "0",
       "",
       "",
@@ -284,19 +284,19 @@ const BuyTickets = () => {
               type="hidden"
               id="UseCustomField1"
               name="UseCustomField1"
-              value="0"
+              value="1"
             />
             <input
               type="hidden"
               id="CustomField1Label"
               name="CustomField1Label"
-              value=""
+              value="ticketsAmount"
             />
             <input
               type="hidden"
               id="CustomField1Value"
               name="CustomField1Value"
-              value=""
+              value={ticketsCart.length.toString()}
             />
             <input
               type="hidden"
@@ -316,6 +316,7 @@ const BuyTickets = () => {
               name="CustomField2Value"
               value=""
             />
+
             <input
               type="hidden"
               id="AuthHash"
