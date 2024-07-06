@@ -101,6 +101,7 @@ const Approved = () => {
               style={previewStyle}
               onError={handleError}
               onScan={handleScan}
+              constraints={{ video: videoConstraints }}
             />
           )}
           {scanResult && (
