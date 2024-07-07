@@ -6608,6 +6608,7 @@ input[type="color"]::-webkit-color-swatch {
 .checkout-cancel-container {
   text-align: center;
   margin-top: 1rem;
+  margin-bottom: 2rem;
 }
 
 .checkout-btn {
@@ -6702,6 +6703,7 @@ input[type="color"]::-webkit-color-swatch {
   color: red;
   font-size: 50px;
   margin-bottom: 1rem;
+  position: relative;
 }
 
 .approved-summary {
@@ -6721,9 +6723,8 @@ input[type="color"]::-webkit-color-swatch {
 
 .summary-event-container > h1 {
   color: black;
-  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
   font-weight: 300;
-  
 }
 
 .shitty-tickets-container {
@@ -6735,9 +6736,8 @@ input[type="color"]::-webkit-color-swatch {
 
 .approved-description > h1 {
   color: black;
-  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
   font-weight: 300;
-  
 }
 
 .approved-description {
@@ -6746,4 +6746,268 @@ input[type="color"]::-webkit-color-swatch {
   display: flex;
   justify-content: space-between;
   margin-right: 1rem;
+}
+
+.qr-reader-container > video {
+  position: absolute;
+  top: 10%;
+
+  /* left: 50%; */
+}
+
+@media (max-width: 760px) {
+  .qr-reader-container > video {
+    position: absolute;
+    top: 18%;
+    left: 5%;
+    width: 90%;
+    height: 55%;
+    border-radius: 10px;
+    /* border: 2px solid var(--green); */
+  }
+  .apagar-camara {
+    margin-bottom: 2rem;
+  }
+
+  .qr-reader-container {
+    text-align: center;
+  }
+  .approved-summary {
+    width: 90%;
+    height: 100%;
+  }
+  .checkout-cancel-container {
+    margin-bottom: 8rem;
+  }
+  .tickets-selected-container {
+    width: 90%;
+  }
+  .email-transaction-input {
+    width: 85%;
+  }
+  .cart-container {
+    width: 90%;
+    margin-bottom: 1rem;
+  }
+  .card-details {
+    width: 100px;
+    height: 100px;
+    display: flex;
+    justify-content: center;
+    font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS",
+      sans-serif;
+    background-color: transparent;
+    overflow-x: hidden;
+  }
+  .acepto-condiciones {
+    font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS",
+      sans-serif;
+  }
+  .privacy-policy {
+    background-color: transparent;
+    width: 90%;
+  }
+  .payment-method {
+    margin-top: 2rem;
+  }
+  .checkout-btn {
+    margin-top: 1rem;
+    width: 280px;
+    cursor: pointer;
+  }
+  .checkout-cancel {
+    margin-bottom: 6rem;
+  }
+}
+
+.scan-result {
+  color: red;
+}
+
+.qr-code-approved {
+  width: 200px;
+  height: 200px;
+}
+
+.email-container-buytickets {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.email-prompt {
+  color: var(--red);
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+  font-size: 20px;
+}
+
+.email-title-tickets {
+  color: black;
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+  font-weight: 600;
+  font-style: italic;
+  margin-bottom: 0.4rem;
+}
+
+.email-transaction-input {
+  color: black;
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+  font-weight: 300;
+  text-align: center;
+}
+
+.qr-code-container {
+  display: flex;
+  justify-content: flex-start;
+  overflow-x: scroll;
+}
+
+.qr-code-container-two {
+  display: flex;
+  justify-content: center;
+  /* overflow-x: scroll; */
+}
+
+.ticket-name-qr {
+  color: black;
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+  font-weight: 600;
+  text-align: center;
+}
+
+.resend-email-failed {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.email-sucess {
+  text-align: center;
+  color: var(--green);
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+  font-weight: 300;
+}
+
+.email-failed {
+  text-align: center;
+  color: var(--red);
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+  font-weight: 300;
+}
+
+.scanning-link-topage {
+  margin: 1rem;
+  background-color: white;
+  text-align: center;
+  padding: 1rem;
+}
+
+.bouncer-title {
+  color: var(--black);
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+  font-weight: 300;
+}
+
+.bouncer-title-two {
+  color: var(--black);
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+  font-weight: 300;
+  margin-bottom: 1rem;
+}
+
+.scanning-tool-page {
+  background-color: var(--green);
+  height: 100vh;
+  overflow: hidden;
+}
+
+.scanning-page-title {
+  text-align: center;
+  padding: 3rem;
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+  font-size: 30px;
+  margin-bottom: 50%;
+}
+
+@keyframes scaleUp {
+  from {
+    transform: scale(0);
+  }
+  to {
+    transform: scale(1);
+  }
+}
+
+@keyframes scaleDown {
+  from {
+    transform: scale(1);
+  }
+  to {
+    transform: scale(0);
+  }
+}
+
+.scan-button {
+  margin: 0 auto;
+  width: 50%;
+  padding: 5rem 0rem;
+  animation: scaleUp 0.2s ease-in-out forwards;
+}
+
+.scan-button-hidden {
+  animation: scaleDown 0.2s ease-in-out forwards;
+}
+
+.scan-button-finished {
+  text-align: center;
+  position: absolute;
+  top: 90%;
+  width: 50%;
+  animation: scaleUp 0.2s ease-in-out forwards;
+}
+
+.scan-button-finished-hidden {
+  animation: scaleDown 0.2s ease-in-out forwards;
+}
+
+.qr-scanner-camera {
+  width: 375px;
+  height: 500px;
+  position: absolute;
+  top: 18%;
+  border: 6px solid black;
+  animation: scaleUp 0.2s ease-in-out forwards;
+}
+
+.qr-scanner-camera-hidden {
+  animation: scaleDown 0.2s ease-in-out forwards;
+}
+
+.scanning-tool-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.scan-resul-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.scan-result-key {
+  color: var(--black);
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+  font-weight: 600;
+}
+
+.scan-result-value {
+  color: var(--yellow);
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+  font-weight: 600;
+}
+
+.video-camera-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }

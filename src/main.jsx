@@ -15,7 +15,7 @@ import { BreakDownProvider } from "./context/breakdown.context.jsx";
 import { TicketsProvider } from "./context/tickets.context.jsx";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
-  <React.StrictMode>
+  // <React.StrictMode>
     <BrowserRouter>
       <AuthProvider>
         <GoogleMapsProvider>
@@ -39,5 +39,5 @@ ReactDOM.createRoot(document.getElementById("root")).render(
         </GoogleMapsProvider>
       </AuthProvider>
     </BrowserRouter>
-  </React.StrictMode>
+  // </React.StrictMode>
 );

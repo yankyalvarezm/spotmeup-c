@@ -4,6 +4,10 @@ import DynamicLayout from "../components/ToolsC/DynamicLayout";
 import { useParams } from "react-router-dom";
 import { findEvent } from "../services/events.service";
 import { TicketsContext } from "../context/tickets.context";
+import {
+  createTransaction,
+  findAllTransactions,
+} from "../services/transaction.service";
 import CryptoJS from "crypto-js";
 
 const BuyTickets = () => {
@@ -14,11 +18,19 @@ const BuyTickets = () => {
     price: 0,
     hasTables: false,
     maxTickets: 1,
+    name: "",
+    tixToGenerate: 0,
+    blockId: "",
   });
   const [event, setEvent] = useState();
   const [isMobile, setIsMobile] = useState(window.innerWidth < 760);
   const { ticketsCart, setTicketsCart } = useContext(TicketsContext);
   const [checkoutTab, setCheckoutTab] = useState(false);
+  const [total, setTotal] = useState(0);
+  const [cargoServicio, setCargoServicio] = useState(0);
+  const [transactionLength, setTransactionLength] = useState(null);
+  const [transactionId, setTransactionId] = useState(null);
+  const [email, setEmail] = useState(null);
 
   const handleCheckoutTab = () => {
     setCheckoutTab((prev) => !prev);
@@ -31,9 +43,6 @@ const BuyTickets = () => {
     }
     return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   }
-
-  const [total, setTotal] = useState(0);
-  const [cargoServicio, setCargoServicio] = useState(0);
 
   const calculateTotal = (ticketsCart) => {
     const newTotal = ticketsCart.reduce(
@@ -73,8 +82,23 @@ const BuyTickets = () => {
     }
   };
 
+  const getAllTransaction = async () => {
+    try {
+      const response = await findAllTransactions();
+      if (response.success) {
+        setTransactionLength(response.transactions.length);
+      }
+      console.log("GetTheTransactions - Sucess:", response);
+    } catch (error) {
+      console.error("GetTheTransactions - Error:", error.response);
+    }
+  };
+
+  console.log("Transactions:", transactionLength);
+
   useEffect(() => {
     getEvent();
+    getAllTransaction();
   }, []);
 
   const handleAddToCart = () => {
@@ -101,7 +125,7 @@ const BuyTickets = () => {
       "001",
       (total + cargoServicio).toFixed(2).replace(".", ""),
       "000",
-      `https://spotmeup.net/approved/${param.eventIdParam}`,
+      `https://localhost:5173/approved/${param.eventIdParam}/${transactionId}`,
       "https://google.com",
       "https://google.com",
       "1",
@@ -115,6 +139,65 @@ const BuyTickets = () => {
     const hashString = fields.join("");
     const hash = CryptoJS.HmacSHA512(hashString, secretKey);
     return hash.toString(CryptoJS.enc.Hex);
+  };
+
+  // transactionNumber: { type: Number },
+  // paymentMethod: { type: String },
+  // subTotal: { type: Number, default: 0 },
+  // discount: { type: Number, default: 0 },
+  // tax: { type: Number, default: 0 },
+  // total: { type: Number, default: 0 },
+  // description: { type: String, default: "" },
+  // status: { type: String, enum: ["pending", "completed", "canceled"] },
+  // items: [
+  //   {
+  //     name: { type: String, required: true },
+  //     quantity: { type: Number, required: true },
+  //     price: { type: Number, required: true },
+  //   },
+  // ],
+  // buyer: { type: Schema.Types.ObjectId, ref: "Users" },
+
+  const transactionBody = {
+    transactionNumber: transactionLength,
+    paymentMethod: "",
+    subTotal: "",
+    discount: "",
+    tax: "",
+    total: "",
+    description: "",
+    status: "pending",
+    items: ticketsCart,
+    email: email,
+  };
+
+  const [emailPrompt, setEmailPrompt] = useState(null);
+
+  const handleTransaction = async () => {
+    if (!email) {
+      setEmailPrompt("Email must be filled");
+      setTimeout(() => {
+        setEmailPrompt(null);
+      }, 3000);
+    } else {
+      try {
+        const response = await createTransaction(transactionBody);
+        if (response.success) {
+          setTransactionId(response.transaction._id);
+          console.log("CreateTransaction - Success:", response);
+          setCheckoutTab(true);
+        }
+      } catch (error) {
+        console.error("CreateTransaction - Success:", error.response);
+      }
+    }
+  };
+
+  console.log("transactionId:", transactionId);
+
+  const handleInputChange = (e) => {
+    const { value } = e.target;
+    setEmail((prevEmail) => value);
   };
 
   return (
@@ -168,6 +251,22 @@ const BuyTickets = () => {
               )}
           </div>
         </div>
+
+        {ticketsCart.length > 0 && (
+          <div className="email-container-buytickets">
+            {emailPrompt && <h2 className="email-prompt">{emailPrompt}</h2>}
+            <label htmlFor="email" className="email-title-tickets">
+              ¿Donde enviamos los tickets?
+            </label>
+            <input
+              type="email"
+              placeholder="email@example.com"
+              name="email"
+              onChange={handleInputChange}
+              className="email-transaction-input"
+            />
+          </div>
+        )}
         {ticketsCart.length > 0 && (
           <div>
             <div className="buy-tickets-form">
@@ -202,11 +301,9 @@ const BuyTickets = () => {
                 </h1>
               </div>
             </div>
+
             <div className="checkout-cancel-container">
-              <button
-                className="checkout-btn"
-                onClick={() => setCheckoutTab(true)}
-              >
+              <button className="checkout-btn" onClick={handleTransaction}>
                 Check-Out
               </button>
               <h1 className="checkout-cancel">Cancel</h1>
@@ -215,123 +312,7 @@ const BuyTickets = () => {
         )}
       </div>
       <div className={checkoutTab ? "checkout-tab-page" : "checkout-tab"}>
-        <h1 className="payment-method">Payment Method</h1>
-        <div className="card-details">
-          <form
-            action="https://pruebas.azul.com.do/PaymentPage/"
-            method="post"
-            id="paymentForm"
-            name="paymentForm"
-            target="_blank"
-          >
-            <input
-              type="hidden"
-              id="MerchantId"
-              name="MerchantId"
-              value="39038540035"
-            />
-            <input type="hidden" id="TrxType" name="TrxType" value="Sale" />
-            <input
-              type="hidden"
-              id="MerchantName"
-              name="MerchantName"
-              value="Prueba AZUL"
-            />
-            <input
-              type="hidden"
-              id="MerchantType"
-              name="MerchantType"
-              value="ECommerce"
-            />
-            <input
-              type="hidden"
-              id="CurrencyCode"
-              name="CurrencyCode"
-              value="$"
-            />
-            <input
-              type="hidden"
-              id="OrderNumber"
-              name="OrderNumber"
-              value="001"
-            />
-            <input
-              type="hidden"
-              id="Amount"
-              name="Amount"
-              value={Math.round((total + cargoServicio) * 100)}
-            />
-            <input type="hidden" id="ITBIS" name="ITBIS" value="000" />
-            <input
-              type="hidden"
-              id="ApprovedUrl"
-              name="ApprovedUrl"
-              value={`https://spotmeup.net/approved/${param.eventIdParam}`}
-            />
-            <input
-              type="hidden"
-              id="DeclinedUrl"
-              name="DeclinedUrl"
-              value="https://google.com"
-            />
-            <input
-              type="hidden"
-              id="CancelUrl"
-              name="CancelUrl"
-              value="https://google.com"
-            />
-            <input
-              type="hidden"
-              id="UseCustomField1"
-              name="UseCustomField1"
-              value="1"
-            />
-            <input
-              type="hidden"
-              id="CustomField1Label"
-              name="CustomField1Label"
-              value="ticketsAmount"
-            />
-            <input
-              type="hidden"
-              id="CustomField1Value"
-              name="CustomField1Value"
-              value={ticketsCart.length.toString()}
-            />
-            <input
-              type="hidden"
-              id="UseCustomField2"
-              name="UseCustomField2"
-              value="0"
-            />
-            <input
-              type="hidden"
-              id="CustomField2Label"
-              name="CustomField2Label"
-              value=""
-            />
-            <input
-              type="hidden"
-              id="CustomField2Value"
-              name="CustomField2Value"
-              value=""
-            />
-
-            <input
-              type="hidden"
-              id="AuthHash"
-              name="AuthHash"
-              value={calculateAuthHash()}
-            />
-            <input
-              type="submit"
-              name="submit"
-              value="Continuar"
-              style={{ fontSize: "20px" }}
-            />
-          </form>
-        </div>
-        <div className="security-policy margin-top"></div>
+        {/* <h1 className="payment-method">Payment Method</h1> */}
         <div className="privacy-policy">
           <h1 className="payment-method margin-top">Política de Privacidad</h1>
           <p>
@@ -399,7 +380,146 @@ const BuyTickets = () => {
             de soporte@spotmeup.net
           </p>
         </div>
-        <button className="checkout-btn margin-top">Submit Payment</button>
+        <div className="privacy-policy">
+          <h1 className="payment-method margin-top">Política de Seguridad</h1>
+          <p>
+            Tomamos todas las medidas y precauciones razonables para proteger tu
+            información personal y seguimos las mejores prácticas de la
+            industria para asegurar que tu información no sea utilizada de
+            manera inapropiada, alterada o destruida. Ciframos la información de
+            tu tarjeta de crédito utilizando la tecnología de capa de puertos
+            seguros o Secur Sockets Layer (SSL), y la almacenamos con el cifrado
+            AES-256. También, seguimos todos los requerimientos del PCI-DSS.
+          </p>
+          <p>
+            Los métodos de pago utilizados por LA EMPRESA son servicios de
+            terceros. Estos servicios de terceros (AZUL), cumplen con todos los
+            estándares de seguridad y cifrado para mantener tu información
+            segura. Solo utilizarán la información necesaria para completar el
+            proceso requerido. También recomendamos leer las Políticas de
+            Privacidad de estos proveedores, para entender mejor cómo manejan la
+            información suministrada.
+          </p>
+        </div>
+        <div className="card-details">
+          <form
+            action="https://pruebas.azul.com.do/PaymentPage/"
+            method="post"
+            id="paymentForm"
+            name="paymentForm"
+            target="_blank"
+          >
+            <input
+              type="hidden"
+              id="MerchantId"
+              name="MerchantId"
+              value="39038540035"
+            />
+            <input type="hidden" id="TrxType" name="TrxType" value="Sale" />
+            <input
+              type="hidden"
+              id="MerchantName"
+              name="MerchantName"
+              value="Prueba AZUL"
+            />
+            <input
+              type="hidden"
+              id="MerchantType"
+              name="MerchantType"
+              value="ECommerce"
+            />
+            <input
+              type="hidden"
+              id="CurrencyCode"
+              name="CurrencyCode"
+              value="$"
+            />
+            <input
+              type="hidden"
+              id="OrderNumber"
+              name="OrderNumber"
+              value="001"
+            />
+            <input
+              type="hidden"
+              id="Amount"
+              name="Amount"
+              value={Math.round((total + cargoServicio) * 100)}
+            />
+            <input type="hidden" id="ITBIS" name="ITBIS" value="000" />
+            <input
+              type="hidden"
+              id="ApprovedUrl"
+              name="ApprovedUrl"
+              value={`https://localhost:5173/approved/${param.eventIdParam}/${transactionId}`}
+            />
+            <input
+              type="hidden"
+              id="DeclinedUrl"
+              name="DeclinedUrl"
+              value="https://google.com"
+            />
+            <input
+              type="hidden"
+              id="CancelUrl"
+              name="CancelUrl"
+              value="https://google.com"
+            />
+            <input
+              type="hidden"
+              id="UseCustomField1"
+              name="UseCustomField1"
+              value="1"
+            />
+            <input
+              type="hidden"
+              id="CustomField1Label"
+              name="CustomField1Label"
+              value="ticketsAmount"
+            />
+            <input
+              type="hidden"
+              id="CustomField1Value"
+              name="CustomField1Value"
+              value={ticketsCart.length.toString()}
+            />
+            <input
+              type="hidden"
+              id="UseCustomField2"
+              name="UseCustomField2"
+              value="0"
+            />
+            <input
+              type="hidden"
+              id="CustomField2Label"
+              name="CustomField2Label"
+              value=""
+            />
+            <input
+              type="hidden"
+              id="CustomField2Value"
+              name="CustomField2Value"
+              value=""
+            />
+
+            <input
+              type="hidden"
+              id="AuthHash"
+              name="AuthHash"
+              value={calculateAuthHash()}
+            />
+            <input
+              type="submit"
+              name="submit"
+              value="Acepto"
+              className="checkout-btn"
+              style={{ fontSize: "20px" }}
+            />
+          </form>
+        </div>
+        
+
+        
         <h1 className="checkout-cancel" onClick={() => setCheckoutTab(false)}>
           Cancel
         </h1>

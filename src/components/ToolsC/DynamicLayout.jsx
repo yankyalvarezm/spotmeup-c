@@ -45,12 +45,23 @@ const DynamicLayout = ({
     }
   };
 
-  const handleSelect = (tixId, tixPrice, tixTables, tixMax) => {
+  const handleSelect = (
+    tixId,
+    tixPrice,
+    tixTables,
+    tixMax,
+    tixName,
+    tixAmount,
+    tixBlockId
+  ) => {
     setSelected({
       id: tixId,
       price: tixPrice,
       hasTables: tixTables,
       maxTickets: tixMax,
+      name: tixName,
+      tixToGenerate: tixAmount,
+      blockId: tixBlockId,
     });
   };
 
@@ -131,7 +142,15 @@ const DynamicLayout = ({
             onClick={
               !block.tables.length
                 ? () =>
-                    handleSelect(block._id, block.bprice, false, block.btickets)
+                    handleSelect(
+                      block._id,
+                      block.bprice,
+                      false,
+                      block.btickets,
+                      block.name,
+                      1,
+                      block._id
+                    )
                 : undefined
             }
             key={index}
@@ -189,7 +208,17 @@ const DynamicLayout = ({
                       : ""
                   }`}
                   ref={tableRef}
-                  onClick={() => handleSelect(table._id, table.tprice, true, 1)}
+                  onClick={() =>
+                    handleSelect(
+                      table._id,
+                      table.tprice,
+                      true,
+                      1,
+                      `Block-${block.name} Table-${table.number}`,
+                      table?.ticketsIncluded,
+                      table.block
+                    )
+                  }
                 >
                   <h1 className="dashboard-table-number-parent">
                     {table?.number}

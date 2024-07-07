@@ -3,7 +3,6 @@ import { MyEventsContext } from "../../context/myEvents.context";
 
 const ENavBar = () => {
   const { linkName, setLinkName } = useContext(MyEventsContext);
-  
 
   return (
     <div className="d-event-left-navbar">
@@ -36,6 +35,14 @@ const ENavBar = () => {
         }
       >
         Promotors
+      </h1>
+      <h1
+        onClick={() => setLinkName("bouncers")}
+        className={
+          linkName === "bouncers" ? "d-link-active" : "d-link-not-active"
+        }
+      >
+        Bouncers
       </h1>
     </div>
   );

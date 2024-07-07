@@ -8,6 +8,7 @@ import { MyEventsContext } from "../context/myEvents.context";
 import ESales from "../components/EBreakDown/ESales";
 import EPromoters from "../components/EBreakDown/EPromoters";
 import EventInfo from "../components/EBreakDown/EventInfo";
+import EBouncers from "../components/EBreakDown/EBouncers";
 
 const EventBreakDown = () => {
   const param = useParams();
@@ -47,6 +48,7 @@ const EventBreakDown = () => {
           {linkName === "sales" && <ESales event={event} />}
           {linkName === "event-info" && <EventInfo event={event} />}
           {linkName === "promotors" && <EPromoters event={event} />}
+          {linkName === "bouncers" && <EBouncers event={event} />}
         </div>
       </div>
     </div>
