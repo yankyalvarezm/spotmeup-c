@@ -134,8 +134,6 @@ const DynamicLayout = ({
               color: `${block?.color}`,
               border: `${block?.borderSize}px solid ${block?.borderColor}`,
               display: "flex",
-              justifyContent: "center",
-              alignItems: `center`,
               cursor: "pointer",
               opacity: selected?.id === `${block._id}` ? "0.5" : "1",
             }}
